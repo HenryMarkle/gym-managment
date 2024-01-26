@@ -61,22 +61,20 @@ function SideBar() {
         className={
           showMessage
             ? `sidebar ${
-                mobile && `open-sidebar`
+                mobile && `open-sidebar message-mobile `
               } w-[730px] h-[100vh] fixed top-0 left-0 flex  bg-customRed rounded-tr-[31px] rounded-br-[31px] p-[25px] duration-500 z-[100]`
             : `sidebar ${
                 mobile && `open-sidebar`
               } w-[329px] h-[100vh] fixed top-0 left-0  bg-customRed rounded-tr-[31px] rounded-br-[31px] p-[15px] duration-500 z-[100]`
         }
       >
-        <div className="show-mobile flex justify-between items-center">
+        <div className="show-mobile w-full flex justify-between items-center">
           {mobile ? (
-            <div className="flex items-center justify-between w-full">
+            <div className="flex items-center justify-between w-auto">
               <IoIosCloseCircleOutline
-                className=" flex justify-center items-center text-[30px] text-white ml-2"
+                className=" flex justify-center items-center text-[30px] text-white ml-2 w-auto"
                 onClick={() => setMobile(!mobile)}
               />
-
-              <p className="font-bold text-[23px] text-white  ">Gym-name</p>
             </div>
           ) : (
             <RxHamburgerMenu
@@ -84,6 +82,7 @@ function SideBar() {
               className=" flex justify-center items-center text-[30px] text-white ml-2"
             />
           )}
+          <p className="font-bold text-[23px] text-white  ">Gym-name</p>
         </div>
         <div className="top-content flex flex-col gap-9 w-[210px]">
           {mobile ? null : (
