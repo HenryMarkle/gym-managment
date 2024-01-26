@@ -1,0 +1,360 @@
+"use client";
+import React, { useEffect, useState } from "react";
+import { FaHome, FaClipboardList } from "react-icons/fa";
+import { IoSettings } from "react-icons/io5";
+import { BiSolidMessageAdd } from "react-icons/bi";
+import { IoIosCloseCircleOutline } from "react-icons/io";
+
+import { CiCircleChevDown } from "react-icons/ci";
+import { RxHamburgerMenu } from "react-icons/rx";
+import { BsCalendar2EventFill } from "react-icons/bs";
+import { BsFillPersonFill } from "react-icons/bs";
+import { LiaChevronCircleUpSolid } from "react-icons/lia";
+import {
+  IoIosLogOut,
+  IoIosAddCircle,
+  IoIosNotifications,
+} from "react-icons/io";
+import Link from "next/link";
+function SideBar() {
+  const [message, setMessage] = useState("");
+  const [showMessage, setShowMessage] = useState(false);
+  const [chooise, setChooise] = useState([]);
+  const [openSelect, setOPenSelect] = useState(false);
+  const [isAllChecked, setIsAllChecked] = useState(false);
+  const filterdArray = Array.from(new Set(chooise));
+  const [mobile, setMobile] = useState(false);
+
+  useEffect(() => {
+    console.log(filterdArray);
+    console.log(message);
+  }, [chooise]);
+
+  const dummyData = [
+    { id: 1, name: "Ali haseni" },
+    { id: 2, name: "Ali haseni" },
+    { id: 3, name: "Ali haseni" },
+    { id: 4, name: "Ali haseni" },
+    { id: 5, name: "Ali haseni" },
+    { id: 6, name: "Ali haseni" },
+    { id: 7, name: "Ali haseni" },
+    { id: 18, name: "Ali haseni" },
+    { id: 19, name: "Ali haseni" },
+    { id: 12, name: "Ali haseni" },
+    { id: 113, name: "Ali haseni" },
+    { id: 115, name: "Ali haseni" },
+    { id: 16, name: "Ali haseni" },
+    { id: 17, name: "Ali haseni" },
+    { id: 171, name: "Ali haseni" },
+    { id: 172, name: "Ali haseni" },
+    { id: 127, name: "Ali haseni" },
+    { id: 137, name: "Ali haseni" },
+    { id: 174, name: "Ali haseni" },
+    { id: 157, name: "Ali haseni" },
+    { id: 167, name: "Ali haseni" },
+    { id: 177, name: "Ali haseni" },
+  ];
+
+  return (
+    <>
+      <div
+        className={
+          showMessage
+            ? `sidebar ${
+                mobile && `open-sidebar`
+              } w-[730px] h-[100vh] fixed top-0 left-0 flex  bg-customRed rounded-tr-[31px] rounded-br-[31px] p-[25px] duration-500 z-[100]`
+            : `sidebar ${
+                mobile && `open-sidebar`
+              } w-[329px] h-[100vh] fixed top-0 left-0  bg-customRed rounded-tr-[31px] rounded-br-[31px] p-[15px] duration-500 z-[100]`
+        }
+      >
+        <div className="show-mobile flex justify-between items-center">
+          {mobile ? (
+            <div className="flex items-center justify-between w-full">
+              <IoIosCloseCircleOutline
+                className=" flex justify-center items-center text-[30px] text-white ml-2"
+                onClick={() => setMobile(!mobile)}
+              />
+
+              <p className="font-bold text-[23px] text-white  ">Gym-name</p>
+            </div>
+          ) : (
+            <RxHamburgerMenu
+              onClick={() => setMobile(!mobile)}
+              className=" flex justify-center items-center text-[30px] text-white ml-2"
+            />
+          )}
+        </div>
+        <div className="top-content flex flex-col gap-9 w-[210px]">
+          {mobile ? null : (
+            <p className="font-bold text-[30px] text-white text-center  ">
+              Gym-name
+            </p>
+          )}
+
+          <div className=" h-[60vh] content text-center flex flex-col items-start self-center gap-10 ml-9">
+            <Link
+              onClick={() => {
+                setShowMessage(false);
+                setMobile(false);
+              }}
+              href="/"
+            >
+              <div className="home flex justify-center gap-4 text-white items-center ">
+                <span>
+                  <FaHome size="23px" />
+                </span>
+                Homepage
+              </div>{" "}
+            </Link>
+            <Link
+              onClick={() => {
+                setShowMessage(false);
+                setMobile(false);
+              }}
+              href="/add-customer"
+            >
+              <div className="home flex justify-center gap-4 text-white items-center">
+                <span>
+                  <IoIosAddCircle size="23px" />
+                </span>{" "}
+                Create customer
+              </div>{" "}
+            </Link>
+            <Link
+              onClick={() => {
+                setShowMessage(false);
+                setMobile(false);
+              }}
+              href="/customers"
+            >
+              <div className="home flex justify-center gap-4 text-white items-center ">
+                <span>
+                  <FaClipboardList size="23px" />
+                </span>{" "}
+                Customers
+              </div>{" "}
+            </Link>{" "}
+            <Link
+              onClick={() => {
+                setShowMessage(false);
+                setMobile(false);
+              }}
+              href="/add-manager"
+            >
+              <div className="home flex justify-center gap-4 text-white items-center">
+                <span>
+                  <IoIosAddCircle size="23px" />
+                </span>{" "}
+                Create Maneger
+              </div>{" "}
+            </Link>
+            <Link
+              onClick={() => {
+                setShowMessage(false);
+                setMobile(false);
+              }}
+              href="/managers"
+            >
+              <div className="home flex justify-center gap-4 text-white items-center ">
+                <span>
+                  <BsFillPersonFill size="23px" />
+                </span>
+                managers
+              </div>
+            </Link>
+            <Link
+              onClick={() => {
+                setShowMessage(false);
+                setMobile(false);
+              }}
+              href="/events"
+            >
+              <div className="home flex justify-center gap-4 text-white items-center ">
+                <span>
+                  <BsCalendar2EventFill size="23px" />
+                </span>{" "}
+                events
+              </div>{" "}
+            </Link>{" "}
+            <div
+              className="home flex justify-center gap-4 text-white items-center cursor-pointer "
+              onClick={() => setShowMessage(!showMessage)}
+            >
+              <span>
+                <BiSolidMessageAdd size="23px" />
+              </span>{" "}
+              Create message
+            </div>{" "}
+            <Link
+              onClick={() => {
+                setShowMessage(false);
+                setMobile(false);
+              }}
+              href="/notifications"
+            >
+              <div className="home flex justify-center gap-4 text-white items-center ">
+                <span>
+                  <IoIosNotifications size="23px" />
+                </span>{" "}
+                Notifications
+              </div>
+            </Link>
+            <div className="home flex justify-center gap-4 text-white items-center ">
+              <span>
+                <IoSettings size="23px" />
+              </span>{" "}
+              Settings
+            </div>
+          </div>
+          <div className="flex logout justify-center mt-[66px] gap-3 items-center">
+            <IoIosLogOut size="23px" className=" font-bold " color="white" />
+            <span className="text-white font-bold">Logout</span>
+          </div>
+        </div>
+
+        {/*  */}
+        {/*  */}
+        {/*  */}
+        {/*  */}
+        {/*  */}
+        {/*  */}
+        {/*  */}
+        {/*  */}
+        {/*  */}
+        {/*  */}
+        {/*  */}
+        {/*  */}
+        {/*  */}
+        {/*  */}
+        {/*  */}
+        {/*  */}
+        {/*  */}
+        {/*  */}
+        {/*  */}
+
+        {showMessage ? (
+          <div className="create-message flex-1  ml-[7%] rounded-[31px]  overflow-hidden p-5 flex flex-col gap-[20px] ">
+            <p className="text-center font-bold text-[#ffcb00] text-[24px] ">
+              Create message
+            </p>
+            <div className="message-box h-[200px] overflow-y-auto ">
+              <textarea
+                className=" resize-none w-full h-[300px] outline-none p-4 rounded-tl-[31px]"
+                placeholder="Write your message"
+              ></textarea>
+            </div>
+            <div className="choose-how-can-see mt-2">
+              <p className="  text-[17px] text-[#ffcb00]">
+                To send it to everyone choose{" "}
+                <span className="font-bold">All</span>.
+              </p>
+              <div
+                onClick={() => setOPenSelect(!openSelect)}
+                className=" w-full text-white  mt-3 bg-customRed py-1 px-2 flex justify-between items-center rounded-[31px] "
+              >
+                <span>Who Can see The message</span>
+                {openSelect ? (
+                  <LiaChevronCircleUpSolid size={22} />
+                ) : (
+                  <CiCircleChevDown size={22} />
+                )}
+              </div>
+              <div
+                className={
+                  openSelect
+                    ? "custom-select h-[200px] w-full overflow-y-auto flex flex-wrap justify-center p-2 mt-2 z-[1000] duration-300"
+                    : "custom-select opacity-0 h-0 w-full overflow-y-auto flex flex-wrap justify-center p-2 mt-2 z-[1000] duration-300"
+                }
+              >
+                <div className="option w-full flex items-center justify-center p-2 m-3">
+                  <label className=" text-white text-[17px] mr-1" htmlFor="All">
+                    All
+                  </label>
+                  <input
+                    onChange={() => {
+                      setIsAllChecked(!isAllChecked);
+                      chooise[0] = "All";
+                      chooise.length = 1;
+                      console.log(chooise);
+                    }}
+                    className=" h-[25px] w-[22px] outline-none border-none"
+                    type="checkbox"
+                    id="All"
+                  />
+                </div>
+                {isAllChecked ? (
+                  <p className=" text-[#ffcb00]  duration-300 opacity-90 mx-2 my-2 font-bold">
+                    All managers will recive the message
+                  </p>
+                ) : (
+                  <p className=" text-[#ffcb00] absolute  opacity-0 font-bold ">
+                    All managers will recive the message
+                  </p>
+                )}
+                {dummyData.map((e) => {
+                  return (
+                    <>
+                      <div className="option w-[45%] flex items-center p-2">
+                        <label
+                          className=" text-white text-[17px] mr-1"
+                          htmlFor={`${e.id}`}
+                        >
+                          {e.name}
+                        </label>
+                        {isAllChecked ? null : (
+                          <input
+                            onChange={() => {
+                              chooise[0] = " ";
+                              setChooise([...chooise, e.id]);
+                            }}
+                            className=" h-[25px] w-[22px] outline-none border-none"
+                            type="checkbox"
+                            id={`${e.id}`}
+                          />
+                        )}
+                      </div>
+                    </>
+                  );
+                })}
+              </div>
+            </div>
+            <button className=" text-green-700 shadow-xl h-max w-max mx-auto my-0 px-10 py-1 bg-[#ffcb00] rounded-[31px] font-bold">
+              Submit
+            </button>
+            {/* <div className="how-can-see-list p-2 w-full bg-customRed mt-5 rounded-[18px] h-auto overflow-y-auto">
+              <span className=" flex justify-center text-[#ffcb00] font-bold mb-2">
+                Who can see the message ?
+              </span>
+              <div className="members-can-see flex flex-wrap">
+                {filterdArray.map((ele) => {
+                  return (
+                    <>
+                      {ele != "" ? (
+                        <p className="h-[30px] can-see w-max  m-2 p-1 bg-gray-100 rounded-lg relative ">
+                          {ele}
+                          <span
+                            onClick={() => {
+                              const indexToremove = filterdArray.indexOf(ele);
+                              filterdArray.splice(indexToremove, 1);
+                              setChooise(filterdArray);
+                            }}
+                            className="remove"
+                          ></span>
+                        </p>
+                      ) : null}
+                    </>
+                  );
+                })}
+              </div>
+            </div> */}
+          </div>
+        ) : (
+          <div className="create-message w-[1px] bg-red-600 ml-14 rounded-[31px] overflow-hidden duration-900"></div>
+        )}
+      </div>
+    </>
+  );
+}
+
+export default SideBar;

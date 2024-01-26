@@ -1,0 +1,132 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+input {
+  outline: none;
+  background-color: inherit;
+}
+
+.parent {
+  background-image: url("../images/gym.jpg");
+  background-size: cover;
+}
+
+body {
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+  border-radius: 31px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    0deg,
+    rgb(38, 157, 190) 6%,
+    rgb(226, 238, 171) 100%
+  );
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(
+    0deg,
+    rgb(38, 157, 190) 80%,
+    rgb(226, 238, 171) 100%
+  );
+}
+
+.remove::before {
+  content: "X";
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #ffcb00;
+  padding: 5px;
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  height: 15px;
+  width: 15px;
+  background: green;
+  border-radius: 10px;
+}
+
+/* Responsive design */
+
+/* Sidebar */
+
+@media (max-width: 991px) {
+  .sidebar {
+    position: relative;
+    height: 70px;
+    width: 90px;
+    overflow: hidden;
+    .top-content {
+      padding-top: 60px;
+    }
+  }
+
+  .open-sidebar {
+    height: 100vh;
+    width: 100%;
+    overflow-y: scroll;
+    border-radius: 0px;
+  }
+  .top-content {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  .content {
+    margin-left: 10px;
+    height: auto;
+  }
+  .logout {
+    margin-top: 20px;
+    padding-bottom: 20px;
+  }
+  .home-content {
+    margin: 10px auto;
+    width: 90%;
+  }
+  .stats {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    margin-top: 20px;
+  }
+  .users-in0gym {
+    width: 100%;
+    height: 200px;
+    padding: 10px;
+    height: 140px;
+  }
+  .show-mobile {
+    margin-top: 2px;
+  }
+
+  .info-stats {
+    display: flex;
+    flex-direction: column;
+    margin: 10px 2px;
+    height: auto;
+  }
+  .left-main {
+    width: 100%;
+  }
+  .right {
+    width: 100%;
+  }
+}

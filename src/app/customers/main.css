@@ -1,0 +1,13 @@
+.body-table:not(:last-child) {
+  border-bottom: 2px solid #ffcb00;
+}
+
+::-webkit-scrollbar-thumb {
+  color: red;
+}
+.id-card {
+  color: green;
+}
+.parent-table-div:hover .id-card {
+  color: white;
+}
