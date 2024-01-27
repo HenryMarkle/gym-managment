@@ -2,7 +2,7 @@
 
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
-import { AddUserParams, Announcement, Permission, User } from '../v1/types';
+import { AddUserParams, Announcement, Permission, User, SafeUser } from '../v1/types';
 import { cookies } from "next/headers";
 
 
@@ -116,14 +116,41 @@ export async function deleteUser(email: string): Promise<Boolean> {
  * @returns a User object if the user is found
  * @returns null if no user with the given email was found
  */
-export async function getUserByEmail(email: string): Promise<User | null> {
+export async function getUserByEmail(email: string): Promise<SafeUser | null> {
   const client = new PrismaClient();
 
   await client.$connect();
 
   try {
-    const result = await client.user.findUnique({ where: { email } });
-    return result;
+    const result = await client.user.findUnique({ where: { email }, select: { name: true, email: true, permission: true, age:true, gender: true, startDate: true, salary: true } });
+
+    if (!result) return null;
+
+    return { ...result, startDate: result?.startDate.toISOString() };
+  } catch (e) {
+    console.log(e);
+    return null;
+  } finally {
+    await client.$disconnect();
+  }
+}
+
+/**
+ *
+ * @returns a User object if the user is found
+ * @returns null if no user with the given email was found
+ */
+export async function getUserById(id: number): Promise<SafeUser | null> {
+  const client = new PrismaClient();
+
+  await client.$connect();
+
+  try {
+    const result = await client.user.findUnique({ where: { id }, select: { name: true, email: true, permission: true, age:true, gender: true, startDate: true, salary: true } });
+    
+    if (!result) return null;
+
+    return { ...result, startDate: result?.startDate.toISOString() };
   } catch (e) {
     console.log(e);
     return null;
@@ -140,7 +167,7 @@ export async function getAllUsers(): Promise<{
   id: number, 
   name: string | null, 
   email: string, 
-  permission: string,
+  permission: number,
   salary: number,
   age: number,
   gender: string,
@@ -161,7 +188,7 @@ export async function getAllUsers(): Promise<{
       gender: true,
       startDate: true, 
     } });
-    return [ ...result.map(r => { return { ...r, startDate: r.startDate.toISOString(), permission: r.permission.toString() }; }) ];
+    return [ ...result.map(r => { return { ...r, startDate: r.startDate.toISOString(), permission: r.permission == Permission.Admin ? 0 : 1 }; }) ];
   } catch (e) {
     console.log(e);
     return null;
