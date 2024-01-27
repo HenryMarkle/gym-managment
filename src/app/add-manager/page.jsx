@@ -23,12 +23,7 @@ function page() {
       <div className="add ml-[30%] mt-10 flex justify-between px-4 py-16 mr-[10%] shadow-xl h-[650px] rounded-xl">
         <div className="left w-[45%]">
           <div className="start-date flex-col flex">
-            <label htmlFor="">Start Date</label>
-            <input
-              onChange={(e) => setStartedAt(e.target.value)}
-              type="date"
-              placeholder="Start date"
-            />
+            
           </div>{" "}
           <div className="name flex-col flex ">
             <label htmlFor="">Name</label>
@@ -97,9 +92,9 @@ function page() {
             const res = await addUser({
               name,
               surname,
-              age,
+              age: Number(age),
               gender,
-              salary,
+              salary: Number(salary),
               startDate: (new Date()).toISOString(),
               email,
               password

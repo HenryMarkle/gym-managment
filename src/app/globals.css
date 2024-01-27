@@ -94,7 +94,8 @@ body {
   }
   .content {
     margin-left: 10px;
-    height: auto;
+    height: 76vh;
+    overflow-y: scroll;
   }
   .logout {
     margin-top: 20px;
@@ -119,6 +120,12 @@ body {
   }
   .show-mobile {
     margin-top: 2px;
+    position: fixed;
+    padding: 0 10px;
+    margin-right: 26px;
+    display: flex;
+    justify-content: space-between;
+    width: 94%;
   }
 
   .info-stats {
@@ -137,7 +144,7 @@ body {
     width: 100%;
   }
   .add {
-    margin: 80px 0 0 0;
+    margin: 80px 0 0 0 !important;
     padding: 10px;
     height: auto;
     display: flex;
@@ -152,9 +159,27 @@ body {
   .managers {
     margin-left: 10px;
   }
+  .notification {
+    margin: 70px 0px;
+  }
+
+  .mark-as-read {
+    width: auto;
+  }
+  .message {
+    align-items: baseline;
+    padding: 9px;
+  }
+  .table-main {
+    margin: 70px 0px;
+  }
 }
 
 /* .message-mobile {
   display: flex;
   flex-direction: column;
 } */
+
+.add {
+  margin-left: 25%;
+}

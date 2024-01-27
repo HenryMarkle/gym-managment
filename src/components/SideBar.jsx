@@ -45,29 +45,31 @@ function SideBar() {
         className={
           showMessage
             ? `sidebar ${
-                mobile && `open-sidebar message-mobile `
+                mobile && `open-sidebar  `
               } w-[730px] h-[100vh] fixed top-0 left-0 flex  bg-customRed rounded-tr-[31px] rounded-br-[31px] p-[25px] duration-500 z-[100]`
             : `sidebar ${
                 mobile && `open-sidebar`
               } w-[329px] h-[100vh] fixed top-0 left-0  bg-customRed rounded-tr-[31px] rounded-br-[31px] p-[15px] duration-500 z-[100]`
         }
       >
-        <div className="show-mobile w-full flex justify-between items-center">
-          {mobile ? (
-            <div className="flex items-center justify-between w-auto">
-              <IoIosCloseCircleOutline
-                className=" flex justify-center items-center text-[30px] text-white ml-2 w-auto"
+        {window.innerWidth <= 991 ? (
+          <div className="show-mobile w-full flex justify-between items-center">
+            {mobile ? (
+              <div className="flex items-center justify-between w-auto">
+                <IoIosCloseCircleOutline
+                  className=" flex justify-center items-center text-[30px] text-white ml-2 w-auto"
+                  onClick={() => setMobile(!mobile)}
+                />
+              </div>
+            ) : (
+              <RxHamburgerMenu
                 onClick={() => setMobile(!mobile)}
+                className=" flex justify-center items-center text-[30px] text-white ml-2"
               />
-            </div>
-          ) : (
-            <RxHamburgerMenu
-              onClick={() => setMobile(!mobile)}
-              className=" flex justify-center items-center text-[30px] text-white ml-2"
-            />
-          )}
-          <p className="font-bold text-[23px] text-white  ">Gym-name</p>
-        </div>
+            )}
+            <p className="font-bold text-[23px] text-white  ">Gym-name</p>
+          </div>
+        ) : null}
         <div className="top-content flex flex-col gap-9 w-[210px]">
           {mobile ? null : (
             <p className="font-bold text-[30px] text-white text-center  ">
@@ -160,15 +162,30 @@ function SideBar() {
                 events
               </div>{" "}
             </Link>{" "}
-            <div
-              className="home flex justify-center gap-4 text-white items-center cursor-pointer "
-              onClick={() => setShowMessage(!showMessage)}
-            >
-              <span>
-                <BiSolidMessageAdd size="23px" />
-              </span>{" "}
-              Create message
-            </div>{" "}
+            {mobile ? (
+              <Link
+                onClick={() => {
+                  setShowMessage(false);
+                  setMobile(false);
+                }}
+                href="message-mobile"
+              >
+                <div className=" flex justify-center gap-4 text-white items-center">
+                  <BiSolidMessageAdd size="23px" />
+                  <p className="text-white">Craete message</p>
+                </div>
+              </Link>
+            ) : (
+              <div
+                className="home flex justify-center gap-4 text-white items-center cursor-pointer "
+                onClick={() => setShowMessage(!showMessage)}
+              >
+                <span>
+                  <BiSolidMessageAdd size="23px" />
+                </span>{" "}
+                Create message
+              </div>
+            )}
             <Link
               onClick={() => {
                 setShowMessage(false);
