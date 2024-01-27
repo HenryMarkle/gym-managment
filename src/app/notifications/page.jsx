@@ -14,7 +14,7 @@ function Page() {
   }, [height400]);
 
   async function readMessage(id, email) {
-    await markAsRead(id, email);
+    return await markAsRead(id, email);
   }
 
   return (
@@ -32,7 +32,7 @@ function Page() {
       >
         <div className="flex-1 flex">
           {ele.read ? null : (
-            <span onClick={async () => await readMessage(ele.id, await getCurrentUserId())} className="  w-[198px] mr-2 h-[30px]  flex justify-center mb-0 ml-0 bg-customRed px-2 py-1 cursor-pointer text-white shadow-lg rounded-2xl mt-[24px] ">
+            <span onClick={async () => { const res = await readMessage(ele.id, await getCurrentUserId()); console.log("mas: "+JSON.stringify(res))}} className="  w-[198px] mr-2 h-[30px]  flex justify-center mb-0 ml-0 bg-customRed px-2 py-1 cursor-pointer text-white shadow-lg rounded-2xl mt-[24px] ">
               mark as read
             </span>
           )}

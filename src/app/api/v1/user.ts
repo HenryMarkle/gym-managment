@@ -68,6 +68,7 @@ export async function getCurrentUserId(): Promise<number | 'noSession' | 'notFou
   }
 }
 
+
 /**
  *
  * @returns true if operation is successful
@@ -196,14 +197,14 @@ export async function createAnnouncement(
 
 export async function markAsRead(
   messageId: number,
-  userEmail: string
+  userId: number
 ): Promise<"success" | "messageNotFound" | "userNotFound" | "error"> {
   const client = new PrismaClient();
 
   try {
     await client.$connect();
 
-    const user = await client.user.findUnique({ where: { email: userEmail } });
+    const user = await client.user.findUnique({ where: { id: userId } });
     const message = await client.message.findUnique({
       where: { id: messageId },
       include: { readStatus: true },

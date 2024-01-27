@@ -1,5 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
+
+import { addUser } from "../api/v1/user";
+
 import "./main.css";
 function page() {
   const [startedAt, setStartedAt] = useState();
@@ -74,7 +77,36 @@ function page() {
               placeholder="Salary"
             />
           </div>
-          <button className=" mt-[25px] px-9 w-full py-2 rounded-xl bg-customRed text-white font-bold text-[18px] ">
+          <div className="email flex-col flex">
+            <label htmlFor="">Email</label>
+            <input
+              onChange={(e) => setEmail(e.target.value)}
+              type="email"
+              placeholder="Email"
+            />
+          </div>
+          <div className="password flex-col flex">
+            <label htmlFor="">Password</label>
+            <input
+              onChange={(e) => setPassword(e.target.value)}
+              type="password"
+              placeholder="Password"
+            />
+          </div>
+          <button onClick={async () => {
+            const res = await addUser({
+              name,
+              surname,
+              age,
+              gender,
+              salary,
+              startDate: (new Date()).toISOString(),
+              email,
+              password
+            });
+
+            console.log("add-manager: "+JSON.stringify(res));
+          }} className=" mt-[25px] px-9 w-full py-2 rounded-xl bg-customRed text-white font-bold text-[18px] ">
             Create
           </button>
         </div>
