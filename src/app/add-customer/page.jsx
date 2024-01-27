@@ -14,6 +14,7 @@ function page() {
   const [payment, setPayment] = useState(0);
 
   async function doIt() {
+
     const result = await addCustomer({
       name,
       surname,

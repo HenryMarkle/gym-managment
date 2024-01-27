@@ -15,12 +15,12 @@ function page() {
   ];
   return (
     <>
-      <div className="managers ml-[27%] m-4 min-h-[700px]  relative rounded-2xl mt-20  gap-y-10  ">
+      <div className="managers ml-[23%] m-4 min-h-[700px]  relative rounded-[31px] mt-20  gap-y-10  ">
         {dammyData.map((ele) => {
           return (
             <>
               <Link href={`/manager/${ele.id}`}>
-                <div className="koch shadow-sm shadow-green-700  relative  h-[300px] p-2 mt-10 rounded-md">
+                <div className="koch shadow-sm shadow-green-700  relative  h-[300px] p-2 mt-10 rounded-[31px]">
                   <img
                     className="h-[100px] rounded-full absolute -top-12 left-[50%] transform translate-x-[-50%] border-4 border-emerald-900 z-50 outline  outline-white outline-4"
                     src="https://pbs.twimg.com/media/FjU2lkcWYAgNG6d.jpg"

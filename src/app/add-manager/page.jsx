@@ -94,26 +94,25 @@ function page() {
                 showCancelButton: true,
                 confirmButtonText: "Save",
                 denyButtonText: `Don't save`,
-              }).then((result) => {
+              }).then(async (result) => {
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
                   Swal.fire("Saved!", "", "success");
+                  const res = await addUser({
+                    name,
+                    surname,
+                    age: Number(age),
+                    gender,
+                    salary: Number(salary),
+                    startDate: new Date().toISOString(),
+                    email,
+                    password,
+                  });
+                  console.log("add-manager: " + JSON.stringify(res));
                 } else if (result.isDenied) {
                   Swal.fire("Changes are not saved", "", "info");
                 }
               });
-              const res = await addUser({
-                name,
-                surname,
-                age: Number(age),
-                gender,
-                salary: Number(salary),
-                startDate: new Date().toISOString(),
-                email,
-                password,
-              });
-
-              console.log("add-manager: " + JSON.stringify(res));
             }}
             className=" mt-[25px] px-9 w-full py-2 rounded-xl bg-customRed text-white font-bold text-[18px] "
           >

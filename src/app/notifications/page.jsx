@@ -42,12 +42,13 @@ function Page() {
                     onClick={async () =>
                       await readMessage(ele.id, await getCurrentUserId())
                     }
-                    className="mark-as-read  w-[198px] mr-2 h-[30px]  flex justify-center mb-0 ml-0 bg-customRed px-2 py-1 cursor-pointer text-white shadow-lg rounded-2xl "
+                    className="mark-as-read  w-[188px] mr-2 h-[35px] font-bold  flex justify-center mb-0 ml-0 bg-green-700 px-2 py-1  cursor-pointer text-white shadow-lg rounded-2xl "
                   >
                     mark as read
                   </span>
                 )}
-                <p className="p-4 cursor-pointer ">
+
+                <p className="p-4 cursor-pointer w-[70%] break-words">
                   {ele.text.length > 150 && height400.includes(ele.id) === false
                     ? ele.text.slice(0, 150) + " ..."
                     : ele.text}
