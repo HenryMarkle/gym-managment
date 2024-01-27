@@ -20,7 +20,7 @@ function Page() {
   }, [height400]);
 
   async function readMessage(id, email) {
-    await markAsRead(id, email);
+    return await markAsRead(id, email);
   }
 
   return (

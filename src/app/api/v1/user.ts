@@ -2,7 +2,7 @@
 
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
-import { AddUserParams, Announcement, Permission, User } from '../v1/types';
+import { AddUserParams, Announcement, Permission, User, SafeUser } from '../v1/types';
 import { cookies } from "next/headers";
 
 
@@ -68,6 +68,7 @@ export async function getCurrentUserId(): Promise<number | 'noSession' | 'notFou
   }
 }
 
+
 /**
  *
  * @returns true if operation is successful
@@ -115,14 +116,41 @@ export async function deleteUser(email: string): Promise<Boolean> {
  * @returns a User object if the user is found
  * @returns null if no user with the given email was found
  */
-export async function getUserByEmail(email: string): Promise<User | null> {
+export async function getUserByEmail(email: string): Promise<SafeUser | null> {
   const client = new PrismaClient();
 
   await client.$connect();
 
   try {
-    const result = await client.user.findUnique({ where: { email } });
-    return result;
+    const result = await client.user.findUnique({ where: { email }, select: { name: true, email: true, permission: true, age:true, gender: true, startDate: true, salary: true } });
+
+    if (!result) return null;
+
+    return { ...result, startDate: result?.startDate.toISOString() };
+  } catch (e) {
+    console.log(e);
+    return null;
+  } finally {
+    await client.$disconnect();
+  }
+}
+
+/**
+ *
+ * @returns a User object if the user is found
+ * @returns null if no user with the given email was found
+ */
+export async function getUserById(id: number): Promise<SafeUser | null> {
+  const client = new PrismaClient();
+
+  await client.$connect();
+
+  try {
+    const result = await client.user.findUnique({ where: { id }, select: { name: true, email: true, permission: true, age:true, gender: true, startDate: true, salary: true } });
+    
+    if (!result) return null;
+
+    return { ...result, startDate: result?.startDate.toISOString() };
   } catch (e) {
     console.log(e);
     return null;
@@ -135,14 +163,32 @@ export async function getUserByEmail(email: string): Promise<User | null> {
  * @returns a list of all users
  * @returns null if an error occurs
  */
-export async function getAllUsers(): Promise<User[] | null> {
+export async function getAllUsers(): Promise<{ 
+  id: number, 
+  name: string | null, 
+  email: string, 
+  permission: number,
+  salary: number,
+  age: number,
+  gender: string,
+  startDate: string, 
+} [] | null> {
   const client = new PrismaClient();
 
   await client.$connect();
 
   try {
-    const result = await client.user.findMany({});
-    return result;
+    const result = await client.user.findMany({ select: { 
+      id: true, 
+      name: true, 
+      email: true, 
+      permission: true,
+      salary: true,
+      age: true,
+      gender: true,
+      startDate: true, 
+    } });
+    return [ ...result.map(r => { return { ...r, startDate: r.startDate.toISOString(), permission: r.permission == Permission.Admin ? 0 : 1 }; }) ];
   } catch (e) {
     console.log(e);
     return null;
@@ -168,6 +214,7 @@ export async function getAllAnnouncments(): Promise<Announcement[] | null> {
 
 export async function createAnnouncement(
   text: string,
+  all: boolean,
   toUsers: number[]
 ): Promise<number | null> {
   const client = new PrismaClient();
@@ -175,17 +222,38 @@ export async function createAnnouncement(
   await client.$connect();
 
   try {
-    const result = await client.message.create({
-      data: {
-        text,
-        readStatus: {
-          create: toUsers.map((u) => {
-            return { userId: u, read: false };
-          }),
+    let result: {
+      id: number;
+      text: string;
+      sent: Date;
+    } | null = null;
+
+    if (all) {
+      let allUsers = await client.user.findMany({});
+      result = await client.message.create({
+        data: {
+          text,
+          readStatus: {
+            create: allUsers.map((u) => {
+              return { userId: u.id, read: false };
+            }),
+          },
         },
-      },
-    });
-    return result.id;
+      });
+    } else {
+      result = await client.message.create({
+        data: {
+          text,
+          readStatus: {
+            create: toUsers.map((u) => {
+              return { userId: u, read: false };
+            }),
+          },
+        },
+      });
+    }
+    
+    return result?.id ?? null;
   } catch (e) {
     console.log(e);
     return null;
@@ -196,14 +264,14 @@ export async function createAnnouncement(
 
 export async function markAsRead(
   messageId: number,
-  userEmail: string
+  userId: number
 ): Promise<"success" | "messageNotFound" | "userNotFound" | "error"> {
   const client = new PrismaClient();
 
   try {
     await client.$connect();
 
-    const user = await client.user.findUnique({ where: { email: userEmail } });
+    const user = await client.user.findUnique({ where: { id: userId } });
     const message = await client.message.findUnique({
       where: { id: messageId },
       include: { readStatus: true },

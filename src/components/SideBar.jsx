@@ -16,6 +16,9 @@ import {
   IoIosNotifications,
 } from "react-icons/io";
 import Link from "next/link";
+
+import { getAllUsers, createAnnouncement } from "../app/api/v1/user";
+
 function SideBar() {
   const [message, setMessage] = useState("");
   const [showMessage, setShowMessage] = useState(false);
@@ -24,36 +27,17 @@ function SideBar() {
   const [isAllChecked, setIsAllChecked] = useState(false);
   const filterdArray = Array.from(new Set(chooise));
   const [mobile, setMobile] = useState(false);
+  const [dummyData, setDummyData] = useState([]);
 
   useEffect(() => {
     console.log(filterdArray);
     console.log(message);
+    console.log("Chosen: "+chooise);
   }, [chooise]);
 
-  const dummyData = [
-    { id: 1, name: "Ali haseni" },
-    { id: 2, name: "Ali haseni" },
-    { id: 3, name: "Ali haseni" },
-    { id: 4, name: "Ali haseni" },
-    { id: 5, name: "Ali haseni" },
-    { id: 6, name: "Ali haseni" },
-    { id: 7, name: "Ali haseni" },
-    { id: 18, name: "Ali haseni" },
-    { id: 19, name: "Ali haseni" },
-    { id: 12, name: "Ali haseni" },
-    { id: 113, name: "Ali haseni" },
-    { id: 115, name: "Ali haseni" },
-    { id: 16, name: "Ali haseni" },
-    { id: 17, name: "Ali haseni" },
-    { id: 171, name: "Ali haseni" },
-    { id: 172, name: "Ali haseni" },
-    { id: 127, name: "Ali haseni" },
-    { id: 137, name: "Ali haseni" },
-    { id: 174, name: "Ali haseni" },
-    { id: 157, name: "Ali haseni" },
-    { id: 167, name: "Ali haseni" },
-    { id: 177, name: "Ali haseni" },
-  ];
+  useEffect(() => {
+    getAllUsers().then(v => { setDummyData(v ?? []); console.log(v) });
+  }, []);
 
   return (
     <>
@@ -256,6 +240,7 @@ function SideBar() {
             </p>
             <div className="message-box h-[200px] overflow-y-auto ">
               <textarea
+              onChange={(e) => setMessage(e.target.value)}
                 className=" resize-none w-full h-[300px] outline-none p-4 rounded-tl-[31px]"
                 placeholder="Write your message"
               ></textarea>
@@ -309,9 +294,8 @@ function SideBar() {
                   </p>
                 )}
                 {dummyData.map((e) => {
-                  return (
-                    <>
-                      <div className="option w-[45%] flex items-center p-2">
+                  return <>
+                      <div key={e.id} className="option w-[45%] flex items-center p-2">
                         <label
                           className=" text-white text-[17px] mr-1"
                           htmlFor={`${e.id}`}
@@ -322,7 +306,7 @@ function SideBar() {
                           <input
                             onChange={() => {
                               chooise[0] = " ";
-                              setChooise([...chooise, e.id]);
+                              setChooise(c => [...c, e.id]);
                             }}
                             className=" h-[25px] w-[22px] outline-none border-none"
                             type="checkbox"
@@ -330,12 +314,11 @@ function SideBar() {
                           />
                         )}
                       </div>
-                    </>
-                  );
+                    </>;
                 })}
               </div>
             </div>
-            <button className=" text-green-700 shadow-xl h-max w-max mx-auto my-0 px-10 py-1 bg-[#ffcb00] rounded-[31px] font-bold">
+            <button onClick={async () => { const res = await createAnnouncement(message, isAllChecked, filterdArray.slice(1)); console.log(res); console.log("filtered: "+filterdArray) }} className=" text-green-700 shadow-xl h-max w-max mx-auto my-0 px-10 py-1 bg-[#ffcb00] rounded-[31px] font-bold">
               Submit
             </button>
             {/* <div className="how-can-see-list p-2 w-full bg-customRed mt-5 rounded-[18px] h-auto overflow-y-auto">
