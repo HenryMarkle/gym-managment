@@ -152,9 +152,27 @@ body {
   .managers {
     margin-left: 10px;
   }
+  .notification {
+    margin: 70px 0px;
+  }
+
+  .mark-as-read {
+    width: auto;
+  }
+  .message {
+    align-items: baseline;
+    padding: 9px;
+  }
+  .table-main {
+    margin: 70px 0px;
+  }
 }
 
 /* .message-mobile {
   display: flex;
   flex-direction: column;
 } */
+
+.add {
+  margin-left: 25%;
+}
