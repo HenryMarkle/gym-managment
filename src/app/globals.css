@@ -119,6 +119,12 @@ body {
   }
   .show-mobile {
     margin-top: 2px;
+    position: fixed;
+    padding: 0 10px;
+    margin-right: 26px;
+    display: flex;
+    justify-content: space-between;
+    width: 94%;
   }
 
   .info-stats {
