@@ -136,14 +136,32 @@ export async function getUserByEmail(email: string): Promise<User | null> {
  * @returns a list of all users
  * @returns null if an error occurs
  */
-export async function getAllUsers(): Promise<User[] | null> {
+export async function getAllUsers(): Promise<{ 
+  id: number, 
+  name: string | null, 
+  email: string, 
+  permission: string,
+  salary: number,
+  age: number,
+  gender: string,
+  startDate: string, 
+} [] | null> {
   const client = new PrismaClient();
 
   await client.$connect();
 
   try {
-    const result = await client.user.findMany({});
-    return result;
+    const result = await client.user.findMany({ select: { 
+      id: true, 
+      name: true, 
+      email: true, 
+      permission: true,
+      salary: true,
+      age: true,
+      gender: true,
+      startDate: true, 
+    } });
+    return [ ...result.map(r => { return { ...r, startDate: r.startDate.toISOString(), permission: r.permission.toString() }; }) ];
   } catch (e) {
     console.log(e);
     return null;
@@ -169,6 +187,7 @@ export async function getAllAnnouncments(): Promise<Announcement[] | null> {
 
 export async function createAnnouncement(
   text: string,
+  all: boolean,
   toUsers: number[]
 ): Promise<number | null> {
   const client = new PrismaClient();
@@ -176,17 +195,38 @@ export async function createAnnouncement(
   await client.$connect();
 
   try {
-    const result = await client.message.create({
-      data: {
-        text,
-        readStatus: {
-          create: toUsers.map((u) => {
-            return { userId: u, read: false };
-          }),
+    let result: {
+      id: number;
+      text: string;
+      sent: Date;
+    } | null = null;
+
+    if (all) {
+      let allUsers = await client.user.findMany({});
+      result = await client.message.create({
+        data: {
+          text,
+          readStatus: {
+            create: allUsers.map((u) => {
+              return { userId: u.id, read: false };
+            }),
+          },
         },
-      },
-    });
-    return result.id;
+      });
+    } else {
+      result = await client.message.create({
+        data: {
+          text,
+          readStatus: {
+            create: toUsers.map((u) => {
+              return { userId: u, read: false };
+            }),
+          },
+        },
+      });
+    }
+    
+    return result?.id ?? null;
   } catch (e) {
     console.log(e);
     return null;
