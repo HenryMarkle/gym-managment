@@ -223,7 +223,7 @@ function SideBar() {
               Settings
             </div>
           </div>
-          <div className="flex logout justify-center mt-[66px] gap-3 items-center">
+          <div className="flex logout justify-center mt-[106px] gap-3 items-center">
             <IoIosLogOut size="23px" className=" font-bold " color="white" />
             <span className="text-white font-bold">Logout</span>
           </div>
