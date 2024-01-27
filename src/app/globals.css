@@ -94,7 +94,8 @@ body {
   }
   .content {
     margin-left: 10px;
-    height: auto;
+    height: 76vh;
+    overflow-y: scroll;
   }
   .logout {
     margin-top: 20px;
