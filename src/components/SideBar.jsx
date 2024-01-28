@@ -32,11 +32,14 @@ function SideBar() {
   useEffect(() => {
     console.log(filterdArray);
     console.log(message);
-    console.log("Chosen: "+chooise);
+    console.log("Chosen: " + chooise);
   }, [chooise]);
 
   useEffect(() => {
-    getAllUsers().then(v => { setDummyData(v ?? []); console.log(v) });
+    getAllUsers().then((v) => {
+      setDummyData(v ?? []);
+      console.log(v);
+    });
   }, []);
 
   return (
@@ -200,12 +203,20 @@ function SideBar() {
                 Notifications
               </div>
             </Link>
-            <div className="home flex justify-center gap-4 text-white items-center ">
-              <span>
-                <IoSettings size="23px" />
-              </span>{" "}
-              Settings
-            </div>
+            <Link
+              onClick={() => {
+                setShowMessage(false);
+                setMobile(false);
+              }}
+              href="/settings"
+            >
+              <div className="home flex justify-center gap-4 text-white items-center ">
+                <span>
+                  <IoSettings size="23px" />
+                </span>{" "}
+                Settings
+              </div>
+            </Link>
           </div>
           <div className="flex logout justify-center mt-[106px] gap-3 items-center">
             <IoIosLogOut size="23px" className=" font-bold " color="white" />
@@ -240,7 +251,7 @@ function SideBar() {
             </p>
             <div className="message-box h-[200px] overflow-y-auto ">
               <textarea
-              onChange={(e) => setMessage(e.target.value)}
+                onChange={(e) => setMessage(e.target.value)}
                 className=" resize-none w-full h-[300px] outline-none p-4 rounded-tl-[31px]"
                 placeholder="Write your message"
               ></textarea>
@@ -294,8 +305,12 @@ function SideBar() {
                   </p>
                 )}
                 {dummyData.map((e) => {
-                  return <>
-                      <div key={e.id} className="option w-[45%] flex items-center p-2">
+                  return (
+                    <>
+                      <div
+                        key={e.id}
+                        className="option w-[45%] flex items-center p-2"
+                      >
                         <label
                           className=" text-white text-[17px] mr-1"
                           htmlFor={`${e.id}`}
@@ -306,7 +321,7 @@ function SideBar() {
                           <input
                             onChange={() => {
                               chooise[0] = " ";
-                              setChooise(c => [...c, e.id]);
+                              setChooise((c) => [...c, e.id]);
                             }}
                             className=" h-[25px] w-[22px] outline-none border-none"
                             type="checkbox"
@@ -314,11 +329,23 @@ function SideBar() {
                           />
                         )}
                       </div>
-                    </>;
+                    </>
+                  );
                 })}
               </div>
             </div>
-            <button onClick={async () => { const res = await createAnnouncement(message, isAllChecked, filterdArray.slice(1)); console.log(res); console.log("filtered: "+filterdArray) }} className=" text-green-700 shadow-xl h-max w-max mx-auto my-0 px-10 py-1 bg-[#ffcb00] rounded-[31px] font-bold">
+            <button
+              onClick={async () => {
+                const res = await createAnnouncement(
+                  message,
+                  isAllChecked,
+                  filterdArray.slice(1)
+                );
+                console.log(res);
+                console.log("filtered: " + filterdArray);
+              }}
+              className=" text-green-700 shadow-xl h-max w-max mx-auto my-0 px-10 py-1 bg-[#ffcb00] rounded-[31px] font-bold"
+            >
               Submit
             </button>
             {/* <div className="how-can-see-list p-2 w-full bg-customRed mt-5 rounded-[18px] h-auto overflow-y-auto">

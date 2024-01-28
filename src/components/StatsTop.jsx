@@ -1,6 +1,6 @@
+"use client";
 import React from "react";
 import CountUp from "react-countup";
-
 function Stats_top() {
   return (
     <>
