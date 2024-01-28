@@ -17,101 +17,30 @@ function page() {
 
   return (
     <>
-      <div className="table-main ml-[25%] mt-5 h-[90vh] shadow-md rounded-[31px] p-4 mr-10 ">
-        <div className="parent-cols grid grid-cols-9 gap-4 ">
-          <div className="name-col overflow-hidden">
-            <p className="mb-5">Name</p>
-            {AllCustomers.map((ele) => {
-              return (
-                <>
-                  <p>{ele.name}</p>
-                </>
-              );
-            })}
-          </div>
-          <div className="surname-col overflow-hidden">
-            <p className="mb-5">surname</p>
-            {AllCustomers.map((ele) => {
-              return (
-                <>
-                  <p>{ele.surname}</p>
-                </>
-              );
-            })}
-          </div>
-          <div className="age-col overflow-hidden">
-            <p className="mb-5">age</p>
-            {AllCustomers.map((ele) => {
-              return (
-                <>
-                  <p>{ele.age}</p>
-                </>
-              );
-            })}
-          </div>
-          <div className="bucketPrice-col overflow-hidden">
-            <p className="mb-5">price</p>
-            {AllCustomers.map((ele) => {
-              return (
-                <>
-                  <p>{ele.bucketPrice}</p>
-                </>
-              );
-            })}
-          </div>
-          <div className="paid-col overflow-hidden">
-            <p className="mb-5">Paid</p>
-            {AllCustomers.map((ele) => {
-              return (
-                <>
-                  <p>{ele.paymentAmount}</p>
-                </>
-              );
-            })}
-          </div>
-          <div className="should-pay-col overflow-hidden">
-            <p className="mb-5">Should pay</p>
-            {AllCustomers.map((ele) => {
-              return (
-                <>
-                  <p>{ele.bucketPrice - ele.paymentAmount}</p>
-                </>
-              );
-            })}
-          </div>
-          <div className="started-at-col overflow-hidden">
-            <p className="mb-5">Started At</p>
-            {AllCustomers.map((ele) => {
-              return (
-                <>
-                  <p className=" text-center">Date</p>
-                </>
-              );
-            })}
-          </div>
-          <div className="ends-at-col overflow-hidden">
-            {" "}
-            <p className="mb-5">Ends At</p>
-            {AllCustomers.map((ele) => {
-              return (
-                <>
-                  <p>Date</p>
-                </>
-              );
-            })}
-          </div>
-          <div className="days-left-col overflow-hidden">
-            <p className="mb-5">Days left</p>
-            {AllCustomers.map((ele) => {
-              return (
-                <>
-                  <p>14</p>
-                </>
-              );
-            })}
-          </div>
-        </div>
-      </div>
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>Age</th>
+          <th>Gender</th>
+          <th>Package</th>
+          <th>Paid</th>
+          <th>Should Pay</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+          <th>Days Left</th>
+        </tr>
+        {AllCustomers.map(c => <tr>
+          <td>{c.name + c.surname}</td>
+          <td>{c.age}</td>
+          <td>{c.gender == 'Male' ? 'M' : 'F'}</td>
+          <td>{c.bucketPrice}</td>
+          <td>{c.paymentAmount}</td>
+          <td>{c.bucketPrice - c.paymentAmount}</td>
+          <td>{c.startedAt.toDateString()}</td>
+          <td>{c.endsAt.toDateString()}</td>
+          <td>idk</td>
+        </tr>)}
+      </table>
     </>
   );
 }

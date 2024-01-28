@@ -1,9 +1,35 @@
-export { Permission, type AddUserParams, type User, type Announcement, type SafeUser };
+import { Decimal } from "@prisma/client/runtime/library";
+
+export { Permission, type AddUserParams, type User, type Announcement, type SafeUser, type Customer, type AddCustomerParams };
 
 enum Permission {
     Employee,
     Admin,
 }
+type Customer = {
+    id: number;
+    name: string;
+    surname: string;
+    age: number;
+    gender: string;
+    duration: number | null;
+    daysLeft: number | null;
+    bucketPrice: Decimal;
+    paymentAmount: Decimal;
+    startedAt: Date;
+    endsAt: Date;
+};
+
+type AddCustomerParams = {
+    name: string;
+    surname: string;
+    age: number;
+    gender: string;
+    payment: number;
+    bucketPrice: number;
+    endDate: Date;
+    startDate: Date;
+};
 
 type AddUserParams = {
     name?: string;

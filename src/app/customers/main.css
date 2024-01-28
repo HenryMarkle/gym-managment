@@ -1,13 +1,8 @@
-.body-table:not(:last-child) {
-  border-bottom: 2px solid #ffcb00;
+table {
+  margin-left: 500px;
 }
+th { padding-left: 10px; padding-right: 10px; border-bottom: 1px solid #ddd; max-width: 200px; }
+td { padding-left: 10px; padding-right: 10px; border-bottom: 1px solid #ddd; text-overflow: ellipsis; max-width: 200px; }
 
-::-webkit-scrollbar-thumb {
-  color: red;
-}
-.id-card {
-  color: green;
-}
-.parent-table-div:hover .id-card {
-  color: white;
-}
+tr:hover {background-color: #D6EEEE;}
+

@@ -2,31 +2,9 @@
 
 import { PrismaClient } from "@prisma/client";
 import { Decimal } from "@prisma/client/runtime/library";
+import { AddCustomerParams, Customer } from "./types";
 
-export type Customer = {
-  id: number;
-  name: string;
-  surname: string;
-  age: number;
-  gender: string;
-  duration: number | null;
-  daysLeft: number | null;
-  bucketPrice: Decimal;
-  paymentAmount: Decimal;
-  startedAt: Date;
-  endsAt: Date;
-};
 
-export type AddCustomerParams = {
-  name: string;
-  surname: string;
-  age: number;
-  gender: string;
-  payment: number;
-  bucketPrice: number;
-  endDate: Date;
-  startDate: Date;
-};
 
 /** 
     Returns the ID of the newly created customer on success.
