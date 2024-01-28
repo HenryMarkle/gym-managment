@@ -29,17 +29,26 @@ function page() {
           <th>End Date</th>
           <th>Days Left</th>
         </tr>
-        {AllCustomers.map(c => <tr>
-          <td>{c.name + c.surname}</td>
-          <td>{c.age}</td>
-          <td>{c.gender == 'Male' ? 'M' : 'F'}</td>
-          <td>{c.bucketPrice}</td>
-          <td>{c.paymentAmount}</td>
-          <td>{c.bucketPrice - c.paymentAmount}</td>
-          <td>{c.startedAt.toDateString()}</td>
-          <td>{c.endsAt.toDateString()}</td>
-          <td>idk</td>
-        </tr>)}
+        {AllCustomers.map((c) => (
+          <tr>
+            <td>
+              {`${c.name.length > 8 ? c.name.slice(0, 8) : c.name} ` +
+                `${
+                  c.surname.length > 8
+                    ? c.surname.slice(0, 8) + "..."
+                    : c.surname
+                }`}
+            </td>
+            <td>{c.age}</td>
+            <td>{c.gender == "Male" ? "M" : "F"}</td>
+            <td>{c.bucketPrice}</td>
+            <td>{c.paymentAmount}</td>
+            <td>{c.bucketPrice - c.paymentAmount}</td>
+            <td>{c.startedAt.toDateString()}</td>
+            <td>{c.endsAt.toDateString()}</td>
+            <td>idk</td>
+          </tr>
+        ))}
       </table>
     </>
   );

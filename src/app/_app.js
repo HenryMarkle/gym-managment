@@ -9,4 +9,4 @@ function App({ Component, pageProps }) {
     </Layout>
   );
 }
-export default App;
+export default App

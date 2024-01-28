@@ -183,3 +183,8 @@ body {
 .add {
   margin-left: 25%;
 }
+
+.settings {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(390px, 1fr));
+}
