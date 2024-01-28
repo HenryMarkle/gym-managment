@@ -2,9 +2,14 @@
 import React from "react";
 import Chart from "../components/Chart";
 import Stats_top from "../components/StatsTop";
+import { useRouter } from "next/navigation";
 import MoneyStats from "../components/RightSideStats";
-
+import tr from "../locales/tr";
+import en from "../locales/en";
 function page() {
+  const router = useRouter();
+  const { locale } = router;
+  const t = locale === "en" ? en : tr;
   return (
     <>
       <div className="father-home overflow-hidden">
