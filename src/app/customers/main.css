@@ -1,8 +1,24 @@
-table {
-  margin-left: 500px;
+tr {
+  transition: 0.4s;
 }
-th { padding-left: 10px; padding-right: 10px; border-bottom: 1px solid #ddd; max-width: 200px; }
-td { padding-left: 10px; padding-right: 10px; border-bottom: 1px solid #ddd; text-overflow: ellipsis; max-width: 200px; }
-
-tr:hover {background-color: #D6EEEE;}
-
+th {
+  padding-left: 10px;
+  padding-right: 10px;
+  border-bottom: 1px solid #ddd;
+  max-width: 200px;
+}
+td {
+  padding-left: 10px;
+  padding-right: 10px;
+  border-bottom: 1px solid #ddd;
+  text-overflow: ellipsis;
+  min-width: 100px;
+  text-align: center;
+  cursor: pointer;
+}
+td:not(:last-child) {
+  border-right: 1px solid rgb(14, 148, 20);
+}
+tr:hover {
+  background-color: #5eb3b3;
+}

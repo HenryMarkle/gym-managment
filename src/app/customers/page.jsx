@@ -2,10 +2,11 @@
 import React, { useEffect, useState } from "react";
 import { getAllCustomers } from "../api/v1/customer";
 import "./main.css";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 function page() {
   const [AllCustomers, setAllCustomers] = useState([]);
-
+  const router = useRouter();
   useEffect(() => {
     const getAllCust = async () => {
       const result = await getAllCustomers();
@@ -17,20 +18,23 @@ function page() {
 
   return (
     <>
-      <table>
-        <tr>
-          <th>Name</th>
-          <th>Age</th>
-          <th>Gender</th>
-          <th>Package</th>
-          <th>Paid</th>
-          <th>Should Pay</th>
-          <th>Start Date</th>
-          <th>End Date</th>
-          <th>Days Left</th>
+      <table className="ml-[25%] mt-5 shadow-xl p-6 rounded-2xl overflow-hidden">
+        <tr className=" h-[60px]">
+          <th className=" border-r-[1px] border-green-600">Name</th>
+          <th className=" border-r-[1px] border-green-600">Age</th>
+          <th className=" border-r-[1px] border-green-600">Gender</th>
+          <th className=" border-r-[1px] border-green-600">Package</th>
+          <th className=" border-r-[1px] border-green-600">Paid</th>
+          <th className=" border-r-[1px] border-green-600">Should Pay</th>
+          <th className=" border-r-[1px] border-green-600">Start Date</th>
+          <th className=" border-r-[1px] border-green-600">End Date</th>
+          <th className=" border-r-[1px] ">Days Left</th>
         </tr>
         {AllCustomers.map((c) => (
-          <tr>
+          <tr
+            onClick={() => router.push(`/customer/${c.id}`)}
+            className=" h-[90px]"
+          >
             <td>
               {`${c.name.length > 8 ? c.name.slice(0, 8) : c.name} ` +
                 `${

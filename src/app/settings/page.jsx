@@ -6,7 +6,8 @@ function page() {
   const [newPass, setNewPassword] = useState();
   const [confirm, setconfirmPassword] = useState();
   const [name, setrName] = useState();
-  const [theme1, setTheme1] = useState(false);
+  const [theme1, setTheme1] = useState(true);
+  const [theme2, setTheme2] = useState(false);
   return (
     <>
       <div className="settings ml-[23%] mt-5  mr-4 p-4 rounded-lg gap-10">
@@ -72,72 +73,69 @@ function page() {
           </div>
         </div>
       </div>
+
+      {/* Start themes */}
+      {/* Start themes */}
+      {/* Start themes */}
+      {/* Start themes */}
+
       <div className="themes  ml-[24%]  mt-5  mr-4 p-4 rounded-lg shadow-xl ">
         <p className=" font-bold text-center mb-8">Themes</p>
 
         <div className="themes flex flex-wrap gap-6 justify-center">
           {/* Theme 1 */}
-
           <div
-            onClick={() => setTheme1(!theme1)}
             className={
-              theme1
-                ? "theme cursor-pointer w-[45%] bg-white text-center h-[300px] rounded-lg border-4 duration-500  border-blue-900 p-3 relative "
-                : "theme cursor-pointer w-[45%] bg-white text-center h-[300px] rounded-lg border-4 duration-500  border-gray-300 p-3 relative "
+              "theme cursor-pointer w-[45%] bg-white text-center h-[300px] rounded-lg border-4 duration-500  border-[#098b2a] p-3 relative "
             }
           >
             <div className="first h-[70%] ml-[50px] rounded-2xl  bg-customRed w-[50%] relative z-[1000]"></div>
             <div className="first h-[64%] ml-[50px] rounded-2xl bg-white shadow-xl w-[50%] top-[30%] absolute left-[28%] z-[2]"></div>
           </div>
           {/* Theme 2 */}
-
-          <div className="theme w-[45%] bg-white text-center h-[300px] rounded-lg border-4 border-gray-300 p-3 relative ">
-            <div className="first h-[70%] bg-red-300 w-[50%] relative z-[1000]">
-              1
-            </div>
-            <div className="first h-[64%] bg-red-600 w-[50%] top-[30%] absolute left-[28%] z-[2]">
-              2
-            </div>
+          <div
+            className={
+              "theme cursor-pointer w-[45%] bg-white text-center h-[300px] rounded-lg border-4 duration-500  border-[#098b2a] p-3 relative "
+            }
+          >
+            <div className="first h-[70%] ml-[50px] rounded-2xl  bg-customRed w-[50%] relative z-[1000]"></div>
+            <div className="first h-[64%] ml-[50px] rounded-2xl bg-white shadow-xl w-[50%] top-[30%] absolute left-[28%] z-[2]"></div>
           </div>
           {/* Theme 3 */}
-
-          <div className="theme w-[45%] bg-white text-center h-[300px] rounded-lg border-4 border-gray-300 p-3 relative ">
-            <div className="first h-[70%] bg-red-300 w-[50%] relative z-[1000]">
-              1
-            </div>
-            <div className="first h-[64%] bg-red-600 w-[50%] top-[30%] absolute left-[28%] z-[2]">
-              2
-            </div>
+          <div
+            className={
+              "theme cursor-pointer w-[45%] bg-white text-center h-[300px] rounded-lg border-4 duration-500  border-[#098b2a] p-3 relative "
+            }
+          >
+            <div className="first h-[70%] ml-[50px] rounded-2xl  bg-customRed w-[50%] relative z-[1000]"></div>
+            <div className="first h-[64%] ml-[50px] rounded-2xl bg-white shadow-xl w-[50%] top-[30%] absolute left-[28%] z-[2]"></div>
           </div>
           {/* Theme 4 */}
-
-          <div className="theme w-[45%] bg-white text-center h-[300px] rounded-lg border-4 border-gray-300 p-3 relative ">
-            <div className="first h-[70%] bg-red-300 w-[50%] relative z-[1000]">
-              1
-            </div>
-            <div className="first h-[64%] bg-red-600 w-[50%] top-[30%] absolute left-[28%] z-[2]">
-              2
-            </div>
+          <div
+            className={
+              "theme cursor-pointer w-[45%] bg-white text-center h-[300px] rounded-lg border-4 duration-500  border-[#098b2a] p-3 relative "
+            }
+          >
+            <div className="first h-[70%] ml-[50px] rounded-2xl  bg-customRed w-[50%] relative z-[1000]"></div>
+            <div className="first h-[64%] ml-[50px] rounded-2xl bg-white shadow-xl w-[50%] top-[30%] absolute left-[28%] z-[2]"></div>
           </div>
           {/* Theme 5 */}
-
-          <div className="theme w-[45%] bg-white text-center h-[300px] rounded-lg border-4 border-gray-300 p-3 relative ">
-            <div className="first h-[70%] bg-red-300 w-[50%] relative z-[1000]">
-              1
-            </div>
-            <div className="first h-[64%] bg-red-600 w-[50%] top-[30%] absolute left-[28%] z-[2]">
-              2
-            </div>
+          <div
+            className={
+              "theme cursor-pointer w-[45%] bg-white text-center h-[300px] rounded-lg border-4 duration-500  border-[#098b2a] p-3 relative "
+            }
+          >
+            <div className="first h-[70%] ml-[50px] rounded-2xl  bg-customRed w-[50%] relative z-[1000]"></div>
+            <div className="first h-[64%] ml-[50px] rounded-2xl bg-white shadow-xl w-[50%] top-[30%] absolute left-[28%] z-[2]"></div>
           </div>
           {/* Theme 6 */}
-
-          <div className="theme w-[45%] bg-white text-center h-[300px] rounded-lg border-4 border-gray-300 p-3 relative ">
-            <div className="first h-[70%] bg-red-300 w-[50%] relative z-[1000]">
-              1
-            </div>
-            <div className="first h-[64%] bg-red-600 w-[50%] top-[30%] absolute left-[28%] z-[2]">
-              2
-            </div>
+          <div
+            className={
+              "theme cursor-pointer w-[45%] bg-white text-center h-[300px] rounded-lg border-4 duration-500  border-[#098b2a] p-3 relative "
+            }
+          >
+            <div className="first h-[70%] ml-[50px] rounded-2xl  bg-customRed w-[50%] relative z-[1000]"></div>
+            <div className="first h-[64%] ml-[50px] rounded-2xl bg-white shadow-xl w-[50%] top-[30%] absolute left-[28%] z-[2]"></div>
           </div>
         </div>
       </div>
