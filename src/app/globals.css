@@ -173,6 +173,32 @@ body {
   .table-main {
     margin: 70px 0px;
   }
+  .events {
+    margin-left: 4px;
+    margin-right: 4px;
+    margin-top: 90px;
+  }
+  .added {
+    padding: 3px;
+    margin: 3px;
+  }
+  .event-info {
+    padding: 0;
+    margin: 0;
+  }
+  .added-event,
+  .removed-event,
+  .updated-event {
+    padding-left: 0px;
+  }
+  .details {
+    padding: 2px;
+    display: none;
+  }
+  .details-about-user {
+    margin-left: 10px;
+    width: 60%;
+  }
 }
 
 /* .message-mobile {
