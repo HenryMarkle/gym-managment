@@ -10,6 +10,7 @@ function page() {
   const [name, setrName] = useState();
   const [theme1, setTheme1] = useState(true);
   const [theme2, setTheme2] = useState(false);
+  
   return (
     <>
       <div className="settings ml-[23%] mt-5  mr-4 p-4 rounded-lg gap-10">
