@@ -1,5 +1,7 @@
 "use client";
 import React, { useState } from "react";
+import { changeUserName } from "../api/v1/user";
+import { changePassword } from "../api/v1/auth";
 
 function page() {
   const [oldPass, setOldPassword] = useState();
@@ -33,7 +35,11 @@ function page() {
               placeholder="confirm password"
             />
             <button
-              disabled
+            disabled
+              onClick={async () => {
+                // CHANGE THIS
+                await changePassword(null, oldPass, newPass);
+              }}
               className=" bg-customRed w-max px-10 py-2 rounded-lg self-center text-white font-bold cursor-pointer"
             >
               Submit
@@ -50,6 +56,9 @@ function page() {
               placeholder="new name"
             />
             <button
+            onClick={async () => {
+              await changeUserName(null, name);
+            }}
               disabled
               className=" bg-customRed w-max px-10 py-2 rounded-lg self-center text-white font-bold cursor-pointer"
             >
@@ -99,7 +108,7 @@ function page() {
             }
           >
             <div className="first h-[70%] ml-[50px] rounded-2xl  bg-customRed w-[50%] relative z-[1000]"></div>
-            <div className="first h-[64%] ml-[50px] rounded-2xl bg-white shadow-xl w-[50%] top-[30%] absolute left-[28%] z-[2]"></div>
+            <div className="first h-[64%] ml-[50px] rounded-2xl bg-slate-600 shadow-xl w-[50%] top-[30%] absolute left-[28%] z-[2]"></div>
           </div>
           {/* Theme 3 */}
           <div
@@ -117,7 +126,7 @@ function page() {
             }
           >
             <div className="first h-[70%] ml-[50px] rounded-2xl  bg-customRed w-[50%] relative z-[1000]"></div>
-            <div className="first h-[64%] ml-[50px] rounded-2xl bg-white shadow-xl w-[50%] top-[30%] absolute left-[28%] z-[2]"></div>
+            <div className="first h-[64%] ml-[50px] rounded-2xl bg-slate-600 shadow-xl w-[50%] top-[30%] absolute left-[28%] z-[2]"></div>
           </div>
           {/* Theme 5 */}
           <div
@@ -135,7 +144,7 @@ function page() {
             }
           >
             <div className="first h-[70%] ml-[50px] rounded-2xl  bg-customRed w-[50%] relative z-[1000]"></div>
-            <div className="first h-[64%] ml-[50px] rounded-2xl bg-white shadow-xl w-[50%] top-[30%] absolute left-[28%] z-[2]"></div>
+            <div className="first h-[64%] ml-[50px] rounded-2xl bg-slate-600 shadow-xl w-[50%] top-[30%] absolute left-[28%] z-[2]"></div>
           </div>
         </div>
       </div>

@@ -78,6 +78,33 @@ export async function doSignout(email: string): Promise<boolean | 'error'> {
     }
 }
 
+export async function changePassword(id: number, oldPassword: string, newPassword: string): Promise<Boolean> {
+    const client = new PrismaClient();
+
+    await client.$connect();
+    
+    try {
+        const userPassword = await client.user.findUnique({ where: { id }, select: { password: true } });
+
+        if (!userPassword) return false;
+
+        if (!bcrypt.compare(oldPassword, userPassword.password)) return false;
+
+        const hashed = await bcrypt.hash(newPassword, 10);
+
+        await client.user.update({ where: { id }, data: { password: hashed } });
+
+        return true;
+    }
+    catch (e) {
+        console.log(e);
+        return false;
+    }
+    finally {
+        await client.$disconnect();
+    }
+}
+
 /**
  * 
  * @param email email address

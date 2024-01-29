@@ -90,6 +90,20 @@ export async function updateUser(user: User): Promise<Boolean> {
   }
 }
 
+export async function changeUserName(id: number, newName: string) {
+  const client = new PrismaClient();
+
+  await client.$connect();
+
+  try {
+    await client.user.update({ where: { id }, data: { name: newName } });
+  } catch (e) {
+    console.log(e);
+  } finally {
+    await client.$disconnect();
+  }
+}
+
 /**
  *
  * @returns true if operation is successful
