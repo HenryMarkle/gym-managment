@@ -25,6 +25,8 @@ model User {
   salary Int
   startDate DateTime @default(now())
 
+  gymName String @default("Gym")
+
   messageRead MessageRead[]
 }
 
