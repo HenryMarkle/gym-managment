@@ -3,35 +3,44 @@ import React from "react";
 function page() {
   return (
     <>
-      <div className="events ml-[24%] mr-[50px] shadow-md mt-10 rounded-[31px] p-3 flex flex-col gap-8 ">
-        <div className="added-event ml-2 flex justify-between items-center px-9 ">
-          <div className="flex gap-2">
+      <div className="events ml-[24%] mr-[50px] shadow-md mt-10 rounded-[31px] p-3 flex flex-col  ">
+        <div className="added-event ml-2 flex justify-between items-center px-4  border-b-2 py-4">
+          <div className="flex gap-2 flex-1 mx-4">
             <span className=" h-[25px] w-[25px] rounded-full bg-green-600 block"></span>
-            <p>
-              Added user (Ali haseni) <b>click to see user details</b>
-            </p>
+            <div className=" flex justify-between w-full">
+              <p>Added user (Ali haseni)</p>
+              <span className=" bg-green-600 cursor-pointer px-3 py-1 rounded-2xl text-white">
+                details
+              </span>
+            </div>
           </div>
           <div className="date">
             <span className=" font-bold">05-10-2023</span>
           </div>
         </div>
-        <div className="removed-event ml-2 flex justify-between items-center px-9 ">
-          <div className="flex gap-2">
+        <div className="removed-event ml-2 flex justify-between items-center px-4  border-b-2  py-4">
+          <div className="flex gap-2 flex-1 mx-4">
             <span className=" h-[25px] w-[25px] rounded-full bg-red-600 block"></span>
-            <p>
-              Removed user (Ali haseni) <b>click to see user details</b>
-            </p>
+            <div className=" flex justify-between w-full">
+              <p>removed user (Ali haseni)</p>
+              <span className=" bg-green-600 cursor-pointer px-3 py-1 rounded-2xl text-white">
+                details
+              </span>
+            </div>
           </div>
           <div className="date">
             <span className=" font-bold">05-10-2023</span>
           </div>
         </div>
-        <div className="update-event ml-2 flex justify-between items-center px-9 ">
-          <div className="flex gap-2">
-            <span className=" h-[25px] w-[25px] rounded-full bg-orange-400 block"></span>
-            <p>
-              Added user (Ali haseni) <b>click to see user details</b>
-            </p>
+        <div className="updated-event ml-2 flex justify-between items-center px-4 py-4">
+          <div className="flex gap-2 flex-1 mx-4">
+            <span className=" h-[25px] w-[25px] rounded-full bg-orange-600 block"></span>
+            <div className=" flex justify-between w-full">
+              <p>updated user (Ali haseni)</p>
+              <span className=" bg-green-600 cursor-pointer px-3 py-1 rounded-2xl text-white">
+                details
+              </span>
+            </div>
           </div>
           <div className="date">
             <span className=" font-bold">05-10-2023</span>
