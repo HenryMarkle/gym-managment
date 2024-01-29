@@ -12,7 +12,7 @@ function page() {
   const [endDate, setEndDate] = useState(null);
   const [bucketPrice, setPucketPrice] = useState(null);
   const [payment, setPayment] = useState(0);
-  const [dis, setDisabled] = useState(true);
+  const [disabled, setDisabled] = useState(true);
   async function doIt() {
     const result = await addCustomer({
       name,
@@ -30,7 +30,7 @@ function page() {
 
   return (
     <>
-      <div className="add ml-[30%] mt-10 flex justify-between px-4 py-16 mr-[10%] shadow-xl h-[650px] rounded-xl">
+      <div className="add ml-[30%] mt-10 flex justify-between px-4 py-16 mr-[10%] shadow-xl h-[650px] rounded-[31px]">
         <div className="left w-[45%]">
           <div className="start-date flex-col flex">
             <label htmlFor="">Start Date</label>
@@ -120,7 +120,7 @@ function page() {
             />
           </div>
           <button
-            disabled={dis ? true : false}
+            disabled={false}
             onClick={doIt}
             className=" mt-[25px] px-9 w-full py-2 rounded-xl bg-customRed text-white font-bold text-[18px] "
           >

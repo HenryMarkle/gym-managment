@@ -34,7 +34,7 @@ function page() {
   // }, []);
 
   return (
-    <div className="ml-[30%] w-[60%] shadow-xl h-[94vh] mx-auto my-10 rounded-xl p-3">
+    <div className="ml-[30%] w-[60%] shadow-xl h-[94vh] mx-auto my-10 rounded-[31px] p-3">
       {user.map((ele) => {
         const startedAt = ele.startedAt;
         const dateObject = new Date(startedAt);

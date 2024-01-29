@@ -18,7 +18,7 @@ function page() {
   return (
     <>
       <div className="sign-in parent h-[100vh]  absolute w-full">
-        <div className="form h-[400px] w-[350px] bg-white shadow-lg mx-auto my-0 mt-[150px] p-2 rounded-2xl flex flex-col justify-around">
+        <div className="form h-[400px] w-[350px] bg-white shadow-lg mx-auto my-0 mt-[150px] p-2 rounded-[31px] flex flex-col justify-around">
           <div className="items flex flex-col gap-8 items-center">
             <p className=" text-center font-bold text-[22px]">Login</p>
             <input

@@ -20,7 +20,7 @@ function page() {
   ];
   return (
     <>
-      <div className="settings ml-[23%] mt-5  mr-4 p-4 rounded-lg gap-10">
+      <div className="settings ml-[23%] mt-5  mr-4 p-4 rounded-[31px] gap-10">
         <div>
           <div className="card h-full min-h-[300px] bg-white shadow-xl rounded-xl flex flex-col justify-around gap-10 p-5">
             <p className=" font-bold  text-center">General settings</p>

@@ -5,7 +5,7 @@ function Stats_top() {
   return (
     <>
       <div className="stats flex gap-10 grid-cols-3">
-        <div className="users-in0gym  p-5 bg-customRed w-[20%] text-[#ffcb00] rounded-3xl overflow-hidden shadow-md text-center flex flex-col items-center">
+        <div className="users-in0gym  p-5 bg-customRed w-[20%] text-[#ffcb00] rounded-[31px] overflow-hidden shadow-md text-center flex flex-col items-center">
           <span className=" opacity-90 mb-1 text-white font-bold">
             Cureent Users
           </span>

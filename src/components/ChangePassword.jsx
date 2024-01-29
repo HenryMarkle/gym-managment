@@ -8,7 +8,7 @@ function ChangePassword() {
   const [confirm, setconfirmPassword] = useState();
   return (
     <>
-      <div className="card min-h-[300px] bg-white shadow-xl rounded-xl flex flex-col gap-10 p-5">
+      <div className="card min-h-[300px] bg-white shadow-xl rounded-[31px]flex flex-col gap-10 p-5">
         <p className=" font-bold  text-center">Change password</p>
         <input
           onChange={(e) => setOldPassword(e.target.value)}

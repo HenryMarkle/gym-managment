@@ -21,7 +21,7 @@ function MoneyStats() {
   return (
     <>
       <div className="right w-[30%] ">
-        <div className="income-for-gym bg-customRed shadow-lg h-[300px] w-full rounded-2xl">
+        <div className="income-for-gym bg-customRed shadow-lg h-[300px] w-full rounded-[31px]">
           <div className="selects flex justify-between mx-4 pt-3">
             <p className=" text-center font-bold text-[30px] text-white">
               Income
