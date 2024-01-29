@@ -28,6 +28,8 @@ model User {
   gymName String @default("Gym")
 
   messageRead MessageRead[]
+
+  deletedAt DateTime?
 }
 
 model Subscriber {

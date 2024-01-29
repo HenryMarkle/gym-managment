@@ -30,6 +30,7 @@ function ChartComponent({ title }) {
             },
           ],
         }}
+        content="white"
         height={200}
         width={100}
         options={{

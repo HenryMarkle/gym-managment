@@ -75,7 +75,7 @@ function SideBar() {
         ) : null}
         <div className="top-content flex flex-col gap-9 w-[210px]">
           {mobile ? null : (
-            <p className="font-bold text-[30px] text-white text-center  ">
+            <p className="font-bold text-[30px] text-white text-center self-end">
               Gym-name
             </p>
           )}

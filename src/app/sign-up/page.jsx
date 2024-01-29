@@ -5,7 +5,7 @@ function page() {
   return (
     <>
       <div className="parent h-[100vh] w-full absolute">
-        <div className="form shadow-2xl h-[460px] w-[370px] my-[100px] mx-auto p-4 rounded-2xl flex flex-col justify-between z-2 bg-white">
+        <div className="form shadow-2xl h-[460px] w-[370px] my-[100px] mx-auto p-4 rounded-[31px] flex flex-col justify-between z-2 bg-white">
           <div className="items mt-8 flex flex-col gap-9">
             <p className=" text-center text-[20px] font-bold">Create Account</p>
             <input

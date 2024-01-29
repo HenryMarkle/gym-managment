@@ -18,7 +18,7 @@ function page() {
 
   return (
     <>
-      <table className="ml-[25%] mt-5 shadow-xl p-6 rounded-2xl overflow-hidden">
+      <table className="ml-[25%] mt-5 shadow-xl p-6 rounded-[31px] overflow-hidden">
         <tr className=" h-[60px]">
           <th className=" border-r-[1px] border-green-600">Name</th>
           <th className=" border-r-[1px] border-green-600">Age</th>
