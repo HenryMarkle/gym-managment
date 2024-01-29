@@ -2,14 +2,22 @@
 import React, { useState } from "react";
 import { changeUserName } from "../api/v1/user";
 import { changePassword } from "../api/v1/auth";
-
+import img from "../../images/theme-test.png";
 function page() {
   const [oldPass, setOldPassword] = useState();
   const [newPass, setNewPassword] = useState();
   const [confirm, setconfirmPassword] = useState();
   const [name, setrName] = useState();
-  const [theme1, setTheme1] = useState(true);
-  const [theme2, setTheme2] = useState(false);
+  const [hasBorder, setHasBorder] = useState([]);
+
+  const themes = [
+    { id: 1, firstColor: "red-400", secondeColor: "green-400" },
+    { id: 2, firstColor: "blue-900", secondeColor: "yellow-500" },
+    { id: 3, firstColor: "purpule", secondeColor: "black" },
+    { id: 4, firstColor: "skyblue", secondeColor: "green" },
+    { id: 5, firstColor: "red", secondeColor: "green" },
+    { id: 6, firstColor: "red", secondeColor: "green" },
+  ];
   return (
     <>
       <div className="settings ml-[23%] mt-5  mr-4 p-4 rounded-lg gap-10">
@@ -35,7 +43,7 @@ function page() {
               placeholder="confirm password"
             />
             <button
-            disabled
+              disabled
               onClick={async () => {
                 // CHANGE THIS
                 await changePassword(null, oldPass, newPass);
@@ -56,9 +64,9 @@ function page() {
               placeholder="new name"
             />
             <button
-            onClick={async () => {
-              await changeUserName(null, name);
-            }}
+              onClick={async () => {
+                await changeUserName(null, name);
+              }}
               disabled
               className=" bg-customRed w-max px-10 py-2 rounded-lg self-center text-white font-bold cursor-pointer"
             >
@@ -87,67 +95,6 @@ function page() {
       {/* Start themes */}
       {/* Start themes */}
       {/* Start themes */}
-
-      <div className="themes  ml-[24%]  mt-5  mr-4 p-4 rounded-lg shadow-xl ">
-        <p className=" font-bold text-center mb-8">Themes</p>
-
-        <div className="themes flex flex-wrap gap-6 justify-center">
-          {/* Theme 1 */}
-          <div
-            className={
-              "theme cursor-pointer w-[45%] bg-white text-center h-[300px] rounded-lg border-4 duration-500  border-[#098b2a] p-3 relative "
-            }
-          >
-            <div className="first h-[70%] ml-[50px] rounded-2xl  bg-customRed w-[50%] relative z-[1000]"></div>
-            <div className="first h-[64%] ml-[50px] rounded-2xl bg-white shadow-xl w-[50%] top-[30%] absolute left-[28%] z-[2]"></div>
-          </div>
-          {/* Theme 2 */}
-          <div
-            className={
-              "theme cursor-pointer w-[45%] bg-white text-center h-[300px] rounded-lg border-4 duration-500  border-[#098b2a] p-3 relative "
-            }
-          >
-            <div className="first h-[70%] ml-[50px] rounded-2xl  bg-customRed w-[50%] relative z-[1000]"></div>
-            <div className="first h-[64%] ml-[50px] rounded-2xl bg-slate-600 shadow-xl w-[50%] top-[30%] absolute left-[28%] z-[2]"></div>
-          </div>
-          {/* Theme 3 */}
-          <div
-            className={
-              "theme cursor-pointer w-[45%] bg-white text-center h-[300px] rounded-lg border-4 duration-500  border-[#098b2a] p-3 relative "
-            }
-          >
-            <div className="first h-[70%] ml-[50px] rounded-2xl  bg-customRed w-[50%] relative z-[1000]"></div>
-            <div className="first h-[64%] ml-[50px] rounded-2xl bg-white shadow-xl w-[50%] top-[30%] absolute left-[28%] z-[2]"></div>
-          </div>
-          {/* Theme 4 */}
-          <div
-            className={
-              "theme cursor-pointer w-[45%] bg-white text-center h-[300px] rounded-lg border-4 duration-500  border-[#098b2a] p-3 relative "
-            }
-          >
-            <div className="first h-[70%] ml-[50px] rounded-2xl  bg-customRed w-[50%] relative z-[1000]"></div>
-            <div className="first h-[64%] ml-[50px] rounded-2xl bg-slate-600 shadow-xl w-[50%] top-[30%] absolute left-[28%] z-[2]"></div>
-          </div>
-          {/* Theme 5 */}
-          <div
-            className={
-              "theme cursor-pointer w-[45%] bg-white text-center h-[300px] rounded-lg border-4 duration-500  border-[#098b2a] p-3 relative "
-            }
-          >
-            <div className="first h-[70%] ml-[50px] rounded-2xl  bg-customRed w-[50%] relative z-[1000]"></div>
-            <div className="first h-[64%] ml-[50px] rounded-2xl bg-white shadow-xl w-[50%] top-[30%] absolute left-[28%] z-[2]"></div>
-          </div>
-          {/* Theme 6 */}
-          <div
-            className={
-              "theme cursor-pointer w-[45%] bg-white text-center h-[300px] rounded-lg border-4 duration-500  border-[#098b2a] p-3 relative "
-            }
-          >
-            <div className="first h-[70%] ml-[50px] rounded-2xl  bg-customRed w-[50%] relative z-[1000]"></div>
-            <div className="first h-[64%] ml-[50px] rounded-2xl bg-slate-600 shadow-xl w-[50%] top-[30%] absolute left-[28%] z-[2]"></div>
-          </div>
-        </div>
-      </div>
     </>
   );
 }

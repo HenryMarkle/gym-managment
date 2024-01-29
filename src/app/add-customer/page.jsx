@@ -7,14 +7,13 @@ function page() {
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
   const [age, setAge] = useState(null);
-  const [gender, setGender] = useState(null);
+  const [gender, setGender] = useState("");
   const [startDate, setStartdate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [bucketPrice, setPucketPrice] = useState(null);
   const [payment, setPayment] = useState(0);
-
+  const [dis, setDisabled] = useState(true);
   async function doIt() {
-
     const result = await addCustomer({
       name,
       surname,
@@ -121,6 +120,7 @@ function page() {
             />
           </div>
           <button
+            disabled={dis ? true : false}
             onClick={doIt}
             className=" mt-[25px] px-9 w-full py-2 rounded-xl bg-customRed text-white font-bold text-[18px] "
           >
