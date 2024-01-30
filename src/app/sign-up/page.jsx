@@ -1,42 +1,90 @@
+"use client";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
+import RootLayout from "../layout";
+import Swal from "sweetalert2";
+import { useRouter } from "next/navigation";
 
 function page() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const router = useRouter();
   return (
     <>
-      <div className="parent h-[100vh] w-full absolute">
-        <div className="form shadow-2xl h-[460px] w-[370px] my-[100px] mx-auto p-4 rounded-[31px] flex flex-col justify-between z-2 bg-white">
-          <div className="items mt-8 flex flex-col gap-9">
-            <p className=" text-center text-[20px] font-bold">Create Account</p>
-            <input
-              className=" p-2 w-[85%] self-center rounded-lg shadow-md  hover:scale-[1.02] duration-200 hover:shadow-xl"
-              type="text"
-              placeholder="email"
-            />
-            <input
-              className=" p-2 w-[85%] self-center rounded-lg shadow-md  hover:scale-[1.02] duration-200 hover:shadow-xl"
-              type="password"
-              placeholder="password"
-            />
-            <input
-              className=" p-2 w-[85%] self-center rounded-lg shadow-md  hover:scale-[1.02] duration-200 hover:shadow-xl"
-              type="password"
-              placeholder="confirm password"
-            />
-            <button className=" bg-customRed text-white py-2 px-9 my-0 mx-auto rounded-3xl  shadow-xl ">
-              Create
-            </button>
-          </div>
-          <div>
-            <p className=" text-[14px]  text-black">
-              Already have an account ?{" "}
-              <Link href="/sign-in" className=" text-customRed">
-                Login
-              </Link>
-            </p>
+      <RootLayout showSidebar={false}>
+        <div className="parent h-[100vh] w-full absolute">
+          <div className="form shadow-2xl h-[460px] w-[370px] my-[100px] mx-auto p-4 rounded-[31px] flex flex-col justify-between z-2 bg-white">
+            <div className="items mt-8 flex flex-col gap-9">
+              <p className=" text-center text-[20px] font-bold">
+                Create Account
+              </p>
+              <input
+                onChange={(e) => setEmail(e.target.value)}
+                className=" p-2 w-[85%] self-center rounded-lg shadow-md  hover:scale-[1.02] duration-200 hover:shadow-xl"
+                type="text"
+                placeholder="email"
+              />
+              <input
+                onChange={(e) => setPassword(e.target.value)}
+                className=" p-2 w-[85%] self-center rounded-lg shadow-md  hover:scale-[1.02] duration-200 hover:shadow-xl"
+                type="text"
+                placeholder="password"
+              />
+              <input
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                className=" p-2 w-[85%] self-center rounded-lg shadow-md  hover:scale-[1.02] duration-200 hover:shadow-xl"
+                type="text"
+                placeholder="confirm password"
+              />
+              <button
+                onClick={async () => {
+                  if (
+                    password.length > 0 &&
+                    confirmPassword.length > 0 &&
+                    email.length > 0 &&
+                    password === confirmPassword
+                  ) {
+                    const Toast = Swal.mixin({
+                      toast: true,
+                      position: "top-end",
+                      showConfirmButton: false,
+                      timer: 1500,
+                      timerProgressBar: true,
+                      didOpen: (toast) => {
+                        toast.onmouseenter = Swal.stopTimer;
+                        toast.onmouseleave = Swal.resumeTimer;
+                      },
+                    });
+                    await Toast.fire({
+                      icon: "success",
+                      title: "Signed in successfully",
+                    });
+                    router.push("/sign-in");
+                  } else {
+                    Swal.fire({
+                      icon: "error",
+                      title: "Oops...",
+                      text: "Please check the information",
+                    });
+                  }
+                }}
+                className=" bg-customRed text-white py-2 px-9 my-0 mx-auto rounded-3xl  shadow-xl "
+              >
+                Create
+              </button>
+            </div>
+            <div>
+              <p className=" text-[14px]  text-black">
+                Already have an account ?{" "}
+                <Link href="/sign-in" className=" text-customRed">
+                  Login
+                </Link>
+              </p>
+            </div>
           </div>
         </div>
-      </div>
+      </RootLayout>
     </>
   );
 }
