@@ -1,0 +1,75 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:../dev.db"
+}
+
+model User {
+  id Int @id @default(autoincrement())
+  
+  email String @unique
+  name String?
+  password String
+  session String @unique @default(uuid())
+  lastLogin DateTime?
+  permission Int
+
+  age Int
+  gender String
+  salary Int
+  startDate DateTime @default(now())
+
+  gymName String @default("Gym")
+
+  messageRead MessageRead[]
+
+  deletedAt DateTime?
+}
+
+model Subscriber {
+  id Int @id @default(autoincrement())
+
+  name String
+  surname String
+  age Int
+  gender String
+  duration Int?
+  daysLeft Int?
+  bucketPrice Decimal
+  paymentAmount Decimal
+  startedAt DateTime
+  endsAt DateTime
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
+  deletedAt DateTime?
+}
+
+model MessageRead {
+  id Int @id @default(autoincrement())
+
+  read Boolean @default(false)
+
+  user User @relation(fields: [userId], references: [id])
+  userId Int
+
+  message Message @relation(fields: [messageId], references: [id])
+  messageId Int
+
+  @@index([userId, messageId])
+}
+
+model Message {
+  id Int @id @default(autoincrement())
+
+  text String
+  readStatus MessageRead[]
+
+  sent DateTime @default(now())
+}

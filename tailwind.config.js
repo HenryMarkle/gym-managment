@@ -7,8 +7,9 @@ module.exports = {
   ],
   theme: {
     extend: {
-      colors: {
-        customRed: "#b91919",
+      backgroundImage: {
+        customRed:
+          "linear-gradient(0deg, rgba(17,140,175,1) 6%, rgba(66,172,157,1) 100%)",
       },
     },
   },

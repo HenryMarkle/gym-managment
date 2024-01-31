@@ -3,7 +3,9 @@ import React from "react";
 function page() {
   return (
     <>
-      <div className="test">page</div>
+      <div className="test">
+        Hello Aliiii Alliiiiii ALIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+      </div>
     </>
   );
 }

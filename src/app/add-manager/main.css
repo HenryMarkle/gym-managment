@@ -1,0 +1,39 @@
+input {
+  border: 1px solid;
+  padding: 5px 10px;
+  border-radius: 20px;
+  border-color: #ffcb00;
+  margin-bottom: 20px;
+}
+
+select {
+  margin-bottom: 20px;
+  border: 1px solid #ffcb00;
+  padding: 6px;
+}
+
+label {
+  margin-left: 8px;
+  margin-bottom: 10px;
+  color: rgba(17, 140, 175, 1);
+}
+
+.add {
+  transition: 0.7s;
+}
+.add:hover {
+ 
+}
+
+input {
+  transition: 0.3s;
+}
+
+input:hover {
+  transform: scale(1.02);
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.add {
+  margin-left: 25%;
+}

@@ -12,13 +12,228 @@ input {
   background-size: cover;
 }
 
-.test {
-  height: 200px;
-  width: 200px;
-  background-color: green;
-  position: relative;
-  margin: 100px;
-  border: 10px 20px;
-  border-color: brown;
-  border-style: dotted;
+body {
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+  border-radius: 31px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    0deg,
+    rgb(38, 157, 190) 6%,
+    rgb(226, 238, 171) 100%
+  );
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(
+    0deg,
+    rgb(38, 157, 190) 80%,
+    rgb(226, 238, 171) 100%
+  );
+}
+
+.remove::before {
+  content: "X";
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #ffcb00;
+  padding: 5px;
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  height: 15px;
+  width: 15px;
+  background: green;
+  border-radius: 10px;
+}
+
+/* Responsive design */
+
+/* Sidebar */
+
+@media (max-width: 991px) {
+  .sidebar {
+    position: relative;
+    height: 70px;
+    width: 100%;
+    position: fixed;
+    overflow: hidden;
+    border-radius: 0px;
+    .top-content {
+      padding-top: 60px;
+    }
+  }
+  .top-content {
+    overflow: hidden;
+  }
+  .open-sidebar {
+    height: 100vh;
+    width: 100%;
+    overflow-y: scroll;
+    border-radius: 0px;
+  }
+  .top-content {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  .content {
+    margin-left: 10px;
+    height: 76vh;
+    overflow-y: scroll;
+  }
+  .logout {
+    margin-top: 20px;
+    padding-bottom: 20px;
+  }
+  .home-content {
+    margin: 10px auto;
+    width: 90%;
+  }
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 10px;
+    width: 100%;
+    margin-top: 80px;
+  }
+  .users-in0gym {
+    width: 100%;
+    height: 200px;
+    padding: 10px;
+    height: 140px;
+  }
+  .show-mobile {
+    margin-top: 2px;
+    position: fixed;
+    padding: 0 10px;
+    margin-right: 26px;
+    display: flex;
+    justify-content: space-between;
+    width: 94%;
+  }
+
+  .info-stats {
+    display: flex;
+    flex-direction: column;
+    margin: 10px 2px;
+    height: auto;
+    width: auto;
+  }
+  .left-main {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  .right {
+    width: 100%;
+  }
+  .add {
+    margin: 80px 0 0 0 !important;
+    padding: 10px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    transform: scale(1);
+
+    .left {
+      width: 100%;
+    }
+  }
+
+  .managers {
+    margin-left: 10px;
+  }
+  .notification {
+    margin: 70px 0px;
+  }
+
+  .mark-as-read {
+    width: auto;
+  }
+  .message {
+    align-items: baseline;
+    padding: 9px;
+  }
+  .table-main {
+    margin: 70px 0px;
+  }
+  .events {
+    margin-left: 4px;
+    margin-right: 4px;
+    margin-top: 90px;
+  }
+  .added {
+    padding: 3px;
+    margin: 3px;
+  }
+  .event-info {
+    padding: 0;
+    margin: 0;
+  }
+  .added-event,
+  .removed-event,
+  .updated-event {
+    padding-left: 0px;
+  }
+  .details {
+    padding: 2px;
+    display: none;
+  }
+  .details-about-user {
+    margin-left: 10px;
+    width: 60%;
+  }
+
+  .show-mobile {
+    display: flex;
+  }
+  .settings {
+    display: flex !important;
+    margin: 100px 0 0 0;
+    padding: 0;
+    width: 100%;
+    flex-direction: column;
+  }
+  .card {
+    padding: 20px;
+    width: 100%;
+    gap: 0;
+    margin-right: 0;
+  }
+  .parent {
+    background-image: none;
+    margin: 5px;
+    width: 100%;
+    padding: 0;
+  }
+}
+
+/* .message-mobile {
+  display: flex;
+  flex-direction: column;
+} */
+
+.add {
+  margin-left: 25%;
+}
+
+.settings {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(390px, 1fr));
 }
