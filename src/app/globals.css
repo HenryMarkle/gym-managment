@@ -106,8 +106,8 @@ body {
     width: 90%;
   }
   .stats {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 10px;
     width: 100%;
     margin-top: 80px;
@@ -198,6 +198,29 @@ body {
   .details-about-user {
     margin-left: 10px;
     width: 60%;
+  }
+
+  .show-mobile {
+    display: flex;
+  }
+  .settings {
+    display: flex !important;
+    margin: 100px 0 0 0;
+    padding: 0;
+    width: 100%;
+    flex-direction: column;
+  }
+  .card {
+    padding: 20px;
+    width: 100%;
+    gap: 0;
+    margin-right: 0;
+  }
+  .parent {
+    background-image: none;
+    margin: 5px;
+    width: 100%;
+    padding: 0;
   }
 }
 

@@ -55,29 +55,30 @@ function SideBar() {
               } w-[329px] h-[100vh] fixed top-0 left-0  bg-customRed rounded-tr-[31px] rounded-br-[31px] p-[15px] duration-500 z-[100]`
         }
       >
-        {window.innerWidth <= 991 ? (
-          <div className="show-mobile w-full flex justify-between items-center">
-            {mobile ? (
-              <div className="flex items-center justify-between w-auto">
-                <IoIosCloseCircleOutline
-                  className=" flex justify-center items-center text-[30px] text-white ml-2 w-auto"
-                  onClick={() => setMobile(!mobile)}
-                />
-              </div>
-            ) : (
-              <RxHamburgerMenu
+        <div className="show-mobile w-full flex justify-between hidden items-center">
+          {mobile ? (
+            <div className="flex items-center justify-between w-auto">
+              <IoIosCloseCircleOutline
+                className=" flex justify-center items-center text-[30px] text-white ml-2 w-auto"
                 onClick={() => setMobile(!mobile)}
-                className=" flex justify-center items-center text-[30px] text-white ml-2"
               />
-            )}
+            </div>
+          ) : (
+            <RxHamburgerMenu
+              onClick={() => setMobile(!mobile)}
+              className=" flex justify-center items-center text-[30px] text-white ml-2"
+            />
+          )}
+          <Link href="/">
             <p className="font-bold text-[23px] text-white  ">Gym-name</p>
-          </div>
-        ) : null}
+          </Link>
+        </div>
+
         <div className="top-content flex flex-col gap-9 w-[210px]">
           {mobile ? null : (
-            <p className="font-bold text-[30px] text-white text-center self-end">
-              Gym-name
-            </p>
+            <Link className=" text-end" href="/">
+              <p className="font-bold text-[23px] text-white  ">Gym-name</p>
+            </Link>
           )}
 
           <div className=" h-[60vh] content text-center flex flex-col items-start self-center gap-10 ml-9">

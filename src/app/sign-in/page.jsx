@@ -1,5 +1,4 @@
 "use client";
-
 import Link from "next/link";
 import { useState } from "react";
 import { doSignin } from "../api/v1/auth";
@@ -49,7 +48,9 @@ function page() {
               <p>
                 don`t have account ?{" "}
                 <Link href="/sign-up">
-                  <span className=" text-customRed">Create-account</span>
+                  <span className=" text-orange-600 font-bold">
+                    Create-account
+                  </span>
                 </Link>
               </p>
               <Link href="/forgetPassword">

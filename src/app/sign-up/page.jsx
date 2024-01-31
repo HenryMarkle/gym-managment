@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import RootLayout from "../layout";
 import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
-
+import Cookies from "js-cookie";
 function page() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -60,6 +60,7 @@ function page() {
                       icon: "success",
                       title: "Signed in successfully",
                     });
+                    Cookies.set("number", 1);
                     router.push("/sign-in");
                   } else {
                     Swal.fire({
@@ -77,7 +78,7 @@ function page() {
             <div>
               <p className=" text-[14px]  text-black">
                 Already have an account ?{" "}
-                <Link href="/sign-in" className=" text-customRed">
+                <Link className="text-orange-600 font-bold" href="/sign-in">
                   Login
                 </Link>
               </p>

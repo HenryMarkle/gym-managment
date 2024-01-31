@@ -33,8 +33,8 @@ function page() {
 
   return (
     <>
-      <div className="cont min-h-[700px]">
-        <div className="create-message flex-1 rounded-[31px]  overflow-hidden p-5 flex flex-col gap-[20px] shadow-md bg-customRed mt-[100px] m-2 min-h-[450px]">
+      <div className="cont min-h-[600px]">
+        <div className="create-message flex-1 rounded-[31px]  overflow-hidden p-5 flex flex-col gap-[20px] shadow-md bg-customRed mt-[100px] m-2 min-h-[550px]">
           <p className="text-center font-bold text-[#ffcb00] text-[24px] ">
             Create message
           </p>
@@ -119,7 +119,7 @@ function page() {
               })}
             </div>
           </div>
-          <button className=" text-green-700 shadow-xl h-max w-max mx-auto my-0 px-10 py-1 bg-[#ffcb00] rounded-[31px] font-bold">
+          <button className=" text-green-700 shadow-xl h-max w-max mx-auto my-0 px-10 py-1 bg-[#ffcb00] rounded-[31px] font-bold mt-[30px]">
             Submit
           </button>
           {/* <div className="how-can-see-list p-2 w-full bg-customRed mt-5 rounded-[18px] h-auto overflow-y-auto">
