@@ -30,7 +30,7 @@ function page() {
           <th className=" border-r-[1px] border-green-600">End Date</th>
           <th className=" border-r-[1px] ">Days Left</th>
         </tr>
-        {AllCustomers.map((c) => (
+        {AllCustomers?.map((c) => (
           <tr
             onClick={() => router.push(`/customer/${c.id}`)}
             className=" h-[90px]"

@@ -6,14 +6,12 @@ import RootLayout from "../layout";
 function page() {
   let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
-
   async function signin() {
     const result = await doSignin(email, password);
     if (result) {
       console.log("first");
     }
   }
-
   return (
     <>
       <RootLayout showSidebar={false}>
