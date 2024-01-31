@@ -1,0 +1,9 @@
+button.submit-btn:disabled {
+    opacity: 0;
+    transition: .3s;
+}
+
+button.submit-btn:not(:disabled) {
+    opacity: unset;
+    transition: .3s;
+}

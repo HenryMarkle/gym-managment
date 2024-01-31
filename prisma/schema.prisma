@@ -28,6 +28,7 @@ model User {
   gymName String @default("Gym")
 
   messageRead MessageRead[]
+  logs Event[]
 
   deletedAt DateTime?
 }
@@ -72,4 +73,14 @@ model Message {
   readStatus MessageRead[]
 
   sent DateTime @default(now())
+}
+
+model Event {
+  id Int @id @default(autoincrement())
+
+  event String
+  target String
+  actor User @relation(fields: [actorId], references: [id])
+  actorId Int
+  date DateTime @default(now())
 }

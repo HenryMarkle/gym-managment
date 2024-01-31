@@ -45,8 +45,7 @@ function page() {
             <button
               disabled
               onClick={async () => {
-                // CHANGE THIS
-                await changePassword(null, oldPass, newPass);
+                await changePassword(oldPass, newPass);
               }}
               className=" bg-customRed w-max px-10 py-2 rounded-lg self-center text-white font-bold cursor-pointer"
             >

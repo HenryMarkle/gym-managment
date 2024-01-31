@@ -78,13 +78,18 @@ export async function doSignout(email: string): Promise<boolean | 'error'> {
     }
 }
 
-export async function changePassword(id: number, oldPassword: string, newPassword: string): Promise<Boolean> {
+export async function changePassword(oldPassword: string, newPassword: string): Promise<Boolean | 'unauthorized'> {
     const client = new PrismaClient();
 
     await client.$connect();
     
     try {
-        const userPassword = await client.user.findUnique({ where: { id }, select: { password: true } });
+        const cookieData = cookies().get('session');
+        if (!cookieData) return 'unauthorized';
+        const manager = await client.user.findUnique({ where: { session: cookieData.value } });
+        if (!manager) return 'unauthorized';
+
+        const userPassword = await client.user.findUnique({ where: { id: manager.id }, select: { password: true } });
 
         if (!userPassword) return false;
 
@@ -92,7 +97,7 @@ export async function changePassword(id: number, oldPassword: string, newPasswor
 
         const hashed = await bcrypt.hash(newPassword, 10);
 
-        await client.user.update({ where: { id }, data: { password: hashed } });
+        await client.user.update({ where: { id: manager.id }, data: { password: hashed } });
 
         return true;
     }

@@ -14,10 +14,10 @@ type Customer = {
     gender: string;
     duration: number | null;
     daysLeft: number | null;
-    bucketPrice: Decimal;
-    paymentAmount: Decimal;
-    startedAt: Date;
-    endsAt: Date;
+    bucketPrice: number;
+    paymentAmount: number;
+    startedAt: string;
+    endsAt: string;
 };
 
 type AddCustomerParams = {
@@ -54,6 +54,7 @@ type User = {
     gender: string;
     salary: number;
     startDate: Date;
+    deletedAt: Date | null;
 };
 
 type SafeUser = {
@@ -64,6 +65,7 @@ type SafeUser = {
     gender: string;
     salary: number;
     startDate: string;
+    deletedAt: string | null;
 }
 
 type Announcement = {

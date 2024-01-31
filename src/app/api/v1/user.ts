@@ -125,6 +125,22 @@ export async function deleteUser(email: string): Promise<Boolean> {
   }
 }
 
+export async function countUsers(): Promise<number | 'error'> {
+  const client = new PrismaClient();
+
+  await client.$connect();
+
+  try {
+    const result = await client.user.count({ where: { deletedAt: { not: null } } });
+    return result;
+  } catch (e) {
+    console.log(e);
+    return 'error';
+  } finally {
+    await client.$disconnect();
+  }
+}
+
 /**
  *
  * @returns a User object if the user is found
@@ -136,11 +152,11 @@ export async function getUserByEmail(email: string): Promise<SafeUser | null> {
   await client.$connect();
 
   try {
-    const result = await client.user.findUnique({ where: { email }, select: { name: true, email: true, permission: true, age:true, gender: true, startDate: true, salary: true } });
+    const result = await client.user.findUnique({ where: { email }, select: { name: true, email: true, permission: true, age:true, gender: true, startDate: true, salary: true, deletedAt: true } });
 
     if (!result) return null;
 
-    return { ...result, startDate: result?.startDate.toISOString() };
+    return { ...result, deletedAt: result?.deletedAt?.toISOString() ?? null, startDate: result?.startDate.toISOString() };
   } catch (e) {
     console.log(e);
     return null;
@@ -160,11 +176,11 @@ export async function getUserById(id: number): Promise<SafeUser | null> {
   await client.$connect();
 
   try {
-    const result = await client.user.findUnique({ where: { id }, select: { name: true, email: true, permission: true, age:true, gender: true, startDate: true, salary: true } });
+    const result = await client.user.findUnique({ where: { id }, select: { name: true, email: true, permission: true, age:true, gender: true, startDate: true, salary: true, deletedAt: true } });
     
     if (!result) return null;
 
-    return { ...result, startDate: result?.startDate.toISOString() };
+    return { ...result, deletedAt: result?.deletedAt?.toISOString() ?? null, startDate: result?.startDate.toISOString() };
   } catch (e) {
     console.log(e);
     return null;
