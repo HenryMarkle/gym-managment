@@ -1,13 +1,13 @@
 'use server';
 
 import { cookies } from 'next/headers';
-import { PrismaClient } from "@prisma/client";
 import bcrypt from 'bcrypt';
 import { randomUUID } from "crypto";
 import { SMTPClient } from 'emailjs';
 import 'dotenv/config';
 import { generate } from 'generate-password';
 import { Permission } from './types';
+import client from "./client";
 
 
 /**
@@ -15,8 +15,6 @@ import { Permission } from './types';
 /// Returns false otherwise
 */
 export async function doSignin(email: string, password: string): Promise<boolean> {
-    const client = new PrismaClient();
-
     await client.$connect();
     
     try {
@@ -58,8 +56,6 @@ export async function doSignin(email: string, password: string): Promise<boolean
  * returns 'error' if error occured
  */
 export async function doSignout(email: string): Promise<boolean | 'error'> {
-    const client = new PrismaClient();
-
     await client.$connect();
     
     try {
@@ -79,8 +75,6 @@ export async function doSignout(email: string): Promise<boolean | 'error'> {
 }
 
 export async function changePassword(oldPassword: string, newPassword: string): Promise<Boolean | 'unauthorized'> {
-    const client = new PrismaClient();
-
     await client.$connect();
     
     try {
@@ -119,8 +113,6 @@ export async function changePassword(oldPassword: string, newPassword: string): 
  * returns 'error' if an error occurred
  */
 export async function resetPasswaord(email: string): Promise<boolean | 'error'> {
-    const client = new PrismaClient();
-    
     try {
         await client.$connect();
         if (!await client.user.count({ where: {email } })) return false;
@@ -159,7 +151,6 @@ export async function resetPasswaord(email: string): Promise<boolean | 'error'> 
 }
 
 export async function signup(email: string, password: string, age: number, salary: number, gender: string, name?: string): Promise<'success' | 'duplicate' | 'error'> {
-    const client = new PrismaClient();
     try {
 
         await client.$connect();

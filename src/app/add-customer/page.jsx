@@ -122,7 +122,8 @@ function page() {
           <button
             disabled={false}
             onClick={doIt}
-            className=" mt-[25px] px-9 w-full py-2 rounded-xl bg-customRed text-white font-bold text-[18px] "
+            hidden={!(name || surname || age || gender || bucketPrice)}
+            className={`mt-[25px] px-9 w-full py-2 rounded-xl bg-customRed text-white font-bold text-[18px]`}
           >
             Create
           </button>

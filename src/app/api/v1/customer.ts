@@ -1,13 +1,11 @@
 "use server";
 
-import { PrismaClient } from "@prisma/client";
 import { Decimal } from "@prisma/client/runtime/library";
 import { AddCustomerParams, Customer } from "./types";
 import { cookies } from "next/headers";
+import client from './client';
 
 export async function countCustomers(): Promise<number | 'error'> {
-  const client = new PrismaClient();
-
   try {
     await client.$connect();
     const result = await client.subscriber.count({ where: { endsAt: { gte: new Date() } } });
@@ -22,8 +20,6 @@ export async function countCustomers(): Promise<number | 'error'> {
 }
 
 export async function countCustomersWillEndIn(date: string): Promise<number | 'error'> {
-  const client = new PrismaClient();
-
   try {
     await client.$connect();
     const result = await client.subscriber.count({ where: { endsAt: { lte: new Date(date) } } });
@@ -38,8 +34,6 @@ export async function countCustomersWillEndIn(date: string): Promise<number | 'e
 }
 
 export async function countExpiredCustomers(): Promise<number | 'error'> {
-  const client = new PrismaClient();
-
   try {
     await client.$connect();
     const result = await client.subscriber.count({ where: { endsAt: { lte: new Date() } } });
@@ -61,8 +55,6 @@ export async function countExpiredCustomers(): Promise<number | 'error'> {
 export async function addCustomer(
   params: AddCustomerParams
 ): Promise<number | "duplicate" | "error" | 'unauthorized'> {
-  const client = new PrismaClient();
-
   try {
     await client.$connect();
 
@@ -107,8 +99,6 @@ export async function addCustomer(
  * @returns null if an error has occurred
  */
 export async function getAllCustomers(): Promise<Customer[] | null> {
-  const client = new PrismaClient();
-
   await client.$connect();
 
   try {
@@ -141,8 +131,6 @@ export async function getAllCustomers(): Promise<Customer[] | null> {
 export async function getCustomerById(
   id: number
 ): Promise<Customer | null | "error"> {
-  const client = new PrismaClient();
-
   await client.$connect();
 
   try {
@@ -164,8 +152,6 @@ export async function getCustomerById(
 }
 
 export async function deleteCustomerById(id: number) {
-    const client = new PrismaClient();
-
     await client.$connect();
 
     try {
@@ -189,8 +175,6 @@ export async function deleteCustomerById(id: number) {
  * @returns false if operation fails
  */
 export async function updateCustomer(data: Customer): Promise<Boolean | 'unauthorized'> {
-    const client = new PrismaClient();
-
     await client.$connect();
 
     try {

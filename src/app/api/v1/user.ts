@@ -1,9 +1,9 @@
 'use server';
 
-import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
 import { AddUserParams, Announcement, Permission, User, SafeUser } from '../v1/types';
 import { cookies } from "next/headers";
+import client from './client';
 
 
 /**
@@ -16,8 +16,6 @@ import { cookies } from "next/headers";
 export async function addUser(
   user: AddUserParams
 ): Promise<number | "duplicate" | "error"> {
-  const client = new PrismaClient();
-
   try {
     await client.$connect();
 
@@ -51,8 +49,6 @@ export async function addUser(
 }
 
 export async function getCurrentUserId(): Promise<number | 'noSession' | 'notFound' | 'error'> {
-  const client = new PrismaClient();
-
   try {
     await client.$connect();
     const session = cookies().get('session');
@@ -75,8 +71,6 @@ export async function getCurrentUserId(): Promise<number | 'noSession' | 'notFou
  * @returns false if operation fails
  */
 export async function updateUser(user: User): Promise<Boolean> {
-  const client = new PrismaClient();
-
   await client.$connect();
 
   try {
@@ -91,8 +85,6 @@ export async function updateUser(user: User): Promise<Boolean> {
 }
 
 export async function changeUserName(id: number, newName: string) {
-  const client = new PrismaClient();
-
   await client.$connect();
 
   try {
@@ -110,8 +102,6 @@ export async function changeUserName(id: number, newName: string) {
  * @returns false if operation fails
  */
 export async function deleteUser(email: string): Promise<Boolean> {
-  const client = new PrismaClient();
-
   await client.$connect();
 
   try {
@@ -126,8 +116,6 @@ export async function deleteUser(email: string): Promise<Boolean> {
 }
 
 export async function countUsers(): Promise<number | 'error'> {
-  const client = new PrismaClient();
-
   await client.$connect();
 
   try {
@@ -147,8 +135,6 @@ export async function countUsers(): Promise<number | 'error'> {
  * @returns null if no user with the given email was found
  */
 export async function getUserByEmail(email: string): Promise<SafeUser | null> {
-  const client = new PrismaClient();
-
   await client.$connect();
 
   try {
@@ -171,8 +157,6 @@ export async function getUserByEmail(email: string): Promise<SafeUser | null> {
  * @returns null if no user with the given email was found
  */
 export async function getUserById(id: number): Promise<SafeUser | null> {
-  const client = new PrismaClient();
-
   await client.$connect();
 
   try {
@@ -203,8 +187,6 @@ export async function getAllUsers(): Promise<{
   gender: string,
   startDate: string, 
 } [] | null> {
-  const client = new PrismaClient();
-
   await client.$connect();
 
   try {
@@ -228,8 +210,6 @@ export async function getAllUsers(): Promise<{
 }
 
 export async function getAllAnnouncments(): Promise<Announcement[] | null> {
-  const client = new PrismaClient();
-
   try {
     await client.$connect();
     const results = await client.message.findMany({  });
@@ -247,8 +227,6 @@ export async function createAnnouncement(
   all: boolean,
   toUsers: number[]
 ): Promise<number | null> {
-  const client = new PrismaClient();
-
   await client.$connect();
 
   try {
@@ -296,8 +274,6 @@ export async function markAsRead(
   messageId: number,
   userId: number
 ): Promise<"success" | "messageNotFound" | "userNotFound" | "error"> {
-  const client = new PrismaClient();
-
   try {
     await client.$connect();
 

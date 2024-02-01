@@ -1,8 +1,7 @@
 'use server';
 
-import { PrismaClient } from "@prisma/client";
-import { cookies } from "next/headers";
-
+import client
+ from "./client";
 export async function getAllEvents(): Promise<{
     id: number;
     event: string;
@@ -10,8 +9,6 @@ export async function getAllEvents(): Promise<{
     actorId: number;
     date: string;
 }[] | 'error' | 'unauthorized'> {
-    const client = new PrismaClient();
-
   try {
     await client.$connect();
     // const c = cookies().get('session');
