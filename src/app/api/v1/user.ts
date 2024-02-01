@@ -151,6 +151,19 @@ export async function getUserByEmail(email: string): Promise<SafeUser | null> {
   }
 }
 
+function userToSafeUser(user: User): SafeUser {
+  return {
+    name: user.name,
+    email: user.email,
+    age: user.age,
+    gender: user.gender,
+    salary: user.salary,
+    startDate: user.startDate.toISOString(),
+    deletedAt: user.deletedAt?.toISOString() ?? null,
+    permission: user.permission
+  }
+}
+
 /**
  *
  * @returns a User object if the user is found
@@ -168,6 +181,52 @@ export async function getUserById(id: number): Promise<SafeUser | null> {
   } catch (e) {
     console.log(e);
     return null;
+  } finally {
+    await client.$disconnect();
+  }
+}
+
+export async function getCurrentUser(): Promise<SafeUser | null> {
+  try {
+    const cd = cookies().get('session');
+  
+    if (!cd ) {
+      console.log('getCurrentUser: no cookies');
+      return null;
+    }
+
+    const user = await client.user.findUnique({ where: { session: cd.value } });
+
+    if (!user) {
+      console.log('getCurrentUser: not found');
+      return null;
+    }
+
+    return userToSafeUser(user);
+  } catch (e) {
+    console.log('getCurrentUser: error: '+e);
+    return null;
+  } finally {
+    await client.$disconnect();
+  }
+}
+
+export async function changeGymName(newName: string) {
+  try {
+    const cd = cookies().get('session');
+    if (!cd) return;
+
+    await client.$connect();
+    const u = await client.user.findUnique({ where: { session: cd.value } });
+
+    if (!u) {
+      console.log("(update gym name): not found");
+      return;
+    }
+
+    await client.user.update({ where: { id: u.id }, data: { gymName: newName } });
+  } catch (e) {
+    console.log('(change gym name): '+e);
   } finally {
     await client.$disconnect();
   }
