@@ -38,7 +38,7 @@ function page() {
                 </p>
                 <a
                   href={
-                    e.target === "user"
+                    e.target === "customer"
                       ? `/customers/${e.id}`
                       : `/manager/${e.id}`
                   }

@@ -1,0 +1,14 @@
+input {
+  border: 1px solid green;
+  padding: 5px 7px;
+  border-radius: 30px;
+  transition: 0.3s;
+}
+
+.third {
+  border: 1px solid green;
+}
+input:hover {
+  transform: scale(1.01);
+  border: 1px solid #ffcb00;
+}

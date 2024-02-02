@@ -4,12 +4,12 @@ import { FaHome, FaClipboardList } from "react-icons/fa";
 import { IoSettings } from "react-icons/io5";
 import { BiSolidMessageAdd } from "react-icons/bi";
 import { IoIosCloseCircleOutline } from "react-icons/io";
-
 import { CiCircleChevDown } from "react-icons/ci";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { BsCalendar2EventFill } from "react-icons/bs";
 import { BsFillPersonFill } from "react-icons/bs";
 import { LiaChevronCircleUpSolid } from "react-icons/lia";
+import { getGymName } from "../app/api/v1/user";
 import {
   IoIosLogOut,
   IoIosAddCircle,
@@ -28,11 +28,15 @@ function SideBar() {
   const filterdArray = Array.from(new Set(chooise));
   const [mobile, setMobile] = useState(false);
   const [dummyData, setDummyData] = useState([]);
+  const [gymName, setGymName] = useState("");
 
   useEffect(() => {
     console.log(filterdArray);
     console.log(message);
     console.log("Chosen: " + chooise);
+    getGymName().then((n) => {
+      setGymName(n ?? "Gym");
+    });
   }, [chooise]);
 
   useEffect(() => {
@@ -70,17 +74,23 @@ function SideBar() {
             />
           )}
           <Link href="/">
-            <p className="font-bold text-[23px] text-white  ">Gym-name</p>
+            <p className="font-bold text-[23px] text-white  ">{gymName}</p>
           </Link>
         </div>
-
-        <div className="top-content flex flex-col gap-9 w-[210px]">
-          {mobile ? null : (
+        {mobile ? null : (
+          <div className=" flex justify-between mb-5 mx-4">
             <Link className=" text-end" href="/">
-              <p className="font-bold text-[23px] text-white  ">Gym-name</p>
+              <p className="font-bold text-[23px] text-white  ">{gymName}</p>
             </Link>
-          )}
-
+            <Link
+              href="/dashboard"
+              className=" text-green-500 font-bold bg-white px-2 py-2 rounded-[6px]"
+            >
+              manage website
+            </Link>
+          </div>
+        )}
+        <div className="top-content flex flex-col gap-9 w-[210px]">
           <div className=" h-[60vh] content text-center flex flex-col items-start self-center gap-10 ml-9">
             <Link
               onClick={() => {
