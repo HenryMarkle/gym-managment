@@ -11,8 +11,8 @@ function Stats_top() {
   const [ allUsers, setAllUsers ] = useState(0);
 
   useEffect(() => {
-    countCustomers().then(n => setAllCustomers(s));
-    countUsers().then(n => setAllUsers(s));
+    countCustomers().then(n => setAllCustomers(n));
+    countUsers().then(n => setAllUsers(n));
 
     const d = new Date();
 

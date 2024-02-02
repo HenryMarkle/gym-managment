@@ -115,6 +115,26 @@ export async function deleteUser(email: string): Promise<Boolean> {
   }
 }
 
+export async function deleteUserById(id: number): Promise<boolean | 'unauthorized' | 'error'> {
+  await client.$connect();
+
+  try {
+    const d = cookies().get('session');
+    if (!d) return 'unauthorized';
+    const user = await client.user.findUnique({ where: {session: d.value}, select: {id:true}});
+
+    if (!user) return 'unauthorized';
+
+    await client.user.delete({ where: { id } });
+    return true;
+  } catch (e) {
+    console.log(e);
+    return 'error';
+  } finally {
+    await client.$disconnect();
+  }
+}
+
 export async function countUsers(): Promise<number | 'error'> {
   await client.$connect();
 
@@ -180,6 +200,31 @@ export async function getUserById(id: number): Promise<SafeUser | null> {
     return { ...result, deletedAt: result?.deletedAt?.toISOString() ?? null, startDate: result?.startDate.toISOString() };
   } catch (e) {
     console.log(e);
+    return null;
+  } finally {
+    await client.$disconnect();
+  }
+}
+
+export async function getGymName(): Promise<string | null> {
+  try {
+    const cd = cookies().get('session');
+  
+    if (!cd ) {
+      console.log('getCurrentUser: no cookies');
+      return null;
+    }
+
+    const name = await client.user.findUnique({ where: { session: cd.value }, select: { gymName: true } });
+
+    if (!name) {
+      console.log('getCurrentUser: not found');
+      return null;
+    }
+
+    return name.gymName;
+  } catch (e) {
+    console.log('getCurrentUser: error: '+e);
     return null;
   } finally {
     await client.$disconnect();

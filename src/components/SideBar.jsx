@@ -10,6 +10,7 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { BsCalendar2EventFill } from "react-icons/bs";
 import { BsFillPersonFill } from "react-icons/bs";
 import { LiaChevronCircleUpSolid } from "react-icons/lia";
+import { getGymName } from "../app/api/v1/user";
 import {
   IoIosLogOut,
   IoIosAddCircle,
@@ -28,11 +29,15 @@ function SideBar() {
   const filterdArray = Array.from(new Set(chooise));
   const [mobile, setMobile] = useState(false);
   const [dummyData, setDummyData] = useState([]);
+  const [ gymName, setGymName ] = useState('')
 
   useEffect(() => {
     console.log(filterdArray);
     console.log(message);
     console.log("Chosen: " + chooise);
+    getGymName().then(n => {
+      setGymName(n ?? 'Gym');
+    })
   }, [chooise]);
 
   useEffect(() => {
@@ -70,14 +75,14 @@ function SideBar() {
             />
           )}
           <Link href="/">
-            <p className="font-bold text-[23px] text-white  ">Gym-name</p>
+            <p className="font-bold text-[23px] text-white  ">{gymName}</p>
           </Link>
         </div>
 
         <div className="top-content flex flex-col gap-9 w-[210px]">
           {mobile ? null : (
             <Link className=" text-end" href="/">
-              <p className="font-bold text-[23px] text-white  ">Gym-name</p>
+              <p className="font-bold text-[23px] text-white  ">{gymName}</p>
             </Link>
           )}
 

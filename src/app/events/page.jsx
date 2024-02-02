@@ -22,7 +22,7 @@ function page() {
             <span className={`h-[25px] w-[25px] rounded-full ${e.event === 'create' ? 'bg-green-600' : (e.event === 'update' ? 'bg-[#a39447]' : 'bg-[#a34747]')} block`}></span>
             <div className=" flex justify-between w-full">
               <p className=" details-about-user">{e.event+"d"} {e.target}</p>
-              <a href={e.target === 'user' ? `/customers/${e.id}` : `/manager/${e.id}`} className={`details ${e.event === 'create' ? 'bg-green-600' : (e.event === 'update' ? 'bg-[#a39447]' : 'bg-[#a34747]')} cursor-pointer px-3 py-1 rounded-2xl text-white`}>
+              <a href={e.target === 'customer' ? `/customers/${e.id}` : `/manager/${e.id}`} className={`details ${e.event === 'create' ? 'bg-green-600' : (e.event === 'update' ? 'bg-[#a39447]' : 'bg-[#a34747]')} cursor-pointer px-3 py-1 rounded-2xl text-white`}>
                 details
               </a>
             </div>
