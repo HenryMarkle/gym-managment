@@ -20,7 +20,7 @@ function page() {
 
   return (
     <>
-      <div className="add ml-[30%] mt-10 flex justify-between px-4 py-16 mr-[10%] shadow-xl h-[650px] rounded-[31px]">
+      <div className="add ml-[30%] mt-10 flex justify-between px-4 py-16 mr-[10%] gap-10 shadow-xl h-[650px] rounded-[31px]">
         <div className="left w-[45%]">
           <div className="start-date flex-col flex"></div>{" "}
           <div className="name flex-col flex ">
