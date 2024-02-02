@@ -10,7 +10,7 @@ function page() {
   useEffect(() => {
     const getAllCust = async () => {
       const result = await getAllCustomers();
-      setAllCustomers(result);
+      setAllCustomers(result ?? []);
       return result;
     };
     getAllCust().then((d) => console.log(d));
@@ -44,13 +44,13 @@ function page() {
                 }`}
             </td>
             <td>{c.age}</td>
-            <td>{c.gender == "Male" ? "M" : "F"}</td>
+            <td>{c.gender}</td>
             <td>{c.bucketPrice}</td>
             <td>{c.paymentAmount}</td>
             <td>{c.bucketPrice - c.paymentAmount}</td>
-            <td>{c.startedAt.toDateString()}</td>
-            <td>{c.endsAt.toDateString()}</td>
-            <td>idk</td>
+            <td>{new Date(c.startedAt).toDateString()}</td>
+            <td>{new Date(c.endsAt).toDateString()}</td>
+            <td>{Math.ceil((new Date(c.endsAt) - new Date()) / (1000 * 60 * 60 * 24))}</td>
           </tr>
         ))}
       </table>

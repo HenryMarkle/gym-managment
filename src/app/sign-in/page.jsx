@@ -8,9 +8,7 @@ function page() {
   let [password, setPassword] = useState("");
   async function signin() {
     const result = await doSignin(email, password);
-    if (result) {
-      console.log("first");
-    }
+    console.log("sign-in: "+result)
   }
   return (
     <>

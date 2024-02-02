@@ -1,10 +1,51 @@
 "use server";
 
-import { PrismaClient } from "@prisma/client";
 import { Decimal } from "@prisma/client/runtime/library";
 import { AddCustomerParams, Customer } from "./types";
+import { cookies } from "next/headers";
+import client from './client';
 
+export async function countCustomers(): Promise<number | 'error'> {
+  try {
+    await client.$connect();
+    const result = await client.subscriber.count({ where: { endsAt: { gte: new Date() } } });
 
+    return result;
+  } catch (e) {
+    console.log(e);
+    return 'error';
+  } finally {
+    await client.$disconnect();
+  }
+}
+
+export async function countCustomersWillEndIn(date: string): Promise<number | 'error'> {
+  try {
+    await client.$connect();
+    const result = await client.subscriber.count({ where: { endsAt: { lte: new Date(date) } } });
+
+    return result;
+  } catch (e) {
+    console.log(e);
+    return 'error';
+  } finally {
+    await client.$disconnect();
+  }
+}
+
+export async function countExpiredCustomers(): Promise<number | 'error'> {
+  try {
+    await client.$connect();
+    const result = await client.subscriber.count({ where: { endsAt: { lte: new Date() } } });
+
+    return result;
+  } catch (e) {
+    console.log(e);
+    return 'error';
+  } finally {
+    await client.$disconnect();
+  }
+}
 
 /** 
     Returns the ID of the newly created customer on success.
@@ -13,11 +54,14 @@ import { AddCustomerParams, Customer } from "./types";
 */
 export async function addCustomer(
   params: AddCustomerParams
-): Promise<number | "duplicate" | "error"> {
-  const client = new PrismaClient();
-
+): Promise<number | "duplicate" | "error" | 'unauthorized'> {
   try {
     await client.$connect();
+
+    const c = cookies().get('session');
+      if (!c) return 'unauthorized';
+      const manager = await client.user.findUnique({ where: { session: c.value } });
+      if (!manager) return 'unauthorized';
 
     if (
       await client.subscriber.count({
@@ -39,6 +83,8 @@ export async function addCustomer(
       },
     });
 
+    await client.event.create({ data: { event: "create", target: "customer", actorId: manager.id } });
+
     return res.id;
   } catch (e) {
     console.log(e);
@@ -53,13 +99,20 @@ export async function addCustomer(
  * @returns null if an error has occurred
  */
 export async function getAllCustomers(): Promise<Customer[] | null> {
-  const client = new PrismaClient();
-
   await client.$connect();
 
   try {
     const customers = await client.subscriber.findMany();
-    return customers;
+    if (!customers) return null;
+
+    return customers.map(c => {
+      return { ...c,
+        startedAt: c.startedAt.toISOString() ?? '', 
+        endsAt: c.endsAt.toISOString() ?? '',
+        bucketPrice: c.bucketPrice.toNumber(),
+        paymentAmount: c.paymentAmount.toNumber()
+      };
+    });
   } catch (e) {
     console.log(e);
     return null;
@@ -78,13 +131,18 @@ export async function getAllCustomers(): Promise<Customer[] | null> {
 export async function getCustomerById(
   id: number
 ): Promise<Customer | null | "error"> {
-  const client = new PrismaClient();
-
   await client.$connect();
 
   try {
     const customer = await client.subscriber.findUnique({ where: { id } });
-    return customer;
+    if (!customer) return null;
+
+    return {...customer, 
+      startedAt: customer.startedAt.toISOString() ?? '', 
+      endsAt: customer.endsAt.toISOString() ?? '',
+      bucketPrice: customer.bucketPrice.toNumber(),
+      paymentAmount: customer.paymentAmount.toNumber()
+    };
   } catch (e) {
     console.log(e);
     return "error";
@@ -94,12 +152,16 @@ export async function getCustomerById(
 }
 
 export async function deleteCustomerById(id: number) {
-    const client = new PrismaClient();
-
     await client.$connect();
 
     try {
-        await client.subscriber.delete({ where: { id } });
+      const c = cookies().get('session');
+      if (!c) return;
+      const manager = await client.user.findUnique({ where: { session: c.value } });
+      if (!manager) return;
+
+      await client.subscriber.delete({ where: { id } });
+      await client.event.create({ data: { event: "delete", target: "customer", actorId: manager.id  } });
     } catch (e) {
         console.log(e);
     } finally {
@@ -112,13 +174,17 @@ export async function deleteCustomerById(id: number) {
  * @returns true if operation is successful
  * @returns false if operation fails
  */
-export async function updateCustomer(data: Customer): Promise<Boolean> {
-    const client = new PrismaClient();
-
+export async function updateCustomer(data: Customer): Promise<Boolean | 'unauthorized'> {
     await client.$connect();
 
     try {
+      const c = cookies().get('session');
+      if (!c) return 'unauthorized';
+      const manager = await client.user.findUnique({ where: { session: c.value } });
+      if (!manager) return 'unauthorized';
+
         await client.subscriber.update({ where: { id: data.id }, data });
+        await client.event.create({ data: { event: "update", target: "customer", actorId: manager.id } });
         return true;
     } catch (e) {
         console.log(e);

@@ -1,9 +1,9 @@
 'use server';
 
-import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
 import { AddUserParams, Announcement, Permission, User, SafeUser } from '../v1/types';
 import { cookies } from "next/headers";
+import client from './client';
 
 
 /**
@@ -16,8 +16,6 @@ import { cookies } from "next/headers";
 export async function addUser(
   user: AddUserParams
 ): Promise<number | "duplicate" | "error"> {
-  const client = new PrismaClient();
-
   try {
     await client.$connect();
 
@@ -51,8 +49,6 @@ export async function addUser(
 }
 
 export async function getCurrentUserId(): Promise<number | 'noSession' | 'notFound' | 'error'> {
-  const client = new PrismaClient();
-
   try {
     await client.$connect();
     const session = cookies().get('session');
@@ -75,8 +71,6 @@ export async function getCurrentUserId(): Promise<number | 'noSession' | 'notFou
  * @returns false if operation fails
  */
 export async function updateUser(user: User): Promise<Boolean> {
-  const client = new PrismaClient();
-
   await client.$connect();
 
   try {
@@ -91,8 +85,6 @@ export async function updateUser(user: User): Promise<Boolean> {
 }
 
 export async function changeUserName(id: number, newName: string) {
-  const client = new PrismaClient();
-
   await client.$connect();
 
   try {
@@ -110,8 +102,6 @@ export async function changeUserName(id: number, newName: string) {
  * @returns false if operation fails
  */
 export async function deleteUser(email: string): Promise<Boolean> {
-  const client = new PrismaClient();
-
   await client.$connect();
 
   try {
@@ -125,25 +115,15 @@ export async function deleteUser(email: string): Promise<Boolean> {
   }
 }
 
-/**
- *
- * @returns a User object if the user is found
- * @returns null if no user with the given email was found
- */
-export async function getUserByEmail(email: string): Promise<SafeUser | null> {
-  const client = new PrismaClient();
-
+export async function countUsers(): Promise<number | 'error'> {
   await client.$connect();
 
   try {
-    const result = await client.user.findUnique({ where: { email }, select: { name: true, email: true, permission: true, age:true, gender: true, startDate: true, salary: true } });
-
-    if (!result) return null;
-
-    return { ...result, startDate: result?.startDate.toISOString() };
+    const result = await client.user.count({ where: { deletedAt: { not: null } } });
+    return result;
   } catch (e) {
     console.log(e);
-    return null;
+    return 'error';
   } finally {
     await client.$disconnect();
   }
@@ -154,20 +134,99 @@ export async function getUserByEmail(email: string): Promise<SafeUser | null> {
  * @returns a User object if the user is found
  * @returns null if no user with the given email was found
  */
-export async function getUserById(id: number): Promise<SafeUser | null> {
-  const client = new PrismaClient();
-
+export async function getUserByEmail(email: string): Promise<SafeUser | null> {
   await client.$connect();
 
   try {
-    const result = await client.user.findUnique({ where: { id }, select: { name: true, email: true, permission: true, age:true, gender: true, startDate: true, salary: true } });
-    
+    const result = await client.user.findUnique({ where: { email }, select: { name: true, email: true, permission: true, age:true, gender: true, startDate: true, salary: true, deletedAt: true } });
+
     if (!result) return null;
 
-    return { ...result, startDate: result?.startDate.toISOString() };
+    return { ...result, deletedAt: result?.deletedAt?.toISOString() ?? null, startDate: result?.startDate.toISOString() };
   } catch (e) {
     console.log(e);
     return null;
+  } finally {
+    await client.$disconnect();
+  }
+}
+
+function userToSafeUser(user: User): SafeUser {
+  return {
+    name: user.name,
+    email: user.email,
+    age: user.age,
+    gender: user.gender,
+    salary: user.salary,
+    startDate: user.startDate.toISOString(),
+    deletedAt: user.deletedAt?.toISOString() ?? null,
+    permission: user.permission
+  }
+}
+
+/**
+ *
+ * @returns a User object if the user is found
+ * @returns null if no user with the given email was found
+ */
+export async function getUserById(id: number): Promise<SafeUser | null> {
+  await client.$connect();
+
+  try {
+    const result = await client.user.findUnique({ where: { id }, select: { name: true, email: true, permission: true, age:true, gender: true, startDate: true, salary: true, deletedAt: true } });
+    
+    if (!result) return null;
+
+    return { ...result, deletedAt: result?.deletedAt?.toISOString() ?? null, startDate: result?.startDate.toISOString() };
+  } catch (e) {
+    console.log(e);
+    return null;
+  } finally {
+    await client.$disconnect();
+  }
+}
+
+export async function getCurrentUser(): Promise<SafeUser | null> {
+  try {
+    const cd = cookies().get('session');
+  
+    if (!cd ) {
+      console.log('getCurrentUser: no cookies');
+      return null;
+    }
+
+    const user = await client.user.findUnique({ where: { session: cd.value } });
+
+    if (!user) {
+      console.log('getCurrentUser: not found');
+      return null;
+    }
+
+    return userToSafeUser(user);
+  } catch (e) {
+    console.log('getCurrentUser: error: '+e);
+    return null;
+  } finally {
+    await client.$disconnect();
+  }
+}
+
+export async function changeGymName(newName: string) {
+  try {
+    const cd = cookies().get('session');
+    if (!cd) return;
+
+    await client.$connect();
+    const u = await client.user.findUnique({ where: { session: cd.value } });
+
+    if (!u) {
+      console.log("(update gym name): not found");
+      return;
+    }
+
+    await client.user.update({ where: { id: u.id }, data: { gymName: newName } });
+  } catch (e) {
+    console.log('(change gym name): '+e);
   } finally {
     await client.$disconnect();
   }
@@ -187,8 +246,6 @@ export async function getAllUsers(): Promise<{
   gender: string,
   startDate: string, 
 } [] | null> {
-  const client = new PrismaClient();
-
   await client.$connect();
 
   try {
@@ -212,8 +269,6 @@ export async function getAllUsers(): Promise<{
 }
 
 export async function getAllAnnouncments(): Promise<Announcement[] | null> {
-  const client = new PrismaClient();
-
   try {
     await client.$connect();
     const results = await client.message.findMany({  });
@@ -231,8 +286,6 @@ export async function createAnnouncement(
   all: boolean,
   toUsers: number[]
 ): Promise<number | null> {
-  const client = new PrismaClient();
-
   await client.$connect();
 
   try {
@@ -280,8 +333,6 @@ export async function markAsRead(
   messageId: number,
   userId: number
 ): Promise<"success" | "messageNotFound" | "userNotFound" | "error"> {
-  const client = new PrismaClient();
-
   try {
     await client.$connect();
 

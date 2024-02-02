@@ -1,22 +1,22 @@
-import React from "react";
+'use client';
+
+import React, { useEffect, useState } from "react";
 import "./main.css";
 import Link from "next/link";
+
+import { getAllUsers } from "../api/v1/user";
+
 function page() {
-  const dammyData = [
-    { id: "1", name: "Ali Haseni", salary: 1090 },
-    { id: "12", name: "Ali Haseni", salary: 1090 },
-    { id: "13", name: "Ali Haseni", salary: 1090 },
-    { id: "14", name: "Ali Haseni", salary: 1090 },
-    { id: "15", name: "Ali Haseni", salary: 1090 },
-    { id: "16", name: "Ali Haseni", salary: 1090 },
-    { id: "17", name: "Ali Haseni", salary: 1090 },
-    { id: "18", name: "Ali Haseni", salary: 1090 },
-    { id: "19", name: "Ali Haseni", salary: 1090 },
-  ];
+  const [ allUsers, setAllUsers ] = useState([]);
+  
+  useEffect(() => {
+    getAllUsers().then(setAllUsers);
+  }, []);
+
   return (
     <>
       <div className="managers ml-[23%] m-4 min-h-[700px]  relative rounded-[31px] mt-20  gap-y-10  ">
-        {dammyData.map((ele) => {
+        {allUsers.map((ele) => {
           return (
             <>
               <Link href={`/manager/${ele.id}`}>
