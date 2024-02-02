@@ -31,6 +31,22 @@ function page() {
               placeholder="Name"
             />
           </div>{" "}
+          <div className="surname flex-col flex">
+            <label htmlFor="">Surname</label>
+            <input
+              onChange={(e) => setSurname(e.target.value)}
+              type="text"
+              placeholder="Surname"
+            />
+          </div>{" "}
+          <div className="surname flex-col flex">
+            <label htmlFor="">Salary</label>
+            <input
+              onChange={(e) => setSalary(e.target.value)}
+              type="number"
+              placeholder="Salary"
+            />
+          </div>
           <div className="gender flex-col flex">
             <label htmlFor="">Gender</label>
             <select
@@ -54,22 +70,7 @@ function page() {
               placeholder="Age"
             />
           </div>
-          <div className="surname flex-col flex">
-            <label htmlFor="">Surname</label>
-            <input
-              onChange={(e) => setSurname(e.target.value)}
-              type="text"
-              placeholder="Surname"
-            />
-          </div>{" "}
-          <div className="surname flex-col flex">
-            <label htmlFor="">Salary</label>
-            <input
-              onChange={(e) => setSalary(e.target.value)}
-              type="number"
-              placeholder="Salary"
-            />
-          </div>
+
           <div className="email flex-col flex">
             <label htmlFor="">Email</label>
             <input
