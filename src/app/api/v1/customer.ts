@@ -1,13 +1,21 @@
 "use server";
 
-import { Decimal } from "@prisma/client/runtime/library";
 import { AddCustomerParams, Customer } from "./types";
 import { cookies } from "next/headers";
 import client from './client';
 
-export async function countCustomers(): Promise<number | 'error'> {
+export async function countCustomers(): Promise<number | 'unauthorized' | 'error'> {
   try {
     await client.$connect();
+
+    const sc = cookies().get('session');
+
+    if (!sc) return 'unauthorized';
+
+    const user = await client.user.findUnique({ where: { session: sc.value } });
+
+    if (!user) return 'unauthorized';
+
     const result = await client.subscriber.count({ where: { endsAt: { gte: new Date() } } });
 
     return result;
@@ -19,9 +27,19 @@ export async function countCustomers(): Promise<number | 'error'> {
   }
 }
 
-export async function countCustomersWillEndIn(date: string): Promise<number | 'error'> {
+export async function countCustomersWillEndIn(date: string): Promise<number | 'unauthorized' | 'error'> {
   try {
     await client.$connect();
+
+    const sc = cookies().get('session');
+
+    if (!sc) return 'unauthorized';
+
+    const user = await client.user.findUnique({ where: { session: sc.value } });
+
+    if (!user) return 'unauthorized';
+
+
     const result = await client.subscriber.count({ where: { endsAt: { lte: new Date(date) } } });
 
     return result;
@@ -33,9 +51,18 @@ export async function countCustomersWillEndIn(date: string): Promise<number | 'e
   }
 }
 
-export async function countExpiredCustomers(): Promise<number | 'error'> {
+export async function countExpiredCustomers(): Promise<number | 'unauthorized' | 'error'> {
   try {
     await client.$connect();
+
+    const sc = cookies().get('session');
+
+    if (!sc) return 'unauthorized';
+
+    const user = await client.user.findUnique({ where: { session: sc.value } });
+
+    if (!user) return 'unauthorized';
+
     const result = await client.subscriber.count({ where: { endsAt: { lte: new Date() } } });
 
     return result;
@@ -98,10 +125,18 @@ export async function addCustomer(
  * @returns a list of all subscribers
  * @returns null if an error has occurred
  */
-export async function getAllCustomers(): Promise<Customer[] | null> {
+export async function getAllCustomers(): Promise<Customer[] | 'unauthorized' | null> {
   await client.$connect();
 
   try {
+    const sc = cookies().get('session');
+
+    if (!sc) return 'unauthorized';
+
+    const user = await client.user.findUnique({ where: { session: sc.value } });
+
+    if (!user) return 'unauthorized';
+
     const customers = await client.subscriber.findMany();
     if (!customers) return null;
 
@@ -130,10 +165,18 @@ export async function getAllCustomers(): Promise<Customer[] | null> {
  */
 export async function getCustomerById(
   id: number
-): Promise<Customer | null | "error"> {
+): Promise<Customer | null | 'unauthorized' | "error"> {
   await client.$connect();
 
   try {
+    const sc = cookies().get('session');
+
+    if (!sc) return 'unauthorized';
+
+    const user = await client.user.findUnique({ where: { session: sc.value } });
+
+    if (!user) return 'unauthorized';
+
     const customer = await client.subscriber.findUnique({ where: { id } });
     if (!customer) return null;
 

@@ -15,9 +15,18 @@ import client from './client';
  */
 export async function addUser(
   user: AddUserParams
-): Promise<number | "duplicate" | "error"> {
+): Promise<number | 'unauthorized' | "duplicate" | "error"> {
   try {
     await client.$connect();
+
+    const sc = cookies().get('session');
+
+    if (!sc) return 'unauthorized';
+
+    const user = await client.user.findUnique({ where: { session: sc.value } });
+
+    if (!user) return 'unauthorized';
+
 
     // Check if user already exists
 
@@ -48,9 +57,19 @@ export async function addUser(
   }
 }
 
-export async function getCurrentUserId(): Promise<number | 'noSession' | 'notFound' | 'error'> {
+export async function getCurrentUserId(): Promise<number | 'unauthorized' | 'noSession' | 'notFound' | 'error'> {
   try {
     await client.$connect();
+
+    const sc = cookies().get('session');
+
+    if (!sc) return 'unauthorized';
+
+    const user = await client.user.findUnique({ where: { session: sc.value } });
+
+    if (!user) return 'unauthorized';
+
+
     const session = cookies().get('session');
     if (!session) return 'noSession';
     const result = await client.user.findUnique({ where: { session: session.value }, select: { id: true } });
@@ -70,10 +89,18 @@ export async function getCurrentUserId(): Promise<number | 'noSession' | 'notFou
  * @returns true if operation is successful
  * @returns false if operation fails
  */
-export async function updateUser(user: User): Promise<Boolean> {
+export async function updateUser(user: User): Promise<Boolean | 'unauthorized'> {
   await client.$connect();
 
   try {
+    const sc = cookies().get('session');
+
+    if (!sc) return 'unauthorized';
+
+    const user = await client.user.findUnique({ where: { session: sc.value } });
+
+    if (!user) return 'unauthorized';
+
     await client.user.update({ where: { email: user.email }, data: user });
     return true;
   } catch (e) {
@@ -84,10 +111,18 @@ export async function updateUser(user: User): Promise<Boolean> {
   }
 }
 
-export async function changeUserName(id: number, newName: string) {
+export async function changeUserName(id: number, newName: string): Promise<undefined | 'unauthorized'> {
   await client.$connect();
 
   try {
+    const sc = cookies().get('session');
+
+    if (!sc) return 'unauthorized';
+
+    const user = await client.user.findUnique({ where: { session: sc.value } });
+
+    if (!user) return 'unauthorized';
+
     await client.user.update({ where: { id }, data: { name: newName } });
   } catch (e) {
     console.log(e);
@@ -101,10 +136,18 @@ export async function changeUserName(id: number, newName: string) {
  * @returns true if operation is successful
  * @returns false if operation fails
  */
-export async function deleteUser(email: string): Promise<Boolean> {
+export async function deleteUser(email: string): Promise<Boolean | 'unauthorized'> {
   await client.$connect();
 
   try {
+    const sc = cookies().get('session');
+
+    if (!sc) return 'unauthorized';
+
+    const user = await client.user.findUnique({ where: { session: sc.value } });
+
+    if (!user) return 'unauthorized';
+
     await client.user.delete({ where: { email } });
     return true;
   } catch (e) {
@@ -135,10 +178,18 @@ export async function deleteUserById(id: number): Promise<boolean | 'unauthorize
   }
 }
 
-export async function countUsers(): Promise<number | 'error'> {
+export async function countUsers(): Promise<number | 'unauthorized' | 'error'> {
   await client.$connect();
 
   try {
+    const sc = cookies().get('session');
+
+    if (!sc) return 'unauthorized';
+
+    const user = await client.user.findUnique({ where: { session: sc.value } });
+
+    if (!user) return 'unauthorized';
+
     const result = await client.user.count({ where: { deletedAt: { not: null } } });
     return result;
   } catch (e) {
@@ -154,10 +205,18 @@ export async function countUsers(): Promise<number | 'error'> {
  * @returns a User object if the user is found
  * @returns null if no user with the given email was found
  */
-export async function getUserByEmail(email: string): Promise<SafeUser | null> {
+export async function getUserByEmail(email: string): Promise<SafeUser | 'unauthorized' | null> {
   await client.$connect();
 
   try {
+    const sc = cookies().get('session');
+
+    if (!sc) return 'unauthorized';
+
+    const user = await client.user.findUnique({ where: { session: sc.value } });
+
+    if (!user) return 'unauthorized';
+
     const result = await client.user.findUnique({ where: { email }, select: { name: true, email: true, permission: true, age:true, gender: true, startDate: true, salary: true, deletedAt: true } });
 
     if (!result) return null;
@@ -189,10 +248,18 @@ function userToSafeUser(user: User): SafeUser {
  * @returns a User object if the user is found
  * @returns null if no user with the given email was found
  */
-export async function getUserById(id: number): Promise<SafeUser | null> {
+export async function getUserById(id: number): Promise<SafeUser | 'unauthorized' | null> {
   await client.$connect();
 
   try {
+    const sc = cookies().get('session');
+
+    if (!sc) return 'unauthorized';
+
+    const user = await client.user.findUnique({ where: { session: sc.value } });
+
+    if (!user) return 'unauthorized';
+
     const result = await client.user.findUnique({ where: { id }, select: { name: true, email: true, permission: true, age:true, gender: true, startDate: true, salary: true, deletedAt: true } });
     
     if (!result) return null;
@@ -206,20 +273,20 @@ export async function getUserById(id: number): Promise<SafeUser | null> {
   }
 }
 
-export async function getGymName(): Promise<string | null> {
+export async function getGymName(): Promise<string | 'unauthorized' | null> {
   try {
     const cd = cookies().get('session');
   
     if (!cd ) {
       console.log('getCurrentUser: no cookies');
-      return null;
+      return 'unauthorized';
     }
 
     const name = await client.user.findUnique({ where: { session: cd.value }, select: { gymName: true } });
 
     if (!name) {
       console.log('getCurrentUser: not found');
-      return null;
+      return 'unauthorized';
     }
 
     return name.gymName;
@@ -231,20 +298,20 @@ export async function getGymName(): Promise<string | null> {
   }
 }
 
-export async function getCurrentUser(): Promise<SafeUser | null> {
+export async function getCurrentUser(): Promise<SafeUser | 'unauthorized' | null> {
   try {
     const cd = cookies().get('session');
   
     if (!cd ) {
       console.log('getCurrentUser: no cookies');
-      return null;
+      return 'unauthorized';
     }
 
     const user = await client.user.findUnique({ where: { session: cd.value } });
 
     if (!user) {
       console.log('getCurrentUser: not found');
-      return null;
+      return 'unauthorized';
     }
 
     return userToSafeUser(user);
@@ -256,17 +323,17 @@ export async function getCurrentUser(): Promise<SafeUser | null> {
   }
 }
 
-export async function changeGymName(newName: string) {
+export async function changeGymName(newName: string): Promise<undefined | 'unauthorized'> {
   try {
     const cd = cookies().get('session');
-    if (!cd) return;
+    if (!cd) return 'unauthorized';
 
     await client.$connect();
     const u = await client.user.findUnique({ where: { session: cd.value } });
 
     if (!u) {
       console.log("(update gym name): not found");
-      return;
+      return 'unauthorized';
     }
 
     await client.user.update({ where: { id: u.id }, data: { gymName: newName } });
@@ -290,10 +357,18 @@ export async function getAllUsers(): Promise<{
   age: number,
   gender: string,
   startDate: string, 
-} [] | null> {
+} [] | 'unauthorized' | null> {
   await client.$connect();
 
   try {
+    const sc = cookies().get('session');
+
+    if (!sc) return 'unauthorized';
+
+    const user = await client.user.findUnique({ where: { session: sc.value } });
+
+    if (!user) return 'unauthorized';
+
     const result = await client.user.findMany({ select: { 
       id: true, 
       name: true, 
@@ -313,9 +388,19 @@ export async function getAllUsers(): Promise<{
   }
 }
 
-export async function getAllAnnouncments(): Promise<Announcement[] | null> {
+export async function getAllAnnouncments(): Promise<Announcement[] | 'unauthorized' | null> {
   try {
     await client.$connect();
+
+    const sc = cookies().get('session');
+
+    if (!sc) return 'unauthorized';
+
+    const user = await client.user.findUnique({ where: { session: sc.value } });
+
+    if (!user) return 'unauthorized';
+
+
     const results = await client.message.findMany({  });
     return results.map(a => {return { sent: a.sent.toISOString(), id: a.id, text: a.text }; });
   } catch (e) {
@@ -330,10 +415,18 @@ export async function createAnnouncement(
   text: string,
   all: boolean,
   toUsers: number[]
-): Promise<number | null> {
+): Promise<number | 'unauthorized' | null> {
   await client.$connect();
 
   try {
+    const sc = cookies().get('session');
+
+    if (!sc) return 'unauthorized';
+
+    const user = await client.user.findUnique({ where: { session: sc.value } });
+
+    if (!user) return 'unauthorized';
+
     let result: {
       id: number;
       text: string;
@@ -377,9 +470,17 @@ export async function createAnnouncement(
 export async function markAsRead(
   messageId: number,
   userId: number
-): Promise<"success" | "messageNotFound" | "userNotFound" | "error"> {
+): Promise<"success" | 'unauthorized' | "messageNotFound" | "userNotFound" | "error"> {
   try {
     await client.$connect();
+
+    const sc = cookies().get('session');
+
+    if (!sc) return 'unauthorized';
+
+    const userT = await client.user.findUnique({ where: { session: sc.value } });
+
+    if (!userT) return 'unauthorized';
 
     const user = await client.user.findUnique({ where: { id: userId } });
     const message = await client.message.findUnique({
