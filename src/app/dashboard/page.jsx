@@ -20,7 +20,7 @@ function page() {
   const components = [
     {
       id: `1`,
-      component: HomePage,
+      component: <HomePage />,
     },
     {
       id: `2`,
