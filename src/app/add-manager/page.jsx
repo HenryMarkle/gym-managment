@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-
 import { addUser } from "../api/v1/user";
 import Swal from "sweetalert2";
 import "./main.css";

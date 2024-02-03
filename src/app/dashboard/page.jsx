@@ -1,12 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import {
-  HomePage,
-  ContactPage,
-  ShopPage,
-  ManagersPage,
-  WorkoutsPage,
-} from "../../components/dashboard/Components";
+import { HomePage } from "../../components/dashboard/HomePage";
+import { ContactPage } from "../../components/dashboard/ContactPage";
 function page() {
   const [active, setActive] = useState(["1"]);
   const tabs = [
@@ -15,6 +10,8 @@ function page() {
     { id: "3", title: "Managers page" },
     { id: "4", title: "shop page" },
     { id: "5", title: "workouts page" },
+    { id: "6", title: " products " },
+    { id: "7", title: " plans " },
   ];
 
   const components = [
@@ -24,19 +21,19 @@ function page() {
     },
     {
       id: `2`,
-      component: ContactPage,
+      component: <ContactPage />,
     },
     {
       id: `3`,
-      component: ShopPage,
+      component: "ShopPage",
     },
     {
       id: `4`,
-      component: ManagersPage,
+      component: "ManagersPage",
     },
     {
       id: `5`,
-      component: WorkoutsPage,
+      component: "WorkoutsPage",
     },
   ];
 
@@ -45,7 +42,7 @@ function page() {
   }, [active]);
   return (
     <div className="ml-[25%] h-auto mt-5 shadow-md mr-6  p-2 rounded-[31px]">
-      <div className="tabs flex justify-between m-4 border-b-2 pb-4">
+      <div className="tabs flex justify-between m-4 border-b-2 pb-4 flex-wrap">
         {tabs.map((e) => {
           return (
             <>
@@ -56,8 +53,8 @@ function page() {
                 id={e.id}
                 className={
                   active.includes(e.id)
-                    ? "tab1 bg-customRed min-w-[210px] px-2 py-4 text-white duration-300 cursor-pointer rounded-lg"
-                    : "tab1 bg-green-200 min-w-[210px] px-2 py-4 text-white duration-300 cursor-pointer   rounded-lg"
+                    ? "tab1 bg-customRed min-w-[140px] px-2 py-4 text-white duration-300 cursor-pointer rounded-lg"
+                    : "tab1 bg-green-200 min-w-[140px] px-2 py-4 text-white duration-300 cursor-pointer   rounded-lg"
                 }
               >
                 {e.title}
