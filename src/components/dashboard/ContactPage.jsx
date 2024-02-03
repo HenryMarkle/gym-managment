@@ -1,7 +1,22 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { MdOutlineEmail } from "react-icons/md";
+import { getContacts, updateContacts } from "../../app/api/v1/dashboard";
+
 export function ContactPage() {
+  const [ contacts, setContacts ] = useState(null);
+  const [ edited, setEdited ] = useState(false);
+
+  useEffect(() => {
+    getContacts().then(c => {
+      if (c === 'error' || c === 'unauthorized') {
+
+      } else {
+        setContacts(c);
+      }
+    })
+  }, [])
+
   return (
     <>
       <div className="contact grid grid-cols-2 gap-7 p-4">
@@ -12,23 +27,38 @@ export function ContactPage() {
             color="black"
             className=" absolute right-3 top-[33px] "
           />
-          <input type="text" placeholder=" Email" />
+          <input type="text" placeholder=" Email" value={contacts?.email} onChange={e => {
+            setContacts(c => { return { ...c, email: e.target.value} });
+            setEdited(true);
+          }}/>
         </div>{" "}
         <div className="whatsapp flex flex-col">
           <label> WhatsApp Number</label>
-          <input type="text" placeholder="WhatsApp Number" />
+          <input type="text" placeholder="WhatsApp Number" value={contacts?.whatsapp} onChange={e => {
+            setContacts(c => { return { ...c, whatsapp: e.target.value} });
+            setEdited(true);
+          }}/>
         </div>{" "}
         <div className="faceBook flex flex-col">
           <label> Facebook</label>
-          <input type="text" placeholder="Facebook" />
+          <input type="text" placeholder="Facebook" value={contacts?.facebook} onChange={e => {
+            setContacts(c => { return { ...c, facebook: e.target.value} });
+            setEdited(true);
+          }}/>
         </div>{" "}
         <div className="Ig flex flex-col">
           <label> Instagram</label>
-          <input type="text" placeholder="Instagram" />
+          <input type="text" placeholder="Instagram" value={contacts?.instagram} onChange={e => {
+            setContacts(c => { return { ...c, instagram: e.target.value} });
+            setEdited(true);
+          }}/>
         </div>{" "}
         <div className="X flex flex-col">
           <label> X (Twitter)</label>
-          <input type="text" placeholder="X (Twitter)" />
+          <input type="text" placeholder="X (Twitter)" value={contacts?.twitter} onChange={e => {
+            setContacts(c => { return { ...c, twitter: e.target.value} });
+            setEdited(true);
+          }}/>
         </div>{" "}
         <button
           onClick={() => {
@@ -40,14 +70,17 @@ export function ContactPage() {
               showCancelButton: true,
               confirmButtonText: "Save",
               denyButtonText: `Don't save`,
-            }).then((result) => {
+            }).then(async (result) => {
               /* Read more about isConfirmed, isDenied below */
               if (result.isConfirmed) {
-                Swal.fire("Saved!", "", "success");
-                // setProductDesc("");
-                // setProductMarka("");
-                // setProductPrice("");
-                // setProductTitle("");
+                const result = await updateContacts(contacts);
+
+                if (result === 'error' || result === 'unauthorized') {
+
+                } else {
+                  Swal.fire("Saved!", "", "success");
+                  setEdited(false)
+                }
               } else if (result.isDenied) {
                 Swal.fire("Changes are not saved", "", "info");
               }

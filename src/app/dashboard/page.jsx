@@ -2,8 +2,10 @@
 import React, { useEffect, useState } from "react";
 import { HomePage } from "../../components/dashboard/HomePage";
 import { ContactPage } from "../../components/dashboard/ContactPage";
+
 function page() {
   const [active, setActive] = useState(["1"]);
+
   const tabs = [
     { id: "1", title: "Home page" },
     { id: "2", title: "Contact page" },
@@ -40,6 +42,8 @@ function page() {
   useEffect(() => {
     console.log(active);
   }, [active]);
+
+
   return (
     <div className="ml-[25%] h-auto mt-5 shadow-md mr-6  p-2 rounded-[31px]">
       <div className="tabs flex justify-between m-4 border-b-2 pb-4 flex-wrap">

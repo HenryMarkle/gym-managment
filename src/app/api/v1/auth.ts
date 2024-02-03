@@ -55,13 +55,45 @@ export async function doSignin(email: string, password: string): Promise<boolean
  * return false if email was not found
  * returns 'error' if error occured
  */
-export async function doSignout(email: string): Promise<boolean | 'error'> {
+export async function doSignout(email: string): Promise<boolean | 'unauthorized' | 'error'> {
     await client.$connect();
     
     try {
+        const sessionCookie = cookies().get('session');
+        if (!sessionCookie) return 'unauthorized';
+
+        if (!await client.user.count({ where: { session: sessionCookie.value } })) return 'unauthorized';
+
+
+
         if (!await client.user.count({ where: { email } })) return false;
 
         await client.user.update({ where: { email }, data: { session: randomUUID().toString() } });
+
+        return true;
+    }
+    catch (e) {
+        console.log(e);
+        return 'error';
+    }
+    finally {
+        await client.$disconnect();
+    }
+}
+
+export async function signout(): Promise<boolean | 'notFound' | 'error'> {
+    await client.$connect();
+    
+    try {
+        const sessionCookie = cookies().get('session');
+        if (!sessionCookie) return 'notFound';
+
+        const user = await client.user.findUnique({ where: { session: sessionCookie.value } });
+
+        if (!user) return 'notFound';
+
+        await client.user.update({ where: { id: user.id }, data: { session: randomUUID().toString() } });
+        cookies().delete('session');
 
         return true;
     }
@@ -112,9 +144,17 @@ export async function changePassword(oldPassword: string, newPassword: string): 
  * return false if email not found
  * returns 'error' if an error occurred
  */
-export async function resetPasswaord(email: string): Promise<boolean | 'error'> {
+export async function resetPasswaord(email: string): Promise<boolean | 'unauthorized' | 'error'> {
     try {
         await client.$connect();
+        
+        const sessionCookie = cookies().get('session');
+        if (!sessionCookie) return 'unauthorized';
+
+        const user = await client.user.findUnique({ where: { session: sessionCookie.value } });
+
+        if (!user) return 'unauthorized';
+
         if (!await client.user.count({ where: {email } })) return false;
 
         const newPassword = generate({
