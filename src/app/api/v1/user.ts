@@ -83,6 +83,33 @@ export async function getCurrentUserId(): Promise<number | 'unauthorized' | 'noS
   }
 }
 
+export async function getTotalIncome(): Promise<number | 'unauthorized' | 'error'> {
+  try {
+    await client.$connect();
+
+    const sc = cookies().get('session');
+
+    if (!sc) return 'unauthorized';
+
+    const user = await client.user.findUnique({ where: { session: sc.value } });
+
+    if (!user) return 'unauthorized';
+
+
+    const session = cookies().get('session');
+    if (!session) return 'unauthorized';
+    const result = await client.user.findMany({  });
+    if ((!result)) return 'unauthorized';
+
+    return result.map(r => r.salary).reduce((p, c) => p + c);
+  } catch (e) {
+    console.log(e);
+    return 'error';
+  } finally {
+    await client.$disconnect();
+  }
+}
+
 
 /**
  *

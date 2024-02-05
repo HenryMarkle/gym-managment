@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { FaHome, FaClipboardList } from "react-icons/fa";
 import { IoSettings } from "react-icons/io5";
 import { BiSolidMessageAdd } from "react-icons/bi";
@@ -10,6 +11,7 @@ import { BsCalendar2EventFill } from "react-icons/bs";
 import { BsFillPersonFill } from "react-icons/bs";
 import { LiaChevronCircleUpSolid } from "react-icons/lia";
 import { getGymName } from "../app/api/v1/user";
+import { signout } from "../app/api/v1/auth"; 
 import {
   IoIosLogOut,
   IoIosAddCircle,
@@ -29,6 +31,7 @@ function SideBar() {
   const [mobile, setMobile] = useState(false);
   const [dummyData, setDummyData] = useState([]);
   const [gymName, setGymName] = useState("");
+  const router = useRouter();
 
   useEffect(() => {
     console.log(filterdArray);
@@ -231,7 +234,7 @@ function SideBar() {
           </div>
           <div className="flex logout justify-center mt-[106px] gap-3 items-center">
             <IoIosLogOut size="23px" className=" font-bold " color="white" />
-            <span className="text-white font-bold">Logout</span>
+            <button onClick={async () => {signout(); router.push('/sign-in'); }} className="text-white font-bold">Logout</button>
           </div>
         </div>
 

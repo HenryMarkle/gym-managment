@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import Chart from "../components/Chart";
 import Stats_top from "../components/StatsTop";
 import { useRouter } from "next/navigation";
@@ -8,6 +8,12 @@ import tr from "../locales/tr";
 import en from "../locales/en";
 function page() {
   const router = useRouter();
+  
+  
+  useEffect(() => {
+    router.push("/");
+  }, [])
+
   const { locale } = router;
   const t = locale === "en" ? en : tr;
   return (

@@ -2,13 +2,21 @@
 import Link from "next/link";
 import { useState } from "react";
 import { doSignin } from "../api/v1/auth";
+import { useRouter } from "next/navigation";
 import RootLayout from "../layout";
 function page() {
   let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
+  const router = useRouter();
+
   async function signin() {
     const result = await doSignin(email, password);
     console.log("sign-in: "+result)
+
+    if (result) {
+      router.push('/');
+    }
+    
   }
   return (
     <>
