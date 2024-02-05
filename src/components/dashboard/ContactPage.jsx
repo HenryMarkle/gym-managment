@@ -1,5 +1,12 @@
 import React from "react";
 import Swal from "sweetalert2";
+import { CiFacebook } from "react-icons/ci";
+import { RiTwitterXFill } from "react-icons/ri";
+
+import { FaWhatsapp } from "react-icons/fa";
+
+import { CiInstagram } from "react-icons/ci";
+
 import { MdOutlineEmail } from "react-icons/md";
 export function ContactPage() {
   return (
@@ -14,20 +21,43 @@ export function ContactPage() {
           />
           <input type="text" placeholder=" Email" />
         </div>{" "}
-        <div className="whatsapp flex flex-col">
+        <div className="whatsapp flex flex-col relative">
           <label> WhatsApp Number</label>
+          <FaWhatsapp
+            size={19}
+            color="black"
+            className=" absolute right-3 top-[33px] "
+          />
+
           <input type="text" placeholder="WhatsApp Number" />
         </div>{" "}
-        <div className="faceBook flex flex-col">
+        <div className="faceBook flex flex-col relative">
           <label> Facebook</label>
+          <CiFacebook
+            size={20}
+            color="black"
+            className=" absolute right-3 top-[33px] "
+          />
           <input type="text" placeholder="Facebook" />
         </div>{" "}
-        <div className="Ig flex flex-col">
+        <div className="Ig flex flex-col relative">
           <label> Instagram</label>
+          <CiInstagram
+            size={20}
+            color="black"
+            className=" absolute right-3 top-[33px] "
+          />
+
           <input type="text" placeholder="Instagram" />
         </div>{" "}
-        <div className="X flex flex-col">
+        <div className="X flex flex-col relative">
           <label> X (Twitter)</label>
+          <RiTwitterXFill
+            size={19}
+            color="black"
+            className=" absolute right-3 top-[33px] "
+          />
+
           <input type="text" placeholder="X (Twitter)" />
         </div>{" "}
         <button
