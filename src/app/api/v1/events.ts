@@ -1,5 +1,6 @@
 'use server';
 
+import { cookies } from "next/headers";
 import client
  from "./client";
 export async function getAllEvents(): Promise<{
@@ -11,10 +12,13 @@ export async function getAllEvents(): Promise<{
 }[] | 'error' | 'unauthorized'> {
   try {
     await client.$connect();
-    // const c = cookies().get('session');
-    // if (!c) return 'unauthorized';
-    // const manager = await client.user.findUnique({ where: { session: c.value } });
-    // if (!manager) return 'unauthorized';
+    const sc = cookies().get('session');
+
+    if (!sc) return 'unauthorized';
+
+    const user = await client.user.findUnique({ where: { session: sc.value } });
+
+    if (!user) return 'unauthorized';
 
     const results = await client.event.findMany({});
 

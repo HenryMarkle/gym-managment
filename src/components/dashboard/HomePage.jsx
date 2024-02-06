@@ -1,11 +1,24 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./helper.css";
 import { CiSaveDown1 } from "react-icons/ci";
 import { CiSaveUp1 } from "react-icons/ci";
+import {
+  getHomeGeneralInfo,
+  updateHomeGeneralInfo,
+  getAdsInfo,
+  updateAdsInfo,
+  addPlan,
+  addHomeProduct,
+} from "../../app/api/v1/dashboard";
 import Swal from "sweetalert2";
 
 export function HomePage() {
+  const [edited, setEdited] = useState(false);
+  const [edited2, setEdited2] = useState(false);
+
+  const [generalInfo, setGeneralInfo] = useState(null);
+
   const [planOpen, setPlanOpen] = useState(true);
   const [shopOpen, setShopOpen] = useState(true);
 
@@ -15,6 +28,9 @@ export function HomePage() {
   const [planPrice, setPlanPrice] = useState("");
   ////////// End plan values
 
+  const [adsTitle, setAdsTitle] = useState("");
+  const [adsDescription, setAdsDescription] = useState("");
+
   /// Products values
   const [productTitle, setProductTitle] = useState("");
   const [productDesc, setProductDesc] = useState("");
@@ -22,10 +38,27 @@ export function HomePage() {
   const [productMarka, setProductMarka] = useState("");
   ////////// End Products values
 
+  const [image, setImage] = useState(null);
+  const [adsImage, setAdsImage] = useState(null);
+  const [productImage, setProductImage] = useState(null);
+
+  useEffect(() => {
+    getHomeGeneralInfo().then((d) => {
+      setGeneralInfo(d === "error" || d === "unauthorized" ? null : d);
+    });
+
+    getAdsInfo().then((d) => {
+      if (d === "error" || d === "unauthorized");
+      else {
+        setAdsTitle(d.title);
+        setAdsDescription(d.description);
+      }
+    });
+  }, []);
+
   return (
     <>
       {/* Start starter Blog */}
-
       <div className="p-2  grid grid-cols-2 gap-7 ">
         <div className="1 flex flex-col">
           <label htmlFor="">Gym title</label>
@@ -33,6 +66,14 @@ export function HomePage() {
             defaultValue="default value"
             type="text"
             placeholder="Gym title"
+            name="title"
+            value={generalInfo?.title}
+            onChange={(e) => {
+              setGeneralInfo((g) => {
+                return { ...g, title: e.target.value };
+              });
+              setEdited(true);
+            }}
           />
         </div>
         <div className="2 flex flex-col">
@@ -41,6 +82,14 @@ export function HomePage() {
             type="text"
             defaultValue="default value"
             placeholder="starter sentence"
+            name="starter-center"
+            value={generalInfo?.sentence}
+            onChange={(e) => {
+              setGeneralInfo((g) => {
+                return { ...g, sentence: e.target.data };
+              });
+              setEdited(true);
+            }}
           />
         </div>
         <div className=" flex flex-col">
@@ -48,8 +97,12 @@ export function HomePage() {
           <input
             type="file"
             className="third border-none bg-white"
-            name=""
+            name="image"
             id="image"
+            onChange={(e) => {
+              setImage(e.target.files[0]);
+              setEdited(true);
+            }}
           />
         </div>
         <div className="5 flex flex-col">
@@ -58,8 +111,39 @@ export function HomePage() {
             defaultValue="default value"
             type="text"
             placeholder="plans description"
+            name="plans-description"
+            value={generalInfo?.description}
+            onChange={(e) => {
+              setGeneralInfo((g) => {
+                return { ...g, description: e.target.value };
+              });
+              setEdited(true);
+            }}
           />
         </div>
+
+        <button
+          disabled={!edited}
+          type="submit"
+          onClick={async () => {
+            updateHomeGeneralInfo({
+              title: generalInfo?.title,
+              description: generalInfo?.description,
+              starter: generalInfo?.sentence,
+            });
+
+            if (image)
+              await fetch("/api/v1/mainimage", {
+                method: "POST",
+                body: image,
+                headers: {
+                  "Content-Type": image.type,
+                },
+              });
+          }}
+        >
+          Update
+        </button>
       </div>
 
       {/* End starter Blog */}
@@ -116,13 +200,23 @@ export function HomePage() {
                 showCancelButton: true,
                 confirmButtonText: "Save",
                 denyButtonText: `Don't save`,
-              }).then((result) => {
+              }).then(async (result) => {
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
-                  setPlanDesc("");
-                  setPlanPrice("");
-                  setPlanTitle("");
-                  Swal.fire("Saved!", "", "success");
+                  const result = await addPlan({
+                    title: planTitle,
+                    description: planDesc,
+                    price: planPrice,
+                  });
+
+                  if (result === "success") {
+                    setPlanTitle("");
+                    setPlanDesc("");
+                    setPlanPrice("");
+                    Swal.fire("Saved!", "", "success");
+                  } else {
+                    Swal.fire("Fail!", "", "error");
+                  }
                 } else if (result.isDenied) {
                   Swal.fire("Changes are not saved", "", "info");
                 }
@@ -152,6 +246,10 @@ export function HomePage() {
             className="third border-none bg-white"
             name=""
             id="image"
+            onChange={(e) => {
+              setAdsImage(e.target.files[0]);
+              setEdited2(true);
+            }}
           />
         </div>
         <div className="4 flex flex-col">
@@ -160,6 +258,11 @@ export function HomePage() {
             defaultValue="default value"
             type="text"
             placeholder="Ads on image"
+            value={adsTitle}
+            onChange={(e) => {
+              setAdsTitle(e.target.value);
+              setEdited2(true);
+            }}
           />
         </div>
         <div className="5 flex flex-col">
@@ -168,11 +271,36 @@ export function HomePage() {
             defaultValue="default value"
             type="text"
             placeholder="Ads on image"
+            value={adsDescription}
+            onChange={(e) => {
+              setAdsDescription(e.target.value);
+              setEdited2(true);
+            }}
           />
         </div>
+
+        <button
+          className=" h-[40px] mt-5"
+          disabled={!edited2}
+          onClick={async () => {
+            updateAdsInfo({ title: adsTitle, description: adsDescription });
+
+            if (adsImage) {
+              await fetch("api/v1/adsimage", {
+                method: "POST",
+                body: adsImage,
+                headers: {
+                  "Content-Type": adsImage.type,
+                },
+              });
+            }
+          }}
+        >
+          Update
+        </button>
       </div>
 
-      {/* End shop Blog */}
+      {/* End Ads Blog */}
 
       {/* Start shop Blog */}
 
@@ -192,7 +320,16 @@ export function HomePage() {
           <div className="form-content w-full rounded-[30px] py-1 px-5 grid grid-cols-2 gap-7">
             <div className="product-images flex flex-col">
               <label htmlFor="product-images">Product images</label>
-              <input type="file" multiple name="" id="product-images" />
+              <input
+                type="file"
+                multiple
+                name=""
+                id="product-images"
+                onChange={(e) => {
+                  setEdited2(true);
+                  setProductImage(e.target.files[0]);
+                }}
+              />
             </div>{" "}
             <div className="product-name flex flex-col">
               <label htmlFor="product-name">Product name</label>
@@ -244,14 +381,39 @@ export function HomePage() {
                   showCancelButton: true,
                   confirmButtonText: "Save",
                   denyButtonText: `Don't save`,
-                }).then((result) => {
+                }).then(async (result) => {
                   /* Read more about isConfirmed, isDenied below */
                   if (result.isConfirmed) {
-                    Swal.fire("Saved!", "", "success");
-                    setProductDesc("");
-                    setProductMarka("");
-                    setProductPrice("");
-                    setProductTitle("");
+                    const result = await addHomeProduct({
+                      name: productTitle,
+                      description: productDesc,
+                      price: productPrice,
+                      marka: productMarka,
+                    });
+
+                    if (productImage) {
+                      await fetch(
+                        "api/v1/productimage?name=" + encodeURI(productTitle),
+                        {
+                          method: "POST",
+                          body: productImage,
+                          headers: {
+                            "Content-Type": productImage.type,
+                          },
+                        }
+                      );
+                    }
+
+                    if (result === "success") {
+                      Swal.fire("Saved!", "", "success");
+                      setProductDesc("");
+                      setProductMarka("");
+                      setProductPrice("");
+                      setProductTitle("");
+                      setEdited2(false);
+                    } else {
+                      Swal.fire("Fail!", "", "error");
+                    }
                   } else if (result.isDenied) {
                     Swal.fire("Changes are not saved", "", "info");
                   }

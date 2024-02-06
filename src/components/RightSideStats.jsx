@@ -1,13 +1,21 @@
 import React, { useEffect, useState } from "react";
 import CountUp from "react-countup";
+import { getTotalIncome } from "../app/api/v1/user";
 
 function MoneyStats() {
   const [selectedOptionMoney, setSelectedOption] = useState("TL");
   const [INcome, setIncome] = useState();
   const [Month, setMonth] = useState("Total");
-  const incomesArray = [
+  const [incomesArray, setIncomeArray] = useState([
     { Total: 1992000, January: 23200, February: 232300, March: 622100 },
-  ];
+  ]);
+
+  useEffect(() => {
+    getTotalIncome().then(i => {
+      if (i === 'error' || i === 'unauthorized') console.log('failed to fetch income: '+i);
+      else setIncomeArray([{ January: 0, February: 0, March: 0, Total: i }]);
+    })
+  }, [])
 
   useEffect(() => {
     const findIncome = () => {
