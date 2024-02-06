@@ -1,9 +1,9 @@
 "use client";
 import Link from "next/link";
 import { useState } from "react";
-import { doSignin } from "../api/v1/auth";
+import { doSignin } from "../../api/v1/auth";
 import { useRouter } from "next/navigation";
-import RootLayout from "../layout";
+import RootLayout from "../../layout";
 function page() {
   let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
@@ -14,7 +14,7 @@ function page() {
     console.log("sign-in: "+result)
 
     if (result) {
-      router.push('/');
+      router.push('/panel');
     }
     
   }

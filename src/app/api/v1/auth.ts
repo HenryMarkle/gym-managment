@@ -20,11 +20,17 @@ export async function doSignin(email: string, password: string): Promise<boolean
     try {
         const found = await client.user.findUnique({ where: { email } });
 
-        if (!found) return false;
+        if (!found) {
+            console.log('no user found with email '+email);
+            return false;
+        }
 
         const result = await bcrypt.compare(password, found.password);
 
-        if (!result) return false;
+        if (!result) {
+            console.log('password didn\'t match')
+            return false;
+        }
 
         const session = randomUUID();
 

@@ -1,8 +1,13 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import { getHomeGeneralInfo } from "../../app/api/v1/dashboard";
+import { getGymName } from "../../app/api/v1/user";
 
 function Header() {
   const [scrollPosition, setScrollPosition] = useState(0);
+
+  const [ gymName, setGymName ] = useState('');
+  const [ genInfo, setGenInfo ] = useState(null);
 
   //   Start scrool Value
 
@@ -11,6 +16,16 @@ function Header() {
   };
 
   useEffect(() => {
+    getHomeGeneralInfo().then(i => {
+      if (i === 'error' || i === 'unauthorized');
+      else setGenInfo(i);
+    });
+
+    getGymName().then(name => {
+      if (name === 'unauthorized' || name === null);
+      else setGymName(name);
+    });
+
     window.addEventListener("scroll", handleScroll);
 
     return () => {
@@ -51,7 +66,7 @@ function Header() {
                 : "text-5xl text-white font-extrabold w-[500px] "
             }
           >
-            <span>Gym</span> <span className="text-website2">Title</span>
+            <span>{gymName}</span> <span className="text-website2">{genInfo?.title ?? ''}</span>
           </p>
           <div className="flex flex-1 justify-between ">
             {headerData.map((ele) => {
@@ -75,7 +90,7 @@ function Header() {
         <div className="content flex items-center justify-center h-full ">
           <div className="mb-40 text-center">
             <p className="text-center mb-2 font-bold text-2xl text-white">
-              WORK HARDER, GET STRONGER
+              {genInfo?.sentence ?? ''}
             </p>
             <p className="text-center text-7xl font-extrabold text-white">
               EASY WITH OUR <span className="text-website2">GYM</span>
