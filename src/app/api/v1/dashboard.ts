@@ -40,7 +40,6 @@ type Contacts =  {
 type Dashboard = {
     gymTitle: string;
     starterSentence: string;
-    plansDescription: string;
     plans: { [key: string]: Plan };
     adsOnImageBoldText: string;
     adsOnImageDescription: string;
@@ -48,7 +47,7 @@ type Dashboard = {
     contacts: Contacts
 }
 
-export async function getHomeGeneralInfo(): Promise<{ title: string, description: string, sentence: string } | 'error' | 'unauthorized'> {
+export async function getHomeGeneralInfo(): Promise<{ title: string, sentence: string } | 'error' | 'unauthorized'> {
     try {
         await client.$connect();
 
@@ -58,7 +57,7 @@ export async function getHomeGeneralInfo(): Promise<{ title: string, description
 
         const d = await importJSON();
 
-        return { title: d.gymTitle, description: d.plansDescription, sentence: d.starterSentence };
+        return { title: d.gymTitle, sentence: d.starterSentence };
 
     } catch (e) {
         console.log('failed to fetch dashboard general info: '+e);
@@ -115,7 +114,6 @@ export async function updateHomeGeneralInfo({ title, starter, description}: { ti
 
         dashboard.gymTitle = title ?? dashboard.gymTitle;
         dashboard.starterSentence = starter ?? dashboard.starterSentence;
-        dashboard.plansDescription = description ?? dashboard.plansDescription;
 
         await exportJSON(dashboard);
     } catch (e) {

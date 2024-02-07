@@ -1,29 +1,27 @@
-import React from "react";
+'use client'
+
+import React, { useEffect, useState } from "react";
 import img from "./website-images/gym-image.png";
 import Image from "next/image";
+
+import { getHomePlans } from "../../app/api/v1/dashboard";
+
 function Plans() {
-  const plans = [
-    {
-      id: 1,
-      title: "Plan Title 1",
-      desc: "  Please do not re-distribute this template ZIP file on any template collection website. This is not allowed.",
-    },
-    {
-      id: 2,
-      title: "Plan Title 2",
-      desc: "  Please do not re-distribute this template ZIP file on any template collection website. This is not allowed.",
-    },
-    {
-      id: 3,
-      title: "Plan Title 3",
-      desc: "  Please do not re-distribute this template ZIP file on any template collection website. This is not allowed.",
-    },
-    {
-      id: 4,
-      title: "Plan Title 4",
-      desc: "  Please do not re-distribute this template ZIP file on any template collection website. This is not allowed.",
-    },
-  ];
+  const [ plans, setPlans ] = useState([]);
+
+  useEffect(() => {
+    getHomePlans().then(plans => {
+      if (plans === 'error' || plans === 'unauthorized');
+      else {
+        for (let i = 0; i < plans.length; i++) {
+          plans[i] = {...plans[i], id: i};
+        }
+
+        setPlans(plans);
+      }
+    })
+  })
+
   return (
     <>
       <div className="container-site">
@@ -46,16 +44,11 @@ function Plans() {
                 <div className="plan flex flex-row gap-4">
                   <Image src={img} />
                   <div className="content-of-plan flex flex-col justify-between">
-                    <div className=" flex justify-between items-center">
-                      <p className="text-xl font-medium">{ele.title}</p>
-                      <span className="text-website2 font-bold">Price</span>
-                    </div>
-                    <p className=" opacity-70">{ele.desc}</p>
-                    <div className="down-content flex justify-between">
-                      <button className=" self-start text-website2 font-medium ">
-                        Register Now
-                      </button>
-                    </div>
+                    <p className="text-xl font-medium">{ele.title}</p>
+                    <p className=" opacity-70">{ele.description}</p>
+                    <button className=" self-start text-website2 font-medium ">
+                      Register Now
+                    </button>
                   </div>
                 </div>
               </>
