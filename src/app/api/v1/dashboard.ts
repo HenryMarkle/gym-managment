@@ -51,10 +51,6 @@ export async function getHomeGeneralInfo(): Promise<{ title: string, sentence: s
     try {
         await client.$connect();
 
-        const sc = cookies().get('session');
-        if (!sc) return 'unauthorized';
-        if (!await client.user.count({ where: { session: sc.value } })) 'unauthorized';
-
         const d = await importJSON();
 
         return { title: d.gymTitle, sentence: d.starterSentence };
@@ -70,10 +66,6 @@ export async function getHomeGeneralInfo(): Promise<{ title: string, sentence: s
 export async function getHomeInfo(): Promise<Dashboard | 'error' | 'unauthorized'> {
     try {
         await client.$connect();
-
-        const sc = cookies().get('session');
-        if (!sc) return 'unauthorized';
-        if (!await client.user.count({ where: { session: sc.value } })) 'unauthorized';
 
         return await importJSON();
 
@@ -128,12 +120,6 @@ export async function updateHomeGeneralInfo({ title, starter, description}: { ti
 
 export async function getHomePlans(): Promise<Plan[] | 'unauthorized' | 'error'> {
     try {
-        await client.$connect();
-
-        const sc = cookies().get('session');
-        if (!sc) return 'unauthorized';
-        if (!await client.user.count({ where: { session: sc.value } })) return 'unauthorized';
-
         const d = await importJSON();
 
         return Object.values(d.plans);
@@ -141,7 +127,6 @@ export async function getHomePlans(): Promise<Plan[] | 'unauthorized' | 'error'>
         console.log('failed to fetch plans: '+e);
         return 'error';
     } finally {
-        await client.$disconnect();
     }
 }
 
@@ -232,12 +217,6 @@ export async function deletePlan(name: string): Promise<boolean | 'unauthorized'
 
 export async function getAdsInfo(): Promise<{ title: string, description: string } | 'unauthorized' | 'error'> {
     try {
-        await client.$connect();
-
-        const sc = cookies().get('session');
-        if (!sc) return 'unauthorized';
-        if (!await client.user.count({ where: { session: sc.value } })) return 'unauthorized';
-
         const d = await importJSON();
 
 
@@ -246,7 +225,6 @@ export async function getAdsInfo(): Promise<{ title: string, description: string
         console.log('failed to get ads info: '+e);
         return 'error';
     } finally {
-        await client.$disconnect();
     }
 }
 
@@ -276,12 +254,6 @@ export async function updateAdsInfo(data: { title: string, description: string }
 
 export async function getHomeProducts(): Promise<Product[] | 'unauthorized' | 'error'> {
     try {
-        await client.$connect();
-
-        const sc = cookies().get('session');
-        if (!sc) return 'unauthorized';
-        if (!await client.user.count({ where: { session: sc.value } })) return 'unauthorized';
-
         const d = await importJSON();
 
         return Object.values(d.products);
@@ -289,7 +261,6 @@ export async function getHomeProducts(): Promise<Product[] | 'unauthorized' | 'e
         console.log('failed to get a product: '+e);
         return 'error';
     } finally {
-        await client.$disconnect();
     }
 }
 
@@ -341,11 +312,6 @@ export async function deleteHomeProduct(name: string): Promise<'success' | 'unau
 
 export async function getContacts(): Promise<Contacts | 'unauthorized' | 'error'> {
     try {
-        await client.$connect();
-
-        const sc = cookies().get('session');
-        if (!sc) return 'unauthorized';
-        if (!await client.user.count({ where: { session: sc.value } })) return 'unauthorized';
 
         const d = await importJSON();
 
@@ -354,7 +320,6 @@ export async function getContacts(): Promise<Contacts | 'unauthorized' | 'error'
         console.log('failed to get contacts: '+e);
         return 'error';
     } finally {
-        await client.$disconnect();
     }
 }
 
