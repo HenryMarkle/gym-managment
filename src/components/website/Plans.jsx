@@ -1,5 +1,4 @@
-'use client'
-
+"use client";
 import React, { useEffect, useState } from "react";
 import img from "./website-images/gym-image.png";
 import Image from "next/image";
@@ -7,20 +6,20 @@ import Image from "next/image";
 import { getHomePlans } from "../../app/api/v1/dashboard";
 
 function Plans() {
-  const [ plans, setPlans ] = useState([]);
+  const [plans, setPlans] = useState([]);
 
   useEffect(() => {
-    getHomePlans().then(plans => {
-      if (plans === 'error' || plans === 'unauthorized');
+    getHomePlans().then((plans) => {
+      if (plans === "error" || plans === "unauthorized");
       else {
         for (let i = 0; i < plans.length; i++) {
-          plans[i] = {...plans[i], id: i};
+          plans[i] = { ...plans[i], id: i };
         }
 
         setPlans(plans);
       }
-    })
-  })
+    });
+  });
 
   return (
     <>

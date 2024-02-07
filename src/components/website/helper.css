@@ -66,3 +66,9 @@ body {
   color: white;
   transition: 0.3s;
 }
+.swiper-scrollbar-horizontal {
+  display: none !important;
+}
+.swiper-horizontal {
+  padding: 100px 100px 50px 100px !important;
+}
