@@ -37,11 +37,11 @@ function Header() {
 
   return (
     <>
-      <div className="header-parent h-[100vh] bg-emerald-200">
+      <div className="header-parent h-[100vh] bg-emerald-200 z-50">
         <div
           style={headerStyle}
-          className={`header-bar w-full h-20 z-[100] justify-between px-[290px] duration-700 flex items-center ${
-            scrollPosition > 735 && "bg-white shadow-lg fixed"
+          className={`header-bar w-full h-20 z-[100] justify-between px-[290px] duration-700 flex items-center  ${
+            scrollPosition > 735 && "bg-white shadow-lg fixed z-50"
           }`}
         >
           <p

@@ -7,7 +7,7 @@ body {
   height: 20200px;
 }
 .container-site {
-  padding: 150px 150px;
+  padding: 100px 150px;
 }
 
 .waves {
@@ -30,4 +30,39 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
   background-image: url("https://themewagon.github.io/training-studio/assets/images/cta-bg.jpg");
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+  border-radius: 31px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    0deg,
+    rgb(250, 107, 100) 6%,
+    rgb(226, 238, 171) 100%
+  );
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(
+    0deg,
+    rgb(250, 107, 100) 70%,
+    rgb(226, 238, 171) 100%
+  );
+}
+
+.buy-button:hover {
+  background: rgb(250, 107, 100) 70%;
+  color: white;
+  transition: 0.3s;
 }

@@ -46,11 +46,16 @@ function Plans() {
                 <div className="plan flex flex-row gap-4">
                   <Image src={img} />
                   <div className="content-of-plan flex flex-col justify-between">
-                    <p className="text-xl font-medium">{ele.title}</p>
+                    <div className=" flex justify-between items-center">
+                      <p className="text-xl font-medium">{ele.title}</p>
+                      <span className="text-website2 font-bold">Price</span>
+                    </div>
                     <p className=" opacity-70">{ele.desc}</p>
-                    <button className=" self-start text-website2 font-medium ">
-                      Register Now
-                    </button>
+                    <div className="down-content flex justify-between">
+                      <button className=" self-start text-website2 font-medium ">
+                        Register Now
+                      </button>
+                    </div>
                   </div>
                 </div>
               </>
