@@ -26,6 +26,7 @@ export function HomePage() {
   const [planTitle, setPlanTitle] = useState("");
   const [planDesc, setPlanDesc] = useState("");
   const [planPrice, setPlanPrice] = useState("");
+  const [planSentence, setPlanSentence] = useState("");
   ////////// End plan values
 
   const [adsTitle, setAdsTitle] = useState("");
@@ -59,7 +60,7 @@ export function HomePage() {
   return (
     <>
       {/* Start starter Blog */}
-      <div className="p-2  grid grid-cols-2 gap-7 ">
+      <div className="p-2 border-b-2 pb-10 grid grid-cols-2 gap-7 ">
         <div className="1 flex flex-col">
           <label htmlFor="">Gym title</label>
           <input
@@ -152,7 +153,7 @@ export function HomePage() {
 
       <div
         className={`create-plan mt-5 w-full shadow-lg overflow-hidden rounded-[30px] duration-700  ${
-          planOpen ? "h-[250px]" : "h-[55px]"
+          planOpen ? "h-[320px]" : "h-[55px]"
         }`}
       >
         <div
@@ -163,6 +164,15 @@ export function HomePage() {
           {planOpen ? <CiSaveUp1 size={24} /> : <CiSaveDown1 size={24} />}
         </div>
         <div className="form-content w-full rounded-[30px] py-1 px-5 grid grid-cols-2 gap-7">
+          <div className="plan-title flex flex-col">
+            <label htmlFor="">Plans motiviting sentence</label>
+            <input
+              value={planTitle}
+              onChange={(e) => setPlanSentence(e.target.value)}
+              type="text"
+              placeholder="Plan title"
+            />
+          </div>{" "}
           <div className="plan-title flex flex-col">
             <label htmlFor="">Plan title</label>
             <input
@@ -238,7 +248,7 @@ export function HomePage() {
 
       {/* Start Ads Blog */}
 
-      <div className="ads p-2 grid grid-cols-2 gap-7 mt-7">
+      <div className="ads p-2 border-t-2 pt-10 border-b-2 pb-10  grid grid-cols-2 gap-7 mt-7">
         <div className=" flex flex-col">
           <label htmlFor="image">Ads Background image</label>
           <input

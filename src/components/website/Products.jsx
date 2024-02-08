@@ -1,11 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
-
 import { Swiper, SwiperSlide } from "swiper/react";
 import { getHomeProducts } from "../../app/api/v1/dashboard";
-
-// Import Swiper styles
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -15,14 +12,9 @@ function Products() {
 
   useEffect(() => {
     getHomeProducts().then((p) => {
-      if (p === "error" || p === "unauthorized");
-      else {
-        setProducts(p);
-      }
+      setProducts(p);
     });
-  }, [])
-
-  
+  }, []);
   return (
     <>
       <div className="container-site">
@@ -34,7 +26,7 @@ function Products() {
           navigation
           pagination={{ clickable: true }}
           scrollbar={{ draggable: true }}
-          onSwiper={(swiper) => console.log(swiper)}
+          // onSwiper={(swiper) => console.log(swiper)}
           onSlideChange={() => console.log("slide change")}
         >
           {" "}
@@ -55,7 +47,7 @@ function Products() {
                       <span className=" text-website2 font-bold mr-1">
                         {ele.marka}
                       </span>{" "}
-                      {ele.desc.length > 70
+                      {ele.description.length > 70
                         ? ele.description.slice(0, 70) + "..."
                         : ele.description}
                     </p>

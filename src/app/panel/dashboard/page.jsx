@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import { HomePage } from "../../../components/dashboard/HomePage";
 import { ContactPage } from "../../../components/dashboard/ContactPage";
-
 function page() {
   const [active, setActive] = useState(["1"]);
 

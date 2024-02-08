@@ -6,7 +6,7 @@ import { getGymName } from "../../app/api/v1/user";
 function Header() {
   const [scrollPosition, setScrollPosition] = useState(0);
 
-  const [gymName, setGymName] = useState("");
+  const [gymName, setGymName] = useState([]);
   const [genInfo, setGenInfo] = useState(null);
 
   //   Start scrool Value
@@ -17,8 +17,14 @@ function Header() {
 
   useEffect(() => {
     getHomeGeneralInfo().then((i) => {
-      if (i === "error" || i === "unauthorized");
-      else setGenInfo(i);
+      if (i === "error" || i === "unauthorized") {
+        console.log("first");
+      } else {
+        setGenInfo(i);
+        const words = i.title.split(" ");
+        console.log(words[0]);
+        setGymName(words);
+      }
     });
 
     getGymName().then((name) => {
@@ -67,8 +73,11 @@ function Header() {
                 : "text-5xl text-white font-extrabold w-[500px] "
             }
           >
-            <span>{gymName}</span>{" "}
-            <span className="text-website2">{genInfo?.title ?? ""}</span>
+            <span>
+              {gymName[0]} <span className="text-website2">{gymName[1]}</span>
+            </span>
+
+            {/* <span className="text-website2">{genInfo?.title ?? ""}</span> */}
           </p>
           <div className="flex flex-1 justify-between ">
             {headerData.map((ele) => {

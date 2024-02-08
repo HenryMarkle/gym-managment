@@ -19,11 +19,11 @@ function Plans() {
         setPlans(plans);
       }
     });
-  });
+  }, []);
 
   return (
     <>
-      <div className="container-site">
+      <div className="container-site overflow-hidden">
         <p className="text-center  font-extrabold text-4xl ">
           CHOOSE <span className="text-website2">PLAN</span>
         </p>
@@ -36,18 +36,28 @@ function Plans() {
           voluptates nihil deleniti nam, veniam, reiciendis quae facilis animi.
           Fugiat, illo.
         </p>
-        <div className="plans w-full flex flex-col gap-14 items-start justify-center mt-16 ">
+        <div className="plans w-full flex flex-col gap-14 items-start justify-center mt-16 mx-auto my-0 px-[150px]">
           {plans.map((ele) => {
             return (
               <>
-                <div className="plan flex flex-row gap-4">
+                <div className="plan flex flex-row gap-4 w-full">
                   <Image src={img} />
-                  <div className="content-of-plan flex flex-col justify-between">
+                  <div className="content-of-plan flex flex-col justify-between w-full">
                     <p className="text-xl font-medium">{ele.title}</p>
-                    <p className=" opacity-70">{ele.description}</p>
-                    <button className=" self-start text-website2 font-medium ">
-                      Register Now
-                    </button>
+                    <p
+                      style={{ overflowWrap: "anywhere" }}
+                      className=" opacity-70 py-2"
+                    >
+                      {ele.description}
+                    </p>
+                    <div className="flex justify-between w-full">
+                      <button className=" self-start text-website2 font-medium ">
+                        Register Now
+                      </button>
+                      <span className="text-website2 font-bold">
+                        {ele.price} TL
+                      </span>
+                    </div>
                   </div>
                 </div>
               </>
