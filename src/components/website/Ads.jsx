@@ -12,7 +12,7 @@ function Ads() {
       if (g === 'error' || g === 'unauthorized');
       else setGenInfo(g);
     })
-  })
+  }, [])
 
   return (
     <>

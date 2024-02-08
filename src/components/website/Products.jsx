@@ -11,14 +11,10 @@ function Products() {
     getHomeProducts().then(p => {
       if (p === 'error' || p === 'unauthorized');
       else {
-        for (let i = 0; i < p.length; i++) {
-          p[i] = { ...p[i], id: i };
-        }
-
         setProducts(p);
       }
     });
-  })
+  }, [])
 
   
   return (
@@ -29,7 +25,7 @@ function Products() {
             return (
               <>
                 <div
-                  key={ele.id}
+                  key={ele.name}
                   className="product shadow-lg flex flex-col justify-center items-center rounded-xl min-w-[300px]"
                 >
                   <img
