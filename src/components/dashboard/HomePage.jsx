@@ -93,6 +93,22 @@ export function HomePage() {
             }}
           />
         </div>
+        <div className="2 flex flex-col">
+          <label htmlFor="">second starter sentence</label>
+          <input
+            type="text"
+            defaultValue="default value"
+            placeholder="starter sentence"
+            name="starter-center"
+            value={generalInfo?.secondSentence}
+            onChange={(e) => {
+              setGeneralInfo((g) => {
+                return { ...g, secondSentence: e.target.data };
+              });
+              setEdited(true);
+            }}
+          />
+        </div>
         <div className=" flex flex-col">
           <label htmlFor="image">Background image</label>
           <input

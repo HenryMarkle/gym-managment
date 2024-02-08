@@ -104,7 +104,7 @@ function Header() {
               {genInfo?.sentence ?? ""}
             </p>
             <p className="text-center text-7xl font-extrabold text-white">
-              EASY WITH OUR <span className="text-website2">GYM</span>
+              {genInfo?.secondSentence ?? ''}
             </p>
             <button className="mt-5 bg-[#ed563b] text-white px-4 text-xl py-4 rounded-sm">
               BECOME A MEMBER

@@ -4,10 +4,11 @@ import { BallTriangle } from "react-loader-spinner";
 import img from "./website-images/gym-image.png";
 import Image from "next/image";
 
-import { getHomePlans } from "../../app/api/v1/dashboard";
+import { getHomePlans, getPlanParagraph } from "../../app/api/v1/dashboard";
 
 function Plans() {
   const [plans, setPlans] = useState([]);
+  const [ paragraph, setParagraph ] = useState('')
 
   useEffect(() => {
     getHomePlans().then((plans) => {
@@ -20,6 +21,12 @@ function Plans() {
         setPlans(plans);
       }
     });
+
+    getPlanParagraph().then(p => {
+      if (p !== 'error') {
+        setParagraph(p);
+      }
+    })
   }, []);
 
   return (
@@ -32,10 +39,7 @@ function Plans() {
         <p className="waves"></p>
         <p className="waves"></p>
         <p className="mt-10 text-center opacity-60">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad reiciendis
-          omnis suscipit ea, dolores vitae. Repellat tenetur amet impedit
-          voluptates nihil deleniti nam, veniam, reiciendis quae facilis animi.
-          Fugiat, illo.
+          {paragraph}
         </p>
         {plans.length ? (
           <div className="plans w-full flex flex-col gap-14 items-start justify-center mt-16 mx-auto my-0 px-[150px]">
