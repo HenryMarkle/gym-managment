@@ -17,15 +17,12 @@ function Products() {
     getHomeProducts().then((p) => {
       if (p === "error" || p === "unauthorized");
       else {
-        for (let i = 0; i < p.length; i++) {
-          p[i] = { ...p[i], id: i };
-        }
-
         setProducts(p);
       }
     });
-  });
+  }, [])
 
+  
   return (
     <>
       <div className="container-site">
