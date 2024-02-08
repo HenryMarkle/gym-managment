@@ -1,1 +1,41 @@
-{"gymTitle":"welcome to awesome gym","starterSentence":"default2","plansDescription":"bruh","plans":{"plan me this":{"title":"plan me this","description":"evil plan","price":"69"},"a":{"title":"a","description":"a","price":"a"},"Aliiiiii Aliiiiii":{"title":"Aliiiiii Aliiiiii","description":"Aliiiiii Aliiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii","price":"1234567"}},"adsOnImageBoldText":"bruh advertisement","adsOnImageDescription":"69","products":{"watr":{"name":"watr","description":"tastes good","price":"69","marka":"Zam zam"},"this crap":{"name":"this crap","description":"","price":"","marka":""}},"contacts":{"email":"mail","twitter":"CUM","facebook":"nut","instagram":"LOL","whatsapp":"wawa"}}
+{
+  "gymTitle": "awesome gym",
+  "starterSentence": "default2",
+  "plansDescription": "bruh",
+  "plans": {
+    "plan me this": {
+      "title": "plan me this",
+      "description": "evil plan",
+      "price": "69"
+    },
+    "a": { "title": "a", "description": "a", "price": "a" },
+    "Aliiiiii Aliiiiii": {
+      "title": "Aliiiiii Aliiiiii",
+      "description": "Aliiiiii Aliiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii",
+      "price": "1234567"
+    }
+  },
+  "adsOnImageBoldText": "bruh advertisement",
+  "adsOnImageDescription": "69",
+  "products": {
+    "watr": {
+      "name": "watr",
+      "description": "tastes good",
+      "price": "69",
+      "marka": "Zam zam"
+    },
+    "this crap": {
+      "name": "this crap",
+      "description": "",
+      "price": "",
+      "marka": ""
+    }
+  },
+  "contacts": {
+    "email": "mail",
+    "twitter": "CUM",
+    "facebook": "nut",
+    "instagram": "LOL",
+    "whatsapp": "wawa"
+  }
+}

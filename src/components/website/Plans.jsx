@@ -36,7 +36,7 @@ function Plans() {
           voluptates nihil deleniti nam, veniam, reiciendis quae facilis animi.
           Fugiat, illo.
         </p>
-        <div className="plans w-full flex flex-col gap-14 items-center justify-center mt-16">
+        <div className="plans w-full flex flex-col gap-14 items-start justify-center mt-16 ">
           {plans.map((ele) => {
             return (
               <>
