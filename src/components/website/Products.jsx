@@ -1,15 +1,21 @@
-'use client'
-import Image from "next/image";
+"use client";
 import React, { useEffect, useState } from "react";
+import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
 
+import { Swiper, SwiperSlide } from "swiper/react";
 import { getHomeProducts } from "../../app/api/v1/dashboard";
 
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css/scrollbar";
 function Products() {
-  const [ products, setProducts ] = useState([]);
+  const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    getHomeProducts().then(p => {
-      if (p === 'error' || p === 'unauthorized');
+    getHomeProducts().then((p) => {
+      if (p === "error" || p === "unauthorized");
       else {
         setProducts(p);
       }
@@ -20,12 +26,23 @@ function Products() {
   return (
     <>
       <div className="container-site">
-        <div className="products flex flex-row overflow-x-auto gap-10 scroll-smooth w-full">
+        <Swiper
+          // install Swiper modules
+          modules={[Navigation, Pagination, Scrollbar, A11y]}
+          spaceBetween={50}
+          slidesPerView={3}
+          navigation
+          pagination={{ clickable: true }}
+          scrollbar={{ draggable: true }}
+          onSwiper={(swiper) => console.log(swiper)}
+          onSlideChange={() => console.log("slide change")}
+        >
+          {" "}
           {products.map((ele) => {
             return (
               <>
-                <div
-                  key={ele.name}
+                <SwiperSlide
+                  key={ele.id}
                   className="product shadow-lg flex flex-col justify-center items-center rounded-xl min-w-[300px]"
                 >
                   <img
@@ -49,11 +66,11 @@ function Products() {
                       Buy Now
                     </button>
                   </div>
-                </div>
+                </SwiperSlide>
               </>
             );
           })}
-        </div>
+        </Swiper>
       </div>
     </>
   );
