@@ -3,9 +3,7 @@
   background-repeat: no-repeat;
   background-image: url("https://global.discourse-cdn.com/sitepoint/optimized/3X/3/6/36cb57d71107aa5d944cb4980a5fb9d94f0d35b2_2_690x295.png");
 }
-body {
-  height: 20200px;
-}
+
 .container-site {
   padding: 100px 150px;
 }
@@ -64,11 +62,15 @@ body {
 .buy-button:hover {
   background: rgb(250, 107, 100) 70%;
   color: white;
-  transition: 0.3s;
+  transition: 0.2s;
 }
 .swiper-scrollbar-horizontal {
   display: none !important;
 }
 .swiper-horizontal {
   padding: 100px 100px 50px 100px !important;
+}
+
+.swiper-slide {
+  display: flex !important;
 }

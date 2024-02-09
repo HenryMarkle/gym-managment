@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from "react";
 import { getHomeGeneralInfo } from "../../app/api/v1/dashboard";
 import { getGymName } from "../../app/api/v1/user";
+import Navbar from "./Navbar";
+import Link from "next/link";
 
 function Header() {
   const [scrollPosition, setScrollPosition] = useState(0);
@@ -48,15 +50,6 @@ function Header() {
 
   //   End scrool Value
 
-  const headerData = [
-    { id: 1, title: "Home" },
-    { id: 3, title: "Plans" },
-    { id: 4, title: "Shop" },
-    { id: 4, title: "Exercises" },
-    { id: 2, title: "About" },
-    { id: 5, title: "Contact" },
-  ];
-
   return (
     <>
       <div className="header-parent h-[100vh] bg-emerald-200 z-50">
@@ -79,24 +72,7 @@ function Header() {
 
             {/* <span className="text-website2">{genInfo?.title ?? ""}</span> */}
           </p>
-          <div className="flex flex-1 justify-between ">
-            {headerData.map((ele) => {
-              return (
-                <>
-                  <span
-                    key={ele.id}
-                    className={
-                      scrollPosition > 735
-                        ? "text-lg font-bold text-black  cursor-pointer hover:text-website2 duration-500 scale-[1.04]"
-                        : "text-lg font-bold text-white  cursor-pointer hover:text-website2 duration-500 scale-[1.04]"
-                    }
-                  >
-                    {ele.title}
-                  </span>
-                </>
-              );
-            })}
-          </div>
+          <Navbar />
         </div>
         <div className="content flex items-center justify-center h-full ">
           <div className="mb-40 text-center">
