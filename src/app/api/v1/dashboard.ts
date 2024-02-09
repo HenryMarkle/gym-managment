@@ -43,7 +43,9 @@ type Contacts = {
 type Dashboard = {
   gymTitle: string;
   starterSentence: string;
+  secondStarterSentence: string;
   plans: { [key: string]: Plan };
+  plansParagraph: string;
   adsOnImageBoldText: string;
   adsOnImageDescription: string;
   products: { [key: string]: Product };
@@ -51,14 +53,14 @@ type Dashboard = {
 };
 
 export async function getHomeGeneralInfo(): Promise<
-  { title: string; sentence: string } | "error" | "unauthorized"
+  { title: string; sentence: string; secondSentence: string, plansDescription: string } | "error" | "unauthorized"
 > {
   try {
     await client.$connect();
 
     const d = await importJSON();
 
-    return { title: d.gymTitle, sentence: d.starterSentence };
+    return { title: d.gymTitle, sentence: d.starterSentence, secondSentence: d.secondStarterSentence, plansDescription: d.plansParagraph  };
   } catch (e) {
     console.log("failed to fetch dashboard general info: " + e);
     return "error";
@@ -85,11 +87,13 @@ export async function getHomeInfo(): Promise<
 export async function updateHomeGeneralInfo({
   title,
   starter,
+  secondStarter,
   description,
 }: {
   title: string | null;
   starter: string | null;
-  description: string | null;
+  secondStarter: string | null;
+  description: string | null
 }): Promise<boolean | "error" | "unauthorized"> {
   try {
     await client.$connect();
@@ -117,6 +121,8 @@ export async function updateHomeGeneralInfo({
 
     dashboard.gymTitle = title ?? dashboard.gymTitle;
     dashboard.starterSentence = starter ?? dashboard.starterSentence;
+    dashboard.secondStarterSentence = secondStarter ?? dashboard.secondStarterSentence;
+    dashboard.plansParagraph = description ?? dashboard.plansParagraph;
 
     await exportJSON(dashboard);
   } catch (e) {
@@ -126,6 +132,45 @@ export async function updateHomeGeneralInfo({
 
   console.log("Dashboard home general info successfully updated");
   return true;
+}
+
+export async function getPlanParagraph(): Promise<string | 'error'> {
+    try {
+        const p = await importJSON();
+
+        return p.plansParagraph;
+    } catch (e) {
+        console.log(e);
+        return 'error';
+    }
+}
+
+export async function updatePlanParagraph(paragraph: string): Promise<'success' | 'unauthorized' | 'error'> {
+    try {
+        await client.$connect();
+
+        const sc = cookies().get("session");
+        if (!sc) {
+            console.log("unauthorized");
+            return "unauthorized";
+        }
+        if (!(await client.user.count({ where: { session: sc.value } }))) {
+            console.log("unauthorized");
+            return "unauthorized";
+        }
+
+        const g = await importJSON();
+
+        g.plansParagraph = paragraph;
+
+        await exportJSON(g);
+        return 'success';
+    } catch (e) {
+        console.log(e);
+        return 'error';
+    } finally {
+        await client.$disconnect();
+    }
 }
 
 export async function getHomePlans(): Promise<

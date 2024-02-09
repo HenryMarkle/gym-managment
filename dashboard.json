@@ -1,7 +1,8 @@
 {
   "gymTitle": "Ali mohammad",
   "starterSentence": "default2",
-  "plansDescription": "bruh",
+  "secondStarterSentence": "default22",
+  "plansParagraph": "bruh",
   "plans": {
     "plan me this": {
       "title": "plan me this",
