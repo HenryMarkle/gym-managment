@@ -255,7 +255,7 @@ export async function addPlan(plan: { title: string, description: string, price:
   }
 
   try {
-    await client.plan.create({ data: { duration: plan.description, title: plan.title, description: plan.description, price: plan.description } });
+    await client.plan.create({ data: { duration: plan.description, title: plan.title, description: plan.description, price: plan.price } });
     return "success";
   } catch (e) {
     console.log("failed to add a plan: " + e);

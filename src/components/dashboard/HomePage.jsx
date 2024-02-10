@@ -17,6 +17,8 @@ export function HomePage() {
   const [edited, setEdited] = useState(false);
   const [edited2, setEdited2] = useState(false);
 
+  const [gymTitle, setGymTitle] = useState('');
+
   const [generalInfo, setGeneralInfo] = useState(null);
 
   const [planOpen, setPlanOpen] = useState(true);
@@ -27,6 +29,8 @@ export function HomePage() {
   const [planDesc, setPlanDesc] = useState("");
   const [planPrice, setPlanPrice] = useState("");
   const [planSentence, setPlanSentence] = useState("");
+
+  const [planDur, setPlanDur] = useState('');
   ////////// End plan values
 
   const [adsTitle, setAdsTitle] = useState("");
@@ -46,6 +50,7 @@ export function HomePage() {
   useEffect(() => {
     getHomeGeneralInfo().then((d) => {
       setGeneralInfo(d === "error" || d === "unauthorized" ? null : d);
+      setGymTitle(d.title);
     });
 
     getAdsInfo().then((d) => {
@@ -68,11 +73,9 @@ export function HomePage() {
             type="text"
             placeholder="Gym title"
             name="title"
-            value={generalInfo?.title}
+            value={gymTitle}
             onChange={(e) => {
-              setGeneralInfo((g) => {
-                return { ...g, title: e.target.value };
-              });
+              setGymTitle(e.target.value)
               setEdited(true);
             }}
           />
@@ -129,10 +132,10 @@ export function HomePage() {
             type="text"
             placeholder="plans description"
             name="plans-description"
-            value={generalInfo?.description}
+            value={generalInfo?.plansDescription}
             onChange={(e) => {
               setGeneralInfo((g) => {
-                return { ...g, description: e.target.value };
+                return { ...g, plansDescription: e.target.value };
               });
               setEdited(true);
             }}
@@ -144,9 +147,11 @@ export function HomePage() {
           type="submit"
           onClick={async () => {
             updateHomeGeneralInfo({
-              title: generalInfo?.title,
+              title: gymTitle,
               description: generalInfo?.description,
               starter: generalInfo?.sentence,
+              secondSentence: generalInfo?.secondSentence,
+              description: generalInfo?.description
             });
 
             if (image)
@@ -180,16 +185,7 @@ export function HomePage() {
           {planOpen ? <CiSaveUp1 size={24} /> : <CiSaveDown1 size={24} />}
         </div>
         <div className="form-content w-full rounded-[30px] py-1 px-5 grid grid-cols-2 gap-7">
-          <div className="plan-title flex flex-col">
-            <label htmlFor="">Plans motiviting sentence</label>
-            <input
-              value={planTitle}
-              onChange={(e) => setPlanSentence(e.target.value)}
-              type="text"
-              placeholder="Plan title"
-            />
-          </div>{" "}
-          <div className="plan-title flex flex-col">
+        <div className="plan-title flex flex-col">
             <label htmlFor="">Plan title</label>
             <input
               value={planTitle}
@@ -198,6 +194,17 @@ export function HomePage() {
               placeholder="Plan title"
             />
           </div>{" "}
+
+          {/* <div className="plan-title flex flex-col">
+            <label htmlFor="">Plans motiviting sentence</label>
+            <input
+              value={planSentence}
+              onChange={(e) => setPlanSentence(e.target.value)}
+              type="text"
+              placeholder="Plan title"
+            />
+          </div>{" "} */}
+          
           <div className="plan-desc flex flex-col">
             <label htmlFor="">Plan description</label>
             <input
@@ -207,12 +214,22 @@ export function HomePage() {
               placeholder="Plan description"
             />
           </div>
+          <div className="plan-desc flex flex-col">
+            <label htmlFor="">Plan duration</label>
+            <input
+              value={planDur}
+              onChange={(e) => setPlanDur(e.target.value)}
+              type="text"
+              placeholder="Plan description"
+            />
+          </div>
+          
           <div className="plan-price flex flex-col">
             <label htmlFor="">Plan price</label>
             <input
               value={planPrice}
               onChange={(e) => setPlanPrice(e.target.value)}
-              type="text"
+              type="number"
               placeholder="Plan price"
             />
           </div>
@@ -233,12 +250,14 @@ export function HomePage() {
                     title: planTitle,
                     description: planDesc,
                     price: planPrice,
+                    duration: planDur
                   });
 
                   if (result === "success") {
                     setPlanTitle("");
                     setPlanDesc("");
                     setPlanPrice("");
+                    setPlanDur('');
                     Swal.fire("Saved!", "", "success");
                   } else {
                     Swal.fire("Fail!", "", "error");
