@@ -15,7 +15,8 @@ function Products() {
 
   useEffect(() => {
     getHomeProducts().then((p) => {
-      setProducts(p);
+      if (p === 'error' || p === 'unauthorized') {}
+      else setProducts(p);
     });
   }, []);
   return (
