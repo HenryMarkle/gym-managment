@@ -47,7 +47,7 @@ function Products() {
                     key={ele.id}
                     className="product shadow-lg flex flex-col justify-center items-center rounded-xl min-w-[300px]"
                   >
-                    <Link href={`/shop/${ele.id}` }>
+                    <Link href={`/market/${ele.id}`}>
                       <div className=" flex flex-col">
                         <img
                           className="w-[220px] self-center"

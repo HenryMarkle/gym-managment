@@ -74,3 +74,11 @@
 .swiper-slide {
   display: flex !important;
 }
+
+.img {
+  height: 250px;
+  width: 100%;
+  background-size: cover;
+  background: round;
+  /* background-image: url("https://cdn.fleetfeet.com/assets/HOKAMACH5.jpeg/dynamic:1-aspect:1.5-fit:cover-strategy:entropy/HOKAMACH5--1440.jpg"); */
+}

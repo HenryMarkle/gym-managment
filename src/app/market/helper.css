@@ -1,0 +1,42 @@
+.buy-button:hover {
+  background: rgb(250, 107, 100) 70%;
+  color: white;
+  transition: 0.2s;
+}
+.swiper-scrollbar-horizontal {
+  display: none !important;
+}
+.swiper-horizontal {
+  padding: 100px 100px 50px 100px !important;
+}
+
+.swiper-slide {
+  display: flex !important;
+}
+/* 
+.parent-market {
+  display: grid;
+  grid-template-columns: 20% 1fr;
+  gap: 50px;
+} */
+
+.swiper-scrollbar-horizontal {
+  display: none !important;
+}
+.swiper-horizontal {
+  padding: 100px 100px 50px 100px !important;
+}
+
+.swiper-slide {
+  display: flex !important;
+}
+
+.slider-market-parnet:not(:last-child) {
+  border-bottom: 1px solid #eee;
+  padding-bottom: 20px;
+}
+
+.slider-market-parnet {
+  width: 85%;
+  margin-left: auto;
+}
