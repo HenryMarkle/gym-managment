@@ -56,14 +56,9 @@ function Market() {
         >
           <div className="filters text-center font-extrabold text-2xl p-4 flex flex-col overflow-y-auto">
             <span>filters</span>
-            <span>filters</span>
-            <span>filters</span>
-            <span>filters</span>
-            <span>filters</span>
-            <span>filters</span>
-            <span>filters</span>
-            <span>filters</span>
-            <span>filters</span>
+            <div className="filters">
+              <p></p>
+            </div>
           </div>
         </div>
         <div className="parent-market ml-10 px-[100px] w-[100%] ">

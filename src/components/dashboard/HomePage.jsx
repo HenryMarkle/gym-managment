@@ -17,7 +17,7 @@ export function HomePage() {
   const [edited, setEdited] = useState(false);
   const [edited2, setEdited2] = useState(false);
 
-  const [gymTitle, setGymTitle] = useState('');
+  const [gymTitle, setGymTitle] = useState("");
 
   const [generalInfo, setGeneralInfo] = useState(null);
 
@@ -30,7 +30,7 @@ export function HomePage() {
   const [planPrice, setPlanPrice] = useState("");
   const [planSentence, setPlanSentence] = useState("");
 
-  const [planDur, setPlanDur] = useState('');
+  const [planDur, setPlanDur] = useState("");
   ////////// End plan values
 
   const [adsTitle, setAdsTitle] = useState("");
@@ -41,7 +41,22 @@ export function HomePage() {
   const [productDesc, setProductDesc] = useState("");
   const [productPrice, setProductPrice] = useState("");
   const [productMarka, setProductMarka] = useState("");
-  const [productCategory, setProductCategory] = useState('')
+  const [productCategory, setProductCategory] = useState("clothes");
+  const [alreadyAddedProducts, setAlreadyAddedProducts] = useState([
+    "Ali",
+    "Ali Again",
+    "Horses",
+    "Camels",
+    "Frutes",
+    "Frutes",
+    "Frutes",
+    "Frutes",
+    "Frutes",
+    "Frutes",
+    "Mohammades",
+    "Mohammades",
+    "Mohammades",
+  ]);
   ////////// End Products values
 
   const [image, setImage] = useState(null);
@@ -63,6 +78,10 @@ export function HomePage() {
     });
   }, []);
 
+  useEffect(() => {
+    console.log(productCategory);
+  }, [productCategory]);
+
   return (
     <>
       {/* Start starter Blog */}
@@ -76,7 +95,7 @@ export function HomePage() {
             name="title"
             value={gymTitle}
             onChange={(e) => {
-              setGymTitle(e.target.value)
+              setGymTitle(e.target.value);
               setEdited(true);
             }}
           />
@@ -144,6 +163,7 @@ export function HomePage() {
         </div>
 
         <button
+          className="h-[35px] mt-[24px]"
           disabled={!edited}
           type="submit"
           onClick={async () => {
@@ -152,7 +172,7 @@ export function HomePage() {
               description: generalInfo?.description,
               starter: generalInfo?.sentence,
               secondSentence: generalInfo?.secondSentence,
-              description: generalInfo?.description
+              description: generalInfo?.description,
             });
 
             if (image)
@@ -186,7 +206,7 @@ export function HomePage() {
           {planOpen ? <CiSaveUp1 size={24} /> : <CiSaveDown1 size={24} />}
         </div>
         <div className="form-content w-full rounded-[30px] py-1 px-5 grid grid-cols-2 gap-7">
-        <div className="plan-title flex flex-col">
+          <div className="plan-title flex flex-col">
             <label htmlFor="">Plan title</label>
             <input
               value={planTitle}
@@ -195,17 +215,6 @@ export function HomePage() {
               placeholder="Plan title"
             />
           </div>{" "}
-
-          {/* <div className="plan-title flex flex-col">
-            <label htmlFor="">Plans motiviting sentence</label>
-            <input
-              value={planSentence}
-              onChange={(e) => setPlanSentence(e.target.value)}
-              type="text"
-              placeholder="Plan title"
-            />
-          </div>{" "} */}
-          
           <div className="plan-desc flex flex-col">
             <label htmlFor="">Plan description</label>
             <input
@@ -224,7 +233,6 @@ export function HomePage() {
               placeholder="Plan description"
             />
           </div>
-          
           <div className="plan-price flex flex-col">
             <label htmlFor="">Plan price</label>
             <input
@@ -251,14 +259,14 @@ export function HomePage() {
                     title: planTitle,
                     description: planDesc,
                     price: planPrice,
-                    duration: planDur
+                    duration: planDur,
                   });
 
                   if (result === "success") {
                     setPlanTitle("");
                     setPlanDesc("");
                     setPlanPrice("");
-                    setPlanDur('');
+                    setPlanDur("");
                     Swal.fire("Saved!", "", "success");
                   } else {
                     Swal.fire("Fail!", "", "error");
@@ -352,8 +360,8 @@ export function HomePage() {
 
       <div className="add-product-to-shop">
         <div
-          className={`create-plan mt-5 w-full shadow-lg overflow-hidden rounded-[30px] duration-700  ${
-            shopOpen ? "h-[380px]" : "h-[55px]"
+          className={`create-plan mt-5 w-full shadow-lg overflow-hidden rounded-[30px] duration-700 flex flex-col ${
+            shopOpen ? "h-[620px]" : "h-[55px]"
           }`}
         >
           <div
@@ -363,129 +371,169 @@ export function HomePage() {
             <p className="mb-2 text-[19px]">Add product</p>
             {shopOpen ? <CiSaveUp1 size={24} /> : <CiSaveDown1 size={24} />}
           </div>
-          <div className="form-content w-full rounded-[30px] py-1 px-5 grid grid-cols-2 gap-7">
-            <div className="product-images flex flex-col">
-              <label htmlFor="product-images">Product images</label>
-              <input
-                type="file"
-                multiple
-                name=""
-                id="product-images"
-                onChange={(e) => {
-                  setEdited2(true);
-                  setProductImage(e.target.files[0]);
-                }}
-              />
-            </div>{" "}
-            <div className="product-name flex flex-col">
-              <label htmlFor="product-name">Product name</label>
-              <input
-                value={productTitle}
-                onChange={(e) => setProductTitle(e.target.value)}
-                type="text"
-                placeholder="Product name"
-                id="product-name"
-              />
-            </div>{" "}
-            <div className="product-desc flex flex-col">
-              <label htmlFor="product-description">Product Description</label>
-              <input
-                value={productDesc}
-                onChange={(e) => setProductDesc(e.target.value)}
-                type="text"
-                placeholder="Product description"
-                id="product-description"
-              />
-            </div>{" "}
-            <div className="product-price flex flex-col">
-              <label htmlFor="product-price">Product price</label>
-              <input
-                value={productPrice}
-                onChange={(e) => setProductPrice(e.target.value)}
-                type="text"
-                placeholder="Product price"
-                id="product-price"
-              />
-            </div>{" "}
-            <div className="product-company flex flex-col">
-              <label htmlFor="product-company">Product marka</label>
-              <input
-                value={productMarka}
-                onChange={(e) => setProductMarka(e.target.value)}
-                type="text"
-                placeholder="Product company"
-                id="product-company"
-              />
-            </div>
-            <div className="product-company flex flex-col">
-              <label htmlFor="product-company">Product category</label>
-              <input
-                value={productCategory}
-                onChange={(e) => setProductCategory(e.target.value)}
-                type="text"
-                placeholder="Product company"
-                id="product-company"
-              />
-            </div>
-            <button
-              onClick={() => {
-                Swal.fire({
-                  title: `Do you want to save the Product?
+          <div className="form-content w-full mr-10 rounded-[30px] py-1 px-5 flex gap-5">
+            <div className="flex flex-col gap-5 w-[100%] border-r-2 pr-10 ">
+              <div className="product-images flex flex-col">
+                <label htmlFor="product-images">Product images</label>
+                <input
+                  type="file"
+                  multiple
+                  name=""
+                  id="product-images"
+                  onChange={(e) => {
+                    setEdited2(true);
+                    setProductImage(e.target.files[0]);
+                  }}
+                />
+              </div>{" "}
+              <div className="product-name flex flex-col">
+                <label htmlFor="product-name">Product name</label>
+                <input
+                  value={productTitle}
+                  onChange={(e) => setProductTitle(e.target.value)}
+                  type="text"
+                  placeholder="Product name"
+                  id="product-name"
+                />
+              </div>{" "}
+              <div className="product-desc flex flex-col">
+                <label htmlFor="product-description">Product Description</label>
+                <input
+                  value={productDesc}
+                  onChange={(e) => setProductDesc(e.target.value)}
+                  type="text"
+                  placeholder="Product description"
+                  id="product-description"
+                />
+              </div>{" "}
+              <div className="product-price flex flex-col">
+                <label htmlFor="product-price">Product price</label>
+                <input
+                  value={productPrice}
+                  onChange={(e) => setProductPrice(e.target.value)}
+                  type="text"
+                  placeholder="Product price"
+                  id="product-price"
+                />
+              </div>{" "}
+              <div className="product-company flex flex-col">
+                <label htmlFor="product-company">Product marka</label>
+                <input
+                  value={productMarka}
+                  onChange={(e) => setProductMarka(e.target.value)}
+                  type="text"
+                  placeholder="Product company"
+                  id="product-company"
+                />
+              </div>
+              <div className="product-category flex flex-col">
+                <label htmlFor="product-company">Product category</label>
+                <select
+                  onChange={(e) => {
+                    setProductCategory(e.target.value);
+                  }}
+                  className="select px-2 py-2 border-2 rounded-[31px] outline-none"
+                >
+                  <option value="clothes">clothes</option>
+                  <option value="protein">protein</option>
+                  <option value="horses">horses</option>
+                  <option value="mans">mans</option>
+                  <option value="womens">womens</option>
+                  <option value="Ali">Ali</option>
+                </select>
+              </div>
+              <button
+                onClick={() => {
+                  Swal.fire({
+                    title: `Do you want to save the Product?
                       You will be able to edit the product from Products page.
                       `,
-                  showDenyButton: false,
-                  showCancelButton: true,
-                  confirmButtonText: "Save",
-                  denyButtonText: `Don't save`,
-                }).then(async (result) => {
-                  /* Read more about isConfirmed, isDenied below */
-                  if (result.isConfirmed) {
-                    const result = await addHomeProduct({
-                      name: productTitle,
-                      description: productDesc,
-                      price: productPrice,
-                      marka: productMarka,
-                      category: productCategory,
-                    });
+                    showDenyButton: false,
+                    showCancelButton: true,
+                    confirmButtonText: "Save",
+                    denyButtonText: `Don't save`,
+                  }).then(async (result) => {
+                    /* Read more about isConfirmed, isDenied below */
+                    if (result.isConfirmed) {
+                      const result = await addHomeProduct({
+                        name: productTitle,
+                        description: productDesc,
+                        price: productPrice,
+                        marka: productMarka,
+                        category: productCategory,
+                      });
 
-                    if (productImage) {
-                      await fetch(
-                        "api/v1/productimage?name=" + encodeURI(productTitle),
-                        {
-                          method: "POST",
-                          body: productImage,
-                          headers: {
-                            "Content-Type": productImage.type,
-                          },
-                        }
-                      );
-                    }
+                      if (productImage) {
+                        await fetch(
+                          "api/v1/productimage?name=" + encodeURI(productTitle),
+                          {
+                            method: "POST",
+                            body: productImage,
+                            headers: {
+                              "Content-Type": productImage.type,
+                            },
+                          }
+                        );
+                      }
 
-                    if (result === "success") {
-                      Swal.fire("Saved!", "", "success");
-                      setProductDesc("");
-                      setProductMarka("");
-                      setProductPrice("");
-                      setProductTitle("");
-                      setProductCategory('');
-                      setEdited2(false);
-                    } else {
-                      Swal.fire("Fail!", "", "error");
+                      if (result === "success") {
+                        Swal.fire("Saved!", "", "success");
+                        setProductDesc("");
+                        setProductMarka("");
+                        setProductPrice("");
+                        setProductTitle("");
+                        setProductCategory("");
+                        setEdited2(false);
+                      } else {
+                        Swal.fire("Fail!", "", "error");
+                      }
+                    } else if (result.isDenied) {
+                      Swal.fire("Changes are not saved", "", "info");
                     }
-                  } else if (result.isDenied) {
-                    Swal.fire("Changes are not saved", "", "info");
-                  }
-                });
-              }}
-              className={`bg-[#eee] duration-500 hover:bg-green-600 hover:text-white h-[40px] self-end rounded-[31px] text-green-500 text-[23px] shadow-2xl ${
-                productDesc.length &&
-                productPrice.length &&
-                productTitle.length &&
-                "bg-green-500 text-white"
-              }`}
-            >
-              Create
-            </button>
+                  });
+                }}
+                className={`bg-[#eee] duration-500 hover:bg-green-600 hover:text-white h-[40px] self-end rounded-[31px] text-green-500 text-[23px] shadow-2xl w-full ${
+                  productDesc.length &&
+                  productPrice.length &&
+                  productTitle.length &&
+                  "bg-green-500 text-white"
+                }`}
+              >
+                Create
+              </button>
+            </div>
+            <div className="create-cat w-full">
+              <p className="text-xl font-bold pb-2">Create Category</p>
+              <div className="add-cat flex justify-between w-[100%] items-center">
+                <div className="flex flex-col w-[76%]">
+                  <label htmlFor="product-name">Category name</label>
+                  <input
+                    value={productTitle}
+                    onChange={(e) => setProductTitle(e.target.value)}
+                    type="text"
+                    placeholder="Category name"
+                    id="product-name"
+                  />
+                </div>
+                <button className="w-[20%] h-[36px] mt-5">Create</button>
+              </div>
+              <div className="already-added-categories mt-7 w-full h-[200px] border-2 p-3 rounded-[21px] overflow-auto">
+                <div className=" flex flex-wrap w-full gap-5 ">
+                  {alreadyAddedProducts.map((ele) => {
+                    return (
+                      <>
+                        <div className="relative">
+                          <p className="bg-gray-100 rounded-full px-2">{ele}</p>
+                          <p className="text-sm absolute -top-3 -right-4 bg-gray-100 cursor-pointer hover:bg-red-600 duration-300 hover:text-white w-[30px] flex items-center justify-center rounded-full">
+                            x
+                          </p>
+                        </div>
+                      </>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <p className="mb-14 mt-10 text-center font-bold text-[23px]">
