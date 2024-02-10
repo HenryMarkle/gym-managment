@@ -10,8 +10,8 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { BsCalendar2EventFill } from "react-icons/bs";
 import { BsFillPersonFill } from "react-icons/bs";
 import { LiaChevronCircleUpSolid } from "react-icons/lia";
-import { getGymName } from "../app/api/v1/user";
-import { signout } from "../app/api/v1/auth";
+import { getGymName } from "../../app/api/v1/user";
+import { signout } from "../../app/api/v1/auth";
 
 import {
   IoIosLogOut,
@@ -20,7 +20,7 @@ import {
 } from "react-icons/io";
 import Link from "next/link";
 
-import { getAllUsers, createAnnouncement } from "../app/api/v1/user";
+import { getAllUsers, createAnnouncement } from "../../app/api/v1/user";
 
 function SideBar() {
   const [message, setMessage] = useState("");
@@ -82,13 +82,15 @@ function SideBar() {
           </Link>
         </div>
         {mobile ? null : (
-          <div className=" flex justify-between mb-5 mx-4">
+          <div className="flex flex-col justify-center items-center mb-5 mx-4">
             <Link className=" text-end" href="/">
-              <p className="font-bold text-[23px] text-white  ">{gymName}</p>
+              <p className="font-bold text-[23px] self-start text-white  ">
+                {gymName}
+              </p>
             </Link>
             <Link
               href="/panel/dashboard"
-              className=" text-green-500 font-bold bg-white px-2 py-2 rounded-[6px]"
+              className=" self-end text-green-500 font-bold w-fit bg-white px-2 py-2 rounded-[6px]"
             >
               manage website
             </Link>

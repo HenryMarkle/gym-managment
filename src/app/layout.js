@@ -1,7 +1,7 @@
 "use client";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import SideBar from "../components/SideBar";
+import SideBar from "../components/dashboard/SideBar";
 import { useRouter, usePathname } from "next/navigation";
 import { useEffect } from "react";
 import Footer from "../components/website/Footer";

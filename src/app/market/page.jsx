@@ -69,10 +69,9 @@ function Market() {
         <div className="parent-market ml-10 px-[100px] w-[100%] ">
           <div className="right  p-4">
             {cateGories.map((ele) => {
-              console.log(ele.data);
               return (
-                <>
-                  <div key={ele.id} className="slider-market-parnet mt-10">
+                <React.Fragment key={ele.id}>
+                  <div className="slider-market-parnet mt-10">
                     <div className="px-20 flex justify-between items-center">
                       <p className=" text-website2 font-bold text-xl ">
                         {ele.title}
@@ -81,9 +80,9 @@ function Market() {
                         See All
                       </button>
                     </div>
-                    <Slider data={ele.data} />
+                    <Slider id={ele.id} data={ele.data} />
                   </div>
-                </>
+                </React.Fragment>
               );
             })}
           </div>

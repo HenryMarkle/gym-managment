@@ -1,9 +1,9 @@
 "use client";
 import React, { useEffect } from "react";
-import Chart from "../../components/Chart";
-import Stats_top from "../../components/StatsTop";
+import Chart from "../../components/dashboard/Chart";
+import Stats_top from "../../components/dashboard/StatsTop";
 import { useRouter, usePathname } from "next/navigation";
-import MoneyStats from "../../components/RightSideStats";
+import MoneyStats from "../../components/dashboard/RightSideStats";
 import tr from "../../locales/tr";
 import en from "../../locales/en";
 function page() {

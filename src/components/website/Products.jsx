@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { BallTriangle } from "react-loader-spinner";
-
 import { getHomeProducts } from "../../app/api/v1/dashboard";
 import "swiper/css";
 import "swiper/css/navigation";
@@ -27,7 +26,7 @@ function Products() {
         <p className="waves"></p>
         <p className="waves"></p>
         <p className="waves"></p>
-        {products.length ? (
+        {products?.length ? (
           <Swiper
             // install Swiper modules
             modules={[Navigation, Pagination, Scrollbar, A11y]}
@@ -39,7 +38,6 @@ function Products() {
             // onSwiper={(swiper) => console.log(swiper)}
             onSlideChange={() => console.log("slide change")}
           >
-            {" "}
             {products.map((ele) => {
               return (
                 <>

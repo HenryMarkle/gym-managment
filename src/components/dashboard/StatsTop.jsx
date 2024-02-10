@@ -5,8 +5,8 @@ import {
   countCustomers,
   countCustomersWillEndIn,
   countExpiredCustomers,
-} from "../app/api/v1/customer";
-import { countUsers } from "../app/api/v1/user";
+} from "../../app/api/v1/customer";
+import { countUsers } from "../../app/api/v1/user";
 
 function Stats_top() {
   const [allCustomers, setAllCustomers] = useState(0);

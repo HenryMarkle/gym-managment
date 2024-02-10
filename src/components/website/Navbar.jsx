@@ -28,18 +28,17 @@ function Navbar() {
     { id: 1, title: "Home", to: "/" },
     { id: 3, title: "Plans", to: "/plans" },
     { id: 4, title: "Market", to: "/market" },
-    { id: 4, title: "Exercises", to: "/exercises" },
-    { id: 2, title: "About", to: "/about" },
-    { id: 5, title: "Contact", to: "/contact" },
+    { id: 5, title: "Exercises", to: "/exercises" },
+    { id: 6, title: "About", to: "/about" },
+    { id: 7, title: "Contact", to: "/contact" },
   ];
   return (
     <div className="flex flex-1 justify-between ">
       {headerData.map((ele) => {
         return (
-          <>
+          <React.Fragment key={ele.id}>
             <Link href={ele.to}>
               <span
-                key={ele.id}
                 className={
                   scrollPosition > 735
                     ? "text-lg font-bold text-black  cursor-pointer hover:text-website2 duration-500 scale-[1.04]"
@@ -49,7 +48,7 @@ function Navbar() {
                 {ele.title}
               </span>
             </Link>
-          </>
+          </React.Fragment>
         );
       })}
     </div>

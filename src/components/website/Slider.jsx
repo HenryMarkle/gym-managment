@@ -8,7 +8,7 @@ import "swiper/css/scrollbar";
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
-function Slider({ data }) {
+function Slider({ data, id }) {
   return (
     <>
       {data.length ? (
@@ -24,11 +24,8 @@ function Slider({ data }) {
         >
           {data.map((ele) => {
             return (
-              <>
-                <SwiperSlide
-                  key={ele.id}
-                  className="product shadow-lg flex flex-col justify-center items-center rounded-xl min-w-[300px] "
-                >
+              <React.Fragment key={id}>
+                <SwiperSlide className="product shadow-lg flex flex-col justify-center items-center rounded-xl min-w-[300px] ">
                   <Link href={`/market/${ele.id}`}>
                     <div className=" flex flex-col">
                       <img
@@ -56,7 +53,7 @@ function Slider({ data }) {
                     </div>
                   </Link>
                 </SwiperSlide>
-              </>
+              </React.Fragment>
             );
           })}
         </Swiper>
