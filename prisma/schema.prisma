@@ -84,3 +84,40 @@ model Event {
   actorId Int
   date DateTime @default(now())
 }
+
+model Plan {
+  id Int @id @default(autoincrement())
+
+  title String @unique
+  description String
+  price Decimal
+  duration String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+  deletedAt DateTime?
+}
+
+model ProductCategory {
+  id Int @id @default(autoincrement())
+
+  name String @unique
+
+  products Product[]
+}
+
+model Product {
+  id Int @id @default(autoincrement())
+
+  name String @unique
+  description String
+  price Decimal
+  marka String
+
+  category ProductCategory @relation(fields: [categoryId], references: [id])
+  categoryId Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+  deletedAt DateTime?
+}

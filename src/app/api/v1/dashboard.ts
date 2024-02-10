@@ -20,17 +20,29 @@ async function exportJSON(dashboard: Dashboard) {
 }
 
 type Plan = {
+  id: number;
+
   title: string;
   description: string;
   price: number;
-};
+
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: string | null | undefined;
+}
 
 type Product = {
+  id: number;
+
   name: string;
   description: string;
   price: number;
   marka: string;
-};
+
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: string | null | undefined;
+}
 
 type Contacts = {
   email: string;
@@ -44,11 +56,9 @@ type Dashboard = {
   gymTitle: string;
   starterSentence: string;
   secondStarterSentence: string;
-  plans: { [key: string]: Plan };
   plansParagraph: string;
   adsOnImageBoldText: string;
   adsOnImageDescription: string;
-  products: { [key: string]: Product };
   contacts: Contacts;
 };
 
@@ -173,13 +183,17 @@ export async function updatePlanParagraph(paragraph: string): Promise<'success' 
     }
 }
 
-export async function getHomePlans(): Promise<
-  Plan[] | "unauthorized" | "error"
-> {
+export async function getHomePlans(): Promise<Plan[] | "unauthorized" | "error"> {
   try {
-    const d = await importJSON();
-
-    return Object.values(d.plans);
+    const plans = await client.plan.findMany({});
+    return plans.map(p => {
+      return {...p,
+        price: p.price.toNumber(),
+        createdAt: p.createdAt.toDateString(),
+        updatedAt: p.createdAt.toDateString(),
+        deletedAt: p.createdAt?.toDateString()
+      }
+    });
   } catch (e) {
     console.log("failed to fetch plans: " + e);
     return "error";
@@ -206,30 +220,26 @@ export async function addPlanForm(formData: FormData) {
     "plan-description"
   ) as unknown as string;
   const price: number | null = formData.get("plan-price") as unknown as number;
+  const duration: string | null = formData.get('plan-duration') as unknown as string;
 
-  if (!title || !description || !price) {
+  if (!title || !description || !price || !duration) {
     console.log("failed to add a plan: invalid data");
     return;
   }
 
-  const plan: Plan = {
-    title,
-    description,
-    price,
-  };
-
   try {
-    const d = await importJSON();
-    d.plans[title] = plan;
-    await exportJSON(d);
+    await client.plan.create({ data: {
+      title,
+      description,
+      price,
+      duration,
+    } });
   } catch (e) {
     console.log("failed to add a plan: " + e);
   }
 }
 
-export async function addPlan(
-  plan: Plan
-): Promise<"success" | "unauthorized" | "error"> {
+export async function addPlan(plan: { title: string, description: string, price: number, duration: string }): Promise<"success" | "unauthorized" | "error"> {
   try {
     await client.$connect();
 
@@ -245,9 +255,7 @@ export async function addPlan(
   }
 
   try {
-    const d = await importJSON();
-    d.plans[plan.title] = plan;
-    await exportJSON(d);
+    await client.plan.create({ data: { duration: plan.description, title: plan.title, description: plan.description, price: plan.description } });
     return "success";
   } catch (e) {
     console.log("failed to add a plan: " + e);
@@ -255,9 +263,7 @@ export async function addPlan(
   }
 }
 
-export async function deletePlan(
-  name: string
-): Promise<boolean | "unauthorized" | "error"> {
+export async function deletePlan(name: string): Promise<boolean | "unauthorized" | "error"> {
   try {
     await client.$connect();
 
@@ -266,11 +272,7 @@ export async function deletePlan(
     if (!(await client.user.count({ where: { session: sc.value } })))
       return "unauthorized";
 
-    const d = await importJSON();
-
-    (d.plans[name] as Plan | undefined) = undefined;
-
-    await exportJSON(d);
+    await client.plan.delete({ where: { title: name } });
 
     return true;
   } catch (e) {
@@ -326,21 +328,25 @@ export async function updateAdsInfo(data: {
   }
 }
 
-export async function getHomeProducts(): Promise<
-  Product[] | "unauthorized" | "error"
-> {
+export async function getHomeProducts(): Promise<(Product & { category: { id: number, name: string } })[] | "unauthorized" | "error"> {
   try {
-    const d = await importJSON();
-    return Object.values(d.products);
+    const products = await client.product.findMany({ include: { category: true } });
+  
+    return products.map(p => {
+      return {...p, 
+        price: p.price.toNumber(),
+        createdAt: p.createdAt.toDateString(),
+        updatedAt: p.updatedAt.toDateString(),
+        deletedAt: p.deletedAt?.toDateString() ?? null
+      }
+    })
   } catch (e) {
     console.log("failed to get a product: " + e);
     return "error";
   }
 }
 
-export async function addHomeProduct(
-  product: Product
-): Promise<"success" | "unauthorized" | "error"> {
+export async function addHomeProduct(product: { name: string, description: string, price: number, marka: string, category: string }): Promise<"success" | 'categoryNotFound' | "unauthorized" | "error"> {
   try {
     await client.$connect();
 
@@ -349,11 +355,18 @@ export async function addHomeProduct(
     if (!(await client.user.count({ where: { session: sc.value } })))
       return "unauthorized";
 
-    const d = await importJSON();
+    const category = await client.productCategory.findUnique({ where: { name: product.category } });
 
-    d.products[product.name] = product;
+    if (!category) return 'categoryNotFound';
 
-    await exportJSON(d);
+    await client.product.create({ data: {
+      name: product.name,
+      description: product.description,
+      price: product.price,
+      marka: product.marka,
+
+      categoryId: category.id
+    } });
 
     return "success";
   } catch (e) {
@@ -364,9 +377,7 @@ export async function addHomeProduct(
   }
 }
 
-export async function deleteHomeProduct(
-  name: string
-): Promise<"success" | "unauthorized" | "error"> {
+export async function deleteHomeProduct(name: string): Promise<"success" | "unauthorized" | "error"> {
   try {
     await client.$connect();
 
@@ -375,11 +386,7 @@ export async function deleteHomeProduct(
     if (!(await client.user.count({ where: { session: sc.value } })))
       return "unauthorized";
 
-    const d = await importJSON();
-
-    (d.products[name] as Product | undefined) = undefined;
-
-    await exportJSON(d);
+    await client.product.delete({ where: { name } });
 
     return "success";
   } catch (e) {
@@ -390,9 +397,7 @@ export async function deleteHomeProduct(
   }
 }
 
-export async function getContacts(): Promise<
-  Contacts | "unauthorized" | "error"
-> {
+export async function getContacts(): Promise<Contacts | "unauthorized" | "error"> {
   try {
     const d = await importJSON();
 
