@@ -41,6 +41,7 @@ export function HomePage() {
   const [productDesc, setProductDesc] = useState("");
   const [productPrice, setProductPrice] = useState("");
   const [productMarka, setProductMarka] = useState("");
+  const [productCategory, setProductCategory] = useState('')
   ////////// End Products values
 
   const [image, setImage] = useState(null);
@@ -352,7 +353,7 @@ export function HomePage() {
       <div className="add-product-to-shop">
         <div
           className={`create-plan mt-5 w-full shadow-lg overflow-hidden rounded-[30px] duration-700  ${
-            shopOpen ? "h-[350px]" : "h-[55px]"
+            shopOpen ? "h-[380px]" : "h-[55px]"
           }`}
         >
           <div
@@ -416,6 +417,16 @@ export function HomePage() {
                 id="product-company"
               />
             </div>
+            <div className="product-company flex flex-col">
+              <label htmlFor="product-company">Product category</label>
+              <input
+                value={productCategory}
+                onChange={(e) => setProductCategory(e.target.value)}
+                type="text"
+                placeholder="Product company"
+                id="product-company"
+              />
+            </div>
             <button
               onClick={() => {
                 Swal.fire({
@@ -434,6 +445,7 @@ export function HomePage() {
                       description: productDesc,
                       price: productPrice,
                       marka: productMarka,
+                      category: productCategory,
                     });
 
                     if (productImage) {
@@ -455,6 +467,7 @@ export function HomePage() {
                       setProductMarka("");
                       setProductPrice("");
                       setProductTitle("");
+                      setProductCategory('');
                       setEdited2(false);
                     } else {
                       Swal.fire("Fail!", "", "error");
