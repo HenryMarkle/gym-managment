@@ -397,6 +397,80 @@ export async function deleteHomeProduct(name: string): Promise<"success" | "unau
   }
 }
 
+export async function getProductCategories(): Promise<{ id: number, name: string }[] | 'error'> {
+  try {
+    const categories = await client.productCategory.findMany({});
+  
+    return await categories.map(c => {
+      return { name: c.name, id: c.id };
+    });
+
+  } catch (e) {
+    console.log("failed to get product categories: " + e);
+    return "error";
+  }
+}
+
+export async function addProductCategory(name: string): Promise<number | 'unauthorized' | 'error'> {
+  try {
+    await client.$connect();
+
+    const sc = cookies().get("session");
+    if (!sc) return "unauthorized";
+    if (!(await client.user.count({ where: { session: sc.value } })))
+      return "unauthorized";
+
+    const category = await client.productCategory.create({ data: { name }});
+
+    return category.id;
+  } catch (e) {
+    console.log("failed to create a product category: " + e);
+    return "error";
+  } finally {
+    await client.$disconnect();
+  }
+}
+
+export async function deleteProductCategoryById(id: number): Promise<'success' | 'unauthorized' | 'error'> {
+  try {
+    await client.$connect();
+
+    const sc = cookies().get("session");
+    if (!sc) return "unauthorized";
+    if (!(await client.user.count({ where: { session: sc.value } })))
+      return "unauthorized";
+
+    await client.productCategory.delete({ where: { id } });
+
+    return "success";
+  } catch (e) {
+    console.log("failed to delete a product category: " + e);
+    return "error";
+  } finally {
+    await client.$disconnect();
+  }
+}
+
+export async function deleteProductCategoryByName(name: string): Promise<'success' | 'unauthorized' | 'error'> {
+  try {
+    await client.$connect();
+
+    const sc = cookies().get("session");
+    if (!sc) return "unauthorized";
+    if (!(await client.user.count({ where: { session: sc.value } })))
+      return "unauthorized";
+
+    await client.productCategory.delete({ where: { name } });
+
+    return "success";
+  } catch (e) {
+    console.log("failed to delete a product category: " + e);
+    return "error";
+  } finally {
+    await client.$disconnect();
+  }
+}
+
 export async function getContacts(): Promise<Contacts | "unauthorized" | "error"> {
   try {
     const d = await importJSON();
