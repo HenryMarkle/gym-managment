@@ -48,12 +48,6 @@ export function HomePage() {
     "Horses",
     "Camels",
     "Frutes",
-    "Frutes",
-    "Frutes",
-    "Frutes",
-    "Frutes",
-    "Frutes",
-    "Mohammades",
     "Mohammades",
     "Mohammades",
   ]);
@@ -517,7 +511,7 @@ export function HomePage() {
                 </div>
                 <button className="w-[20%] h-[36px] mt-5">Create</button>
               </div>
-              <div className="already-added-categories mt-7 w-full h-[200px] border-2 p-3 rounded-[21px] overflow-auto">
+              <div className="already-added-categories mt-7 w-full h-[200px] border-2 p-5 rounded-[21px] overflow-y-auto ">
                 <div className=" flex flex-wrap w-full gap-5 ">
                   {alreadyAddedProducts.map((ele) => {
                     return (

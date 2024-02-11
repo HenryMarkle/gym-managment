@@ -17,7 +17,7 @@ td {
   cursor: pointer;
 }
 td:not(:last-child) {
-  border-right: 1px solid rgb(14, 148, 20);
+  border-right: 1px solid #eee;
 }
 tr:hover {
   background-color: #5eb3b3;
