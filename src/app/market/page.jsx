@@ -65,7 +65,7 @@ function Market() {
                   <div className="slider-market-parnet mt-10">
                     <div className="px-20 flex justify-between items-center">
                       <p className=" text-website2 font-bold text-xl ">
-                        {ele.name}
+                        {ele.cat}
                       </p>
                       <button className=" shadow-lg px-8 py-2 duration-300 hover:bg-orange-600 text-website2 rounded-md hover:text-white">
                         See All
