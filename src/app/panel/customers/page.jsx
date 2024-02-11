@@ -13,9 +13,9 @@ function page() {
       surname: "Haseni",
       age: 12,
       bucketPrice: "1200",
-      paymentAmount: "120",
+      paymentAmount: "420",
       startedAt: "10-10-2020",
-      endsAt: "12-10-2010",
+      endsAt: "12-10-2022",
       gender: "male",
     },
     {
@@ -24,7 +24,7 @@ function page() {
       surname: "Haseni",
       age: 32,
       bucketPrice: "1200",
-      paymentAmount: "120",
+      paymentAmount: "530",
       startedAt: "10-10-2020",
       endsAt: "12-10-2010",
       gender: "male",
@@ -35,7 +35,7 @@ function page() {
       surname: "Haseni",
       age: 51,
       bucketPrice: "1200",
-      paymentAmount: "120",
+      paymentAmount: "460",
       startedAt: "10-10-2020",
       endsAt: "12-10-2010",
       gender: "male",
@@ -46,7 +46,7 @@ function page() {
       surname: "Haseni",
       age: 21,
       bucketPrice: "1200",
-      paymentAmount: "120",
+      paymentAmount: "320",
       startedAt: "10-10-2020",
       endsAt: "12-10-2010",
       gender: "male",
@@ -57,7 +57,7 @@ function page() {
       surname: "Haseni",
       age: 51,
       bucketPrice: "1200",
-      paymentAmount: "120",
+      paymentAmount: "420",
       startedAt: "10-10-2020",
       endsAt: "12-10-2010",
       gender: "male",
@@ -68,7 +68,7 @@ function page() {
       surname: "Haseni",
       age: 37,
       bucketPrice: "1200",
-      paymentAmount: "120",
+      paymentAmount: "530",
       startedAt: "10-10-2020",
       endsAt: "12-10-2010",
       gender: "male",
@@ -79,7 +79,7 @@ function page() {
       surname: "Haseni",
       age: 32,
       bucketPrice: "1200",
-      paymentAmount: "120",
+      paymentAmount: "860",
       startedAt: "10-10-2020",
       endsAt: "12-10-2010",
       gender: "male",
@@ -90,7 +90,7 @@ function page() {
       surname: "Haseni",
       age: 86,
       bucketPrice: "1200",
-      paymentAmount: "120",
+      paymentAmount: "900",
       startedAt: "10-10-2020",
       endsAt: "12-10-2010",
       gender: "male",
@@ -101,7 +101,7 @@ function page() {
       surname: "Haseni",
       age: 125,
       bucketPrice: "1200",
-      paymentAmount: "120",
+      paymentAmount: "520",
       startedAt: "10-10-2020",
       endsAt: "12-10-2010",
       gender: "male",
@@ -112,7 +112,7 @@ function page() {
       surname: "usta",
       age: 3,
       bucketPrice: "1200",
-      paymentAmount: "120",
+      paymentAmount: "420",
       startedAt: "10-10-2020",
       endsAt: "12-10-2010",
       gender: "male",
@@ -123,7 +123,7 @@ function page() {
       surname: "usta",
       age: 3,
       bucketPrice: "1200",
-      paymentAmount: "120",
+      paymentAmount: "125",
       startedAt: "10-10-2020",
       endsAt: "12-10-2010",
       gender: "male",
@@ -134,7 +134,7 @@ function page() {
       surname: "usta",
       age: 3,
       bucketPrice: "1200",
-      paymentAmount: "120",
+      paymentAmount: "950",
       startedAt: "10-10-2020",
       endsAt: "12-10-2010",
       gender: "male",
@@ -176,7 +176,7 @@ function page() {
         <CiSearch size={30} className="mt-2" />
       </div>
       <div className="ml-[27%] mt-4 font-bold text-sm">
-        you have {lengs} registers in this page.
+        you have {lengs} member in this table.
       </div>
       <table className="ml-[25%] w-[70%] mt-5 shadow-xl p-6 rounded-[31px] overflow-hidden mb-5">
         <thead>
@@ -222,9 +222,9 @@ function page() {
                   </td>
                   <td>{ele.age}</td>
                   <td>{ele.gender}</td>
-                  <td>{ele.bucketPrice}</td>
-                  <td>{ele.paymentAmount}</td>
-                  <td>{ele.bucketPrice - ele.paymentAmount}</td>
+                  <td>{ele.bucketPrice} TL</td>
+                  <td>{ele.paymentAmount} TL</td>
+                  <td>{ele.bucketPrice - ele.paymentAmount} TL</td>
                   <td>{new Date(ele.startedAt).toDateString()}</td>
                   <td>{new Date(ele.endsAt).toDateString()}</td>
                   <td>

@@ -13,15 +13,219 @@ import "swiper/css/scrollbar";
 import Link from "next/link";
 function Market() {
   const cateGories = [
-    { id: 1, title: "Proteins", data: [11, 21, 31, 51, 61, 71, 81] },
-    { id: 2, title: "Clothes", data: [12, 22, 32, 52, 62, 72, 82] },
-    { id: 3, title: "Houses", data: [13, 23, 33, 53, 63, 73, 83] },
-    { id: 4, title: "Horses", data: [14, 24, 34, 54, 64, 74, 84] },
-    { id: 5, title: "Cars", data: [15, 25, 35, 55, 56, 75, 85] },
+    {
+      id: 1,
+      title: "Proteins",
+      data: [
+        {
+          id: 1,
+          marka: "Horses",
+          price: "1200",
+          desc: "Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer ",
+        },
+        {
+          price: "1200",
+          id: 2,
+          marka: "Horses",
+          desc: "Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer ",
+        },
+        {
+          id: 3,
+          price: "1200",
+          marka: "Horses",
+          desc: "Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer ",
+        },
+        {
+          id: 4,
+          price: "1200",
+          marka: "Horses",
+          desc: "Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer ",
+        },
+        {
+          id: 5,
+          price: "1200",
+          marka: "Horses",
+          desc: "Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer ",
+        },
+        {
+          id: 6,
+          marka: "Horses",
+          price: "1200",
+          desc: "Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer ",
+        },
+      ],
+    },
+    {
+      id: 1,
+      title: "Proteins",
+      data: [
+        {
+          id: 1,
+          marka: "Horses",
+          price: "1200",
+          desc: "Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer ",
+        },
+        {
+          price: "1200",
+          id: 2,
+          marka: "Horses",
+          desc: "Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer ",
+        },
+        {
+          id: 3,
+          price: "1200",
+          marka: "Horses",
+          desc: "Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer ",
+        },
+        {
+          id: 4,
+          price: "1200",
+          marka: "Horses",
+          desc: "Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer ",
+        },
+        {
+          id: 5,
+          price: "1200",
+          marka: "Horses",
+          desc: "Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer ",
+        },
+        {
+          id: 6,
+          marka: "Horses",
+          price: "1200",
+          desc: "Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer ",
+        },
+      ],
+    },
+    {
+      id: 1,
+      title: "Proteins",
+      data: [
+        {
+          id: 1,
+          marka: "Horses",
+          price: "1200",
+          desc: "Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer ",
+        },
+        {
+          price: "1200",
+          id: 2,
+          marka: "Horses",
+          desc: "Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer ",
+        },
+        {
+          id: 3,
+          price: "1200",
+          marka: "Horses",
+          desc: "Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer ",
+        },
+        {
+          id: 4,
+          price: "1200",
+          marka: "Horses",
+          desc: "Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer ",
+        },
+        {
+          id: 5,
+          price: "1200",
+          marka: "Horses",
+          desc: "Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer ",
+        },
+        {
+          id: 6,
+          marka: "Horses",
+          price: "1200",
+          desc: "Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer ",
+        },
+      ],
+    },
+    {
+      id: 1,
+      title: "Proteins",
+      data: [
+        {
+          id: 1,
+          marka: "Horses",
+          price: "1200",
+          desc: "Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer ",
+        },
+        {
+          price: "1200",
+          id: 2,
+          marka: "Horses",
+          desc: "Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer ",
+        },
+        {
+          id: 3,
+          price: "1200",
+          marka: "Horses",
+          desc: "Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer ",
+        },
+        {
+          id: 4,
+          price: "1200",
+          marka: "Horses",
+          desc: "Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer ",
+        },
+        {
+          id: 5,
+          price: "1200",
+          marka: "Horses",
+          desc: "Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer ",
+        },
+        {
+          id: 6,
+          marka: "Horses",
+          price: "1200",
+          desc: "Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer ",
+        },
+      ],
+    },
+    {
+      id: 1,
+      title: "Proteins",
+      data: [
+        {
+          id: 1,
+          marka: "Horses",
+          price: "1200",
+          desc: "Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer ",
+        },
+        {
+          price: "1200",
+          id: 2,
+          marka: "Horses",
+          desc: "Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer ",
+        },
+        {
+          id: 3,
+          price: "1200",
+          marka: "Horses",
+          desc: "Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer ",
+        },
+        {
+          id: 4,
+          price: "1200",
+          marka: "Horses",
+          desc: "Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer ",
+        },
+        {
+          id: 5,
+          price: "1200",
+          marka: "Horses",
+          desc: "Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer ",
+        },
+        {
+          id: 6,
+          marka: "Horses",
+          price: "1200",
+          desc: "Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer Pro gainer ",
+        },
+      ],
+    },
   ];
 
   const [scrollPosition, setScrollPosition] = useState(0);
-
   const [products, setProducts] = useState([]);
 
   useEffect(() => {

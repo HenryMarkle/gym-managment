@@ -25,19 +25,23 @@ function Slider({ data, id }) {
           {data.map((ele) => {
             return (
               <React.Fragment key={id}>
-                <SwiperSlide className="product shadow-lg flex flex-col justify-center items-center rounded-xl min-w-[300px] ">
+                <SwiperSlide className="product shadow-lg flex flex-col justify-center items-center rounded-xl min-w-[250px] ">
                   <Link href={`/market/${ele.id}`}>
                     <div className=" flex flex-col">
                       <img
-                        className="w-[220px] self-center"
+                        className="w-full self-center p-[30px]"
                         src="https://cdn.akakce.com/hardline-nutrition/hardline-nutrition-progainer-5000-gr-z.jpg"
                         alt=""
                       />
                       <div className="flex w-full p-3 items-center">
                         <p className="w-[100%] text-sm">
-                          <span className=" text-website2 font-bold text-lg mr-1">
-                            {/* {ele.marka} */}
-                            {ele}
+                          <span className=" text-website2 font-bold text-lg mr-1 ">
+                            <span className="mr-2">{ele.marka}</span>
+                            <span className="text-black opacity-80 text-[15px]">
+                              {ele.desc?.length > 52
+                                ? ele.desc.slice(0, 52) + "..."
+                                : ele.desc}
+                            </span>
                           </span>{" "}
                           {ele.description?.length > 70
                             ? ele.description.slice(0, 70) + "..."
@@ -45,7 +49,9 @@ function Slider({ data, id }) {
                         </p>
                       </div>
                       <div className="flex justify-between items-center w-full p-3">
-                        <p className="text-website2">{ele.price} TL</p>
+                        <p className="text-website2 font-bold">
+                          {ele.price} TL
+                        </p>
                         <button className="buy-button shadow-md p-2 text-website2 ">
                           Buy Now
                         </button>
