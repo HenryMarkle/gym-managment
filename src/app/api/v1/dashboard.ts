@@ -401,7 +401,7 @@ export async function getProductCategories(): Promise<{ id: number, name: string
   try {
     const categories = await client.productCategory.findMany({});
   
-    return await categories.map(c => {
+    return categories.map(c => {
       return { name: c.name, id: c.id };
     });
 

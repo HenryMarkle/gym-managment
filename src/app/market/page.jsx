@@ -5,20 +5,14 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { BallTriangle } from "react-loader-spinner";
 import Slider from "../../components/website/Slider";
 import "./helper.css";
-import { getHomeProducts } from "../../app/api/v1/dashboard";
+import { getHomeProducts, getProductCategories } from "../../app/api/v1/dashboard";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import Link from "next/link";
 function Market() {
-  const cateGories = [
-    { id: 1, title: "Proteins", data: [11, 21, 31, 51, 61, 71, 81] },
-    { id: 2, title: "Clothes", data: [12, 22, 32, 52, 62, 72, 82] },
-    { id: 3, title: "Houses", data: [13, 23, 33, 53, 63, 73, 83] },
-    { id: 4, title: "Horses", data: [14, 24, 34, 54, 64, 74, 84] },
-    { id: 5, title: "Cars", data: [15, 25, 35, 55, 56, 75, 85] },
-  ];
+  const [ categories, setCategories ] = useState([]);
 
   const [scrollPosition, setScrollPosition] = useState(0);
 
@@ -26,8 +20,14 @@ function Market() {
 
   useEffect(() => {
     getHomeProducts().then((p) => {
+      if (p === 'error' || p === 'unauthorized') {}
       setProducts(p);
     });
+
+    getProductCategories().then(c => {
+      if (c === 'error') {}
+      else setCategories(c);
+    })
   }, []);
 
   const handleScroll = () => {
@@ -63,19 +63,19 @@ function Market() {
         </div>
         <div className="parent-market ml-10 px-[100px] w-[100%] ">
           <div className="right  p-4">
-            {cateGories.map((ele) => {
+            {categories.map((ele) => {
               return (
                 <React.Fragment key={ele.id}>
                   <div className="slider-market-parnet mt-10">
                     <div className="px-20 flex justify-between items-center">
                       <p className=" text-website2 font-bold text-xl ">
-                        {ele.title}
+                        {ele.name}
                       </p>
                       <button className=" shadow-lg px-8 py-2 duration-300 hover:bg-orange-600 text-website2 rounded-md hover:text-white">
                         See All
                       </button>
                     </div>
-                    <Slider id={ele.id} data={ele.data} />
+                    <Slider id={ele.id} data={[]} />
                   </div>
                 </React.Fragment>
               );
