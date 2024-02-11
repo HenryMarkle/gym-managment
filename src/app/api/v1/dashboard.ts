@@ -411,6 +411,33 @@ export async function getProductCategories(): Promise<{ id: number, name: string
   }
 }
 
+export async function getCategoryProducts(): Promise<{id: number, cat: string, data: Product[]}[] | 'error'> {
+  try {
+    const categories = await client.productCategory.findMany({
+      include: { products: true }
+    });
+
+    return categories.map(c => {
+      return {
+        id: c.id,
+        cat: c.name,
+        data: c.products.map(p => { 
+          return {...p, 
+            price: p.price.toNumber(),
+            createdAt: p.createdAt.toDateString(), 
+            updatedAt: p.updatedAt.toDateString(), 
+            deletedAt: p.deletedAt?.toDateString()
+          } 
+        }) 
+      }
+    })
+
+  } catch (e) {
+    console.log("failed to get product categories: " + e);
+    return "error";
+  }
+}
+
 export async function addProductCategory(name: string): Promise<number | 'unauthorized' | 'error'> {
   try {
     await client.$connect();

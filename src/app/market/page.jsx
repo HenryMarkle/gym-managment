@@ -5,7 +5,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { BallTriangle } from "react-loader-spinner";
 import Slider from "../../components/website/Slider";
 import "./helper.css";
-import { getHomeProducts, getProductCategories } from "../../app/api/v1/dashboard";
+import { getHomeProducts, getProductCategories, getCategoryProducts } from "../../app/api/v1/dashboard";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -26,6 +26,10 @@ function Market() {
     getProductCategories().then(c => {
       if (c === 'error') {}
       else setCategories(c);
+    });
+
+    getCategoryProducts().then(cp => {
+      console.log(cp);
     })
   }, []);
 
