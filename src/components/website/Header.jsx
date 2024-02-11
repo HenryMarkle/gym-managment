@@ -55,7 +55,7 @@ function Header() {
       <div className="header-parent h-[100vh] bg-emerald-200 z-50">
         <div
           style={headerStyle}
-          className={`header-bar w-full h-20 z-[100] justify-between px-[290px] duration-700 flex items-center  ${
+          className={`header-bar w-full h-20 z-[100] justify-evenly px-[210px] duration-700 flex items-center  ${
             scrollPosition > 735 && "bg-white shadow-lg fixed z-50"
           }`}
         >
@@ -80,7 +80,7 @@ function Header() {
               {genInfo?.sentence ?? ""}
             </p>
             <p className="text-center text-7xl font-extrabold text-white">
-              {genInfo?.secondSentence ?? ''}
+              {genInfo?.secondSentence ?? ""}
             </p>
             <button className="mt-5 bg-[#ed563b] text-white px-4 text-xl py-4 rounded-sm">
               BECOME A MEMBER
