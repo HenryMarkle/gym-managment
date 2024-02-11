@@ -15,7 +15,6 @@ function Market() {
   const [ categories, setCategories ] = useState([]);
 
   const [scrollPosition, setScrollPosition] = useState(0);
-
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
@@ -75,7 +74,7 @@ function Market() {
                         See All
                       </button>
                     </div>
-                    <Slider id={ele.id} data={[]} />
+                    <Slider id={ele.id} data={products} />
                   </div>
                 </React.Fragment>
               );

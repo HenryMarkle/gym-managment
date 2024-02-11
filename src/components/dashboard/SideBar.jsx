@@ -188,7 +188,7 @@ function SideBar() {
                   setShowMessage(false);
                   setMobile(false);
                 }}
-                href="message-mobile"
+                href="/panel/message-mobile"
               >
                 <div className=" flex justify-center gap-4 text-white items-center">
                   <BiSolidMessageAdd size="23px" />

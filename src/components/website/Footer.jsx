@@ -14,7 +14,7 @@ function Footer() {
   return (
     <div className="h-[350px] w-full bg-neutral-900 p-14 mt-28">
       <div className="maps grid grid-cols-2 gap-20">
-        <div className="1 bg-red-100 flex justify-center items-center rounded-3xl">
+        <div className="1 bg-red-100 flex justify-center items-center rounded-3xl h-[245px]">
           <p className="">Google maps</p>
         </div>
         <div className="2">
