@@ -16,26 +16,14 @@ import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import Link from "next/link";
 function Market() {
-  const [categories, setCategories] = useState([]);
   const [scrollPosition, setScrollPosition] = useState(0);
   const [products, setProducts] = useState([]);
   const [filterAmount, setFilterAmount] = useState(1400);
   useEffect(() => {
-    getHomeProducts().then((p) => {
-      if (p === "error" || p === "unauthorized") {
-      }
-      // setProducts(p);
-    });
-
-    getProductCategories().then((c) => {
-      if (c === "error") {
-      } else setCategories(c);
-    });
-
-    getCategoryProducts().then((cp) => {
-      setProducts(cp);
-      console.log(cp);
-    });
+    getCategoryProducts().then(cp => {
+      if (cp === 'error') {}
+      else setProducts(cp)
+    })
   }, []);
 
   const handleScroll = () => {
@@ -71,7 +59,7 @@ function Market() {
         </div>
         <div className="parent-market ml-10 px-[100px] w-[100%] ">
           <div className="right  p-4">
-            {categories.map((ele) => {
+            {products.map((ele) => {
               return (
                 <React.Fragment key={ele.id}>
                   <div className="slider-market-parnet mt-10">
@@ -83,7 +71,7 @@ function Market() {
                         See All
                       </button>
                     </div>
-                    <Slider id={ele.id} data={products} />
+                    <Slider id={ele.id} data={ele.data} />
                   </div>
                 </React.Fragment>
               );
