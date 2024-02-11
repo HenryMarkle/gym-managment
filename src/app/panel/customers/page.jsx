@@ -1,11 +1,10 @@
 "use client";
+import "./main.css";
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { getAllCustomers } from "../../api/v1/customer";
 import { CiSearch } from "react-icons/ci";
-
-import "./main.css";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 function page() {
   const [AllCustomers, setAllCustomers] = useState([
     {
@@ -118,8 +117,31 @@ function page() {
       endsAt: "12-10-2010",
       gender: "male",
     },
+    {
+      id: 12,
+      name: "receb",
+      surname: "usta",
+      age: 3,
+      bucketPrice: "1200",
+      paymentAmount: "120",
+      startedAt: "10-10-2020",
+      endsAt: "12-10-2010",
+      gender: "male",
+    },
+    {
+      id: 13,
+      name: "receb",
+      surname: "usta",
+      age: 3,
+      bucketPrice: "1200",
+      paymentAmount: "120",
+      startedAt: "10-10-2020",
+      endsAt: "12-10-2010",
+      gender: "male",
+    },
   ]);
   const [filterValue, setFilterValue] = useState("");
+  const [lengs, setlngs] = useState(AllCustomers.length);
   const router = useRouter();
   // useEffect(() => {
   //   const getAllCust = async () => {
@@ -130,6 +152,18 @@ function page() {
   //   getAllCust().then((d) => console.log(d));
   // }, []);
 
+  useEffect(() => {
+    const newLength = AllCustomers.filter(
+      (el) =>
+        el.name.toUpperCase().includes(filterValue.toUpperCase()) ||
+        el.name.toUpperCase() === filterValue.toUpperCase() ||
+        `${el.name + el.surname}`
+          .toUpperCase()
+          .replace(/\s/g, "")
+          .includes(filterValue.toUpperCase().replace(/\s/g, ""))
+    ).length;
+    setlngs(newLength);
+  }, [filterValue]);
   return (
     <>
       <div className="search ml-[27%] border-2 mr-[100px] mt-4 px-1 rounded-xl flex">
@@ -140,6 +174,9 @@ function page() {
           placeholder="Search Customer"
         />
         <CiSearch size={30} className="mt-2" />
+      </div>
+      <div className="ml-[27%] mt-4 font-bold text-sm">
+        you have {lengs} registers in this page.
       </div>
       <table className="ml-[25%] w-[70%] mt-5 shadow-xl p-6 rounded-[31px] overflow-hidden mb-5">
         <thead>
@@ -165,13 +202,13 @@ function page() {
                     .toUpperCase()
                     .replace(/\s/g, "")
                     .includes(filterValue.toUpperCase().replace(/\s/g, ""))
-              ).map((ele) => (
+              ).map((ele, index) => (
                 <tr
                   key={ele.id}
                   onClick={() => router.push(`/panel/customer/${ele.id}`)}
                   className={`h-[90px]`}
                 >
-                  <td>
+                  <td className=" relative">
                     {`${
                       ele.name.length > 8
                         ? ele.name.slice(0, 8)
