@@ -17,13 +17,12 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import Link from "next/link";
+
+import { getProductCategories } from "../../app/api/v1/dashboard";
+
 function Market() {
-  const cats = [
-    { id: 2, title: "All" },
-    { id: 1, title: "Other" },
-    { id: 3, title: "Prtien" },
-    { id: 4, title: "Horses" },
-  ];
+  const [ categories, setCategories ] = useState([]);
+
   const [scrollPosition, setScrollPosition] = useState(0);
   const [products, setProducts] = useState([]);
   const [min, setMin] = useState(1);
@@ -40,6 +39,12 @@ function Market() {
         console.log(cp);
       }
     });
+
+    getProductCategories().then(c => {
+      if (c === 'error') {
+        setCategories(c);
+      }
+    })
   }, []);
 
   const handleScroll = () => {
@@ -214,10 +219,10 @@ function Market() {
             </p> */}
             <div
               className={`filter-by-categorie flex overflow-x-auto ${
-                cats.length > 8 ? "justify-between" : "justify-center"
+                categories.length > 8 ? "justify-between" : "justify-center"
               }`}
             >
-              {cats.map((ele) => {
+              {categories.map((ele) => {
                 return (
                   <React.Fragment key={ele.id}>
                     <div
