@@ -82,3 +82,13 @@
   background: round;
   /* background-image: url("https://cdn.fleetfeet.com/assets/HOKAMACH5.jpeg/dynamic:1-aspect:1.5-fit:cover-strategy:entropy/HOKAMACH5--1440.jpg"); */
 }
+
+input[type="number"] {
+  -webkit-appearance: textfield;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}

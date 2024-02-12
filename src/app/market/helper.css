@@ -32,7 +32,6 @@
 }
 
 .slider-market-parnet:not(:last-child) {
-  border-bottom: 1px solid #eee;
   padding-bottom: 20px;
 }
 

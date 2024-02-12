@@ -20,11 +20,10 @@ import "swiper/css/scrollbar";
 import Link from "next/link";
 function Market() {
   const cats = [
+    { id: 2, title: "All" },
     { id: 1, title: "Other" },
-    { id: 2, title: "Prtien" },
-    { id: 2, title: "Horses" },
-    { id: 2, title: "Prtien" },
-    { id: 2, title: "Horses" },
+    { id: 3, title: "Prtien" },
+    { id: 4, title: "Horses" },
   ];
   const [scrollPosition, setScrollPosition] = useState(0);
   const [products, setProducts] = useState([]);
@@ -32,6 +31,7 @@ function Market() {
   const [max, setMax] = useState(99999999);
   const [filterInputValue, setFilterInputValue] = useState("");
   const [sendedFilterValue, setSendedFilterValue] = useState("");
+  const [catFilteringValue, setCatFilteringValue] = useState("All");
   useEffect(() => {
     getCategoryProducts().then((cp) => {
       if (cp === "error") {
@@ -59,6 +59,10 @@ function Market() {
       setSendedFilterValue("");
     }
   }, [filterInputValue]);
+
+  useEffect(() => {
+    console.log(catFilteringValue);
+  }, [catFilteringValue]);
   return (
     <>
       <div className=" overflow-hidden">
@@ -75,14 +79,14 @@ function Market() {
               <label htmlFor="">min</label>
               <input
                 onChange={(e) => setMin(e.target.value)}
-                type="text"
+                type="number"
                 className="border-2 w-[20%] ml-2 rounded-full px-2"
               />
               <span className="text-website2"> TL</span> -
               <label htmlFor=""> max</label>
               <input
                 onChange={(e) => setMax(e.target.value)}
-                type="text"
+                type="number"
                 className="border-2 w-[20%] ml-2 rounded-full px-2"
               />{" "}
               <span className="text-website2">TL</span>
@@ -175,7 +179,12 @@ function Market() {
               {cats.map((ele) => {
                 return (
                   <React.Fragment key={ele.id}>
-                    <div className="category mr-7 my-7 bg-orange-500 px-4 py-2 rounded-lg text-white font-bold cursor-pointer">
+                    <div
+                      onClick={async () => {
+                        setCatFilteringValue(ele.title);
+                      }}
+                      className="category mr-7 my-7 bg-orange-500 px-4 py-2 rounded-lg text-white font-bold cursor-pointer"
+                    >
                       {ele.title}
                     </div>
                   </React.Fragment>
@@ -202,27 +211,18 @@ function Market() {
               Apply
             </button> */}
           </div>
-          <div className="right  p-4">
+          <div className="right p-4 ml-[12%] mt-4">
             {products.map((ele) => {
               return (
                 <React.Fragment key={ele.id}>
-                  <div className="slider-market-parnet mt-10">
-                    <div className="px-20 flex justify-between items-center">
-                      <p className=" text-website2 font-bold text-xl ">
-                        {ele.cat}
-                      </p>
-                      <button className=" shadow-lg px-8 py-2 duration-300 hover:bg-orange-600 text-website2 rounded-md hover:text-white">
-                        See All
-                      </button>
-                    </div>
-                    <Slider
-                      sendedFilterValue={sendedFilterValue}
-                      min={min}
-                      max={max}
-                      id={ele.id}
-                      data={ele.data}
-                    />
-                  </div>
+                  <Slider
+                    cat={catFilteringValue}
+                    sendedFilterValue={sendedFilterValue}
+                    min={min}
+                    max={max}
+                    id={ele.id}
+                    data={ele}
+                  />
                 </React.Fragment>
               );
             })}
