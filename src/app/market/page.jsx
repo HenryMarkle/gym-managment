@@ -37,6 +37,7 @@ function Market() {
         console.log(cp);
       }
     });
+    
 
     getProductCategories().then(c => {
       if (c === 'error') {
