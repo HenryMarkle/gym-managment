@@ -24,7 +24,7 @@ function Footer() {
                 <React.Fragment key={ele.id}>
                   <Link
                     href={ele.to}
-                    className="w-full text-white font-bold border-r-2 hover:text-website2 duration-300 hover:border-b-2 hover:pb-2 cursor-pointer hover:border-r-0 "
+                    className="w-full text-white font-bold border-l-2 pl-3 hover:text-website2 duration-300 hover:border-b-2 hover:pb-2 cursor-pointer  "
                   >
                     <span key={ele.id}>{ele.title}</span>
                   </Link>

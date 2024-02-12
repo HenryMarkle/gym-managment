@@ -77,7 +77,8 @@ function SideBar() {
               className=" flex justify-center items-center text-[30px] text-white ml-2"
             />
           )}
-          <Link href="/">
+
+          <Link href="/" className="hidden">
             <p className="font-bold text-[23px] text-white  ">{gymName}</p>
           </Link>
         </div>

@@ -14,8 +14,9 @@ function Products() {
 
   useEffect(() => {
     getHomeProducts().then((p) => {
-      if (p === 'error' || p === 'unauthorized') {}
-      else setProducts(p);
+      if (p === "error" || p === "unauthorized") {
+      } else setProducts(p);
+      console.log(products);
     });
   }, []);
   return (
@@ -46,15 +47,15 @@ function Products() {
                     key={ele.id}
                     className="product shadow-lg flex flex-col justify-center items-center rounded-xl min-w-[300px]"
                   >
-                    <Link href={`/market/${ele.id}`}>
-                      <div className=" flex flex-col">
+                    <Link href={`/product/${ele.id}`}>
+                      <div className=" flex flex-col min-h-[280px]">
                         <img
                           className="w-[220px] self-center"
                           src="https://cdn.akakce.com/hardline-nutrition/hardline-nutrition-progainer-5000-gr-z.jpg"
                           alt=""
                         />
                         <div className="flex w-full p-3 items-center">
-                          <p className="w-[100%] text-sm">
+                          <p className="w-[100%] min-h-[71px] text-sm mt-2">
                             <span className=" text-website2 font-bold text-lg mr-1">
                               {ele.marka}
                             </span>{" "}
