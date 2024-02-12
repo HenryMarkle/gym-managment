@@ -4,8 +4,7 @@ import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Switch from "react-toggle-switch";
 import { CiSearch } from "react-icons/ci";
-
-import { BallTriangle } from "react-loader-spinner";
+import BeatLoader from "react-spinners/BeatLoader";
 import Slider from "../../components/website/Slider";
 import "./helper.css";
 import {
@@ -32,6 +31,7 @@ function Market() {
   const [filterInputValue, setFilterInputValue] = useState("");
   const [sendedFilterValue, setSendedFilterValue] = useState("");
   const [catFilteringValue, setCatFilteringValue] = useState("All");
+  const [showSpinner, setShowSpinner] = useState(false);
   useEffect(() => {
     getCategoryProducts().then((cp) => {
       if (cp === "error") {
@@ -60,9 +60,13 @@ function Market() {
     }
   }, [filterInputValue]);
 
-  useEffect(() => {
-    console.log(catFilteringValue);
-  }, [catFilteringValue]);
+  // useEffect(() => {
+  //   const typingTimer = setTimeout(() => {
+  //     setShowSpinner(false);
+  //   }, 3000);
+  //   clearTimeout(typingTimer);
+  // }, [filterInputValue]);
+
   return (
     <>
       <div className=" overflow-hidden">
@@ -166,6 +170,43 @@ function Market() {
             </div> */}
           </div>
         </div>
+        <div className="input ml-[36%] relative border-2 w-[40%] flex justify-between px-1 py-1 rounded-lg mt-4 ">
+          <div className="1 flex">
+            <div className="3">
+              <CiSearch size={27} className="" />
+            </div>
+            <div className="2">
+              <input
+                onChange={(e) => {
+                  e.target.value ? "" && setSendedFilterValue("") : null;
+                  setSendedFilterValue(e.target.value);
+                  setFilterInputValue(e.target.value);
+                  setShowSpinner(true);
+                  setTimeout(() => {
+                    setShowSpinner(false);
+                  }, 2000);
+                }}
+                type="text"
+                className="pl-2"
+                placeholder="xxxxxxxx"
+              />
+            </div>
+          </div>
+          <div className="2">
+            <BeatLoader
+              color="orange"
+              loading={showSpinner}
+              size={8}
+              speedMultiplier={1}
+            />
+          </div>
+          {/* <button
+              onClick={() => setSendedFilterValue(filterInputValue)}
+              className=" text-white bg-orange-500 px-3 py-[5.3px] rounded-r-md "
+            >
+              Apply
+            </button> */}
+        </div>
         <div className="parent-market ml-10 px-[100px] w-[100%] ">
           <div className="cat-filters ml-[22%]">
             {/* <p className="text-website2 mt-2 font-bold">
@@ -191,25 +232,6 @@ function Market() {
                 );
               })}
             </div>
-          </div>
-          <div className="input ml-[24%] relative">
-            <input
-              onChange={(e) => {
-                e.target.value ? "" && setSendedFilterValue("") : null;
-                setSendedFilterValue(e.target.value);
-                setFilterInputValue(e.target.value);
-              }}
-              type="text"
-              className="border-2 w-[40%] px-8 py-1"
-              placeholder="xxxxxxxx"
-            />
-            <CiSearch size={27} className=" absolute top-1 left-1" />
-            {/* <button
-              onClick={() => setSendedFilterValue(filterInputValue)}
-              className=" text-white bg-orange-500 px-3 py-[5.3px] rounded-r-md "
-            >
-              Apply
-            </button> */}
           </div>
           <div className="right p-4 ml-[12%] mt-4">
             {products.map((ele) => {

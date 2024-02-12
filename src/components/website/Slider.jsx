@@ -15,9 +15,11 @@ function Slider({ data, id, min, max, sendedFilterValue, cat }) {
         <>
           <div className="px-20 flex justify-between items-center">
             <p className="text-website2 font-bold text-xl ">{data.cat}</p>
-            <button className="shadow-lg px-8 py-2 duration-300 hover:bg-orange-600 text-website2 rounded-md hover:text-white">
-              See All
-            </button>
+            <Link href={`/market/${data.cat}`}>
+              <button className="shadow-lg px-8 py-2 duration-300 hover:bg-orange-600 text-website2 rounded-md hover:text-white">
+                See All
+              </button>
+            </Link>
           </div>
           {data.data.filter((ele) => ele.price > min && ele.price < max)
             .length ? (
@@ -46,7 +48,7 @@ function Slider({ data, id, min, max, sendedFilterValue, cat }) {
                 .map((ele) => (
                   <React.Fragment key={id}>
                     <SwiperSlide className="product shadow-lg flex flex-col justify-center items-center rounded-xl min-w-[250px]">
-                      <Link href={`/market/${ele.id}`}>
+                      <Link href={`/product/${ele.id}`}>
                         <div className="flex flex-col">
                           <img
                             className="w-full self-center p-[30px]"
@@ -90,9 +92,11 @@ function Slider({ data, id, min, max, sendedFilterValue, cat }) {
           <>
             <div className="px-20 flex justify-between items-center">
               <p className="text-website2 font-bold text-xl ">{data.cat}</p>
-              <button className="shadow-lg px-8 py-2 duration-300 hover:bg-orange-600 text-website2 rounded-md hover:text-white">
-                See All
-              </button>
+              <Link href={`/market/${cat}`}>
+                <button className="shadow-lg px-8 py-2 duration-300 hover:bg-orange-600 text-website2 rounded-md hover:text-white">
+                  See All
+                </button>
+              </Link>
             </div>
             {data.data.filter((ele) => ele.price > min && ele.price < max)
               .length ? (
@@ -121,7 +125,7 @@ function Slider({ data, id, min, max, sendedFilterValue, cat }) {
                   .map((ele) => (
                     <React.Fragment key={id}>
                       <SwiperSlide className="product shadow-lg flex flex-col justify-center items-center rounded-xl min-w-[250px]">
-                        <Link href={`/market/${ele.id}`}>
+                        <Link href={`/product/${ele.id}`}>
                           <div className="flex flex-col">
                             <img
                               className="w-full self-center p-[30px]"
