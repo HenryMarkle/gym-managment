@@ -18,17 +18,6 @@ function Header() {
   };
 
   useEffect(() => {
-    getHomeGeneralInfo().then((i) => {
-      if (i === "error" || i === "unauthorized") {
-        console.log("first");
-      } else {
-        setGenInfo(i);
-        const words = i.title.split(" ");
-        console.log(words[0]);
-        setGymName(words);
-      }
-    });
-
     getGymName().then((name) => {
       if (name === "unauthorized" || name === null);
       else setGymName(name);
@@ -39,6 +28,19 @@ function Header() {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
+  }, []);
+
+  useEffect(() => {
+    getHomeGeneralInfo().then((i) => {
+      if (i === "error" || i === "unauthorized") {
+        console.log("first");
+      } else {
+        // setGenInfo(i);
+        const words = i.title.split(" ");
+        console.log(words[1]);
+        setGymName(words);
+      }
+    });
   }, []);
 
   useEffect(() => {
@@ -59,19 +61,22 @@ function Header() {
             scrollPosition > 735 && "bg-white shadow-lg fixed z-50"
           }`}
         >
-          <p
-            className={
-              scrollPosition > 735
-                ? "text-5xl text-black font-extrabold w-[500px] "
-                : "text-5xl text-white font-extrabold w-[500px] "
-            }
-          >
-            <span>
-              {gymName[0]} <span className="text-website2">{gymName[1]}</span>
-            </span>
+          <Link href="/">
+            <p
+              className={
+                scrollPosition > 735
+                  ? "text-5xl text-black font-extrabold w-[500px] "
+                  : "text-5xl text-white font-extrabold w-[500px] "
+              }
+            >
+              <span>
+                {gymName[0]} <span className="text-website2">{gymName[1]}</span>
+              </span>
 
-            {/* <span className="text-website2">{genInfo?.title ?? ""}</span> */}
-          </p>
+              {/* <span className="text-website2">{genInfo?.title ?? ""}</span> */}
+            </p>
+          </Link>
+
           <Navbar />
         </div>
         <div className="content flex items-center justify-center h-full ">

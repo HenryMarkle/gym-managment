@@ -5,6 +5,7 @@ import { FaHome, FaClipboardList } from "react-icons/fa";
 import { IoSettings } from "react-icons/io5";
 import { BiSolidMessageAdd } from "react-icons/bi";
 import { IoIosCloseCircleOutline } from "react-icons/io";
+import { TfiPanel } from "react-icons/tfi";
 import { CiCircleChevDown } from "react-icons/ci";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { BsCalendar2EventFill } from "react-icons/bs";
@@ -63,7 +64,7 @@ function SideBar() {
               } w-[329px] h-[100vh] fixed top-0 left-0  bg-customRed rounded-tr-[31px] rounded-br-[31px] p-[15px] duration-500 z-[100]`
         }
       >
-        <div className="show-mobile w-full flex justify-between hidden items-center">
+        <div className="show-mobile w-full justify-between hidden items-center">
           {mobile ? (
             <div className="flex items-center justify-between w-auto">
               <IoIosCloseCircleOutline
@@ -78,25 +79,23 @@ function SideBar() {
             />
           )}
 
-          <Link href="/" className="hidden">
+          <Link href="/panel" className="hidden">
             <p className="font-bold text-[23px] text-white  ">{gymName}</p>
           </Link>
         </div>
-        {mobile ? null : (
-          <div className="flex flex-col justify-center items-center mb-5 mx-4">
-            <Link className=" text-end" href="/">
-              <p className="font-bold text-[23px] self-start text-white  ">
-                {gymName}
-              </p>
-            </Link>
-            <Link
-              href="/panel/dashboard"
-              className=" self-end text-green-500 font-bold w-fit bg-white px-2 py-2 rounded-[6px]"
-            >
-              manage website
-            </Link>
-          </div>
-        )}
+        <div className="flex  justify-between  items-center mb-5 mx-4">
+          <Link className=" text-end" href="/panel">
+            <p className="font-bold text-[23px] self-start text-white  ">
+              {gymName}
+            </p>
+          </Link>
+          <Link
+            href="/panel/dashboard"
+            className=" self-end text-green-500 font-bold w-fit bg-white px-2 py-2 rounded-[6px]"
+          >
+            <TfiPanel />
+          </Link>
+        </div>
         <div className="top-content flex flex-col gap-9 w-[210px]">
           <div className=" h-[60vh] content text-center flex flex-col items-start self-center gap-10 ml-9">
             <Link

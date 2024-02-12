@@ -1,5 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import { SlBasket } from "react-icons/sl";
+
 import Link from "next/link";
 
 function Navbar() {
@@ -51,6 +53,16 @@ function Navbar() {
           </React.Fragment>
         );
       })}
+      <Link href="/basket">
+        <div className="basket flex items-center cursor-pointer">
+          <SlBasket
+            size={27}
+            fontWeight={40}
+            color="#e75f11"
+            className=" font-extrabold"
+          />
+        </div>
+      </Link>
     </div>
   );
 }

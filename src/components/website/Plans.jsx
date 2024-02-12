@@ -1,14 +1,14 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { BallTriangle } from "react-loader-spinner";
-import img from "./website-images/gym-image.png";
+import img from "../../images/gym-image.png";
 import Image from "next/image";
 
 import { getHomePlans, getPlanParagraph } from "../../app/api/v1/dashboard";
 
 function Plans() {
   const [plans, setPlans] = useState([]);
-  const [ paragraph, setParagraph ] = useState('')
+  const [paragraph, setParagraph] = useState("");
 
   useEffect(() => {
     getHomePlans().then((plans) => {
@@ -22,11 +22,11 @@ function Plans() {
       }
     });
 
-    getPlanParagraph().then(p => {
-      if (p !== 'error') {
+    getPlanParagraph().then((p) => {
+      if (p !== "error") {
         setParagraph(p);
       }
-    })
+    });
   }, []);
 
   return (
@@ -38,9 +38,7 @@ function Plans() {
         <p className="waves"></p>
         <p className="waves"></p>
         <p className="waves"></p>
-        <p className="mt-10 text-center opacity-60">
-          {paragraph}
-        </p>
+        <p className="mt-10 text-center opacity-60">{paragraph}</p>
         {plans.length ? (
           <div className="plans w-full flex flex-col gap-14 items-start justify-center mt-16 mx-auto my-0 px-[150px]">
             {plans.map((ele) => {

@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { getHomeGeneralInfo } from "../../app/api/v1/dashboard";
+import { SlBasket } from "react-icons/sl";
 
 function CustomNav() {
   const [gymName, setGymName] = useState([]);
@@ -50,6 +51,16 @@ function CustomNav() {
           </Link>
         ))}
       </div>
+      <Link href="/basket">
+        <div className="basket flex items-center cursor-pointer">
+          <SlBasket
+            size={27}
+            fontWeight={40}
+            color="#e75f11"
+            className=" font-extrabold"
+          />
+        </div>
+      </Link>
     </div>
   );
 }

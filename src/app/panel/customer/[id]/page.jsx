@@ -9,14 +9,12 @@ import "./style.css";
 import Swal from "sweetalert2";
 function page() {
   const params = useParams();
-
   const [user, setUser] = useState({});
   const [fetchError, setFetchError] = useState(null);
   const [daysLeft, setDaysLeft] = useState(null);
   const router = useRouter();
+  const { id } = params;
   useEffect(() => {
-    const { id } = params;
-
     getCustomerById(Number(id)).then((u) => {
       if (u == null) {
         setFetchError("notFound");
@@ -24,9 +22,9 @@ function page() {
         setFetchError("error");
       } else {
         setFetchError(null);
-        setUser(u);
+        setUser(u ?? {});
       }
-      if (u.startedAt && u.endsAt) {
+      if (u?.startedAt && u?.endsAt) {
         const startDate = new Date(u.startedAt);
         const endDate = new Date(u.endsAt);
         const timeDifference = endDate - startDate;

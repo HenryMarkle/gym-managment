@@ -20,7 +20,7 @@ function Ads() {
     <>
       <div className="ads w-full h-[400px] ">
         <div className="content-of-ads flex items-center justify-center h-full flex-col">
-          <p className="z-[100] text-4xl font-extrabold text-white">
+          <p className="z-[10] text-4xl font-extrabold text-white">
             {/* DON’T <span className=" text-website2">THINK</span>, BEGIN{" "}
             <span className=" text-website2">TODAY</span>! */}
             {adsInfo?.title ?? ''}

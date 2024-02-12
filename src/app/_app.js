@@ -1,5 +1,4 @@
 import "@/src/app/global.css";
-
 import Layout from "./layout";
 
 function App({ Component, pageProps }) {
@@ -9,4 +8,4 @@ function App({ Component, pageProps }) {
     </Layout>
   );
 }
-export default App
+export default App;

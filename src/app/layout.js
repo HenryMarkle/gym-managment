@@ -6,6 +6,7 @@ import { useRouter, usePathname } from "next/navigation";
 import { useEffect } from "react";
 import Footer from "../components/website/Footer";
 import CustomHeader from "../components/website/CustomHeader";
+import { Provider } from "react-redux";
 // import Cookies from "js-cookie";
 const inter = Inter({ subsets: ["latin"] });
 

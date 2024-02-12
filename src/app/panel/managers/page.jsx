@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import React, { useEffect, useState } from "react";
 import "./main.css";
@@ -7,8 +7,8 @@ import Link from "next/link";
 import { getAllUsers } from "../../api/v1/user";
 
 function page() {
-  const [ allUsers, setAllUsers ] = useState([]);
-  
+  const [allUsers, setAllUsers] = useState([]);
+
   useEffect(() => {
     getAllUsers().then(setAllUsers);
   }, []);
@@ -19,7 +19,7 @@ function page() {
         {allUsers.map((ele) => {
           return (
             <>
-              <Link href={`/manager/${ele.id}`}>
+              <Link href={`/panel/maanger/${ele.id}`}>
                 <div className="koch shadow-sm shadow-green-700  relative  h-[300px] p-2 mt-10 rounded-[31px]">
                   <img
                     className="h-[100px] rounded-full absolute -top-12 left-[50%] transform translate-x-[-50%] border-4 border-emerald-900 z-50 outline  outline-white outline-4"

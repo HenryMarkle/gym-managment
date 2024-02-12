@@ -6,151 +6,19 @@ import { getAllCustomers } from "../../api/v1/customer";
 import { CiSearch } from "react-icons/ci";
 import { useRouter } from "next/navigation";
 function page() {
-  const [AllCustomers, setAllCustomers] = useState([
-    {
-      id: 1,
-      name: "Ali",
-      surname: "Haseni",
-      age: 12,
-      bucketPrice: "1200",
-      paymentAmount: "420",
-      startedAt: "10-10-2020",
-      endsAt: "12-10-2022",
-      gender: "male",
-    },
-    {
-      id: 2,
-      name: "ahmad",
-      surname: "Haseni",
-      age: 32,
-      bucketPrice: "1200",
-      paymentAmount: "530",
-      startedAt: "10-10-2020",
-      endsAt: "12-10-2010",
-      gender: "male",
-    },
-    {
-      id: 3,
-      name: "mira",
-      surname: "Haseni",
-      age: 51,
-      bucketPrice: "1200",
-      paymentAmount: "460",
-      startedAt: "10-10-2020",
-      endsAt: "12-10-2010",
-      gender: "male",
-    },
-    {
-      id: 4,
-      name: "adnan",
-      surname: "Haseni",
-      age: 21,
-      bucketPrice: "1200",
-      paymentAmount: "320",
-      startedAt: "10-10-2020",
-      endsAt: "12-10-2010",
-      gender: "male",
-    },
-    {
-      id: 5,
-      name: "hamza",
-      surname: "Haseni",
-      age: 51,
-      bucketPrice: "1200",
-      paymentAmount: "420",
-      startedAt: "10-10-2020",
-      endsAt: "12-10-2010",
-      gender: "male",
-    },
-    {
-      id: 6,
-      name: "fadi",
-      surname: "Haseni",
-      age: 37,
-      bucketPrice: "1200",
-      paymentAmount: "530",
-      startedAt: "10-10-2020",
-      endsAt: "12-10-2010",
-      gender: "male",
-    },
-    {
-      id: 7,
-      name: "abdo",
-      surname: "Haseni",
-      age: 32,
-      bucketPrice: "1200",
-      paymentAmount: "860",
-      startedAt: "10-10-2020",
-      endsAt: "12-10-2010",
-      gender: "male",
-    },
-    {
-      id: 8,
-      name: "fatma",
-      surname: "Haseni",
-      age: 86,
-      bucketPrice: "1200",
-      paymentAmount: "900",
-      startedAt: "10-10-2020",
-      endsAt: "12-10-2010",
-      gender: "male",
-    },
-    {
-      id: 9,
-      name: "usta",
-      surname: "Haseni",
-      age: 125,
-      bucketPrice: "1200",
-      paymentAmount: "520",
-      startedAt: "10-10-2020",
-      endsAt: "12-10-2010",
-      gender: "male",
-    },
-    {
-      id: 11,
-      name: "receb",
-      surname: "usta",
-      age: 3,
-      bucketPrice: "1200",
-      paymentAmount: "420",
-      startedAt: "10-10-2020",
-      endsAt: "12-10-2010",
-      gender: "male",
-    },
-    {
-      id: 12,
-      name: "receb",
-      surname: "usta",
-      age: 3,
-      bucketPrice: "1200",
-      paymentAmount: "125",
-      startedAt: "10-10-2020",
-      endsAt: "12-10-2010",
-      gender: "male",
-    },
-    {
-      id: 13,
-      name: "receb",
-      surname: "usta",
-      age: 3,
-      bucketPrice: "1200",
-      paymentAmount: "950",
-      startedAt: "10-10-2020",
-      endsAt: "12-10-2010",
-      gender: "male",
-    },
-  ]);
+  const [AllCustomers, setAllCustomers] = useState([]);
   const [filterValue, setFilterValue] = useState("");
   const [lengs, setlngs] = useState(AllCustomers.length);
   const router = useRouter();
-  // useEffect(() => {
-  //   const getAllCust = async () => {
-  //     const result = await getAllCustomers();
-  //     setAllCustomers(result ?? []);
-  //     return result;
-  //   };
-  //   getAllCust().then((d) => console.log(d));
-  // }, []);
+
+  useEffect(() => {
+    const getAllCust = async () => {
+      const result = await getAllCustomers();
+      setAllCustomers(result ?? []);
+      return result;
+    };
+    getAllCust().then((d) => console.log(d));
+  }, []);
 
   useEffect(() => {
     const newLength = AllCustomers.filter(

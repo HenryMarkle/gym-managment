@@ -36,11 +36,10 @@ function Market() {
         console.log(cp);
       }
     });
-    
 
     getProductCategories().then((c) => {
-      if (c === "error") {} 
-      else setCategories(c);
+      if (c === "error") {
+      } else setCategories(c);
     });
   }, []);
 
@@ -71,7 +70,6 @@ function Market() {
 
   return (
     <>
-    
       <div className=" overflow-hidden">
         <div
           className={`left w-[20%] mx-2 shadow-xl ml-4 duration-500  mr-10 fixed overflow-y-auto ${
