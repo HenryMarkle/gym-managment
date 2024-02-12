@@ -40,8 +40,7 @@ function Market() {
 
     getProductCategories().then((c) => {
       if (c === "error") {
-        setCategories(c);
-      }
+      } else setCategories(c);
     });
   }, []);
 
@@ -225,11 +224,11 @@ function Market() {
                   <React.Fragment key={ele.id}>
                     <div
                       onClick={async () => {
-                        setCatFilteringValue(ele.title);
+                        setCatFilteringValue(ele.name);
                       }}
                       className="category mr-7 my-7 bg-orange-500 px-4 py-2 rounded-lg text-white font-bold cursor-pointer"
                     >
-                      {ele.title}
+                      {ele.name}
                     </div>
                   </React.Fragment>
                 );
