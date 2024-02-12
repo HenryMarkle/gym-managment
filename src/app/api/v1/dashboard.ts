@@ -440,15 +440,14 @@ export async function getCategoryProducts(): Promise<{id: number, cat: string, d
 
 export async function getProductsOfCategory(category: string): Promise<Product[] | 'error'> {
   try {
-    const categories = await client.productCategory.findUnique({
+    const products = await client.productCategory.findUnique({
       where: { name: category },
-
-      include: { products: true }
+      include: { products: true },
     });
 
-    if (!categories) return [];
+    if (!products) return [];
 
-    return categories.products.map(p => { 
+    return products.products.map(p => { 
       return {...p, 
         price: p.price.toNumber(),
         createdAt: p.createdAt.toDateString(), 

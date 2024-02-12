@@ -10,12 +10,10 @@ function page({}) {
   const [ products, setProducts ] = useState([]);
   
   useEffect(() => {
-    console.log(params);
-    getProductsOfCategory(params.cat ?? '').then(c => {
+    getProductsOfCategory(params.cat).then(c => {
       if (c === 'error') {}
       else setProducts(c);
 
-      console.log(c);
     });
   }, []);
   return <div>page</div>;
