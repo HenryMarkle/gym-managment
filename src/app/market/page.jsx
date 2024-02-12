@@ -72,6 +72,7 @@ function Market() {
 
   return (
     <>
+    
       <div className=" overflow-hidden">
         <div
           className={`left w-[20%] mx-2 shadow-xl ml-4 duration-500  mr-10 fixed overflow-y-auto ${
