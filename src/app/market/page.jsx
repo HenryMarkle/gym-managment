@@ -39,8 +39,8 @@ function Market() {
     
 
     getProductCategories().then((c) => {
-      if (c === "error") {
-      } else setCategories(c);
+      if (c === "error") {} 
+      else setCategories(c);
     });
   }, []);
 
