@@ -438,6 +438,31 @@ export async function getCategoryProducts(): Promise<{id: number, cat: string, d
   }
 }
 
+export async function getProductsOfCategory(category: string): Promise<Product[] | 'error'> {
+  try {
+    const categories = await client.productCategory.findUnique({
+      where: { name: category },
+
+      include: { products: true }
+    });
+
+    if (!categories) return [];
+
+    return categories.products.map(p => { 
+      return {...p, 
+        price: p.price.toNumber(),
+        createdAt: p.createdAt.toDateString(), 
+        updatedAt: p.updatedAt.toDateString(), 
+        deletedAt: p.deletedAt?.toDateString()
+      } 
+    })
+
+  } catch (e) {
+    console.log("failed to get products of a category: " + e);
+    return "error";
+  }
+}
+
 export async function addProductCategory(name: string): Promise<number | 'unauthorized' | 'error'> {
   try {
     await client.$connect();
