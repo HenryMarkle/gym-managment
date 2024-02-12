@@ -1,6 +1,6 @@
 "use client";
 import { useParams } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import { getProductsOfCategory } from '../../api/v1/dashboard';
 
@@ -10,11 +10,14 @@ function page({}) {
   const [ products, setProducts ] = useState([]);
   
   useEffect(() => {
+    console.log(params);
     getProductsOfCategory(params.cat ?? '').then(c => {
-      if (c === '') {}
+      if (c === 'error') {}
       else setProducts(c);
+
+      console.log(c);
     });
-  });
+  }, []);
   return <div>page</div>;
 }
 

@@ -18,8 +18,6 @@ import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import Link from "next/link";
 
-import { getProductCategories } from "../../app/api/v1/dashboard";
-
 function Market() {
   const [ categories, setCategories ] = useState([]);
 
