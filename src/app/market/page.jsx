@@ -18,11 +18,8 @@ import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import Link from "next/link";
 
-import { getProductCategories } from "../../app/api/v1/dashboard";
-
 function Market() {
-  const [ categories, setCategories ] = useState([]);
-
+  const [categories, setCategories] = useState([]);
   const [scrollPosition, setScrollPosition] = useState(0);
   const [products, setProducts] = useState([]);
   const [min, setMin] = useState(1);
@@ -40,11 +37,11 @@ function Market() {
       }
     });
 
-    getProductCategories().then(c => {
-      if (c === 'error') {
+    getProductCategories().then((c) => {
+      if (c === "error") {
         setCategories(c);
       }
-    })
+    });
   }, []);
 
   const handleScroll = () => {
