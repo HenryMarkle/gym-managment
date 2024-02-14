@@ -5,6 +5,9 @@ import { AddUserParams, Announcement, Permission, User, SafeUser } from '../v1/t
 import { cookies } from "next/headers";
 import client from './client';
 
+// add duration
+// add features string array
+
 
 /**
  * creates a new user for the system
@@ -499,6 +502,7 @@ export async function markAsRead(
   userId: number
 ): Promise<"success" | 'unauthorized' | "messageNotFound" | "userNotFound" | "error"> {
   try {
+    console.log("first")
     await client.$connect();
 
     const sc = cookies().get('session');
@@ -520,7 +524,7 @@ export async function markAsRead(
 
     const foundUser = message.readStatus.find((s) => s.userId === user.id);
 
-    if (!foundUser) return "error";
+    if (!foundUser) return "userNotFound";
 
     await client.messageRead.update({
       where: { id: foundUser.id },
