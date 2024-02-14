@@ -23,15 +23,16 @@ function MoneyStats() {
       } else setSalaries(s);
     });
   }, []);
-
   useEffect(() => {
     const findIncome = () => {
       const income = incomesArray[0][Month];
       setIncome(income);
       console.log(income);
     };
+
     findIncome();
   }, [Month]);
+
 
   return (
     <>
