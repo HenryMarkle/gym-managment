@@ -23,6 +23,7 @@ function MoneyStats() {
       if (s === 'error' || s === 'unauthorized') { console.log(s); }
       else setSalaries(s);
     })
+    
   }, []);
 
   useEffect(() => {
