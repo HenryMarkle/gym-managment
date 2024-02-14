@@ -4,29 +4,6 @@ import { AddCustomerParams, Customer } from "./types";
 import { cookies } from "next/headers";
 import client from './client';
 
-export async function getTotalIncome(): Promise<number | 'unauthorized' | 'error'> {
-  try {
-    await client.$connect();
-
-    const sc = cookies().get('session');
-
-    if (!sc) return 'unauthorized';
-
-    const user = await client.user.findUnique({ where: { session: sc.value } });
-
-    if (!user) return 'unauthorized';
-
-    const result  = await client.subscriber.aggregate({ _sum: { paymentAmount: true } });
-
-    return Number(result._sum.paymentAmount)
-  } catch (e) {
-    console.log(e);
-    return 'error';
-  } finally {
-    await client.$disconnect();
-  }
-}
-
 export async function countCustomers(): Promise<number | 'unauthorized' | 'error'> {
   try {
     await client.$connect();
