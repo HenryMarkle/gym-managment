@@ -16,6 +16,12 @@ function MoneyStats() {
         console.log("failed to fetch income: " + i);
       else setIncomeArray([{ January: 0, February: 0, March: 0, Total: i }]);
     });
+
+    getTotalSalaries().then(s => {
+      if (s === 'error' || s === 'unauthorized') { console.log(s); }
+      else setSalaries(s);
+    })
+    
   }, []);
 
   useEffect(() => {
