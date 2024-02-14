@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
 import CountUp from "react-countup";
-import { getTotalIncome } from "../../app/api/v1/user";
+import { getTotalIncome } from "../../app/api/v1/customer";
+import { getTotalSalaries } from "../../app/api/v1/user";
 
 function MoneyStats() {
   const [selectedOptionMoney, setSelectedOption] = useState("TL");
   const [INcome, setIncome] = useState();
   const [Month, setMonth] = useState("Total");
   const [incomesArray, setIncomeArray] = useState([
-    { Total: 1992000, January: 23200, February: 232300, March: 622100 },
+    // { Total: 1992000, January: 23200, February: 232300, March: 622100 },
   ]);
+  const [ salaries, setSalaries ] = useState(0)
 
   useEffect(() => {
     getTotalIncome().then((i) => {
@@ -16,16 +18,21 @@ function MoneyStats() {
         console.log("failed to fetch income: " + i);
       else setIncomeArray([{ January: 0, February: 0, March: 0, Total: i }]);
     });
+
+    getTotalSalaries().then(s => {
+      if (s === 'error' || s === 'unauthorized') { console.log(s); }
+      else setSalaries(s);
+    })
   }, []);
 
   useEffect(() => {
     const findIncome = () => {
-      const income = incomesArray[0][Month];
+      const income = incomesArray.length ? incomesArray[0][Month] : 0;
       setIncome(income);
       console.log(income);
     };
     findIncome();
-  }, [Month]);
+  }, [Month, incomesArray, salaries]);
 
   return (
     <>
@@ -77,7 +84,7 @@ function MoneyStats() {
           <p className="text-center flex items-center justify-center h-[50%] font-bold text-[40px] text-white">
             <span className="mr-1 text-[#ffcb00]">
               {" "}
-              <CountUp end={3123} />
+              <CountUp end={salaries} />
             </span>{" "}
             <span className="text-[#ffcb00]">{selectedOptionMoney}</span>
           </p>
