@@ -86,7 +86,7 @@ export async function getCurrentUserId(): Promise<number | 'unauthorized' | 'noS
   }
 }
 
-export async function getTotalIncome(): Promise<number | 'unauthorized' | 'error'> {
+export async function getTotalSalaries(): Promise<number | 'unauthorized' | 'error'> {
   try {
     await client.$connect();
 
@@ -101,10 +101,11 @@ export async function getTotalIncome(): Promise<number | 'unauthorized' | 'error
 
     const session = cookies().get('session');
     if (!session) return 'unauthorized';
-    const result = await client.user.findMany({  });
-    if ((!result)) return 'unauthorized';
 
-    return result.map(r => r.salary).reduce((p, c) => p + c);
+
+    const result = await client.user.aggregate({ _sum: { salary: true } });
+
+    return Number(result._sum.salary);
   } catch (e) {
     console.log(e);
     return 'error';
