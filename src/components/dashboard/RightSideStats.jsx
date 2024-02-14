@@ -24,16 +24,32 @@ function MoneyStats() {
       else setSalaries(s);
     })
     
-  }, []);
-  useEffect(() => {
-    const findIncome = () => {
-      const income = incomesArray.length ? incomesArray[0][Month] : 0;
-      setIncome(income);
-      console.log(income);
-    };
+  }, []);//
 
-    findIncome();
-  }, [Month, incomesArray, salaries]);
+// henry markle
+
+// aliiiii
+
+
+
+// I can't wait anymore
+
+
+  useEffect(() => {// I want it
+
+
+    const findIncome = () => {//
+    //
+    
+      const income = incomesArray.length ? incomesArray[0][Month] : 0;//
+      setIncome(income);//
+    
+    //
+      console.log(income);
+    };//
+
+    findIncome();//
+  }, [Month, incomesArray, salaries]);//
 
 
   return (
