@@ -103,7 +103,7 @@ function page() {
             // install Swiper modules
             modules={[Navigation, Pagination, Scrollbar, A11y]}
             spaceBetween={50}
-            slidesPerView={5}
+            slidesPerView={4}
             navigation
             pagination={{ clickable: true }}
             scrollbar={{ draggable: true }}
@@ -118,7 +118,7 @@ function page() {
                     className="product shadow-lg flex flex-col justify-center items-center rounded-xl min-w-[300px]"
                   >
                     <Link href={`/market/${ele.id}`}>
-                      <div className=" flex flex-col">
+                      <div className=" flex flex-col min-h-[380px]">
                         <img
                           className="w-[220px] self-center"
                           src="https://cdn.akakce.com/hardline-nutrition/hardline-nutrition-progainer-5000-gr-z.jpg"

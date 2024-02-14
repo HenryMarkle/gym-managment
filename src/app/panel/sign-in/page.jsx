@@ -11,12 +11,11 @@ function page() {
 
   async function signin() {
     const result = await doSignin(email, password);
-    console.log("sign-in: "+result)
+    console.log("sign-in: " + result);
 
     if (result) {
-      router.push('/panel');
+      router.push("/panel");
     }
-    
   }
   return (
     <>
@@ -49,14 +48,14 @@ function page() {
               </button>
             </div>
             <div className="dont">
-              <p>
+              <div>
                 don`t have account ?{" "}
                 <Link href="/sign-up">
                   <span className=" text-orange-600 font-bold">
                     Create-account
                   </span>
                 </Link>
-              </p>
+              </div>
               <Link href="/forgetPassword">
                 <p className="mt-3 text-customRed">forget password ? </p>
               </Link>
