@@ -28,8 +28,8 @@ export function HomePage() {
   const [planTitle, setPlanTitle] = useState("");
   const [planDesc, setPlanDesc] = useState("");
   const [planPrice, setPlanPrice] = useState("");
-  const [planSentence, setPlanSentence] = useState("");
-
+  const [planfeature, setPlanFeature] = useState("");
+  const [Planfeatuers, setPlanFeatures] = useState([]);
   const [planDur, setPlanDur] = useState("");
   ////////// End plan values
 
@@ -75,6 +75,10 @@ export function HomePage() {
   useEffect(() => {
     console.log(productCategory);
   }, [productCategory]);
+
+  useEffect(() => {
+    console.log(Planfeatuers);
+  }, [Planfeatuers]);
 
   return (
     <>
@@ -189,7 +193,7 @@ export function HomePage() {
 
       <div
         className={`create-plan mt-5 w-full shadow-lg overflow-hidden rounded-[30px] duration-700  ${
-          planOpen ? "h-[320px]" : "h-[55px]"
+          planOpen ? "h-[510px]" : "h-[55px]"
         }`}
       >
         <div
@@ -235,6 +239,27 @@ export function HomePage() {
               type="number"
               placeholder="Plan price"
             />
+          </div>{" "}
+          <div className="plan-price flex flex-col">
+            <label htmlFor="">Plan Features</label>
+            <div className="w-full ">
+              <input
+                className=" w-[81%]"
+                value={planfeature}
+                onChange={(e) => setPlanFeature(e.target.value)}
+                type="text"
+                placeholder="Add feature"
+              />
+              <button
+                onClick={() => {
+                  setPlanFeatures([...Planfeatuers, planfeature]);
+                  setPlanFeature("");
+                }}
+                className="w-[19%]"
+              >
+                Add
+              </button>
+            </div>
           </div>
           <button
             onClick={() => {
@@ -270,7 +295,7 @@ export function HomePage() {
                 }
               });
             }}
-            className={`bg-[#eee] duration-500 hover:bg-green-600 hover:text-white h-[40px] self-end rounded-[31px] text-green-500 text-[23px] shadow-2xl ${
+            className={`bg-[#eee] duration-500 hover:bg-green-600 hover:text-white h-[40px] self-end rounded-[31px] text-green-500 text-[23px] shadow-2xl mt-[-26px] ${
               planDesc.length &&
               planTitle.length &&
               planPrice.length &&
@@ -279,6 +304,33 @@ export function HomePage() {
           >
             Create
           </button>
+          <div className="plan-price flex flex-col">
+            <label htmlFor="">Added features</label>
+            <div className=" h-[140px] border-2 overflow-y-auto rounded-[31px]">
+              <div className=" flex flex-row flex-wrap gap-2 p-6">
+                {Planfeatuers.filter((ele) => ele != "").map((ele) => {
+                  return (
+                    <>
+                      <p className="plan-feature relative bg-gray-50 px-4 py-1">
+                        {ele}
+                        <span
+                          onClick={() => {
+                            const filterdArray = Planfeatuers.filter(
+                              (e) => e != ele
+                            );
+                            setPlanFeatures(filterdArray);
+                          }}
+                          className="absolute -top-5 right-0 bg-gray-50 px-2 cursor-pointer hover:bg-red-500 duration-200 hover:text-white"
+                        >
+                          X
+                        </span>
+                      </p>
+                    </>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
