@@ -1,0 +1,3 @@
+.contact-parent {
+  grid-template-columns: 15% 1fr;
+}
