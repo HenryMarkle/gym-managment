@@ -4,8 +4,8 @@ import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
 
 function MyComponent() {
   const containerStyle = {
-    width: "400px",
-    height: "400px",
+    width: "700px",
+    height: "300px",
   };
 
   const center = {
@@ -17,12 +17,17 @@ function MyComponent() {
     lat: -3.745,
     lng: -38.523,
   };
+
+  const [destinationLat, setDestinationLat] = useState(48.858844);
+  const [destinationLng, setDestinationLng] = useState(2.29435);
+
   const [lat, setLat] = useState();
   const [lng, setLng] = useState();
+
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition((poition) => {
-      setLat(poition.coords.latitude);
-      setLng(poition.coords.longitude);
+    navigator.geolocation.getCurrentPosition((position) => {
+      setLat(position.coords.latitude);
+      setLng(position.coords.longitude);
     });
   }, []);
 
@@ -43,6 +48,14 @@ function MyComponent() {
     setMap(null);
   }, []);
 
+  const handleMarkerClick = () => {
+    // Open Google Maps with directions
+    if (destinationLat && destinationLng && lat && lng) {
+      const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${destinationLat},${destinationLng}&origin=${lat},${lng}`;
+      window.open(directionsUrl, "_blank");
+    }
+  };
+
   return isLoaded ? (
     <GoogleMap
       mapContainerStyle={containerStyle}
@@ -52,7 +65,7 @@ function MyComponent() {
       onUnmount={onUnmount}
     >
       {/* Marker component to add a location */}
-      <Marker position={markerPosition} />
+      <Marker position={markerPosition} onClick={handleMarkerClick} />
 
       {/* Child components, such as additional markers, info windows, etc. */}
       <></>

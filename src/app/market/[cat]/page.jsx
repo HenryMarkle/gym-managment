@@ -2,8 +2,6 @@
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { getProductsOfCategory } from "../../api/v1/dashboard";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import BeatLoader from "react-spinners/BeatLoader";
@@ -11,60 +9,90 @@ import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import Link from "next/link";
 import { CiSearch } from "react-icons/ci";
-
+import "../helper.css";
 function page({}) {
   const params = useParams();
   const [showSpinner, setShowSpinner] = useState(false);
   const [products, setProducts] = useState([]);
+  const [scrollPosition, setScrollPosition] = useState(0);
   const [searchingValue, setSearhingValue] = useState("");
   useEffect(() => {
     console.log(params);
     getProductsOfCategory(params.cat ?? "").then((c) => {
       if (c === "error") {
       } else setProducts(c);
-      console.log(c);
     });
+  }, []);
+
+  const [min, setMin] = useState(1);
+  const [max, setMax] = useState(99999999);
+
+  const handleScroll = () => {
+    setScrollPosition(window.scrollY);
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   return (
     <>
-      <div className="input w-[75%] relative border-2 mx-auto flex flex-row justify-between px-1 py-1 rounded-lg mt-4 ">
-        <div className="1 flex w-[95%]">
-          <div className="3">
-            <CiSearch size={27} className="" />
-          </div>
-          <div className="2 w-full">
+      <div className="filters-father flex items-center mx-10">
+        <div className="by-money w-[300px] mt-5 flex px ml-5 rounded-lg shadow-lg">
+          <div className="min-max flex justify-center">
+            <label htmlFor="">min</label>
             <input
-              onChange={(e) => {
-                setSearhingValue(e.target.value);
-                setShowSpinner(true);
-                setTimeout(() => {
-                  setShowSpinner(false);
-                }, 2000);
-              }}
-              type="text"
-              className="pl-2 w-full"
-              placeholder="xxxxxxxx"
+              onChange={(e) => setMin(e.target.value)}
+              type="number"
+              className="border-2 w-[20%] ml-2 rounded-full px-2"
+            />
+            <span className="text-website2"> TL</span> -
+            <label htmlFor=""> max</label>
+            <input
+              onChange={(e) => setMax(e.target.value)}
+              type="number"
+              className="border-2 w-[20%] ml-2 rounded-full px-2"
+            />{" "}
+            <span className="text-website2">TL</span>
+          </div>
+        </div>
+        <div className="input w-[53%] relative border-2 mx-auto flex flex-row justify-between rounded-lg mt-4 ">
+          <div className="1 flex w-[95%]">
+            <div className="3">
+              <CiSearch size={27} className="" />
+            </div>
+            <div className="2 w-full">
+              <input
+                onChange={(e) => {
+                  setSearhingValue(e.target.value);
+                  setShowSpinner(true);
+                  setTimeout(() => {
+                    setShowSpinner(false);
+                  }, 2000);
+                }}
+                type="text"
+                className="pl-2 w-full"
+                placeholder="xxxxxxxx"
+              />
+            </div>
+          </div>
+          <div className="2">
+            <BeatLoader
+              color="orange"
+              loading={showSpinner}
+              size={8}
+              speedMultiplier={1}
             />
           </div>
         </div>
-        <div className="2">
-          <BeatLoader
-            color="orange"
-            loading={showSpinner}
-            size={8}
-            speedMultiplier={1}
-          />
-        </div>
-        {/* <button
-              onClick={() => setSendedFilterValue(filterInputValue)}
-              className=" text-white bg-orange-500 px-3 py-[5.3px] rounded-r-md "
-            >
-              Apply
-            </button> */}
       </div>
-      <div className="cards flex p-10 gap-8 flex-wrap">
+      <div className="cards flex p-10 gap-8 flex-wrap mt-10">
         {products
+          .filter((ele) => ele.price > min && ele.price < max)
           .filter(
             (ele) =>
               ele.description
