@@ -25,6 +25,8 @@ type Plan = {
   title: string;
   description: string;
   price: number;
+  duration: string;
+  features: string[];
 
   createdAt: string;
   updatedAt: string;
@@ -185,9 +187,10 @@ export async function updatePlanParagraph(paragraph: string): Promise<'success' 
 
 export async function getHomePlans(): Promise<Plan[] | "unauthorized" | "error"> {
   try {
-    const plans = await client.plan.findMany({});
+    const plans = await client.plan.findMany({ include: { features: true } });
     return plans.map(p => {
       return {...p,
+        features: p.features.map( f => f.name ),
         price: p.price.toNumber(),
         createdAt: p.createdAt.toDateString(),
         updatedAt: p.createdAt.toDateString(),
@@ -239,7 +242,7 @@ export async function addPlanForm(formData: FormData) {
   }
 }
 
-export async function addPlan(plan: { title: string, description: string, price: number, duration: string }): Promise<"success" | "unauthorized" | "error"> {
+export async function addPlan(plan: { title: string, description: string, price: number, duration: string, features: string[] }): Promise<"success" | "unauthorized" | "error"> {
   try {
     await client.$connect();
 
@@ -255,7 +258,18 @@ export async function addPlan(plan: { title: string, description: string, price:
   }
 
   try {
-    await client.plan.create({ data: { duration: plan.description, title: plan.title, description: plan.description, price: plan.price } });
+    const createdPlan = await client.plan.create({ data: { 
+      duration: plan.duration, 
+      title: plan.title, 
+      description: plan.description, 
+      price: plan.price 
+    }});
+
+    if (!createdPlan) return 'error';
+
+    for (let f in plan.features) {
+      await client.planFeature.create({ data: { name: f, planId: createdPlan.id  } });
+    }
     return "success";
   } catch (e) {
     console.log("failed to add a plan: " + e);

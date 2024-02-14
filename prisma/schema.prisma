@@ -85,6 +85,16 @@ model Event {
   date DateTime @default(now())
 }
 
+model PlanFeature {
+  id Int @id @default(autoincrement())
+
+  name String
+  plan Plan @relation(fields: [planId], references: [id])
+  planId Int
+
+  @@index([name, planId])
+}
+
 model Plan {
   id Int @id @default(autoincrement())
 
@@ -92,6 +102,7 @@ model Plan {
   description String
   price Decimal
   duration String
+  features PlanFeature[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
