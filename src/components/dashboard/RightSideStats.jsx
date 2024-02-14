@@ -17,21 +17,37 @@ function MoneyStats() {
       else setIncomeArray([{ January: 0, February: 0, March: 0, Total: i }]);
     });
 
-    getTotalSalaries().then((s) => {
-      if (s === "error" || s === "unauthorized") {
-        console.log(s);
-      } else setSalaries(s);
-    });
-  }, []);
-  useEffect(() => {
-    const findIncome = () => {
-      const income = incomesArray[0][Month];
-      setIncome(income);
+    getTotalSalaries().then(s => {
+      if (s === 'error' || s === 'unauthorized') { console.log(s); }
+      else setSalaries(s);
+    })
+    
+  }, []);//
+
+// henry markle
+
+// aliiiii
+
+
+
+// I can't wait anymore
+
+
+  useEffect(() => {// I want it
+
+
+    const findIncome = () => {//
+    //
+    
+      const income = incomesArray.length ? incomesArray[0][Month] : 0;//
+      setIncome(income);//
+    
+    //
       console.log(income);
-    };
+    };//
 
     findIncome();
-  }, [Month]);
+  }, [Month, incomesArray, salaries]);
 
 
   return (
