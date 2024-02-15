@@ -38,7 +38,7 @@ function page() {
               <textarea
                 onChange={(e) => setMwssage(e.target.value)}
                 placeholder="Message"
-                className="px-1 border-2 rounded-md resize-y min-h-[100px]"
+                className="px-1 border-2 rounded-md resize-y min-h-[100px] outline-none"
               ></textarea>
             </div>
             <div className="button">

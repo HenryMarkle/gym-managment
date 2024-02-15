@@ -22,7 +22,7 @@ function page() {
   return (
     <>
       <div className="plans px-[40px] py-10 flex flex-col gap-10">
-        <p className=" font-extrabold text-4xl text-website2">Plans</p>
+        <p className=" font-extrabold text-5xl text-website2">Plans</p>
         <Link href={`/plan/2`}>
           <div className="plan shadow-md h-[250px] rounded-xl overflow-hidden flex gap-3 ">
             <div className="img">
@@ -33,13 +33,15 @@ function page() {
             </div>
             <div className="content flex flex-col justify-between">
               <div>
-                <div className="flex items-center">
+                <div className="flex flex-col ">
                   <p className=" font-extrabold text-3xl">Plan title</p>
-                  <div className="plan-features ml-10">
+                  <div className="plan-features  mt-3">
                     <ul style={{ listStyle: "inside" }} className="flex">
-                      <li className="mr-10">4 month subsecription</li>
-                      <li className="mr-10">Dietisian</li>
-                      <li className="mr-10">Private trainer</li>
+                      <li className="mr-10 font-extrabold">
+                        4 month subsecription
+                      </li>
+                      <li className="mr-10 font-extrabold">Dietisian</li>
+                      <li className="mr-10 font-extrabold">Private trainer</li>
                     </ul>
                   </div>
                 </div>
@@ -48,9 +50,9 @@ function page() {
                 </p>
               </div>
             </div>
-            <div className="price flex flex-col justify-between pr-3 w-[600px] items-center bg-[#ed563f] text-white cursor-pointer py-2 hover:bg-orange-500 duration-300  ">
-              <span className=" font-bold">1240 TL</span>
-              <span className=" font-extrabold">Buy now !</span>
+            <div className="price flex flex-col justify-between pr-3 w-[790px] items-center bg-[#ed563f] text-white cursor-pointer py-2 hover:bg-orange-500 duration-300  ">
+              <span className="font-bold text-2xl">1240 TL</span>
+              <span className=" font-extrabold text-2xl">Buy now !</span>
             </div>
           </div>
         </Link>

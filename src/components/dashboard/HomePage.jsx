@@ -42,15 +42,8 @@ export function HomePage() {
   const [productPrice, setProductPrice] = useState("");
   const [productMarka, setProductMarka] = useState("");
   const [productCategory, setProductCategory] = useState("clothes");
-  const [alreadyAddedProducts, setAlreadyAddedProducts] = useState([
-    "Ali",
-    "Ali Again",
-    "Horses",
-    "Camels",
-    "Frutes",
-    "Mohammades",
-    "Mohammades",
-  ]);
+  const [categoreies, setCategories] = useState([]);
+  const [newcategorTitle, setNewCategoryTitle] = useState("");
   ////////// End Products values
 
   const [image, setImage] = useState(null);
@@ -306,12 +299,12 @@ export function HomePage() {
           </button>
           <div className="plan-price flex flex-col">
             <label htmlFor="">Added features</label>
-            <div className=" h-[140px] border-2 overflow-y-auto rounded-[31px]">
+            <div className=" h-[140px] border-2 overflow-y-auto rounded-tl-[31px] rounded-bl-[31px]">
               <div className=" flex flex-row flex-wrap gap-2 p-6">
                 {Planfeatuers.filter((ele) => ele != "").map((ele) => {
                   return (
                     <>
-                      <p className="plan-feature relative bg-gray-50 px-4 py-1">
+                      <p className="plan-feature relative bg-gray-50 px-4 py-1 m-2">
                         {ele}
                         <span
                           onClick={() => {
@@ -554,29 +547,50 @@ export function HomePage() {
                 <div className="flex flex-col w-[76%]">
                   <label htmlFor="product-name">Category name</label>
                   <input
-                    value={productTitle}
-                    onChange={(e) => setProductTitle(e.target.value)}
+                    value={newcategorTitle}
+                    onChange={(e) => setNewCategoryTitle(e.target.value)}
                     type="text"
                     placeholder="Category name"
                     id="product-name"
                   />
                 </div>
-                <button className="w-[20%] h-[36px] mt-5">Create</button>
+                <button
+                  onClick={() => {
+                    setCategories([...categoreies, newcategorTitle]);
+                    console.log(categoreies);
+                    setNewCategoryTitle("");
+                  }}
+                  className="w-[20%] h-[36px] mt-5"
+                >
+                  Create
+                </button>
               </div>
               <div className="already-added-categories mt-7 w-full h-[200px] border-2 p-5 rounded-[21px] overflow-y-auto ">
                 <div className=" flex flex-wrap w-full gap-5 ">
-                  {alreadyAddedProducts.map((ele) => {
-                    return (
-                      <>
-                        <div className="relative">
-                          <p className="bg-gray-100 rounded-full px-2">{ele}</p>
-                          <p className="text-sm absolute -top-3 -right-4 bg-gray-100 cursor-pointer hover:bg-red-600 duration-300 hover:text-white w-[30px] flex items-center justify-center rounded-full">
-                            x
-                          </p>
-                        </div>
-                      </>
-                    );
-                  })}
+                  {categoreies
+                    .filter((ele) => ele != "")
+                    .map((ele) => {
+                      return (
+                        <>
+                          <div className="relative">
+                            <p className="bg-gray-100 rounded-full px-2">
+                              {ele}
+                            </p>
+                            <p
+                              onClick={() => {
+                                const filtetdArray = categoreies.filter(
+                                  (e) => e != ele
+                                );
+                                setCategories(filtetdArray);
+                              }}
+                              className="text-sm absolute -top-3 -right-4 bg-gray-100 cursor-pointer hover:bg-red-600 duration-300 hover:text-white w-[30px] flex items-center justify-center rounded-full"
+                            >
+                              x
+                            </p>
+                          </div>
+                        </>
+                      );
+                    })}
                 </div>
               </div>
             </div>

@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { getAllEvents } from "../../api/v1/events";
 import "./main.css";
+import Link from "next/link";
 function page() {
   const [allEvents, setAllEvents] = useState([]);
   const [fetchError, setFetchError] = useState(null);
@@ -36,11 +37,11 @@ function page() {
                 <p className=" details-about-user">
                   {e.event + "d"} {e.target}
                 </p>
-                <a
+                <Link
                   href={
                     e.target === "customer"
-                      ? `/customers/${e.id}`
-                      : `/manager/${e.id}`
+                      ? `/panel/customer/${e.id}`
+                      : `/panel/manager/${e.id}`
                   }
                   className={`details ${
                     e.event === "create"
@@ -51,7 +52,7 @@ function page() {
                   } cursor-pointer px-3 py-1 rounded-2xl text-white`}
                 >
                   details
-                </a>
+                </Link>
               </div>
             </div>
             <div className="date">

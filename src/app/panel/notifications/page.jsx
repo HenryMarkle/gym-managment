@@ -16,14 +16,13 @@ function Page() {
     console.log(height400);
     getAllAnnouncments().then((v) => {
       setDummyDate(v ?? []);
-      console.log(v)
+      console.log(v);
     });
-
   }, [height400]);
 
   async function readMessage(id, email) {
     const res = await markAsRead(id, email);
-    console.log("mark as read: "+res)
+    console.log("mark as read: " + res);
   }
 
   return (
@@ -43,10 +42,12 @@ function Page() {
                 {ele.read ? null : (
                   <span
                     onClick={async () => {
-                        const res = await readMessage(ele.id, await getCurrentUserId());
-                        console.log("mark as read: "+res)
-                      }
-                    }
+                      const res = await readMessage(
+                        ele.id,
+                        await getCurrentUserId()
+                      );
+                      console.log("mark as read: " + res);
+                    }}
                     hidden={ele.read}
                     className="mark-as-read  w-[188px] mr-2 h-[35px] font-bold  flex justify-center mb-0 ml-0 bg-green-700 px-2 py-1  cursor-pointer text-white shadow-lg rounded-2xl "
                   >

@@ -10,7 +10,8 @@ function page() {
   const [allUsers, setAllUsers] = useState([]);
 
   useEffect(() => {
-    getAllUsers().then(setAllUsers);
+    getAllUsers().then((c) => setAllUsers(c));
+    console.log(allUsers);
   }, []);
 
   return (

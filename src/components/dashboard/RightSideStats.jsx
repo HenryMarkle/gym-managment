@@ -11,7 +11,6 @@ function MoneyStats() {
   const [incomesArray, setIncomeArray] = useState([
     // { Total: 1992000, January: 23200, February: 232300, March: 622100 },
   ]);
-  const [ salaries, setSalaries ] = useState(0);
 
   useEffect(() => {
     getTotalIncome().then((i) => {

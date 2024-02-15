@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import { getAllCustomers } from "../../api/v1/customer";
 import { CiSearch } from "react-icons/ci";
 import { useRouter } from "next/navigation";
+import DateConvertor from "../../../components/dashboard/DateConvertor";
 function page() {
   const [AllCustomers, setAllCustomers] = useState([]);
   const [filterValue, setFilterValue] = useState("");
@@ -93,8 +94,21 @@ function page() {
                   <td>{ele.bucketPrice} TL</td>
                   <td>{ele.paymentAmount} TL</td>
                   <td>{ele.bucketPrice - ele.paymentAmount} TL</td>
-                  <td>{new Date(ele.startedAt).toDateString()}</td>
-                  <td>{new Date(ele.endsAt).toDateString()}</td>
+                  <td>
+                    {
+                      <DateConvertor
+                        date={new Date(ele.startedAt).toDateString()}
+                      />
+                    }
+                  </td>
+                  <td>
+                    {" "}
+                    {
+                      <DateConvertor
+                        date={new Date(ele.endsAt).toDateString()}
+                      />
+                    }
+                  </td>
                   <td>
                     {Math.ceil(
                       (new Date(ele.endsAt) - new Date()) /
