@@ -1,3 +1,13 @@
 .contact-parent {
   grid-template-columns: 15% 1fr;
 }
+.small-line::after {
+  position: absolute;
+  content: "";
+  height: 4px;
+  width: 13%;
+  bottom: 2px;
+  left: 0;
+
+  background: #ed563b;
+}

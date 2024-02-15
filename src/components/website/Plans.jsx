@@ -1,18 +1,13 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { CgGym } from "react-icons/cg";
-
 import { BallTriangle } from "react-loader-spinner";
-import img from "../../images/gym-image.png";
-import Image from "next/image";
-
 import { getHomePlans, getPlanParagraph } from "../../app/api/v1/dashboard";
 import Link from "next/link";
 
 function Plans() {
   const [plans, setPlans] = useState([]);
   const [paragraph, setParagraph] = useState("");
-
   useEffect(() => {
     getHomePlans().then((plans) => {
       if (plans === "error" || plans === "unauthorized");
@@ -20,11 +15,9 @@ function Plans() {
         for (let i = 0; i < plans.length; i++) {
           plans[i] = { ...plans[i], id: i };
         }
-
         setPlans(plans);
       }
     });
-
     getPlanParagraph().then((p) => {
       if (p !== "error") {
         setParagraph(p);

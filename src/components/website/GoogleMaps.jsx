@@ -2,10 +2,10 @@
 import React, { useEffect, useState } from "react";
 import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
 
-function MyComponent() {
+function MyComponent({ height, width }) {
   const containerStyle = {
-    width: "700px",
-    height: "300px",
+    width,
+    height,
   };
 
   const center = {
@@ -57,19 +57,22 @@ function MyComponent() {
   };
 
   return isLoaded ? (
-    <GoogleMap
-      mapContainerStyle={containerStyle}
-      center={center}
-      zoom={10}
-      onLoad={onLoad}
-      onUnmount={onUnmount}
-    >
-      {/* Marker component to add a location */}
-      <Marker position={markerPosition} onClick={handleMarkerClick} />
+    <div className=" z-50">
+      <GoogleMap
+        className="z-40"
+        mapContainerStyle={containerStyle}
+        center={center}
+        zoom={10}
+        onLoad={onLoad}
+        onUnmount={onUnmount}
+      >
+        {/* Marker component to add a location */}
+        <Marker position={markerPosition} onClick={handleMarkerClick} />
 
-      {/* Child components, such as additional markers, info windows, etc. */}
-      <></>
-    </GoogleMap>
+        {/* Child components, such as additional markers, info windows, etc. */}
+        <></>
+      </GoogleMap>
+    </div>
   ) : (
     <></>
   );

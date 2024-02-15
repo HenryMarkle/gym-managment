@@ -6,6 +6,7 @@ function MoneyStats() {
   const [selectedOptionMoney, setSelectedOption] = useState("TL");
   const [INcome, setIncome] = useState();
   const [Month, setMonth] = useState("Total");
+  const [salaries, setSalaries] = useState("");
   const [incomesArray, setIncomeArray] = useState([
     { Total: 1992000, January: 23200, February: 232300, March: 622100 },
   ]);

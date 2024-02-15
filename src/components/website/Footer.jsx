@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import React from "react";
-import MapsComponent from "../../app/google_maps/page";
+import MapsComponent from "./GoogleMaps";
 function Footer() {
   const data = [
     { id: 1, title: "Home", to: "/" },
@@ -15,7 +15,7 @@ function Footer() {
     <div className="h-[350px] w-full bg-neutral-900 p-14 mt-28">
       <div className="maps grid grid-cols-2 gap-9 items-center">
         <div className="1 overflow-hidden flex justify-center items-center rounded-xl h-[286px]">
-          <MapsComponent />
+          <MapsComponent height={"400px"} width={"600px"} />
         </div>
         <div className="2 flex gap-6">
           <div className="1 w-[50%] bg-green-300 p-2">
