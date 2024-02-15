@@ -1,8 +1,10 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Bar } from "react-chartjs-2";
+
 import Chart from "chart.js/auto";
-function ChartComponent({ title }) {
+function ChartComponent({ title, data }) {
+
   return (
     <>
       <Bar
@@ -25,7 +27,7 @@ function ChartComponent({ title }) {
           datasets: [
             {
               label: title,
-              data: [5, 6, 3, 3, 6, 1, 8, 3, 6, 2, 8, 12],
+              data,
               backgroundColor: "#118CAF",
             },
           ],
