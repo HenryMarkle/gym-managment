@@ -1,14 +1,31 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Chart from "../../components/dashboard/Chart";
 import Stats_top from "../../components/dashboard/StatsTop";
 import { useRouter, usePathname } from "next/navigation";
 import MoneyStats from "../../components/dashboard/RightSideStats";
 import tr from "../../locales/tr";
 import en from "../../locales/en";
+import { getUsersLeftChartData, getUsersCreatedChartData } from '../../app/api/v1/user';
+
 function page() {
   const router = useRouter();
   const path = usePathname();
+  const [ left, setLeft ] = useState([0,0,0,0,0,0,0,0,0,0,0,0]);
+  const [ created, setCreated ] = useState([0,0,0,0,0,0,0,0,0,0,0,0]);
+
+  useEffect(() => {
+    getUsersLeftChartData().then(l => {
+      if (l === 'error' || l === 'unauthorized') {}
+      else setLeft(l);
+    });
+
+    getUsersCreatedChartData().then(u => {
+      if (u === 'error' || u === 'unauthorized') {}
+      else setCreated(u);
+    })
+  }, [])
+
   useEffect(() => {
     // router.push("/");
   }, []);
@@ -27,7 +44,7 @@ function page() {
                   <Chart title="New Customers" />
                 </div>
                 <div className="left-2 h-[400px]">
-                  <Chart title="Customers left " />
+                  <Chart title="Customers left " data={left} />
                 </div>
               </div>
               <MoneyStats />

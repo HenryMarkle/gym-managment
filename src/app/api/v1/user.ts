@@ -262,6 +262,8 @@ export async function getUserByEmail(email: string): Promise<SafeUser | 'unautho
   }
 }
 
+
+
 function userToSafeUser(user: User): SafeUser {
   return {
     name: user.name,
@@ -272,6 +274,68 @@ function userToSafeUser(user: User): SafeUser {
     startDate: user.startDate.toISOString(),
     deletedAt: user.deletedAt?.toISOString() ?? null,
     permission: user.permission
+  }
+}
+
+export async function getUsersLeftChartData(): Promise<number[] | 'unauthorized' | 'error'> {
+  try {
+    await client.$connect();
+    const sc = cookies().get('session');
+
+    if (!sc) return 'unauthorized';
+
+    const user = await client.user.findUnique({ where: { session: sc.value } });
+
+    if (!user) return 'unauthorized';
+
+    let customers = await client.subscriber.findMany({ where: { deletedAt: { gte: new Date(new Date().setFullYear(new Date().getFullYear() - 1)) } } });
+
+    let months = customers.filter(c => c.deletedAt).map(c => c.deletedAt?.getMonth());
+
+    let monthFreq = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+    for (let m in months) {
+      monthFreq[m] += 1;
+    }
+
+    return monthFreq;
+
+  } catch (e) {
+    console.log(e);
+    return 'error';
+  } finally {
+    await client.$disconnect();
+  }
+}
+
+export async function getUsersCreatedChartData(): Promise<number[] | 'unauthorized' | 'error'> {
+  try {
+    await client.$connect();
+    const sc = cookies().get('session');
+
+    if (!sc) return 'unauthorized';
+
+    const user = await client.user.findUnique({ where: { session: sc.value } });
+
+    if (!user) return 'unauthorized';
+
+    let customers = await client.subscriber.findMany({ where: { createdAt: { gte: new Date(new Date().setFullYear(new Date().getFullYear() - 1)) } } });
+
+    let months = customers.filter(c => c.deletedAt).map(c => c.deletedAt?.getMonth());
+
+    let monthFreq = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+    for (let m in months) {
+      monthFreq[m] += 1;
+    }
+
+    return monthFreq;
+
+  } catch (e) {
+    console.log(e);
+    return 'error';
+  } finally {
+    await client.$disconnect();
   }
 }
 
@@ -514,12 +578,6 @@ export async function markAsRead(
     const userT = await client.user.findUnique({ where: { session: sc.value } });
 
     if (!userT) return 'unauthorized';
-
-    const user = await client.user.findUnique({ where: { id: userId } });
-    const message = await client.message.findUnique({
-      where: { id: messageId },
-      include: { readStatus: true },
-    });
 
     const status = await client.messageRead.findMany({ where: { userId, messageId }});
 
