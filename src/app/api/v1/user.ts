@@ -420,7 +420,7 @@ export async function getAllUsers(): Promise<{
   }
 }
 
-export async function getAllAnnouncments(): Promise<Announcement[] | 'unauthorized' | null> {
+export async function getAllAnnouncments(): Promise<{id: number, sent: string, text: string, read: boolean }[] | 'unauthorized' | null> {
   try {
     await client.$connect();
 
@@ -433,8 +433,8 @@ export async function getAllAnnouncments(): Promise<Announcement[] | 'unauthoriz
     if (!user) return 'unauthorized';
 
 
-    const results = await client.message.findMany({  });
-    return results.map(a => {return { sent: a.sent.toISOString(), id: a.id, text: a.text }; });
+    const results = await client.message.findMany({ include: { readStatus: true } });
+    return results.map(a => {return { sent: a.sent.toISOString(), id: a.id, text: a.text, read: a.readStatus.filter(r => r.userId === user.id)[0]?.read || false }; });
   } catch (e) {
     console.log(e);
     return null;
@@ -521,17 +521,13 @@ export async function markAsRead(
       include: { readStatus: true },
     });
 
-    if (!user) return "userNotFound";
-    if (!message) return "messageNotFound";
+    const status = await client.messageRead.findMany({ where: { userId, messageId }});
 
-    const foundUser = message.readStatus.find((s) => s.userId === user.id);
-
-    if (!foundUser) return "userNotFound";
-
-    await client.messageRead.update({
-      where: { id: foundUser.id },
-      data: { read: true },
-    });
+    if (status.length) {
+      await client.messageRead.update({ where: { id: status[0].id }, data: { read: true } });
+    } else {
+      await client.messageRead.create({ data: { userId, messageId, read: true } });
+    }
 
     return "success";
   } catch (e) {
