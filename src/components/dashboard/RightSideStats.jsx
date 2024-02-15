@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import CountUp from "react-countup";
-import { getTotalIncome } from "../../app/api/v1/user";
+import { getTotalIncome } from "../../app/api/v1/customer";
+import { getTotalSalaries } from "../../app/api/v1/user";
 
 function MoneyStats() {
   const [selectedOptionMoney, setSelectedOption] = useState("TL");
@@ -8,8 +9,9 @@ function MoneyStats() {
   const [Month, setMonth] = useState("Total");
   const [salaries, setSalaries] = useState("");
   const [incomesArray, setIncomeArray] = useState([
-    { Total: 1992000, January: 23200, February: 232300, March: 622100 },
+    // { Total: 1992000, January: 23200, February: 232300, March: 622100 },
   ]);
+  const [ salaries, setSalaries ] = useState(0);
 
   useEffect(() => {
     getTotalIncome().then((i) => {
