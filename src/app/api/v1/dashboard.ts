@@ -539,6 +539,74 @@ export async function deleteProductCategoryByName(name: string): Promise<'succes
   }
 }
 
+export async function moveProductsFromCategoryToCategory(fromCategory: string, toCategory: string): Promise<'success' | 'unauthorized' | 'error'> {
+  try {
+    await client.$connect();
+
+    const sc = cookies().get("session");
+    if (!sc) return "unauthorized";
+    if (!(await client.user.count({ where: { session: sc.value } })))
+      return "unauthorized";
+
+    await client.product.updateMany({ where: { name: fromCategory }, data: { name: toCategory } });
+
+    return "success";
+  } catch (e) {
+    console.log("failed to move products from one category to an other : " + e);
+    return "error";
+  } finally {
+    await client.$disconnect();
+  }
+}
+
+export async function deleteAllProductsFromCategory(name: string): Promise<'success' | 'categoryNotFound' | 'unauthorized' | 'error'> {
+  try {
+    await client.$connect();
+
+    const sc = cookies().get("session");
+    if (!sc) return "unauthorized";
+    if (!(await client.user.count({ where: { session: sc.value } })))
+      return "unauthorized";
+
+
+    const foundCategory = await client.productCategory.findUnique({ where: { name } });
+
+    if (!foundCategory) return 'categoryNotFound';
+
+    await client.product.deleteMany({ where: { categoryId: foundCategory.id } });
+
+    return "success";
+  } catch (e) {
+    console.log("failed to move products from one category to an other : " + e);
+    return "error";
+  } finally {
+    await client.$disconnect();
+  }
+}
+
+export async function productsExistUnderCategory(name: string): Promise<number | 'unauthorized' | 'error' | 'categoryNotFound'> {
+  try {
+    await client.$connect();
+
+    const sc = cookies().get("session");
+    if (!sc) return "unauthorized";
+    if (!(await client.user.count({ where: { session: sc.value } })))
+      return "unauthorized";
+
+
+    const foundCategory = await client.productCategory.findUnique({ where: { name } });
+
+    if (!foundCategory) return 'categoryNotFound';
+
+    return await client.product.count({ where: { categoryId: foundCategory.id } });
+  } catch (e) {
+    console.log("failed to move products from one category to an other : " + e);
+    return "error";
+  } finally {
+    await client.$disconnect();
+  }
+}
+
 export async function getContacts(): Promise<Contacts | "unauthorized" | "error"> {
   try {
     const d = await importJSON();
