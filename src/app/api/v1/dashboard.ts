@@ -7,6 +7,7 @@ import client from "./client";
 import { cookies } from "next/headers";
 
 const gymHomeBackImage = 'gymHomeBackImage';
+const adsBackground = 'adsBackground';
 
 async function importJSON(): Promise<Dashboard> {
   const content = await readFile(path.join(process.cwd(), "dashboard.json"));

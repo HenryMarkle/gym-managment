@@ -393,16 +393,15 @@ export function HomePage() {
           className=" h-[40px] mt-5"
           disabled={!edited2}
           onClick={async () => {
-            updateAdsInfo({ title: adsTitle, description: adsDescription });
+            const result = await updateAdsInfo({ title: adsTitle, description: adsDescription });
 
-            if (adsImage) {
-              await fetch("api/v1/adsimage", {
-                method: "POST",
-                body: adsImage,
-                headers: {
-                  "Content-Type": adsImage.type,
-                },
-              });
+            if (result === 'success' && adsImage) {
+              const imageRef = ref(storage, `images/adsBackgroundImage`);
+              try {
+                await uploadBytes(imageRef, adsImage);
+              } catch (e) {
+                console.log('failed to upload ads background image: '+e);
+              }
             }
           }}
         >
@@ -515,25 +514,22 @@ export function HomePage() {
                         category: productCategory,
                       });
 
-                      console.log('create product: '+typeof result === 'number');
-
-                      // if (productImage && typeof result === 'number') {
-                      //   const storageRef = ref(storage, `images/products/${result}`);
-                      //   try {
-                      //     await uploadBytes(storageRef, productImage);
-                      //     Swal.fire("Saved!", "", "success");
-                      //     setProductDesc("");
-                      //     setProductMarka("");
-                      //     setProductPrice("");
-                      //     setProductTitle("");
-                      //     setProductCategory("");
-                      //     setEdited2(false);
-                      //   } catch (e) {
-                      //     console.log('could not upload product image: '+e);
-                      //     Swal.fire("Fail!", "", "error");
-                      //   }
-                      
-                      // }
+                      if (productImage && typeof result === 'number') {
+                        const storageRef = ref(storage, `images/products/${result}`);
+                        try {
+                          await uploadBytes(storageRef, productImage);
+                          Swal.fire("Saved!", "", "success");
+                          setProductDesc("");
+                          setProductMarka("");
+                          setProductPrice("");
+                          setProductTitle("");
+                          setProductCategory("");
+                          setEdited2(false);
+                        } catch (e) {
+                          console.log('could not upload product image: '+e);
+                          Swal.fire("Fail!", "", "error");
+                        }
+                      }
 
                     } else if (result.isDenied) {
                       Swal.fire("Changes are not saved", "", "info");
