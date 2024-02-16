@@ -68,7 +68,6 @@ function MyComponent({ height, width }) {
       >
         {/* Marker component to add a location */}
         <Marker position={markerPosition} onClick={handleMarkerClick} />
-
         {/* Child components, such as additional markers, info windows, etc. */}
         <></>
       </GoogleMap>

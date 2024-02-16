@@ -14,23 +14,18 @@ import {
 
 // Firebase
 
-import storage from '../../app/api/v1/firebase';
-import { ref, uploadBytes } from 'firebase/storage';
-
+import storage from "../../app/api/v1/firebase";
+import { ref, uploadBytes } from "firebase/storage";
 
 import Swal from "sweetalert2";
 
 export function HomePage() {
   const [edited, setEdited] = useState(false);
   const [edited2, setEdited2] = useState(false);
-
   const [gymTitle, setGymTitle] = useState("");
-
   const [generalInfo, setGeneralInfo] = useState(null);
-
   const [planOpen, setPlanOpen] = useState(true);
   const [shopOpen, setShopOpen] = useState(true);
-
   /// Plan values
   const [planTitle, setPlanTitle] = useState("");
   const [planDesc, setPlanDesc] = useState("");
@@ -39,10 +34,8 @@ export function HomePage() {
   const [Planfeatuers, setPlanFeatures] = useState([]);
   const [planDur, setPlanDur] = useState("");
   ////////// End plan values
-
   const [adsTitle, setAdsTitle] = useState("");
   const [adsDescription, setAdsDescription] = useState("");
-
   /// Products values
   const [productTitle, setProductTitle] = useState("");
   const [productDesc, setProductDesc] = useState("");
@@ -51,8 +44,8 @@ export function HomePage() {
   const [productCategory, setProductCategory] = useState("clothes");
   const [categoreies, setCategories] = useState([]);
   const [newcategorTitle, setNewCategoryTitle] = useState("");
+  const [deletedCategories, setDeletedCategories] = useState([]);
   ////////// End Products values
-
   const [image, setImage] = useState(null);
   const [adsImage, setAdsImage] = useState(null);
   const [productImage, setProductImage] = useState(null);
@@ -178,7 +171,7 @@ export function HomePage() {
               try {
                 await uploadBytes(imageRef, image);
               } catch (e) {
-                console.log('failed to upload image: '+e);
+                console.log("failed to upload image: " + e);
               }
             }
           }}
@@ -186,11 +179,9 @@ export function HomePage() {
           Update
         </button>
       </div>
-
       {/* End starter Blog */}
 
       {/* Start Plan Blog */}
-
       <div
         className={`create-plan mt-5 w-full shadow-lg overflow-hidden rounded-[30px] duration-700  ${
           planOpen ? "h-[510px]" : "h-[55px]"
@@ -280,7 +271,6 @@ export function HomePage() {
                     price: planPrice,
                     duration: planDur,
                   });
-
                   if (result === "success") {
                     setPlanTitle("");
                     setPlanDesc("");
@@ -333,7 +323,6 @@ export function HomePage() {
           </div>
         </div>
       </div>
-
       {/*End Plan Blog */}
 
       {/* Start Ads Blog */}
@@ -378,7 +367,6 @@ export function HomePage() {
             }}
           />
         </div>
-
         <button
           className=" h-[40px] mt-5"
           disabled={!edited2}
@@ -399,7 +387,6 @@ export function HomePage() {
           Update
         </button>
       </div>
-
       {/* End Ads Blog */}
 
       {/* Start shop Blog */}
@@ -509,8 +496,11 @@ export function HomePage() {
                         category: productCategory,
                       });
 
-                      if (productImage && typeof result === 'number') {
-                        const storageRef = ref(storage, `images/products/${result}`);
+                      if (productImage && typeof result === "number") {
+                        const storageRef = ref(
+                          storage,
+                          `images/products/${result}`
+                        );
                         await uploadBytes(storageRef, productImage);
                       }
 
@@ -581,6 +571,10 @@ export function HomePage() {
                                   (e) => e != ele
                                 );
                                 setCategories(filtetdArray);
+                                setDeletedCategories([
+                                  ...deletedCategories,
+                                  ele,
+                                ]);
                               }}
                               className="text-sm absolute -top-3 -right-4 bg-gray-100 cursor-pointer hover:bg-red-600 duration-300 hover:text-white w-[30px] flex items-center justify-center rounded-full"
                             >
@@ -590,6 +584,33 @@ export function HomePage() {
                         </>
                       );
                     })}
+                </div>
+              </div>
+              <div
+                style={
+                  deletedCategories.length > 0 ? { opacity: 1 } : { opacity: 0 }
+                }
+                className="already-added-categories duration-300 mt-7 w-full h-[200px] border-2 p-5 rounded-[21px] overflow-y-auto "
+              >
+                <p className=" text-center font-extrabold mb-3">
+                  Deleted Categories
+                </p>
+                <div className=" flex flex-wrap w-full gap-5 ">
+                  {deletedCategories.map((ele) => {
+                    return (
+                      <>
+                        <div>{ele}</div>
+                        <select name="" id="">
+                          <option selected value="1">
+                            delete all products related
+                          </option>
+                          <option value="1">add it to Other</option>
+                          <option value="1">add it to horses</option>
+                          <option value="1">add it to clothes</option>
+                        </select>
+                      </>
+                    );
+                  })}
                 </div>
               </div>
             </div>
