@@ -13,10 +13,8 @@ import {
 } from "../../app/api/v1/dashboard";
 
 // Firebase
-
 import storage from "../../app/api/v1/firebase";
 import { ref, uploadBytes } from "firebase/storage";
-
 import Swal from "sweetalert2";
 
 export function HomePage() {
@@ -372,7 +370,6 @@ export function HomePage() {
           disabled={!edited2}
           onClick={async () => {
             updateAdsInfo({ title: adsTitle, description: adsDescription });
-
             if (adsImage) {
               await fetch("api/v1/adsimage", {
                 method: "POST",
@@ -596,21 +593,23 @@ export function HomePage() {
                   Deleted Categories
                 </p>
                 <div className=" flex flex-wrap w-full gap-5 ">
-                  {deletedCategories.map((ele) => {
-                    return (
-                      <>
-                        <div>{ele}</div>
-                        <select name="" id="">
-                          <option selected value="1">
-                            delete all products related
-                          </option>
-                          <option value="1">add it to Other</option>
-                          <option value="1">add it to horses</option>
-                          <option value="1">add it to clothes</option>
-                        </select>
-                      </>
-                    );
-                  })}
+                  {deletedCategories
+                    .filter((ele) => categoreies.includes(ele))
+                    .map((ele) => {
+                      return (
+                        <>
+                          <div>{ele}</div>
+                          <select name="" id="">
+                            <option selected value="1">
+                              delete all products related
+                            </option>
+                            <option value="1">add it to Other</option>
+                            <option value="1">add it to horses</option>
+                            <option value="1">add it to clothes</option>
+                          </select>
+                        </>
+                      );
+                    })}
                 </div>
               </div>
             </div>
