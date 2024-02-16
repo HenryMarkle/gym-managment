@@ -6,6 +6,8 @@ import path from "path";
 import client from "./client";
 import { cookies } from "next/headers";
 
+const gymHomeBackImage = 'gymHomeBackImage';
+
 async function importJSON(): Promise<Dashboard> {
   const content = await readFile(path.join(process.cwd(), "dashboard.json"));
 
@@ -360,7 +362,7 @@ export async function getHomeProducts(): Promise<(Product & { category: { id: nu
   }
 }
 
-export async function addHomeProduct(product: { name: string, description: string, price: number, marka: string, category: string }): Promise<"success" | 'categoryNotFound' | "unauthorized" | "error"> {
+export async function addHomeProduct(product: { name: string, description: string, price: number, marka: string, category: string }): Promise<number | 'categoryNotFound' | "unauthorized" | "error"> {
   try {
     await client.$connect();
 
@@ -373,7 +375,7 @@ export async function addHomeProduct(product: { name: string, description: strin
 
     if (!category) return 'categoryNotFound';
 
-    await client.product.create({ data: {
+    const newProduct = await client.product.create({ data: {
       name: product.name,
       description: product.description,
       price: product.price,
@@ -382,7 +384,7 @@ export async function addHomeProduct(product: { name: string, description: strin
       categoryId: category.id
     } });
 
-    return "success";
+    return newProduct.id;
   } catch (e) {
     console.log("failed to add a product: " + e);
     return "error";

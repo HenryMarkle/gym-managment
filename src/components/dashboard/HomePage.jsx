@@ -11,6 +11,13 @@ import {
   addPlan,
   addHomeProduct,
 } from "../../app/api/v1/dashboard";
+
+// Firebase
+
+import storage from '../../app/api/v1/firebase';
+import { ref, uploadBytes } from 'firebase/storage';
+
+
 import Swal from "sweetalert2";
 
 export function HomePage() {
@@ -166,14 +173,14 @@ export function HomePage() {
               description: generalInfo?.description,
             });
 
-            if (image)
-              await fetch("/api/v1/mainimage", {
-                method: "POST",
-                body: image,
-                headers: {
-                  "Content-Type": image.type,
-                },
-              });
+            if (image) {
+              const imageRef = ref(storage, `images/gymHomeBackImage`);
+              try {
+                await uploadBytes(imageRef, image);
+              } catch (e) {
+                console.log('failed to upload image: '+e);
+              }
+            }
           }}
         >
           Update
@@ -502,17 +509,9 @@ export function HomePage() {
                         category: productCategory,
                       });
 
-                      if (productImage) {
-                        await fetch(
-                          "api/v1/productimage?name=" + encodeURI(productTitle),
-                          {
-                            method: "POST",
-                            body: productImage,
-                            headers: {
-                              "Content-Type": productImage.type,
-                            },
-                          }
-                        );
+                      if (productImage && typeof result === 'number') {
+                        const storageRef = ref(storage, `images/products/${result}`);
+                        await uploadBytes(storageRef, productImage);
                       }
 
                       if (result === "success") {
