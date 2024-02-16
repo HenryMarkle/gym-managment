@@ -64,13 +64,13 @@ export function HomePage() {
       }
     });
 
-    getProductCategories().then(c => {
-      if (c === 'error') {}
-      else {
+    getProductCategories().then((c) => {
+      if (c === "error") {
+      } else {
         setAllProductCategories(c);
-        setCategories(c.map(cat => cat.name));
+        setCategories(c.map((cat) => cat.name));
       }
-    })
+    });
   }, []);
 
   useEffect(() => {
@@ -332,9 +332,7 @@ export function HomePage() {
         </div>
       </div>
       {/*End Plan Blog */}
-
       {/* Start Ads Blog */}
-
       <div className="ads p-2 border-t-2 pt-10 border-b-2 pb-10  grid grid-cols-2 gap-7 mt-7">
         <div className=" flex flex-col">
           <label htmlFor="image">Ads Background image</label>
@@ -395,9 +393,7 @@ export function HomePage() {
         </button>
       </div>
       {/* End Ads Blog */}
-
       {/* Start shop Blog */}
-
       <div className="add-product-to-shop">
         <div
           className={`create-plan mt-5 w-full shadow-lg overflow-hidden rounded-[30px] duration-700 flex flex-col ${
@@ -474,8 +470,12 @@ export function HomePage() {
                   }}
                   className="select px-2 py-2 border-2 rounded-[31px] outline-none"
                 >
-                  <option selected value="select">Select</option>
-                  {allProductCategories.map(c => <option>{c.name}</option>)}
+                  <option selected value="select">
+                    Select
+                  </option>
+                  {allProductCategories.map((c) => (
+                    <option>{c.name}</option>
+                  ))}
                 </select>
               </div>
               <button
@@ -498,12 +498,13 @@ export function HomePage() {
                         marka: productMarka,
                         category: productCategory,
                       });
-
-                      if (productImage && typeof result === 'number') {
-                        const storageRef = ref(storage, `images/products/${result}`);
+                      if (productImage && typeof result === "number") {
+                        const storageRef = ref(
+                          storage,
+                          `images/products/${result}`
+                        );
                         await uploadBytes(storageRef, productImage);
                       }
-
                       if (result === "success") {
                         Swal.fire("Saved!", "", "success");
                         setProductDesc("");
@@ -545,7 +546,7 @@ export function HomePage() {
                 </div>
                 <button
                   onClick={() => {
-                    if (newcategorTitle !== '') {
+                    if (newcategorTitle !== "") {
                       setCategories([...categoreies, newcategorTitle]);
                       console.log(categoreies);
                       setNewCategoryTitle("");
@@ -558,40 +559,41 @@ export function HomePage() {
               </div>
               <div className="already-added-categories mt-7 w-full h-[200px] border-2 p-5 rounded-[21px] overflow-y-auto ">
                 <div className=" flex flex-wrap w-full gap-5 ">
-                  {categoreies
-                    .map((ele) => {
-                      return (
-                        <>
-                          <div className="relative">
-                            <p className="bg-gray-100 rounded-full px-2">
-                              {ele}
-                            </p>
-                            <p
-                              onClick={() => {
-                                const filtetdArray = categoreies.filter(
-                                  (e) => e != ele
-                                );
-                                setCategories(filtetdArray);
+                  {categoreies.map((ele) => {
+                    return (
+                      <>
+                        <div className="relative">
+                          <p className="bg-gray-100 rounded-full px-2">{ele}</p>
+                          <p
+                            onClick={() => {
+                              const filtetdArray = categoreies.filter(
+                                (e) => e != ele
+                              );
+                              setCategories(filtetdArray);
+                              if (categoreies.includes(ele)) {
                                 setDeletedCategories([
                                   ...deletedCategories,
                                   ele,
                                 ]);
-                              }}
-                              className="text-sm absolute -top-3 -right-4 bg-gray-100 cursor-pointer hover:bg-red-600 duration-300 hover:text-white w-[30px] flex items-center justify-center rounded-full"
-                            >
-                              x
-                            </p>
-                          </div>
-                        </>
-                      );
-                    })}
+                              }
+                            }}
+                            className="text-sm absolute -top-3 -right-4 bg-gray-100 cursor-pointer hover:bg-red-600 duration-300 hover:text-white w-[30px] flex items-center justify-center rounded-full"
+                          >
+                            x
+                          </p>
+                        </div>
+                      </>
+                    );
+                  })}
                 </div>
               </div>
               <div
                 style={
-                  deletedCategories.length > 0 ? { opacity: 1 } : { opacity: 0 }
+                  deletedCategories.length > 0
+                    ? { opacity: 1, height: "200px" }
+                    : { opacity: 0, height: "0px" }
                 }
-                className="already-added-categories duration-300 mt-7 w-full h-[200px] border-2 p-5 rounded-[21px] overflow-y-auto "
+                className="already-added-categories duration-300 mt-7 w-full  border-2 p-5 rounded-[21px] overflow-y-auto "
               >
                 <p className=" text-center font-extrabold mb-3">
                   Deleted Categories
