@@ -6,6 +6,7 @@ import { CiSaveUp1 } from "react-icons/ci";
 import {
   getHomeGeneralInfo,
   updateHomeGeneralInfo,
+  getProductCategories,
   getAdsInfo,
   updateAdsInfo,
   addPlan,
@@ -48,9 +49,10 @@ export function HomePage() {
   const [productDesc, setProductDesc] = useState("");
   const [productPrice, setProductPrice] = useState("");
   const [productMarka, setProductMarka] = useState("");
-  const [productCategory, setProductCategory] = useState("clothes");
+  const [productCategory, setProductCategory] = useState("");
   const [categoreies, setCategories] = useState([]);
   const [newcategorTitle, setNewCategoryTitle] = useState("");
+  const [allProductCategories, setAllProductCategories] = useState([]);
   ////////// End Products values
 
   const [image, setImage] = useState(null);
@@ -70,6 +72,14 @@ export function HomePage() {
         setAdsDescription(d.description);
       }
     });
+
+    getProductCategories().then(c => {
+      if (c === 'error') {}
+      else {
+        setAllProductCategories(c);
+        setCategories(c.map(cat => cat.name));
+      }
+    })
   }, []);
 
   useEffect(() => {
@@ -480,12 +490,8 @@ export function HomePage() {
                   }}
                   className="select px-2 py-2 border-2 rounded-[31px] outline-none"
                 >
-                  <option value="clothes">clothes</option>
-                  <option value="protein">protein</option>
-                  <option value="horses">horses</option>
-                  <option value="mans">mans</option>
-                  <option value="womens">womens</option>
-                  <option value="Ali">Ali</option>
+                  <option selected value="select">Select</option>
+                  {allProductCategories.map(c => <option>{c.name}</option>)}
                 </select>
               </div>
               <button
@@ -509,22 +515,26 @@ export function HomePage() {
                         category: productCategory,
                       });
 
-                      if (productImage && typeof result === 'number') {
-                        const storageRef = ref(storage, `images/products/${result}`);
-                        await uploadBytes(storageRef, productImage);
-                      }
+                      console.log('create product: '+typeof result === 'number');
 
-                      if (result === "success") {
-                        Swal.fire("Saved!", "", "success");
-                        setProductDesc("");
-                        setProductMarka("");
-                        setProductPrice("");
-                        setProductTitle("");
-                        setProductCategory("");
-                        setEdited2(false);
-                      } else {
-                        Swal.fire("Fail!", "", "error");
-                      }
+                      // if (productImage && typeof result === 'number') {
+                      //   const storageRef = ref(storage, `images/products/${result}`);
+                      //   try {
+                      //     await uploadBytes(storageRef, productImage);
+                      //     Swal.fire("Saved!", "", "success");
+                      //     setProductDesc("");
+                      //     setProductMarka("");
+                      //     setProductPrice("");
+                      //     setProductTitle("");
+                      //     setProductCategory("");
+                      //     setEdited2(false);
+                      //   } catch (e) {
+                      //     console.log('could not upload product image: '+e);
+                      //     Swal.fire("Fail!", "", "error");
+                      //   }
+                      
+                      // }
+
                     } else if (result.isDenied) {
                       Swal.fire("Changes are not saved", "", "info");
                     }
@@ -555,9 +565,11 @@ export function HomePage() {
                 </div>
                 <button
                   onClick={() => {
-                    setCategories([...categoreies, newcategorTitle]);
-                    console.log(categoreies);
-                    setNewCategoryTitle("");
+                    if (newcategorTitle !== '') {
+                      setCategories([...categoreies, newcategorTitle]);
+                      console.log(categoreies);
+                      setNewCategoryTitle("");
+                    }
                   }}
                   className="w-[20%] h-[36px] mt-5"
                 >
@@ -567,7 +579,6 @@ export function HomePage() {
               <div className="already-added-categories mt-7 w-full h-[200px] border-2 p-5 rounded-[21px] overflow-y-auto ">
                 <div className=" flex flex-wrap w-full gap-5 ">
                   {categoreies
-                    .filter((ele) => ele != "")
                     .map((ele) => {
                       return (
                         <>
