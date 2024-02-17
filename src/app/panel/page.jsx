@@ -23,6 +23,7 @@ function page() {
     getUsersCreatedChartData().then(u => {
       if (u === 'error' || u === 'unauthorized') {}
       else setCreated(u);
+      console.log(u);
     })
   }, [])
 
