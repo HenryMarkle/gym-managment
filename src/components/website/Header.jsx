@@ -29,13 +29,8 @@ function Header() {
     });
     
     listAll(storageRef).then(response => {
-      response.items.forEach(item => getDownloadURL(item).then(url => setAllImages(allImages => {
-        const newArray = [...allImages, url];
-
-        console.log('Downloaded image URLs: '+newArray)
-
-        return newArray;
-      })));
+      const item = response.items.find(i => i.name.startsWith('gymHomeBackImage'));
+      getDownloadURL(item).then(setHeaderImageURL);
     });
 
     window.addEventListener("scroll", handleScroll);
@@ -69,7 +64,7 @@ function Header() {
 
   return (
     <>
-      <div style={{ backgroundImage: `` }} className="header-parent h-[100vh] bg-emerald-200 z-50">
+      <div style={{ backgroundImage: `url(${headerImageURL})` }} className="header-parent h-[100vh] bg-emerald-200 z-50">
         <div
           style={headerStyle}
           className={`header-bar w-full h-20 z-[100] justify-evenly px-[210px] duration-700 flex items-center  ${

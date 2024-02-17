@@ -15,7 +15,7 @@ import {
 
 // Firebase
 import storage from "../../app/api/v1/firebase";
-import { ref, uploadBytes } from "firebase/storage";
+import { listAll, ref, uploadBytes, deleteObject } from "firebase/storage";
 import Swal from "sweetalert2";
 
 export function HomePage() {
@@ -49,7 +49,7 @@ export function HomePage() {
   ////////// End Products values
   const [image, setImage] = useState(null);
   const [adsImage, setAdsImage] = useState(null);
-  const [productImage, setProductImage] = useState(null);
+  const [productImage, setProductImage] = useState({});
 
   useEffect(() => {
     getHomeGeneralInfo().then((d) => {
@@ -177,8 +177,20 @@ export function HomePage() {
               description: generalInfo?.description,
             });
 
-            if (image) {
-              const imageRef = ref(storage, `images/gymHomeBackImage`);
+            if (image !== null) {
+              var extension = image.name.includes('.') ? image.name.substring(image.name.lastIndexOf('.')+1, image.name.length) : '';
+              const imagesRef = ref(storage, 'images/');
+
+              const allImages = await listAll(imagesRef);
+
+              const gymHomeBackImage = allImages.items.find(i => i.name.startsWith('gymHomeBackImage'));
+
+              if (gymHomeBackImage) {
+                const imageRef = ref(storage, `images/${gymHomeBackImage.name}`);
+                await deleteObject(imageRef);
+              }
+
+              const imageRef = ref(storage, `images/gymHomeBackImage.${extension}`);
               try {
                 await uploadBytes(imageRef, image);
               } catch (e) {
@@ -382,8 +394,22 @@ export function HomePage() {
           onClick={async () => {
             const result = await updateAdsInfo({ title: adsTitle, description: adsDescription });
 
+            
             if (result === 'success' && adsImage) {
-              const imageRef = ref(storage, `images/adsBackgroundImage`);
+              var extension = adsImage.name.includes('.') ? image.name.substring(adsImage.name.lastIndexOf('.')+1, adsImage.name.length) : '';
+              const imagesRef = ref(storage, 'images/');
+  
+              const allImages = await listAll(imagesRef);
+
+              const adsBackgroundImage = allImages.items.find(i => i.name.startsWith('adsBackgroundImage'));
+
+              if (adsBackgroundImage) {
+                const imageRef = ref(storage, `images/${adsBackgroundImage.name}`);
+                await deleteObject(imageRef);
+              }
+
+
+              const imageRef = ref(storage, `images/adsBackgroundImage.${extension}`);
               try {
                 await uploadBytes(imageRef, adsImage);
               } catch (e) {
@@ -421,7 +447,7 @@ export function HomePage() {
                   id="product-images"
                   onChange={(e) => {
                     setEdited2(true);
-                    setProductImage(e.target.files[0]);
+                    setProductImage(e.target.files ?? { length: 0 });
                   }}
                 />
               </div>{" "}
@@ -477,7 +503,7 @@ export function HomePage() {
                     Select
                   </option>
                   {allProductCategories.map((c) => (
-                    <option>{c.name}</option>
+                    <option>{c}</option>
                   ))}
                 </select>
               </div>
@@ -494,30 +520,43 @@ export function HomePage() {
                   }).then(async (result) => {
                     /* Read more about isConfirmed, isDenied below */
                     if (result.isConfirmed) {
-                      const result = await addHomeProduct({
+                      const addResult = await addHomeProduct({
                         name: productTitle,
                         description: productDesc,
                         price: productPrice,
                         marka: productMarka,
                         category: productCategory,
                       });
-                      if (productImage && typeof result === "number") {
+
+
+                      if (productImage && productImage.length && typeof addResult === "number") {
                         const storageRef = ref(
                           storage,
-                          `images/products/${result}`
+                          `images/products/${addResult}/`
                         );
-                        await uploadBytes(storageRef, productImage);
-                      }
-                      if (result === "success") {
+                        
+                        try {
+                          const allImages = await listAll(storageRef);
+  
+                          allImages.items.forEach(async i => await deleteObject(i));
+  
+                          for (let f = 0; f < productImage.length ?? 0; f++) {
+                            await uploadBytes(ref(storage, `images/products/${addResult}/${productImage.item(f).name}`));
+                          }
+                        } catch (e) {
+                          console.log('could not perform product creation operation: '+e);
+                          Swal.fire("Fail!", "", "error");
+                        }
+
+
                         Swal.fire("Saved!", "", "success");
                         setProductDesc("");
                         setProductMarka("");
                         setProductPrice("");
                         setProductTitle("");
                         setProductCategory("");
+                        setProductImage({ length: 0 });
                         setEdited2(false);
-                      } else {
-                        Swal.fire("Fail!", "", "error");
                       }
                     } else if (result.isDenied) {
                       Swal.fire("Changes are not saved", "", "info");
