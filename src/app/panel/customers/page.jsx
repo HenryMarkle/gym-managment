@@ -11,16 +11,58 @@ function page() {
   const [filterValue, setFilterValue] = useState("");
   const [lengs, setlngs] = useState(AllCustomers.length);
   const router = useRouter();
-
+  const [filterObject, setFilterObject] = useState([
+    { id: 1, active: true, title: "Start data" },
+    { id: 2, active: false, title: "End data" },
+    { id: 3, active: false, title: "Price" },
+    { id: 4, active: false, title: "Days left" },
+  ]);
   useEffect(() => {
     const getAllCust = async () => {
       const result = await getAllCustomers();
-      setAllCustomers(result ?? []);
-      return result;
-    };
-    getAllCust().then((d) => console.log(d));
-  }, []);
 
+      let sortedResult = [...result];
+
+      // Determine the sorting criteria based on the active filter
+      const activeFilter = filterObject.find((filter) => filter.active);
+      if (activeFilter) {
+        switch (activeFilter.title) {
+          case "Start data":
+            sortedResult.sort(
+              (a, b) => new Date(b.startedAt) - new Date(a.startedAt)
+            );
+            break;
+          case "End data":
+            sortedResult.sort(
+              (a, b) => new Date(a.endsAt) - new Date(b.endsAt)
+            );
+            break;
+          case "Price":
+            sortedResult.sort((a, b) => b.bucketPrice - a.bucketPrice);
+            break;
+          case "Days left":
+            sortedResult.sort(
+              (a, b) =>
+                Math.ceil(
+                  (new Date(a.endsAt) - new Date()) / (1000 * 60 * 60 * 24)
+                ) -
+                Math.ceil(
+                  (new Date(b.endsAt) - new Date()) / (1000 * 60 * 60 * 24)
+                )
+            );
+            break;
+          default:
+            break;
+        }
+      }
+
+      setAllCustomers(sortedResult);
+      setlngs(sortedResult.length);
+      return sortedResult;
+    };
+
+    getAllCust().then((d) => console.log(d));
+  }, [filterObject]);
   useEffect(() => {
     const newLength = AllCustomers.filter(
       (el) =>
@@ -33,16 +75,48 @@ function page() {
     ).length;
     setlngs(newLength);
   }, [filterValue]);
+  const handelActive = (id) => {
+    const activeSort = filterObject.map((ele) => ({
+      ...ele,
+      active: ele.id === id,
+    }));
+    setFilterObject(activeSort);
+  };
   return (
     <>
-      <div className="search ml-[27%] border-2 mr-[100px] mt-4 px-1 rounded-xl flex">
-        <input
-          onChange={(e) => setFilterValue(e.target.value)}
-          className="py-3 w-full uppercase"
-          type="text"
-          placeholder="Search Customer"
-        />
-        <CiSearch size={30} className="mt-2" />
+      <div className="search ml-[27%] mt-4 px-1 flex items-center gap-10">
+        <div className="flex justify-between border-2 px-1 rounded-xl">
+          <input
+            onChange={(e) => setFilterValue(e.target.value)}
+            className="py-3 w-full uppercase"
+            type="text"
+            placeholder="Search Customer"
+          />
+          <CiSearch size={30} className="mt-2" />
+        </div>
+
+        {/* Start filter option */}
+        <div className="sort flex items-center">
+          <div className="mr-2">
+            <p className="font-bold">Sort by :</p>
+          </div>
+          <div className="sorting-options flex gap-8">
+            {filterObject.map((ele) => {
+              return (
+                <React.Fragment key={ele.id}>
+                  <p
+                    onClick={() => handelActive(ele.id)}
+                    className={`shadow-md px-3 py-1 cursor-pointer duration-300 rounded-lg ${
+                      ele.active ? "bg-customRed font-bold text-white" : ""
+                    }`}
+                  >
+                    {ele.title}
+                  </p>
+                </React.Fragment>
+              );
+            })}
+          </div>
+        </div>
       </div>
       <div className="ml-[27%] mt-4 font-bold text-sm">
         you have {lengs} member in this table.
