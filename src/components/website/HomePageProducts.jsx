@@ -4,6 +4,8 @@ import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { BallTriangle } from "react-loader-spinner";
 import { getHomeProducts } from "../../app/api/v1/dashboard";
+import storage from '../../app/api/v1/firebase';
+import { ref, listAll, getDownloadURL } from "firebase/storage";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -41,6 +43,10 @@ function Products() {
             onSlideChange={() => console.log("slide change")}
           >
             {products.map((ele) => {
+              const id = ele.id;
+
+
+
               return (
                 <>
                   <SwiperSlide

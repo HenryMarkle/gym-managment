@@ -403,7 +403,32 @@ export async function deleteHomeProduct(name: string): Promise<"success" | "unau
     if (!(await client.user.count({ where: { session: sc.value } })))
       return "unauthorized";
 
-    await client.product.delete({ where: { name } });
+    const products = await client.product.findMany({ where: { name } });
+
+    if (products.length) {
+      await client.product.delete({ where: { id: products[0].id } });
+    }
+
+
+    return "success";
+  } catch (e) {
+    console.log("failed to delete home products: " + e);
+    return "error";
+  } finally {
+    await client.$disconnect();
+  }
+}
+
+export async function deleteHomeProductById(id: number): Promise<"success" | "unauthorized" | "error"> {
+  try {
+    await client.$connect();
+
+    const sc = cookies().get("session");
+    if (!sc) return "unauthorized";
+    if (!(await client.user.count({ where: { session: sc.value } })))
+      return "unauthorized";
+
+    await client.product.delete({ where: { id } });
 
     return "success";
   } catch (e) {
