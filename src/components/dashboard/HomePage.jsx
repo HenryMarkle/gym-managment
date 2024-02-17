@@ -380,14 +380,17 @@ export function HomePage() {
           className=" h-[40px] mt-5"
           disabled={!edited2}
           onClick={async () => {
-            const result = await updateAdsInfo({ title: adsTitle, description: adsDescription });
+            const result = await updateAdsInfo({
+              title: adsTitle,
+              description: adsDescription,
+            });
 
-            if (result === 'success' && adsImage) {
+            if (result === "success" && adsImage) {
               const imageRef = ref(storage, `images/adsBackgroundImage`);
               try {
                 await uploadBytes(imageRef, adsImage);
               } catch (e) {
-                console.log('failed to upload ads background image: '+e);
+                console.log("failed to upload ads background image: " + e);
               }
             }
           }}
@@ -610,15 +613,17 @@ export function HomePage() {
                               <option selected value="1">
                                 delete all products related
                               </option>
-                              <option value="1">
-                                add it's products to Other
-                              </option>
-                              <option value="1">
-                                add it's products to horses
-                              </option>
-                              <option value="1">
-                                add it's products to clothes
-                              </option>
+                              {allProductCategories
+                                .filter((e) => e != ele)
+                                .map((ele) => {
+                                  return (
+                                    <>
+                                      <option value={ele}>
+                                        Add All products related to {ele}
+                                      </option>
+                                    </>
+                                  );
+                                })}
                             </select>
                           </div>
                         </>
