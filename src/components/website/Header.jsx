@@ -4,23 +4,38 @@ import { getHomeGeneralInfo } from "../../app/api/v1/dashboard";
 import { getGymName } from "../../app/api/v1/user";
 import Navbar from "./Navbar";
 import Link from "next/link";
+import storage from '../../app/api/v1/firebase';
+import { ref, listAll, getDownloadURL } from 'firebase/storage'
 
 function Header() {
   const [scrollPosition, setScrollPosition] = useState(0);
 
   const [gymName, setGymName] = useState([]);
   const [genInfo, setGenInfo] = useState(null);
+  const [ headerImageURL, setHeaderImageURL ] = useState(null);
+  const [ allImages, setAllImages ] = useState([]);
 
   //   Start scrool Value
 
   const handleScroll = () => {
     setScrollPosition(window.scrollY);
   };
-
+  
+  const storageRef = ref(storage, 'images/');
   useEffect(() => {
     getGymName().then((name) => {
       if (name === "unauthorized" || name === null);
       else setGymName(name);
+    });
+    
+    listAll(storageRef).then(response => {
+      response.items.forEach(item => getDownloadURL(item).then(url => setAllImages(allImages => {
+        const newArray = [...allImages, url];
+
+        console.log('Downloaded image URLs: '+newArray)
+
+        return newArray;
+      })));
     });
 
     window.addEventListener("scroll", handleScroll);
@@ -54,7 +69,7 @@ function Header() {
 
   return (
     <>
-      <div className="header-parent h-[100vh] bg-emerald-200 z-50">
+      <div style={{ backgroundImage: `` }} className="header-parent h-[100vh] bg-emerald-200 z-50">
         <div
           style={headerStyle}
           className={`header-bar w-full h-20 z-[100] justify-evenly px-[210px] duration-700 flex items-center  ${

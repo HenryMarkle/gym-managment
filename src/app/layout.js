@@ -6,8 +6,7 @@ import { useRouter, usePathname } from "next/navigation";
 import { useEffect } from "react";
 import Footer from "../components/website/Footer";
 import CustomHeader from "../components/website/CustomHeader";
-import { Provider } from "react-redux";
-import { cookies } from "next/headers";
+import { isUserSignedIn } from "./api/v1/user";
 // import Cookies from "js-cookie";
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,11 +15,11 @@ export default function RootLayout({ children, showSidebar = true }) {
   const path = usePathname();
 
   useEffect(() => {
-    console.log(path);
-    const numberCookie = cookies.get("number");
-    if (numberCookie == null) {
-      router.push("/sign-up");
-    }
+    isUserSignedIn().then((u) => {
+      if (!u && (path.startsWith("/panel/") || path.startsWith("/panel"))) {
+        router.push("/panel/sign-in");
+      }
+    });
   }, []);
   return (
     <html lang="en">

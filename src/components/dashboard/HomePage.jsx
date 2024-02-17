@@ -380,15 +380,15 @@ export function HomePage() {
           className=" h-[40px] mt-5"
           disabled={!edited2}
           onClick={async () => {
-            updateAdsInfo({ title: adsTitle, description: adsDescription });
-            if (adsImage) {
-              await fetch("api/v1/adsimage", {
-                method: "POST",
-                body: adsImage,
-                headers: {
-                  "Content-Type": adsImage.type,
-                },
-              });
+            const result = await updateAdsInfo({ title: adsTitle, description: adsDescription });
+
+            if (result === 'success' && adsImage) {
+              const imageRef = ref(storage, `images/adsBackgroundImage`);
+              try {
+                await uploadBytes(imageRef, adsImage);
+              } catch (e) {
+                console.log('failed to upload ads background image: '+e);
+              }
             }
           }}
         >

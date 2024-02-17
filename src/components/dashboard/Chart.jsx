@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { Bar } from "react-chartjs-2";
 import Chart from "chart.js/auto";
 function ChartComponent({ title, data }) {
-
   return (
     <>
       <Bar
@@ -11,22 +10,22 @@ function ChartComponent({ title, data }) {
         data={{
           labels: [
             "January",
-            "Fab",
+            "February",
             "March",
             "April",
             "May",
-            "jun",
-            "july",
-            "augs",
-            "oct",
-            "sep",
-            "nov",
-            "dec",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December",
           ],
           datasets: [
             {
               label: title,
-              data,
+              data: data,
               backgroundColor: "#118CAF",
             },
           ],

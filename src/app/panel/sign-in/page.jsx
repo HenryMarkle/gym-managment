@@ -11,11 +11,10 @@ function page() {
 
   async function signin() {
     const result = await doSignin(email, password);
-    console.log("sign-in: " + result);
-
     if (result) {
-      router.push("/panel");
+      await router.push("/panel");
     }
+    window.location.reload();
   }
   return (
     <>

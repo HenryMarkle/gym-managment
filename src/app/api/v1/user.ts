@@ -60,6 +60,31 @@ export async function addUser(
   }
 }
 
+export async function isUserSignedIn(): Promise<boolean> {
+  try {
+    await client.$connect();
+    const sc = cookies().get('session');
+
+    if (!sc) return false;
+
+    const user = await client.user.findUnique({ where: { session: sc.value } });
+
+    if (!user) return false;
+
+
+    const session = cookies().get('session');
+    if (!session) return false;
+    const result = await client.user.findUnique({ where: { session: session.value }, select: { id: true } });
+    if ((!result)) return false;
+    return true;
+  } catch (e) {
+    console.log(e);
+    return false;
+  } finally {
+    await client.$disconnect();
+  }
+}
+
 export async function getCurrentUserId(): Promise<number | 'unauthorized' | 'noSession' | 'notFound' | 'error'> {
   try {
     await client.$connect();
