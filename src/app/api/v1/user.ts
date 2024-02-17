@@ -313,7 +313,7 @@ export async function getUsersLeftChartData(): Promise<number[] | 'unauthorized'
 
     if (!user) return 'unauthorized';
 
-    let customers = await client.subscriber.findMany({ where: { endsAt: { lte: new Date(), gte: new Date(new Date().setFullYear(new Date().getFullYear() - 1)) } } });
+    let customers = await client.subscriber.findMany({ where: { endsAt: { gte: new Date(new Date().setFullYear(new Date().getFullYear() - 1)) } } });
 
     let months = customers.map(c => c.endsAt.getMonth());
 

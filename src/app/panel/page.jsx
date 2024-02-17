@@ -49,7 +49,7 @@ function page() {
                   <Chart title="New Customers" data={created} />
                 </div>
                 <div className="left-2 h-[400px]">
-                  <Chart title="Customers left " data={left} />
+                  <Chart title="Ending Subscriptions This Year" data={left} />
                 </div>
               </div>
               <MoneyStats />
