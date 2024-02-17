@@ -317,7 +317,7 @@ export async function getUsersLeftChartData(): Promise<number[] | 'unauthorized'
 
     let months = customers.filter(c => c.deletedAt).map(c => c.deletedAt?.getMonth());
 
-    let monthFreq = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    let monthFreq = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
     for (let m in months) {
       monthFreq[m] += 1;
@@ -346,9 +346,9 @@ export async function getUsersCreatedChartData(): Promise<number[] | 'unauthoriz
 
     let customers = await client.subscriber.findMany({ where: { createdAt: { gte: new Date(new Date().setFullYear(new Date().getFullYear() - 1)) } } });
 
-    let months = customers.filter(c => c.deletedAt).map(c => c.deletedAt?.getMonth());
+    let months = customers.map(c => c.createdAt.getMonth());
 
-    let monthFreq = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    let monthFreq = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
     for (let m in months) {
       monthFreq[m] += 1;

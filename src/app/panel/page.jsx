@@ -30,6 +30,12 @@ function page() {
       console.log(u);
     });
   }, []);
+    getUsersCreatedChartData().then(u => {
+      if (u === 'error' || u === 'unauthorized') {}
+      else setCreated(u);
+      console.log(u);
+    })
+  }, [])
 
   useEffect(() => {
     // router.push("/");
