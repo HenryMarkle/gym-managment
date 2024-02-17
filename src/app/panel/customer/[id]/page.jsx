@@ -51,7 +51,7 @@ function page() {
           text: "Your file has been deleted.",
           icon: "success",
         });
-        router.push("/customers");
+        router.push("/panel/customers");
       }
     });
   };

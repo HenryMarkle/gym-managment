@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import Footer from "../components/website/Footer";
 import CustomHeader from "../components/website/CustomHeader";
 import { Provider } from "react-redux";
+import { cookies } from "next/headers";
 // import Cookies from "js-cookie";
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,10 +17,10 @@ export default function RootLayout({ children, showSidebar = true }) {
 
   useEffect(() => {
     console.log(path);
-    // const numberCookie = Cookies.get("number");
-    // if (numberCookie == null) {
-    //   router.push("/sign-up");
-    // }
+    const numberCookie = cookies.get("number");
+    if (numberCookie == null) {
+      router.push("/sign-up");
+    }
   }, []);
   return (
     <html lang="en">

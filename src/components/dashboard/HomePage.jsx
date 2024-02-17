@@ -45,6 +45,7 @@ export function HomePage() {
   const [newcategorTitle, setNewCategoryTitle] = useState("");
   const [allProductCategories, setAllProductCategories] = useState([]);
   const [deletedCategories, setDeletedCategories] = useState([]);
+
   ////////// End Products values
   const [image, setImage] = useState(null);
   const [adsImage, setAdsImage] = useState(null);
@@ -66,8 +67,10 @@ export function HomePage() {
 
     getProductCategories().then((c) => {
       if (c === "error") {
+        console.log("error");
       } else {
-        setAllProductCategories(c);
+        setAllProductCategories(c.map((ele) => ele.name));
+        console.log(allProductCategories);
         setCategories(c.map((cat) => cat.name));
       }
     });
@@ -558,7 +561,7 @@ export function HomePage() {
                 </button>
               </div>
               <div className="already-added-categories mt-7 w-full h-[200px] border-2 p-5 rounded-[21px] overflow-y-auto ">
-                <div className=" flex flex-wrap w-full gap-5 ">
+                <div className="flex flex-wrap w-full gap-5 ">
                   {categoreies.map((ele) => {
                     return (
                       <>
@@ -570,12 +573,7 @@ export function HomePage() {
                                 (e) => e != ele
                               );
                               setCategories(filtetdArray);
-                              if (categoreies.includes(ele)) {
-                                setDeletedCategories([
-                                  ...deletedCategories,
-                                  ele,
-                                ]);
-                              }
+                              setDeletedCategories([...deletedCategories, ele]);
                             }}
                             className="text-sm absolute -top-3 -right-4 bg-gray-100 cursor-pointer hover:bg-red-600 duration-300 hover:text-white w-[30px] flex items-center justify-center rounded-full"
                           >
@@ -600,19 +598,29 @@ export function HomePage() {
                 </p>
                 <div className=" flex flex-wrap w-full gap-5 ">
                   {deletedCategories
-                    .filter((ele) => categoreies.includes(ele))
+                    .filter((ele) => allProductCategories.includes(ele))
                     .map((ele) => {
                       return (
                         <>
-                          <div>{ele}</div>
-                          <select name="" id="">
-                            <option selected value="1">
-                              delete all products related
-                            </option>
-                            <option value="1">add it to Other</option>
-                            <option value="1">add it to horses</option>
-                            <option value="1">add it to clothes</option>
-                          </select>
+                          <div className="w-full flex">
+                            <div>
+                              {ele} {`=>`}
+                            </div>
+                            <select className=" outline-none  border-2 px-2 ml-2 rounded-xl border-green-200">
+                              <option selected value="1">
+                                delete all products related
+                              </option>
+                              <option value="1">
+                                add it's products to Other
+                              </option>
+                              <option value="1">
+                                add it's products to horses
+                              </option>
+                              <option value="1">
+                                add it's products to clothes
+                              </option>
+                            </select>
+                          </div>
                         </>
                       );
                     })}
@@ -625,7 +633,6 @@ export function HomePage() {
           Changes you make here will appear directly on your gym website.
         </p>
       </div>
-
       {/* End shop Blog */}
     </>
   );
