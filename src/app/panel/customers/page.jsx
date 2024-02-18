@@ -23,7 +23,6 @@ function page() {
 
       let sortedResult = [...result];
 
-      // Determine the sorting criteria based on the active filter
       const activeFilter = filterObject.find((filter) => filter.active);
       if (activeFilter) {
         switch (activeFilter.title) {

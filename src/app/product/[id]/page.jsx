@@ -115,16 +115,16 @@ function page() {
                 <>
                   <SwiperSlide
                     key={ele.id}
-                    className="product shadow-lg flex flex-col justify-center items-center rounded-xl min-w-[300px]"
+                    className="product shadow-lg flex flex-col justify-center  rounded-xl min-w-[300px]"
                   >
-                    <Link href={`/market/${ele.id}`}>
-                      <div className=" flex flex-col min-h-[380px]">
+                    <Link href={`/product/${ele.id}`}>
+                      <div className=" flex flex-col min-h-[410px] justify-between">
                         <img
                           className="w-[220px] self-center"
                           src="https://cdn.akakce.com/hardline-nutrition/hardline-nutrition-progainer-5000-gr-z.jpg"
                           alt=""
                         />
-                        <div className="flex w-full p-3 items-center">
+                        <div className="flex w-full p-3 items-start min-h-[50px]">
                           <p className="w-[100%] text-sm">
                             <span className=" text-website2 font-bold text-lg mr-1">
                               {ele.marka}
