@@ -12,9 +12,11 @@ function page() {
   async function signin() {
     const result = await doSignin(email, password);
     if (result) {
-      await router.push("/panel");
+      router.replace("/panel");
+      setTimeout(() => {
+        window.location.reload();
+      }, 150);
     }
-    window.location.reload();
   }
   return (
     <>
@@ -49,7 +51,7 @@ function page() {
             <div className="dont">
               <div>
                 don`t have account ?{" "}
-                <Link href="/sign-up">
+                <Link href="/panel/sign-up">
                   <span className=" text-orange-600 font-bold">
                     Create-account
                   </span>

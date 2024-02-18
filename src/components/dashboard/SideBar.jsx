@@ -22,6 +22,7 @@ import {
 import Link from "next/link";
 
 import { getAllUsers, createAnnouncement } from "../../app/api/v1/user";
+import Swal from "sweetalert2";
 
 function SideBar() {
   const [message, setMessage] = useState("");
@@ -239,8 +240,22 @@ function SideBar() {
             <IoIosLogOut size="23px" className=" font-bold " color="white" />
             <button
               onClick={async () => {
-                signout();
-                router.push("/sign-in");
+                Swal.fire({
+                  title: "Are you sure?",
+                  text: "You won't be able to revert this!",
+                  icon: "warning",
+                  showCancelButton: true,
+                  confirmButtonColor: "#3085d6",
+                  cancelButtonColor: "#d33",
+                  confirmButtonText: "Yes, Logout !",
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    signout();
+                    setTimeout(() => {
+                      router.push("/panel/sign-in");
+                    }, 100);
+                  }
+                });
               }}
               className="text-white font-bold"
             >

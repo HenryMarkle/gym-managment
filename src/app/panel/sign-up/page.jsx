@@ -78,7 +78,10 @@ function page() {
             <div>
               <p className=" text-[14px]  text-black">
                 Already have an account ?{" "}
-                <Link className="text-orange-600 font-bold" href="/sign-in">
+                <Link
+                  className="text-orange-600 font-bold"
+                  href="/panel/sign-in"
+                >
                   Login
                 </Link>
               </p>
