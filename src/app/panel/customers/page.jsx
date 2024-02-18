@@ -10,13 +10,44 @@ function page() {
   const [AllCustomers, setAllCustomers] = useState([]);
   const [filterValue, setFilterValue] = useState("");
   const [lengs, setlngs] = useState(AllCustomers.length);
+  const [daysFilter, setDaysFilter] = useState(0);
+  const [dayORmonthOryear, setDayORmonthOryear] = useState("days");
   const router = useRouter();
   const [filterObject, setFilterObject] = useState([
     { id: 1, active: true, title: "Start data" },
+    { id: 5, active: false, title: "Ended Customers" },
     { id: 2, active: false, title: "End data" },
     { id: 3, active: false, title: "Price" },
     { id: 4, active: false, title: "Days left" },
   ]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result = await getAllCustomers();
+        switch (dayORmonthOryear) {
+          case "days":
+            setAllCustomers(
+              result.filter(
+                (ele) =>
+                  new Date(ele.endsAt).toDateString() === todayDateString ||
+                  Math.ceil(
+                    (new Date(ele.endsAt) - new Date()) / (1000 * 60 * 60 * 24)
+                  ) < daysFilter
+              )
+            );
+            break;
+          default:
+            break;
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, [daysFilter, dayORmonthOryear]);
+
   useEffect(() => {
     const getAllCust = async () => {
       const result = await getAllCustomers();
@@ -29,6 +60,16 @@ function page() {
           case "Start data":
             sortedResult.sort(
               (a, b) => new Date(b.startedAt) - new Date(a.startedAt)
+            );
+            break;
+          case "Ended Customers":
+            const todayDateString = new Date().toDateString();
+            sortedResult = sortedResult.filter(
+              (ele) =>
+                new Date(ele.endsAt).toDateString() === todayDateString ||
+                Math.ceil(
+                  (new Date(ele.endsAt) - new Date()) / (1000 * 60 * 60 * 24)
+                ) < 0
             );
             break;
           case "End data":
@@ -54,7 +95,6 @@ function page() {
             break;
         }
       }
-
       setAllCustomers(sortedResult);
       setlngs(sortedResult.length);
       return sortedResult;
@@ -86,6 +126,7 @@ function page() {
       <div className="search ml-[27%] mt-4 px-1 flex items-center gap-10">
         <div className="flex justify-between border-2 px-1 rounded-xl">
           <input
+            style={{ border: "none" }}
             onChange={(e) => setFilterValue(e.target.value)}
             className="py-3 w-full uppercase"
             type="text"
@@ -95,28 +136,51 @@ function page() {
         </div>
 
         {/* Start filter option */}
-        <div className="sort flex items-center">
-          <div className="mr-2">
-            <p className="font-bold">Sort by :</p>
+
+        <div className=" flex flex-col">
+          <div className="sort flex items-center border-b-2 pb-3">
+            <div className="mr-2">
+              <p className="font-bold">Sort by :</p>
+            </div>
+            <div className="sorting-options flex gap-8">
+              {filterObject.map((ele) => {
+                return (
+                  <React.Fragment key={ele.id}>
+                    <p
+                      onClick={() => handelActive(ele.id)}
+                      className={`shadow-md px-3 py-1 cursor-pointer duration-300 rounded-lg ${
+                        ele.active ? "bg-customRed font-bold text-white" : ""
+                      }`}
+                    >
+                      {ele.title}
+                    </p>
+                  </React.Fragment>
+                );
+              })}
+            </div>
           </div>
-          <div className="sorting-options flex gap-8">
-            {filterObject.map((ele) => {
-              return (
-                <React.Fragment key={ele.id}>
-                  <p
-                    onClick={() => handelActive(ele.id)}
-                    className={`shadow-md px-3 py-1 cursor-pointer duration-300 rounded-lg ${
-                      ele.active ? "bg-customRed font-bold text-white" : ""
-                    }`}
-                  >
-                    {ele.title}
-                  </p>
-                </React.Fragment>
-              );
-            })}
+          <div className="filtersOntable mt-5 flex gap-3 items-center">
+            <p className="font-bold">Customers registeration will end in :</p>
+            <input
+              onChange={(e) => setDaysFilter(e.target.value)}
+              className="shadow-md px-2 py-1 w-[150px]"
+              type="number"
+              placeholder="for example : 7"
+            />
+            <select
+              onChange={(e) => setDayORmonthOryear(e.target.value)}
+              className=" outline-none"
+              name=""
+              id=""
+            >
+              <option value="days">days</option>
+              <option value="monthes">monthes</option>
+              <option value="years">years</option>
+            </select>
           </div>
         </div>
       </div>
+
       <div className="ml-[27%] mt-4 font-bold text-sm">
         you have {lengs} member in this table.
       </div>
