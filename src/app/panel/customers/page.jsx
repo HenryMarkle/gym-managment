@@ -10,7 +10,7 @@ function page() {
   const [AllCustomers, setAllCustomers] = useState([]);
   const [filterValue, setFilterValue] = useState("");
   const [lengs, setlngs] = useState(AllCustomers.length);
-  const [daysFilter, setDaysFilter] = useState(0);
+  const [daysFilter, setDaysFilter] = useState(null);
   const [dayORmonthOryear, setDayORmonthOryear] = useState("days");
   const router = useRouter();
   const [filterObject, setFilterObject] = useState([
@@ -28,18 +28,73 @@ function page() {
         switch (dayORmonthOryear) {
           case "days":
             setAllCustomers(
-              result.filter(
-                (ele) =>
-                  new Date(ele.endsAt).toDateString() === todayDateString ||
-                  Math.ceil(
-                    (new Date(ele.endsAt) - new Date()) / (1000 * 60 * 60 * 24)
-                  ) < daysFilter
-              )
+              result
+                .filter(
+                  (ele) =>
+                    Math.ceil(
+                      (new Date(ele.endsAt) - new Date()) /
+                        (1000 * 60 * 60 * 24)
+                    ) < daysFilter
+                )
+                .sort(
+                  (a, b) =>
+                    Math.ceil(
+                      (new Date(a.endsAt) - new Date()) / (1000 * 60 * 60 * 24)
+                    ) -
+                    Math.ceil(
+                      (new Date(b.endsAt) - new Date()) / (1000 * 60 * 60 * 24)
+                    )
+                )
+            );
+            break;
+          case "months":
+            setAllCustomers(
+              result
+                .filter(
+                  (ele) =>
+                    Math.ceil(
+                      (new Date(ele.endsAt) - new Date()) /
+                        (1000 * 60 * 60 * 24)
+                    ) <
+                    daysFilter * 30
+                )
+                .sort(
+                  (a, b) =>
+                    Math.ceil(
+                      (new Date(a.endsAt) - new Date()) / (1000 * 60 * 60 * 24)
+                    ) -
+                    Math.ceil(
+                      (new Date(b.endsAt) - new Date()) / (1000 * 60 * 60 * 24)
+                    )
+                )
+            );
+            break;
+          case "years":
+            setAllCustomers(
+              result
+                .filter(
+                  (ele) =>
+                    Math.ceil(
+                      (new Date(ele.endsAt) - new Date()) /
+                        (1000 * 60 * 60 * 24)
+                    ) <
+                    daysFilter * 365
+                )
+                .sort(
+                  (a, b) =>
+                    Math.ceil(
+                      (new Date(a.endsAt) - new Date()) / (1000 * 60 * 60 * 24)
+                    ) -
+                    Math.ceil(
+                      (new Date(b.endsAt) - new Date()) / (1000 * 60 * 60 * 24)
+                    )
+                )
             );
             break;
           default:
             break;
         }
+        if (daysFilter === "") setAllCustomers(result);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -174,7 +229,7 @@ function page() {
               id=""
             >
               <option value="days">days</option>
-              <option value="monthes">monthes</option>
+              <option value="months">monthes</option>
               <option value="years">years</option>
             </select>
           </div>
@@ -200,10 +255,10 @@ function page() {
         </thead>
         <tbody>
           {AllCustomers.length > 0
-            ? AllCustomers.filter(
+            ? AllCustomers?.filter(
                 (el) =>
-                  el.name.toUpperCase().includes(filterValue.toUpperCase()) ||
-                  el.name.toUpperCase() === filterValue.toUpperCase() ||
+                  el.name?.toUpperCase().includes(filterValue.toUpperCase()) ||
+                  el.name?.toUpperCase() === filterValue.toUpperCase() ||
                   `${el.name + el.surname}`
                     .toUpperCase()
                     .replace(/\s/g, "")
@@ -217,13 +272,13 @@ function page() {
                   <td className=" relative">
                     {`${
                       ele.name.length > 8
-                        ? ele.name.slice(0, 8)
-                        : ele.name.toUpperCase()
+                        ? ele.name?.slice(0, 8)
+                        : ele.name?.toUpperCase()
                     } ` +
                       `${
                         ele.surname.length > 8
-                          ? ele.surname.toUpperCase().slice(0, 8) + "..."
-                          : ele.surname.toUpperCase()
+                          ? ele.surname?.toUpperCase().slice(0, 8) + "..."
+                          : ele.surname?.toUpperCase()
                       }`}
                   </td>
                   <td>{ele.age}</td>

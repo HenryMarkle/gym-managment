@@ -12,27 +12,38 @@ function page() {
   const [user, setUser] = useState({});
   const [fetchError, setFetchError] = useState(null);
   const [daysLeft, setDaysLeft] = useState(null);
+  const [loading, setLoading] = useState(true); // Added loading state
+  const [startedAt, setStartedAt] = useState("");
+  const [endsAt, setEndsAt] = useState("");
   const router = useRouter();
   const { id } = params;
+
   useEffect(() => {
     getCustomerById(Number(id)).then((u) => {
+      setLoading(false);
       if (u == null) {
         setFetchError("notFound");
-      } else if (u == "error") {
+      } else if (u === "error") {
         setFetchError("error");
       } else {
         setFetchError(null);
         setUser(u ?? {});
-      }
-      if (u?.startedAt && u?.endsAt) {
-        const startDate = new Date(u.startedAt);
-        const endDate = new Date(u.endsAt);
-        const timeDifference = endDate - startDate;
-        const daysDifference = Math.ceil(timeDifference / (1000 * 3600 * 24));
-        setDaysLeft(daysDifference);
+        const formattedStartAt = new Date(u.startedAt).toLocaleDateString(
+          "tr-GB"
+        );
+        setStartedAt(formattedStartAt);
+        const formattedEndsAt = new Date(u.endsAt).toLocaleDateString("tr-GB");
+        setEndsAt(formattedEndsAt);
+        if (u?.startedAt && u?.endsAt) {
+          const startDate = new Date(u.startedAt);
+          const endDate = new Date(u.endsAt);
+          const timeDifference = endDate - startDate;
+          const daysDifference = Math.ceil(timeDifference / (1000 * 3600 * 24));
+          setDaysLeft(daysDifference);
+        }
       }
     });
-  }, []);
+  }, [id]); // Removed startedAt from the dependency array
 
   const showAlert = (id) => {
     Swal.fire({
@@ -61,7 +72,9 @@ function page() {
 
   return (
     <>
-      {fetchError ? (
+      {loading ? (
+        <div>Loading...</div>
+      ) : fetchError ? (
         <div>Not Found</div>
       ) : (
         <div className="ml-[30%] w-[60%] shadow-xl h-[94vh] mx-auto my-10 rounded-[31px] p-3">
@@ -86,7 +99,6 @@ function page() {
               </span>
             </div>
           </div>
-
           <div className="customer-informations flex flex-row p-2 w-full  items-center mt-12 ">
             <div className="left w-[50%] flex flex-col gap-8 justify-center">
               <div className="name w-[95%] flex flex-col">
@@ -167,9 +179,9 @@ function page() {
                       : " duration-300 border-2 border-[#a4a296] rounded-[31px] p-1 w-[67%] mt-[2px]"
                   }
                   hidden={!user?.startedAt}
-                  type={isEditing ? "date" : "text"}
+                  type={"text"}
                   disabled={isEditing ? false : true}
-                  defaultValue={new Date(user.startedAt).toDateString()}
+                  defaultValue={startedAt}
                 />
               </div>
               <div className="name w-[95%] flex flex-col">
@@ -180,9 +192,9 @@ function page() {
                       ? `${editing} border-2 border-[#ffcb00] rounded-[31px] p-1`
                       : " duration-300 border-2 border-[#a4a296] rounded-[31px] p-1 w-[67%] mt-[2px]"
                   }
-                  type={isEditing ? "date" : "text"}
+                  type={"text"}
                   hidden={!user?.endsAt}
-                  defaultValue={new Date(user.endsAt).toDateString()}
+                  defaultValue={endsAt}
                   disabled={isEditing ? false : true}
                 />
               </div>

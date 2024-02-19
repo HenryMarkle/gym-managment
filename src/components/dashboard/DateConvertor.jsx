@@ -8,11 +8,11 @@ const DateConverter = ({ date }) => {
 
   useEffect(() => {
     // Format the date as "DD-MM-YYYY"
-    const formattedDateString = originalDate.toLocaleDateString("en-GB");
+    const formattedDateString = originalDate.toLocaleDateString("tr-GB");
     setFormattedDate(formattedDateString);
   }, [originalDate]);
 
-  return <div>{formattedDate}</div>;
+  return formattedDate;
 };
 
 export default DateConverter;
