@@ -124,7 +124,7 @@ function page() {
             disabled={false}
             onClick={() => {
               Swal.fire({
-                title: "Do you want to save the changes?",
+                title: "Do you want to save the customer?",
                 showDenyButton: true,
                 showCancelButton: true,
                 confirmButtonText: "Save",
@@ -136,7 +136,7 @@ function page() {
                     doIt();
                     Swal.fire("Saved!", "", "success");
                   } else {
-                    Swal.fire("Changes are not saved", "", "info");
+                    Swal.fire("Please enter name and surname", "", "error");
                   }
                 }
                 if (result.isDenied) {
