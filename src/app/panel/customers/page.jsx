@@ -192,7 +192,7 @@ function page() {
 
         {/* Start filter option */}
 
-        <div className=" flex flex-col">
+        <div className=" flex flex-col mt-10">
           <div className="sort flex items-center border-b-2 pb-3">
             <div className="mr-2">
               <p className="font-bold">Sort by :</p>
@@ -224,7 +224,7 @@ function page() {
             />
             <select
               onChange={(e) => setDayORmonthOryear(e.target.value)}
-              className=" outline-none"
+              className="outline-none border-[#eee]"
               name=""
               id=""
             >

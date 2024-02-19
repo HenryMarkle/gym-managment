@@ -41,3 +41,10 @@ input:hover {
   height: 10px;
   width: 10px;
 }
+
+@media (max-width: 991px) {
+  .gym-tit {
+    font-size: 14px;
+    margin-left: 62px;
+  }
+}

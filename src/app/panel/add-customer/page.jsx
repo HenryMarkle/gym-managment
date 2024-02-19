@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { addCustomer } from "../../api/v1/customer";
 import "./main.css";
+import Swal from "sweetalert2";
 
 function page() {
   const [name, setName] = useState("");
@@ -121,8 +122,28 @@ function page() {
           </div>
           <button
             disabled={false}
-            onClick={doIt}
-            hidden={!(name || surname || age || gender || bucketPrice)}
+            onClick={() => {
+              Swal.fire({
+                title: "Do you want to save the changes?",
+                showDenyButton: true,
+                showCancelButton: true,
+                confirmButtonText: "Save",
+                denyButtonText: `Don't save`,
+              }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                  if (name.length && surname.length) {
+                    doIt();
+                    Swal.fire("Saved!", "", "success");
+                  } else {
+                    Swal.fire("Changes are not saved", "", "info");
+                  }
+                }
+                if (result.isDenied) {
+                  Swal.fire("Changes are not saved", "", "info");
+                }
+              });
+            }}
             className={`mt-[25px] px-9 w-full py-2 rounded-xl bg-customRed text-white font-bold text-[18px]`}
           >
             Create
