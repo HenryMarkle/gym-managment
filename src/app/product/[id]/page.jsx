@@ -111,6 +111,7 @@ function page() {
             onSlideChange={() => console.log("slide change")}
           >
             {products.map((ele) => {
+              console.log(ele);
               return (
                 <>
                   <SwiperSlide

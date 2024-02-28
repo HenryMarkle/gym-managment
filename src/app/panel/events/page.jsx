@@ -32,8 +32,8 @@ function page() {
                     e.event === "create"
                       ? "bg-green-600"
                       : e.event === "update"
-                      ? "bg-[#a39447]"
-                      : "bg-[#a34747]"
+                      ? "bg-yellow-500"
+                      : "bg-red-500"
                   } block`}
                 ></span>
                 <div className=" flex justify-between w-full">
@@ -50,8 +50,8 @@ function page() {
                       e.event === "create"
                         ? "bg-green-600"
                         : e.event === "update"
-                        ? "bg-[#a39447]"
-                        : "bg-[#a34747]"
+                        ? "bg-yellow-500"
+                        : "bg-red-500"
                     } cursor-pointer px-3 py-1 rounded-2xl text-white`}
                   >
                     details
@@ -60,7 +60,11 @@ function page() {
               </div>
               <div className="date">
                 <span className=" font-bold">
-                  {<DateConverter date={new Date(e.date).toDateString() } />}
+                  {<DateConverter date={new Date(e.date).toDateString()} />}
+                  <span className="ml-2">
+                    {new Date(e.date).getHours().toString().padStart(2, "0")}:
+                    {new Date(e.date).getMinutes().toString().padStart(2, "0")}
+                  </span>
                 </span>
               </div>
             </div>

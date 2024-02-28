@@ -244,3 +244,7 @@ input::-webkit-file-upload-button {
   border-radius: 20px;
   padding: 2px 12px;
 }
+
+button {
+  border: none !important;
+}

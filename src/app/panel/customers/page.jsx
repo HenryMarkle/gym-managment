@@ -10,7 +10,7 @@ function page() {
   const [AllCustomers, setAllCustomers] = useState([]);
   const [filterValue, setFilterValue] = useState("");
   const [lengs, setlngs] = useState(AllCustomers.length);
-  const [daysFilter, setDaysFilter] = useState(null);
+  const [daysFilter, setDaysFilter] = useState("");
   const [dayORmonthOryear, setDayORmonthOryear] = useState("days");
   const router = useRouter();
   const [filterObject, setFilterObject] = useState([
@@ -36,6 +36,13 @@ function page() {
                         (1000 * 60 * 60 * 24)
                     ) < daysFilter
                 )
+                .filter(
+                  (ele) =>
+                    Math.ceil(
+                      (new Date(ele.endsAt) - new Date()) /
+                        (1000 * 60 * 60 * 24)
+                    ) > 0
+                )
                 .sort(
                   (a, b) =>
                     Math.ceil(
@@ -58,6 +65,13 @@ function page() {
                     ) <
                     daysFilter * 30
                 )
+                .filter(
+                  (ele) =>
+                    Math.ceil(
+                      (new Date(ele.endsAt) - new Date()) /
+                        (1000 * 60 * 60 * 24)
+                    ) > 0
+                )
                 .sort(
                   (a, b) =>
                     Math.ceil(
@@ -70,7 +84,7 @@ function page() {
             );
             break;
           case "years":
-            setAllCustomers(
+            const filterdDate = setAllCustomers(
               result
                 .filter(
                   (ele) =>
@@ -79,6 +93,13 @@ function page() {
                         (1000 * 60 * 60 * 24)
                     ) <
                     daysFilter * 365
+                )
+                .filter(
+                  (ele) =>
+                    Math.ceil(
+                      (new Date(ele.endsAt) - new Date()) /
+                        (1000 * 60 * 60 * 24)
+                    ) > 0
                 )
                 .sort(
                   (a, b) =>
@@ -223,7 +244,9 @@ function page() {
               placeholder="for example : 7"
             />
             <select
-              onChange={(e) => setDayORmonthOryear(e.target.value)}
+              onChange={(e) => {
+                daysFilter.length && setDayORmonthOryear(e.target.value);
+              }}
               className="outline-none border-[#eee]"
               name=""
               id=""

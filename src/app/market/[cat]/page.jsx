@@ -9,7 +9,7 @@ import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import Link from "next/link";
 import { CiSearch } from "react-icons/ci";
-import "../helper.css";
+import "../market.css";
 function page({}) {
   const params = useParams();
   const [showSpinner, setShowSpinner] = useState(false);

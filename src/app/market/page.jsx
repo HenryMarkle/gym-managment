@@ -6,7 +6,7 @@ import Switch from "react-toggle-switch";
 import { CiSearch } from "react-icons/ci";
 import BeatLoader from "react-spinners/BeatLoader";
 import Slider from "../../components/website/Slider";
-import "./helper.css";
+import "./market.css";
 import {
   getHomeProducts,
   getProductCategories,

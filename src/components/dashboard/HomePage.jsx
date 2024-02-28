@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import "./helper.css";
+import "./dashboard.css";
 import { CiSaveDown1 } from "react-icons/ci";
 import { CiSaveUp1 } from "react-icons/ci";
 import {
@@ -178,19 +179,32 @@ export function HomePage() {
             });
 
             if (image !== null) {
-              var extension = image.name.includes('.') ? image.name.substring(image.name.lastIndexOf('.')+1, image.name.length) : '';
-              const imagesRef = ref(storage, 'images/');
+              var extension = image.name.includes(".")
+                ? image.name.substring(
+                    image.name.lastIndexOf(".") + 1,
+                    image.name.length
+                  )
+                : "";
+              const imagesRef = ref(storage, "images/");
 
               const allImages = await listAll(imagesRef);
 
-              const gymHomeBackImage = allImages.items.find(i => i.name.startsWith('gymHomeBackImage'));
+              const gymHomeBackImage = allImages.items.find((i) =>
+                i.name.startsWith("gymHomeBackImage")
+              );
 
               if (gymHomeBackImage) {
-                const imageRef = ref(storage, `images/${gymHomeBackImage.name}`);
+                const imageRef = ref(
+                  storage,
+                  `images/${gymHomeBackImage.name}`
+                );
                 await deleteObject(imageRef);
               }
 
-              const imageRef = ref(storage, `images/gymHomeBackImage.${extension}`);
+              const imageRef = ref(
+                storage,
+                `images/gymHomeBackImage.${extension}`
+              );
               try {
                 await uploadBytes(imageRef, image);
               } catch (e) {
@@ -392,24 +406,38 @@ export function HomePage() {
           className=" h-[40px] mt-5"
           disabled={!edited2}
           onClick={async () => {
-            const result = await updateAdsInfo({ title: adsTitle, description: adsDescription });
+            const result = await updateAdsInfo({
+              title: adsTitle,
+              description: adsDescription,
+            });
 
-            
-            if (result === 'success' && adsImage) {
-              var extension = adsImage.name.includes('.') ? image.name.substring(adsImage.name.lastIndexOf('.')+1, adsImage.name.length) : '';
-              const imagesRef = ref(storage, 'images/');
-  
+            if (result === "success" && adsImage) {
+              var extension = adsImage.name.includes(".")
+                ? image.name.substring(
+                    adsImage.name.lastIndexOf(".") + 1,
+                    adsImage.name.length
+                  )
+                : "";
+              const imagesRef = ref(storage, "images/");
+
               const allImages = await listAll(imagesRef);
 
-              const adsBackgroundImage = allImages.items.find(i => i.name.startsWith('adsBackgroundImage'));
+              const adsBackgroundImage = allImages.items.find((i) =>
+                i.name.startsWith("adsBackgroundImage")
+              );
 
               if (adsBackgroundImage) {
-                const imageRef = ref(storage, `images/${adsBackgroundImage.name}`);
+                const imageRef = ref(
+                  storage,
+                  `images/${adsBackgroundImage.name}`
+                );
                 await deleteObject(imageRef);
               }
 
-
-              const imageRef = ref(storage, `images/adsBackgroundImage.${extension}`);
+              const imageRef = ref(
+                storage,
+                `images/adsBackgroundImage.${extension}`
+              );
               try {
                 await uploadBytes(imageRef, adsImage);
               } catch (e) {
@@ -528,26 +556,39 @@ export function HomePage() {
                         category: productCategory,
                       });
 
-
-                      if (productImage && productImage.length && typeof addResult === "number") {
+                      if (
+                        productImage &&
+                        productImage.length &&
+                        typeof addResult === "number"
+                      ) {
                         const storageRef = ref(
                           storage,
                           `images/products/${addResult}/`
                         );
-                        
+
                         try {
                           const allImages = await listAll(storageRef);
-  
-                          allImages.items.forEach(async i => await deleteObject(i));
-  
+
+                          allImages.items.forEach(
+                            async (i) => await deleteObject(i)
+                          );
+
                           for (let f = 0; f < productImage.length ?? 0; f++) {
-                            await uploadBytes(ref(storage, `images/products/${addResult}/${productImage.item(f).name}`));
+                            await uploadBytes(
+                              ref(
+                                storage,
+                                `images/products/${addResult}/${
+                                  productImage.item(f).name
+                                }`
+                              )
+                            );
                           }
                         } catch (e) {
-                          console.log('could not perform product creation operation: '+e);
+                          console.log(
+                            "could not perform product creation operation: " + e
+                          );
                           Swal.fire("Fail!", "", "error");
                         }
-
 
                         Swal.fire("Saved!", "", "success");
                         setProductDesc("");
