@@ -313,14 +313,16 @@ export async function getUsersLeftChartData(): Promise<number[] | 'unauthorized'
 
     if (!user) return 'unauthorized';
 
-    let customers = await client.subscriber.findMany({ where: { deletedAt: { gte: new Date(new Date().setFullYear(new Date().getFullYear() - 1)) } } });
+    let customers = await client.subscriber.findMany({ });
 
-    let months = customers.filter(c => c.deletedAt).map(c => c.deletedAt?.getMonth());
+    customers = customers.filter(c => c.endsAt?.getUTCFullYear() === new Date().getUTCFullYear())
+
+    let months = customers.filter(c => c.endsAt).map(c => (c.endsAt as Date).getMonth());
 
     let monthFreq = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
-    for (let m in months) {
-      monthFreq[m] += 1;
+    for (let i = 0; i < months.length; i++) {
+      monthFreq[months[i]] += 1;
     }
 
     return monthFreq;
@@ -350,8 +352,8 @@ export async function getUsersCreatedChartData(): Promise<number[] | 'unauthoriz
 
     let monthFreq = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
-    for (let m in months) {
-      monthFreq[m] += 1;
+    for (let i = 0; i < months.length; i++) {
+      monthFreq[months[i]] += 1;
     }
 
     return monthFreq;
