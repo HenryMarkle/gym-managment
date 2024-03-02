@@ -132,3 +132,21 @@ model Product {
   updatedAt DateTime @default(now()) @updatedAt
   deletedAt DateTime?
 }
+
+model ExcerciseCategory {
+  id Int @id @default(autoincrement())
+
+  name String @unique
+
+  excercises Excercise[]
+}
+
+model Excercise {
+  id Int @id @default(autoincrement())
+
+  name String @unique
+  description String
+
+  category ExcerciseCategory @relation(fields: [categoryId], references: [id])
+  categoryId Int
+}
