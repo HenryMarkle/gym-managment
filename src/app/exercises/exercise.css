@@ -1,0 +1,17 @@
+.exerciese-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+}
+
+.exercise:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(29, 27, 27, 0.658);
+}
+
+.exercise-title {
+  background-color: rgba(255, 166, 0, 0.082);
+}

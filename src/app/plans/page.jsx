@@ -21,7 +21,7 @@ function page() {
 
   return (
     <>
-      <div className="plans px-[40px] py-10 flex flex-col gap-10">
+      <div className="plans px-[50px] py-10 flex flex-col gap-10">
         <p className=" font-extrabold text-5xl text-website2">Plans</p>
         <div className="plan-border-b pb-6">
           <div className="plan shadow-md h-[250px] rounded-xl overflow-hidden flex gap-3">
