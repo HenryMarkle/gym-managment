@@ -15,6 +15,7 @@ import {
 } from "../../app/api/v1/dashboard";
 
 // Firebase
+
 import storage from "../../app/api/v1/firebase";
 import { listAll, ref, uploadBytes, deleteObject } from "firebase/storage";
 import Swal from "sweetalert2";
@@ -26,6 +27,7 @@ export function HomePage() {
   const [generalInfo, setGeneralInfo] = useState(null);
   const [planOpen, setPlanOpen] = useState(true);
   const [shopOpen, setShopOpen] = useState(true);
+
   /// Plan values
   const [planTitle, setPlanTitle] = useState("");
   const [planDesc, setPlanDesc] = useState("");
@@ -33,10 +35,14 @@ export function HomePage() {
   const [planfeature, setPlanFeature] = useState("");
   const [Planfeatuers, setPlanFeatures] = useState([]);
   const [planDur, setPlanDur] = useState("");
+
   ////////// End plan values
+
   const [adsTitle, setAdsTitle] = useState("");
   const [adsDescription, setAdsDescription] = useState("");
+
   /// Products values
+
   const [productTitle, setProductTitle] = useState("");
   const [productDesc, setProductDesc] = useState("");
   const [productPrice, setProductPrice] = useState("");
@@ -48,6 +54,7 @@ export function HomePage() {
   const [deletedCategories, setDeletedCategories] = useState([]);
 
   ////////// End Products values
+
   const [image, setImage] = useState(null);
   const [adsImage, setAdsImage] = useState(null);
   const [productImage, setProductImage] = useState({});
@@ -88,6 +95,7 @@ export function HomePage() {
   return (
     <>
       {/* Start starter Blog */}
+
       <div className="p-2 border-b-2 pb-10 grid grid-cols-2 gap-7 ">
         <div className="1 flex flex-col">
           <label htmlFor="">Gym title</label>
@@ -216,9 +224,11 @@ export function HomePage() {
           Update
         </button>
       </div>
+
       {/* End starter Blog */}
 
       {/* Start Plan Blog */}
+
       <div
         className={`create-plan mt-5 w-full shadow-lg overflow-hidden rounded-[30px] duration-700  ${
           planOpen ? "h-[510px]" : "h-[55px]"
@@ -360,8 +370,11 @@ export function HomePage() {
           </div>
         </div>
       </div>
+
       {/*End Plan Blog */}
+
       {/* Start Ads Blog */}
+
       <div className="ads p-2 border-t-2 pt-10 border-b-2 pb-10  grid grid-cols-2 gap-7 mt-7">
         <div className=" flex flex-col">
           <label htmlFor="image">Ads Background image</label>
@@ -449,8 +462,11 @@ export function HomePage() {
           Update
         </button>
       </div>
+
       {/* End Ads Blog */}
+
       {/* Start shop Blog */}
+
       <div className="add-product-to-shop">
         <div
           className={`create-plan mt-5 w-full shadow-lg overflow-hidden rounded-[30px] duration-700 flex flex-col ${
@@ -547,6 +563,7 @@ export function HomePage() {
                     denyButtonText: `Don't save`,
                   }).then(async (result) => {
                     /* Read more about isConfirmed, isDenied below */
+
                     if (result.isConfirmed) {
                       const addResult = await addHomeProduct({
                         name: productTitle,
@@ -715,6 +732,7 @@ export function HomePage() {
           Changes you make here will appear directly on your gym website.
         </p>
       </div>
+
       {/* End shop Blog */}
     </>
   );
