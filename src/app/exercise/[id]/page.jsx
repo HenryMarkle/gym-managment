@@ -1,7 +1,82 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import { BsArrowDownCircleFill, BsArrowUpCircleFill } from "react-icons/bs";
 
 function page() {
+  const [openArray, setOpenArray] = useState([1]);
+
+  const handleOpenArray = (id) => {
+    if (openArray.includes(id)) {
+      setOpenArray((prevArray) => prevArray.filter((ele) => ele !== id));
+    } else {
+      setOpenArray((prevArray) => [...prevArray, id]);
+    }
+  };
+  const dummyData = [
+    {
+      id: 1,
+      title: "exercise name",
+      desc: `  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+    Itaque eveniet quia praesentium quaerat deserunt et
+    inventore cum porro ex, repellat eum, aliquid, omnis
+    corrupti optio numquam quisquam ut magnam doloremque? Lorem
+    ipsum dolor sit amet consectetur adipisicing elit. Itaque
+    eveniet quia praesentium quaerat deserunt et inventore cum
+    porro ex, repe Lorem ipsum`,
+    },
+    {
+      id: 2,
+      title: "exercise name",
+      desc: `  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+    Itaque eveniet quia praesentium quaerat deserunt et
+    inventore cum porro ex, repellat eum, aliquid, omnis
+    corrupti optio numquam quisquam ut magnam doloremque? Lorem
+    ipsum dolor sit amet consectetur adipisicing elit. Itaque
+    eveniet quia praesentium quaerat deserunt et inventore cum
+    porro ex, repe Lorem ipsum`,
+    },
+    {
+      id: 3,
+      title: "exercise name",
+      desc: `  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+    Itaque eveniet quia praesentium quaerat deserunt et
+    inventore cum porro ex, repellat eum, aliquid, omnis
+    corrupti optio numquam quisquam ut magnam doloremque? Lorem
+    ipsum dolor sit amet consectetur adipisicing elit. Itaque
+    eveniet quia praesentium quaerat deserunt et inventore cum
+    porro ex, repe Lorem ipsum`,
+    },
+    {
+      id: 4,
+      title: "exercise name",
+      desc: `  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+      Itaque eveniet quia praesentium quaerat deserunt et
+      inventore cum porro ex, repellat eum, aliquid, omnis
+      corrupti optio numquam quisquam ut magnam doloremque? Lorem
+      ipsum dolor sit amet consectetur adipisicing elit. Itaque
+      eveniet quia praesentium quaerat deserunt et inventore cum
+      porro ex, repe Lorem ipsum Lorem ipsum dolor sit amet consectetur adipisicing elit.
+      Itaque eveniet quia praesentium quaerat deserunt et
+      inventore cum porro ex, repellat eum, aliquid, omnis
+      corrupti optio numquam quisquam ut magnam doloremque? Lorem
+      ipsum dolor sit amet consectetur adipisicing elit. Itaque
+      eveniet quia praesentium quaerat deserunt et inventore cum
+      porro ex, repe Lorem ipsum Lorem ipsum dolor sit amet consectetur adipisicing elit.
+      Itaque eveniet quia praesentium quaerat deserunt et
+      inventore cum porro ex, repellat eum, aliquid, omnis
+      corrupti optio numquam quisquam ut magnam doloremque? Lorem
+      ipsum dolor sit amet consectetur adipisicing elit. Itaque
+      eveniet quia praesentium quaerat deserunt et inventore cum
+      porro ex, repe Lorem ipsum Lorem ipsum dolor sit amet consectetur adipisicing elit.
+      Itaque eveniet quia praesentium quaerat deserunt et
+      inventore cum porro ex, repellat eum, aliquid, omnis
+      corrupti optio numquam quisquam ut magnam doloremque? Lorem
+      ipsum dolor sit amet consectetur adipisicing elit. Itaque
+      eveniet quia praesentium quaerat deserunt et inventore cum
+      porro ex, repe Lorem ipsum`,
+    },
+  ];
+
   return (
     <>
       <div className="p-[50px]">
@@ -18,58 +93,41 @@ function page() {
           </div>
           <div className="exer-right w-[63%] rounded-xl">
             <div className="exer-exercises flex flex-col gap-6">
-              <div className="exer shadow-lg pl-3 rounded-xl h-[420px] overflow-y-scroll">
-                <div className="title flex justify-between items-center ">
-                  <p className="font-extrabold text-xl ">exercise name</p>
-                  <p className="pr-2">
-                    {/* <BsArrowDownCircleFill size={23} color="#ed563b" /> */}
-                    <BsArrowUpCircleFill size={23} color="#ed563b" />
-                  </p>
-                </div>
-                <div className="exer-contrent flex w-full h-[90%] ">
-                  <div className="video w-[100%]">
-                    <iframe
-                      className="w-full h-[360px] my-5 rounded-lg"
-                      src="https://www.youtube.com/embed/VIDEO_ID"
-                      frameborder="0"
-                      allowfullscreen
-                    ></iframe>
+              {dummyData.map((ele) => {
+                return (
+                  <div key={ele.id} onClick={() => handleOpenArray(ele.id)}>
+                    <div
+                      className={`exer shadow-lg pl-3 rounded-xl overflow-hidden duration-300 ${
+                        openArray.includes(ele.id) ? "h-[430px]" : "h-[40px]"
+                      } `}
+                    >
+                      <div className="title flex justify-between items-center ">
+                        <p className="font-extrabold text-xl ">{ele.title}</p>
+                        <p className="pr-2 w-[50%] flex justify-end ">
+                          {openArray.includes(ele.id) ? (
+                            <BsArrowUpCircleFill size={23} color="#ed563b" />
+                          ) : (
+                            <BsArrowDownCircleFill size={23} color="#ed563b" />
+                          )}
+                        </p>
+                      </div>
+                      <div className="exer-contrent flex w-full h-[90%] ">
+                        <div className="video w-[100%]">
+                          <iframe
+                            className="w-full h-[360px] my-5 rounded-lg"
+                            src="https://www.youtube.com/embed/VIDEO_ID"
+                            frameborder="0"
+                            allowfullscreen
+                          ></iframe>
+                        </div>
+                        <div className="description w-full pl-10 mt-5 font-bold pr-5 h-[90%]">
+                          {ele.desc}
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div className="description w-full pl-10 mt-5 font-bold pr-5 h-[90%]">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Itaque eveniet quia praesentium quaerat deserunt et
-                    inventore cum porro ex, repellat eum, aliquid, omnis
-                    corrupti optio numquam quisquam ut magnam doloremque? Lorem
-                    ipsum dolor sit amet consectetur adipisicing elit. Itaque
-                    eveniet quia praesentium quaerat deserunt et inventore cum
-                    porro ex, repe Lorem ipsum
-                  </div>
-                </div>
-              </div>{" "}
-              <div className="exer shadow-lg pl-3 rounded-xl">
-                <div className="title flex justify-between items-center h-[45px]">
-                  <p className="font-extrabold text-xl ">exercise name</p>
-                  <p className="pr-2">
-                    <BsArrowDownCircleFill size={23} color="#ed563b" />
-                  </p>
-                </div>
-              </div>{" "}
-              <div className="exer shadow-lg pl-3 rounded-xl">
-                <div className="title flex justify-between items-center h-[45px]">
-                  <p className="font-extrabold text-xl ">exercise name</p>
-                  <p className="pr-2">
-                    <BsArrowDownCircleFill size={23} color="#ed563b" />
-                  </p>
-                </div>
-              </div>{" "}
-              <div className="exer shadow-lg pl-3 rounded-xl">
-                <div className="title flex justify-between items-center h-[45px]">
-                  <p className="font-extrabold text-xl ">exercise name</p>
-                  <p className="pr-2">
-                    <BsArrowDownCircleFill size={23} color="#ed563b" />
-                  </p>
-                </div>
-              </div>
+                );
+              })}
             </div>
           </div>
         </div>

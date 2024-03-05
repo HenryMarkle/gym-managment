@@ -1,18 +1,21 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import { CiCircleChevDown } from "react-icons/ci";
+
 import { HomePage } from "../../../components/dashboard/HomePage";
 import { ContactPage } from "../../../components/dashboard/ContactPage";
+import "./dashboard.css";
 function page() {
   const [active, setActive] = useState(["1"]);
 
   const tabs = [
-    { id: "1", title: "Home page" },
-    { id: "2", title: "Contact page" },
-    { id: "3", title: "Managers page" },
-    { id: "4", title: "shop page" },
-    { id: "5", title: "workouts page" },
-    { id: "6", title: " products " },
-    { id: "7", title: " plans " },
+    { id: "1", title: "Home" },
+    { id: "4", title: "shop" },
+    { id: "5", title: "Exercises" },
+    { id: "6", title: "products" },
+    { id: "3", title: "Managers" },
+    { id: "7", title: "plans" },
+    { id: "2", title: "Contact" },
   ];
 
   const components = [
@@ -42,9 +45,11 @@ function page() {
     console.log(active);
   }, [active]);
 
+  const [openSelects, setOpenSelects] = useState([]);
+
   return (
     <div className="ml-[25%] h-auto mt-5 shadow-md mr-6  p-2 rounded-[31px]">
-      <div className="tabs flex justify-between m-4 border-b-2 pb-4 flex-wrap">
+      <div className="tabs flex justify-between m-4 border-b-2 pb-8 flex-wrap">
         {tabs.map((e) => {
           return (
             <>
@@ -53,13 +58,16 @@ function page() {
                   setActive([e.id]);
                 }}
                 id={e.id}
-                className={
-                  active.includes(e.id)
-                    ? "tab1 bg-customRed min-w-[140px] px-2 py-4 text-white duration-300 cursor-pointer rounded-lg"
-                    : "tab1 bg-green-200 min-w-[140px] px-2 py-4 text-white duration-300 cursor-pointer   rounded-lg"
-                }
+                className={` shadow-md w-[12%] px-2 py-4 h-[55px] rounded-md cursor-pointer ${
+                  active.includes(e.id) && "text-green-600"
+                } `}
               >
-                {e.title}
+                <div className="flex items-center w-full justify-between">
+                  <span className="font-bold ">{e.title}</span>
+                  <span>
+                    <CiCircleChevDown size="21px" />
+                  </span>
+                </div>
               </div>
             </>
           );

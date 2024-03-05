@@ -6,10 +6,10 @@ import { IoIosCloseCircle } from "react-icons/io";
 import { IoSettings } from "react-icons/io5";
 import { BiSolidMessageAdd } from "react-icons/bi";
 import { IoIosCloseCircleOutline } from "react-icons/io";
-import { TfiPanel } from "react-icons/tfi";
 import { CiCircleChevDown } from "react-icons/ci";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { BsCalendar2EventFill } from "react-icons/bs";
+import { TiWorld } from "react-icons/ti";
 import { BsFillPersonFill } from "react-icons/bs";
 import { LiaChevronCircleUpSolid } from "react-icons/lia";
 import { getGymName } from "../../app/api/v1/user";
@@ -84,20 +84,14 @@ function SideBar() {
         </div>
         <div>
           <div className="flex  justify-between  items-center mb-5 mx-4">
-            <Link className=" text-end" href="/panel">
-              <p className="gym-tit font-bold text-[23px] text-white">
+            <Link className=" text-center" href="/panel">
+              <p className="gym-tit font-bold text-[23px] text-center text-white">
                 {gymName}
               </p>
             </Link>
-            <Link
-              href="/panel/dashboard"
-              className=" self-end text-green-500 font-bold w-fit bg-white px-2 py-2 rounded-[6px]"
-            >
-              <TfiPanel />
-            </Link>
           </div>
           <div className="top-content flex flex-col gap-9 w-[210px]">
-            <div className=" h-[60vh] content text-center flex flex-col items-start self-center gap-10 ml-9">
+            <div className=" h-[60vh] content text-center flex flex-col items-start self-center gap-[33px] ml-9">
               <Link
                 onClick={() => {
                   setShowMessage(false);
@@ -110,6 +104,20 @@ function SideBar() {
                     <FaHome size="23px" />
                   </span>
                   Homepage
+                </div>
+              </Link>
+              <Link
+                onClick={() => {
+                  setShowMessage(false);
+                  setMobile(false);
+                }}
+                href="/panel/dashboard"
+              >
+                <div className="home flex justify-center gap-4 text-white items-center ">
+                  <span>
+                    <TiWorld size="23px" />
+                  </span>
+                  website panel
                 </div>{" "}
               </Link>
               <Link
@@ -256,7 +264,7 @@ function SideBar() {
                     }
                   });
                 }}
-                className="text-white font-bold"
+                className="text-white bg-inherit font-bold"
               >
                 Logout
               </button>

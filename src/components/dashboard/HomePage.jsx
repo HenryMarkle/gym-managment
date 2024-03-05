@@ -13,7 +13,7 @@ import {
   addPlan,
   addHomeProduct,
 } from "../../app/api/v1/dashboard";
-
+import StarterS from "../website/components/starterS";
 // Firebase
 
 import storage from "../../app/api/v1/firebase";
@@ -91,145 +91,14 @@ export function HomePage() {
   useEffect(() => {
     console.log(Planfeatuers);
   }, [Planfeatuers]);
-
+  const [whichHomePart, setWhichHomePart] = useState(["starter"]);
   return (
     <>
-      {/* Start starter Blog */}
-
-      <div className="p-2 border-b-2 pb-10 grid grid-cols-2 gap-7 ">
-        <div className="1 flex flex-col">
-          <label htmlFor="">Gym title</label>
-          <input
-            defaultValue="default value"
-            type="text"
-            placeholder="Gym title"
-            name="title"
-            value={gymTitle}
-            onChange={(e) => {
-              setGymTitle(e.target.value);
-              setEdited(true);
-            }}
-          />
-        </div>
-        <div className="2 flex flex-col">
-          <label htmlFor="">starter sentence</label>
-          <input
-            type="text"
-            defaultValue="default value"
-            placeholder="starter sentence"
-            name="starter-center"
-            value={generalInfo?.sentence}
-            onChange={(e) => {
-              setGeneralInfo((g) => {
-                return { ...g, sentence: e.target.data };
-              });
-              setEdited(true);
-            }}
-          />
-        </div>
-        <div className="2 flex flex-col">
-          <label htmlFor="">second starter sentence</label>
-          <input
-            type="text"
-            defaultValue="default value"
-            placeholder="starter sentence"
-            name="starter-center"
-            value={generalInfo?.secondSentence}
-            onChange={(e) => {
-              setGeneralInfo((g) => {
-                return { ...g, secondSentence: e.target.data };
-              });
-              setEdited(true);
-            }}
-          />
-        </div>
-        <div className=" flex flex-col">
-          <label htmlFor="image">Background image</label>
-          <input
-            type="file"
-            className="third border-none bg-white"
-            name="image"
-            id="image"
-            onChange={(e) => {
-              setImage(e.target.files[0]);
-              setEdited(true);
-            }}
-          />
-        </div>
-        <div className="5 flex flex-col">
-          <label>plans description</label>
-          <input
-            defaultValue="default value"
-            type="text"
-            placeholder="plans description"
-            name="plans-description"
-            value={generalInfo?.plansDescription}
-            onChange={(e) => {
-              setGeneralInfo((g) => {
-                return { ...g, plansDescription: e.target.value };
-              });
-              setEdited(true);
-            }}
-          />
-        </div>
-
-        <button
-          className="h-[35px] mt-[24px]"
-          disabled={!edited}
-          type="submit"
-          onClick={async () => {
-            updateHomeGeneralInfo({
-              title: gymTitle,
-              description: generalInfo?.description,
-              starter: generalInfo?.sentence,
-              secondSentence: generalInfo?.secondSentence,
-              description: generalInfo?.description,
-            });
-
-            if (image !== null) {
-              var extension = image.name.includes(".")
-                ? image.name.substring(
-                    image.name.lastIndexOf(".") + 1,
-                    image.name.length
-                  )
-                : "";
-              const imagesRef = ref(storage, "images/");
-
-              const allImages = await listAll(imagesRef);
-
-              const gymHomeBackImage = allImages.items.find((i) =>
-                i.name.startsWith("gymHomeBackImage")
-              );
-
-              if (gymHomeBackImage) {
-                const imageRef = ref(
-                  storage,
-                  `images/${gymHomeBackImage.name}`
-                );
-                await deleteObject(imageRef);
-              }
-
-              const imageRef = ref(
-                storage,
-                `images/gymHomeBackImage.${extension}`
-              );
-              try {
-                await uploadBytes(imageRef, image);
-              } catch (e) {
-                console.log("failed to upload image: " + e);
-              }
-            }
-          }}
-        >
-          Update
-        </button>
-      </div>
-
-      {/* End starter Blog */}
-
+      <StarterS />
       {/* Start Plan Blog */}
 
       <div
+        id="plan"
         className={`create-plan mt-5 w-full shadow-lg overflow-hidden rounded-[30px] duration-700  ${
           planOpen ? "h-[510px]" : "h-[55px]"
         }`}
@@ -282,7 +151,7 @@ export function HomePage() {
             <label htmlFor="">Plan Features</label>
             <div className="w-full ">
               <input
-                className=" w-[81%]"
+                className=" w-[81%] rounded-r-none"
                 value={planfeature}
                 onChange={(e) => setPlanFeature(e.target.value)}
                 type="text"
@@ -293,7 +162,7 @@ export function HomePage() {
                   setPlanFeatures([...Planfeatuers, planfeature]);
                   setPlanFeature("");
                 }}
-                className="w-[19%]"
+                className="w-[19%] bg-green-700 py-1 rounded-r-xl text-white"
               >
                 Add
               </button>
@@ -332,12 +201,7 @@ export function HomePage() {
                 }
               });
             }}
-            className={`bg-[#eee] duration-500 hover:bg-green-600 hover:text-white h-[40px] self-end rounded-[31px] text-green-500 text-[23px] shadow-2xl mt-[-26px] ${
-              planDesc.length &&
-              planTitle.length &&
-              planPrice.length &&
-              "bg-green-500 text-white"
-            }`}
+            className="bg-green-700 h-[60%] mt-6 rounded-xl text-white"
           >
             Create
           </button>
@@ -375,7 +239,10 @@ export function HomePage() {
 
       {/* Start Ads Blog */}
 
-      <div className="ads p-2 border-t-2 pt-10 border-b-2 pb-10  grid grid-cols-2 gap-7 mt-7">
+      <div
+        id="ads"
+        className="ads p-2 border-t-2 pt-10 border-b-2 pb-10  grid grid-cols-2 gap-7 mt-7"
+      >
         <div className=" flex flex-col">
           <label htmlFor="image">Ads Background image</label>
           <input
@@ -416,7 +283,7 @@ export function HomePage() {
           />
         </div>
         <button
-          className=" h-[40px] mt-5"
+          className=" h-[40px] mt-5 bg-green-700 text-white font-bold rounded-xl"
           disabled={!edited2}
           onClick={async () => {
             const result = await updateAdsInfo({
@@ -467,7 +334,7 @@ export function HomePage() {
 
       {/* Start shop Blog */}
 
-      <div className="add-product-to-shop">
+      <div id="shop" className="add-product-to-shop">
         <div
           className={`create-plan mt-5 w-full shadow-lg overflow-hidden rounded-[30px] duration-700 flex flex-col ${
             shopOpen ? "h-[620px]" : "h-[55px]"
@@ -621,12 +488,7 @@ export function HomePage() {
                     }
                   });
                 }}
-                className={`bg-[#eee] duration-500 hover:bg-green-600 hover:text-white h-[40px] self-end rounded-[31px] text-green-500 text-[23px] shadow-2xl w-full ${
-                  productDesc.length &&
-                  productPrice.length &&
-                  productTitle.length &&
-                  "bg-green-500 text-white"
-                }`}
+                className="bg-green-700 h-[40px] text-white font-bold rounded-xl"
               >
                 Create
               </button>
