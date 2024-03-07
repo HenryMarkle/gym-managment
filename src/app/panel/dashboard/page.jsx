@@ -10,7 +10,6 @@ function page() {
 
   const tabs = [
     { id: "1", title: "Home" },
-    { id: "4", title: "shop" },
     { id: "5", title: "Exercises" },
     { id: "6", title: "products" },
     { id: "3", title: "Managers" },
@@ -48,7 +47,7 @@ function page() {
   const [openSelects, setOpenSelects] = useState([]);
 
   return (
-    <div className="ml-[25%] h-auto mt-5 shadow-md mr-6  p-2 rounded-[31px]">
+    <div className=" h-auto mt-5 shadow-md mr-6  p-4 rounded-[31px]">
       <div className="tabs flex justify-between m-4 border-b-2 pb-8 flex-wrap">
         {tabs.map((e) => {
           return (

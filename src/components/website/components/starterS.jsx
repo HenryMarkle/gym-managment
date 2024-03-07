@@ -94,9 +94,10 @@ function starterS() {
     <>
       {/* Start starter Blog */}
 
+      <p className=" font-bold text-center text-xl">Starter Section</p>
       <div
         id="starter"
-        className="p-2 border-b-2 pb-10 grid grid-cols-2 gap-7 "
+        className=" border-b-2 pb-12  grid grid-cols-2 gap-7 shadow-lg p-7 rounded-xl "
       >
         <div className="1 flex flex-col">
           <label htmlFor="">Gym title</label>

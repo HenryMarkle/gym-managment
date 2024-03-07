@@ -24,7 +24,9 @@ export default function RootLayout({ children, showSidebar = true }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        {showSidebar && path.includes("panel") && <SideBar></SideBar>}
+        {showSidebar &&
+          path.includes("panel") &&
+          !path.includes("dashboard") && <SideBar></SideBar>}
         {!path.includes("panel") && path != "/" && <CustomHeader />}
         {children}
         {!path.includes("panel") && <Footer />}

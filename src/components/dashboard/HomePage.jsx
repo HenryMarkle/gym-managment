@@ -99,15 +99,17 @@ export function HomePage() {
 
       <div
         id="plan"
-        className={`create-plan mt-5 w-full shadow-lg overflow-hidden rounded-[30px] duration-700  ${
-          planOpen ? "h-[510px]" : "h-[55px]"
+        className={`create-plan mt-5 w-full  overflow-hidden   duration-700 shadow-xl rounded-lg  ${
+          planOpen ? "h-[570px]" : "h-[85px]"
         }`}
       >
         <div
           onClick={() => setPlanOpen(!planOpen)}
           className="header flex justify-between items-center mt-4 px-2 cursor-pointer"
         >
-          <p className="mb-2 text-[19px]">Create plan</p>
+          <p className="mb-2 text-[19px] font-bold text-center w-full py-5 ">
+            Create plan
+          </p>
           {planOpen ? <CiSaveUp1 size={24} /> : <CiSaveDown1 size={24} />}
         </div>
         <div className="form-content w-full rounded-[30px] py-1 px-5 grid grid-cols-2 gap-7">
@@ -207,7 +209,7 @@ export function HomePage() {
           </button>
           <div className="plan-price flex flex-col">
             <label htmlFor="">Added features</label>
-            <div className=" h-[140px] border-2 overflow-y-auto rounded-tl-[31px] rounded-bl-[31px]">
+            <div className=" h-[140px] border-2 overflow-y-auto rounded-xl">
               <div className=" flex flex-row flex-wrap gap-2 p-6">
                 {Planfeatuers.filter((ele) => ele != "").map((ele) => {
                   return (
@@ -238,96 +240,95 @@ export function HomePage() {
       {/*End Plan Blog */}
 
       {/* Start Ads Blog */}
+      <div className="p-6 rounded-xl mt-10  pt-10 border-b-2 pb-10  shadow-lg ">
+        <p className="font-bold">Ads section</p>
+        <div id="ads" className="ads  grid grid-cols-2 gap-7 ">
+          <div className=" flex flex-col">
+            <label htmlFor="image">Ads Background image</label>
+            <input
+              type="file"
+              className="third border-none bg-white"
+              name=""
+              id="image"
+              onChange={(e) => {
+                setAdsImage(e.target.files[0]);
+                setEdited2(true);
+              }}
+            />
+          </div>
+          <div className="4 flex flex-col">
+            <label>Ads on image (Bold text)</label>
+            <input
+              defaultValue="default value"
+              type="text"
+              placeholder="Ads on image"
+              value={adsTitle}
+              onChange={(e) => {
+                setAdsTitle(e.target.value);
+                setEdited2(true);
+              }}
+            />
+          </div>
+          <div className="5 flex flex-col">
+            <label>Ads on image (descriptio)</label>
+            <input
+              defaultValue="default value"
+              type="text"
+              placeholder="Ads on image"
+              value={adsDescription}
+              onChange={(e) => {
+                setAdsDescription(e.target.value);
+                setEdited2(true);
+              }}
+            />
+          </div>
+          <button
+            className=" h-[40px] mt-5 bg-green-700 text-white font-bold rounded-xl"
+            disabled={!edited2}
+            onClick={async () => {
+              const result = await updateAdsInfo({
+                title: adsTitle,
+                description: adsDescription,
+              });
 
-      <div
-        id="ads"
-        className="ads p-2 border-t-2 pt-10 border-b-2 pb-10  grid grid-cols-2 gap-7 mt-7"
-      >
-        <div className=" flex flex-col">
-          <label htmlFor="image">Ads Background image</label>
-          <input
-            type="file"
-            className="third border-none bg-white"
-            name=""
-            id="image"
-            onChange={(e) => {
-              setAdsImage(e.target.files[0]);
-              setEdited2(true);
-            }}
-          />
-        </div>
-        <div className="4 flex flex-col">
-          <label>Ads on image (Bold text)</label>
-          <input
-            defaultValue="default value"
-            type="text"
-            placeholder="Ads on image"
-            value={adsTitle}
-            onChange={(e) => {
-              setAdsTitle(e.target.value);
-              setEdited2(true);
-            }}
-          />
-        </div>
-        <div className="5 flex flex-col">
-          <label>Ads on image (descriptio)</label>
-          <input
-            defaultValue="default value"
-            type="text"
-            placeholder="Ads on image"
-            value={adsDescription}
-            onChange={(e) => {
-              setAdsDescription(e.target.value);
-              setEdited2(true);
-            }}
-          />
-        </div>
-        <button
-          className=" h-[40px] mt-5 bg-green-700 text-white font-bold rounded-xl"
-          disabled={!edited2}
-          onClick={async () => {
-            const result = await updateAdsInfo({
-              title: adsTitle,
-              description: adsDescription,
-            });
+              if (result === "success" && adsImage) {
+                var extension = adsImage.name.includes(".")
+                  ? image.name.substring(
+                      adsImage.name.lastIndexOf(".") + 1,
+                      adsImage.name.length
+                    )
+                  : "";
+                const imagesRef = ref(storage, "images/");
 
-            if (result === "success" && adsImage) {
-              var extension = adsImage.name.includes(".")
-                ? image.name.substring(
-                    adsImage.name.lastIndexOf(".") + 1,
-                    adsImage.name.length
-                  )
-                : "";
-              const imagesRef = ref(storage, "images/");
+                const allImages = await listAll(imagesRef);
 
-              const allImages = await listAll(imagesRef);
+                const adsBackgroundImage = allImages.items.find((i) =>
+                  i.name.startsWith("adsBackgroundImage")
+                );
 
-              const adsBackgroundImage = allImages.items.find((i) =>
-                i.name.startsWith("adsBackgroundImage")
-              );
+                if (adsBackgroundImage) {
+                  const imageRef = ref(
+                    storage,
+                    `images/${adsBackgroundImage.name}`
+                  );
+                  await deleteObject(imageRef);
+                }
 
-              if (adsBackgroundImage) {
                 const imageRef = ref(
                   storage,
-                  `images/${adsBackgroundImage.name}`
+                  `images/adsBackgroundImage.${extension}`
                 );
-                await deleteObject(imageRef);
+                try {
+                  await uploadBytes(imageRef, adsImage);
+                } catch (e) {
+                  console.log("failed to upload ads background image: " + e);
+                }
               }
-
-              const imageRef = ref(
-                storage,
-                `images/adsBackgroundImage.${extension}`
-              );
-              try {
-                await uploadBytes(imageRef, adsImage);
-              } catch (e) {
-                console.log("failed to upload ads background image: " + e);
-              }
-            }
-          }}
-        >
-          Update
-        </button>
+            }}
+          >
+            Update
+          </button>
+        </div>
       </div>
 
       {/* End Ads Blog */}

@@ -107,6 +107,7 @@ function SideBar() {
                 </div>
               </Link>
               <Link
+                target="_blank"
                 onClick={() => {
                   setShowMessage(false);
                   setMobile(false);
