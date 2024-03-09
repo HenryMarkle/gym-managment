@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { CiSaveDown1 } from "react-icons/ci";
 import { CiSaveUp1 } from "react-icons/ci";
+import storage from '../../app/api/v1/firebase';
+import { ref, uploadBytes } from "firebase/storage";
 
-import { getAllSectionsWithExcercises } from "../../app/api/v1/excercises";
+import { getAllSectionsWithExcercises, createSection } from "../../app/api/v1/excercises";
 
 function Exercises() {
   const [sectionOpen, setSectionOpen] = useState(false);
   const [exercisesOpen, setExercisesOpen] = useState(false);
+  let newSectionName = '';
+  let newSectionImage = null;
 
   useEffect(() => {
     getAllSectionsWithExcercises().then(sections => console.log(`sections: ${sections}`)).catch(console.log);
@@ -40,11 +44,30 @@ function Exercises() {
                 type="text"
                 name=""
                 id=""
+                onChange={(e) => newSectionName = e.target.value}
                 placeholder="Section name"
               />
               <p className="font-bold mt-4 mb-2">Sectio image</p>
               <input type="file" className=" w-full" />
-              <button className=" bg-green-700 text-white px-4 py-2 mt-4 rounded-md mx-auto w-full my-0 ">
+              <button onClick={async () => {
+                let createResult = await createSection(newSectionName);
+
+                if (createResult === 'error' || createResult === 'unauthorized' || !createResult) return;
+
+                if (!newSectionImage) return;
+                
+                var extension = adsImage.name.includes(".")
+                  ? image.name.substring(
+                      adsImage.name.lastIndexOf(".") + 1,
+                      adsImage.name.length
+                    )
+                  : "";
+
+                let storageRef = ref(storage, `images/${newSectionName}.${extension}`);
+
+                uploadBytes(storageRef, )
+
+              }} className=" bg-green-700 text-white px-4 py-2 mt-4 rounded-md mx-auto w-full my-0 ">
                 Crete section
               </button>
             </div>
