@@ -140,7 +140,7 @@ export async function getAllExcercisesOfSection(name: string): Promise<Excercise
     }
 }
 
-export async function createExcercise(data : {name: string, description: string, sectionName: string}): Promise<undefined | 'sectionNotFound' | 'unauthorized' | 'error'> {
+export async function createExcercise(data : {name: string, description: string, sectionName: string}): Promise<number | 'sectionNotFound' | 'unauthorized' | 'error'> {
     try {
         await client.$connect();
 
@@ -150,9 +150,9 @@ export async function createExcercise(data : {name: string, description: string,
 
         if (!section) return 'sectionNotFound';
         
-        await client.excercise.create({ data: { name: data.name, description: data.description, categoryId: section.id } });
+        const newExercise = await client.excercise.create({ data: { name: data.name, description: data.description, categoryId: section.id } });
 
-        return;
+        return newExercise.id;
     } catch (e) {
         console.log(e);
         return 'error';

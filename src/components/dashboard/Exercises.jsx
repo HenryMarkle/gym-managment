@@ -16,7 +16,7 @@ function Exercises() {
   function updateNewExcercise(data) {
     var key = data.target.name;
 
-    console.log(`key: ${key}, value: ${data.target.value}`);
+    // console.log(`key: ${key}, value: ${data.target.value}`);
 
     setNewExcercise(prev => ({
       ...prev,
@@ -27,6 +27,7 @@ function Exercises() {
 
   let newSectionName = '';
   let newSectionImage = null;
+  let newExerciseVideo = null;
 
   useEffect(() => {
     getAllSectionsWithExcercises().then(setAllSectionWithExcercises).catch(console.log);
@@ -147,7 +148,7 @@ function Exercises() {
                 onChange={updateNewExcercise}
               />
               <p className="font-bold mt-4 mb-2">Exercise Video</p>
-              <input type="file" className=" w-full" />
+              <input type="file" className=" w-full" onChange={(e) => newExerciseVideo = e.target.files.length ? e.target.files[0] : null} />
               <button onClick={async () => {
                   let result = await createExcercise(newExcercise);
                   console.log('create exercise: '+result)
@@ -156,6 +157,20 @@ function Exercises() {
 
                   setNewExcercise({ name: '', description: '', sectionName: '' });
 
+                  console.log('new video: '+newExerciseVideo)
+
+                  if (!newExerciseVideo) return;
+
+                  var extension = newExerciseVideo.name.includes(".")
+                  ? newExerciseVideo.name.substring(
+                    newExerciseVideo.name.lastIndexOf(".") + 1,
+                    newExerciseVideo.name.length
+                    )
+                  : "";
+
+                  let storageRef = ref(storage, `videos/exercises/${result}.${extension}`);
+
+                  await uploadBytes(storageRef, newExerciseVideo);
               }} className=" bg-green-700 text-white px-4 py-2 mt-4 rounded-md mx-auto w-full my-0 ">
                 Create Exercise
               </button>
