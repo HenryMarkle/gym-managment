@@ -18,13 +18,13 @@ function Exercises() {
             onClick={() => setSectionOpen(!sectionOpen)}
             className="flex justify-between items-center"
           >
-            <p className="font-bold text-xl">Sections</p>
+            <p className="font-bold text-xl ">Sections</p>
             <span>
               <CiSaveDown1 size={23} />
             </span>
           </div>
           <div className="flex flex-wrap gap-4 pb-10">
-            <div className="create-section mt-10 p-3 shadow-md w-1/3 rounded-md border-r-2 mr-20 mb-4 ">
+            <div className="create-section mt-10 p-3 shadow-md w-1/3 rounded-md border-r-2 mr-12 mb-4 ">
               <p className="font-bold text-center mb-4">Create section</p>
               <p className="font-bold mb-2">Sectio name</p>
               <input
