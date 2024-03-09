@@ -1,9 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CiSaveDown1 } from "react-icons/ci";
 import { CiSaveUp1 } from "react-icons/ci";
+
+import { getAllSectionsWithExcercises } from "../../app/api/v1/excercises";
+
 function Exercises() {
   const [sectionOpen, setSectionOpen] = useState(false);
   const [exercisesOpen, setExercisesOpen] = useState(false);
+
+  useEffect(() => {
+    getAllSectionsWithExcercises().then(sections => console.log(`sections: ${sections}`)).catch(console.log);
+
+  })
   return (
     <>
       <div>
