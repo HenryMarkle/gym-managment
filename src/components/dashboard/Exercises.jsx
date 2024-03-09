@@ -21,7 +21,9 @@ function Exercises() {
     sectionName: "",
   });
 
-  const dammyExerciese = [];
+  const [openSection, setOpenSection] = useState([]);
+
+  const [openExercises, setOpenExercises] = useState([]);
 
   function updateNewExcercise(data) {
     var key = data.target.name;
@@ -41,9 +43,13 @@ function Exercises() {
 
   useEffect(() => {
     getAllSectionsWithExcercises()
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
-    console.log(allSectionsWithExcercises);
+      .then((response) => {
+        if (response !== "error") {
+          setAllSectionWithExcercises(response);
+          console.log(response);
+        }
+      })
+      .catch(console.log);
   }, []);
   return (
     <>
@@ -146,8 +152,8 @@ function Exercises() {
               <CiSaveDown1 size={23} />
             </span>
           </div>
-          <div className="flex  gap-4 pb-10">
-            <div className="create-exercise flex-col justify-center  mt-10 p-3 shadow-md  rounded-md border-r-2 mr-12 mb-4 ">
+          <div className="flex ml-5 gap-4 pb-10">
+            <div className="create-exercise flex-col justify-center  mt-10 p-3 shadow-md  rounded-md border-r-2 mr-12 mb-4 h-max ">
               <p className="font-bold text-center mb-4">Create Exercise</p>
               <p className="font-bold mb-2">Exercise section</p>
               <select
@@ -155,7 +161,7 @@ function Exercises() {
                 name="sectionName"
                 onChange={updateNewExcercise}
               >
-                {allSectionsWithExcercises?.map((a) => (
+                {allSectionsWithExcercises.map((a) => (
                   <option>{a.name}</option>
                 ))}
               </select>
@@ -227,34 +233,86 @@ function Exercises() {
               </button>
             </div>
             <div className="flex-1 mr-4 ">
-              {dammyExerciese.map((ele) => {
+              {allSectionsWithExcercises.map((ele) => {
                 return (
                   <>
-                    <div className="section-and-realated-exercises w-full shadow-md h-[633px] mt-14 rounded-md px-3">
-                      <div className="head flex justify-between items-center">
-                        <p className="font-bold text-xl">{ele.exerciesTitle}</p>
-                        <span>
-                          <CiSaveDown1 size={23} />
-                        </span>
+                    <div
+                      className={`section-and-realated-exercises pb-8 px-3 w-full shadow-md overflow-hidden ${
+                        openSection.includes(ele.id) ? "h-max" : "h-[20px]"
+                      } mt-14 rounded-md`}
+                    >
+                      <div className="head">
+                        <div
+                          onClick={() => {
+                            if (openSection.includes(ele.id)) {
+                              setOpenSection(
+                                openSection.filter((id) => id !== ele.id)
+                              );
+                            } else {
+                              setOpenSection([...openSection, ele.id]);
+                            }
+                            console.log(openSection);
+                          }}
+                          className="flex justify-between flex-row-reverse items-center"
+                        >
+                          {openSection.includes(ele.id) ? (
+                            <CiSaveUp1 size={23} />
+                          ) : (
+                            <CiSaveDown1 size={23} />
+                          )}
+                          <p className="font-bold text-xl">{ele.name}</p>
+                        </div>
+                        {ele.excercises.length > 0 ? (
+                          ele.excercises.map((e) => {
+                            return (
+                              <>
+                                <div
+                                  className={`mt-5 w-[97%] p-2 ${
+                                    openExercises.includes(e.id)
+                                      ? "h-[400px]"
+                                      : "h-[39px]"
+                                  } rounded-lg  shadow-md overflow-hidden`}
+                                >
+                                  <div
+                                    onClick={() => {
+                                      if (openExercises.includes(e.id)) {
+                                        setOpenExercises(
+                                          openExercises.filter(
+                                            (id) => id !== e.id
+                                          )
+                                        );
+                                      } else {
+                                        setOpenExercises([
+                                          ...openExercises,
+                                          e.id,
+                                        ]);
+                                      }
+                                    }}
+                                    className="px-2  flex items-center justify-between"
+                                  >
+                                    <p className="font-bold ">{ele.name}</p>
+                                    <CiSaveDown1 size={23} />
+                                  </div>
+                                  <div className="content mt-10">
+                                    <p>{e.description}</p>
+                                  </div>
+                                </div>
+                              </>
+                            );
+                          })
+                        ) : (
+                          <div className="flex items-center justify-center h-full">
+                            <p className="mt-10 font-bold text-3xl">
+                              No exercises related
+                            </p>
+                          </div>
+                        )}
                       </div>
-                      {ele.relatedExersices.map((ele) => {
-                        return (
-                          <>
-                            <div className="exer shadow-md mt-7 h-[400px] px-2">
-                              <div className="head flex justify-between items-center">
-                                <p className="font-bold ">{ele.title}</p>
-                                <span>
-                                  <CiSaveDown1 size={23} />
-                                </span>
-                              </div>
-                            </div>
-                          </>
-                        );
-                      })}
-                    </div>{" "}
+                    </div>
                   </>
                 );
               })}
+              <span></span>
             </div>
           </div>
         </div>
