@@ -140,17 +140,17 @@ export async function getAllExcercisesOfSection(name: string): Promise<Excercise
     }
 }
 
-export async function createExcercise(name: string, description: string, sectionName: string): Promise<undefined | 'sectionNotFound' | 'unauthorized' | 'error'> {
+export async function createExcercise(data : {name: string, description: string, sectionName: string}): Promise<undefined | 'sectionNotFound' | 'unauthorized' | 'error'> {
     try {
         await client.$connect();
 
         if (!(await getAuthState())) return 'unauthorized';
 
-        const section = await client.excerciseCategory.findUnique({ where: { name: sectionName } });
+        const section = await client.excerciseCategory.findUnique({ where: { name: data.sectionName } });
 
         if (!section) return 'sectionNotFound';
         
-        await client.excercise.create({ data: { name, description, categoryId: section.id } });
+        await client.excercise.create({ data: { name: data.name, description: data.description, categoryId: section.id } });
 
         return;
     } catch (e) {
