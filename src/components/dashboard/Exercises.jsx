@@ -69,13 +69,24 @@ function Exercises() {
           <div className="flex justify-center gap-4 pb-10">
             <div className="create-exercise flex-col justify-center  mt-10 p-3 shadow-md  rounded-md border-r-2 mr-12 mb-4 ">
               <p className="font-bold text-center mb-4">Create Exercise</p>
+              <p className="font-bold mb-2">Exercise section</p>
+              <select
+                className="w-full outline-none border-2 rounded-xl px-2 mb-3"
+                name=""
+                id=""
+              >
+                <option value="bieceps">Biecieps</option>
+                <option value="Trieceps">Trieceps</option>
+                <option value="Chest">Chest</option>
+                <option value="Legs">Legs</option>
+              </select>
               <p className="font-bold mb-2">Exercise name</p>
               <input
                 className="w-full"
                 type="text"
                 name=""
                 id=""
-                placeholder="Section name"
+                placeholder="Exercise name"
               />
               <p className="font-bold mb-2">Exercise Description</p>
               <textarea
@@ -90,6 +101,14 @@ function Exercises() {
               <button className=" bg-green-700 text-white px-4 py-2 mt-4 rounded-md mx-auto w-full my-0 ">
                 Create Exercise
               </button>
+            </div>
+            <div className="section-and-realated-exercises w-full shadow-md h-[33px] mt-14 rounded-md">
+              <div className="head flex justify-between items-center">
+                <p className="font-bold text-xl">Biecips Exercises</p>
+                <span>
+                  <CiSaveDown1 size={23} />
+                </span>
+              </div>
             </div>
           </div>
         </div>
