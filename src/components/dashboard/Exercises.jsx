@@ -30,7 +30,11 @@ function Exercises() {
   let newExerciseVideo = null;
 
   useEffect(() => {
-    getAllSectionsWithExcercises().then(setAllSectionWithExcercises).catch(console.log);
+    getAllSectionsWithExcercises()
+    .then(response => {
+      if (response !== 'error') setAllSectionWithExcercises(response);
+    })
+    .catch(console.log);
 
   }, [])
   return (
