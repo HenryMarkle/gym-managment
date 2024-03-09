@@ -4,17 +4,18 @@ import { CiCircleChevDown } from "react-icons/ci";
 
 import { HomePage } from "../../../components/dashboard/HomePage";
 import { ContactPage } from "../../../components/dashboard/ContactPage";
+import Exercises from "../../../components/dashboard/Exercises.jsx";
 import "./dashboard.css";
 function page() {
   const [active, setActive] = useState(["1"]);
 
   const tabs = [
     { id: "1", title: "Home" },
-    { id: "5", title: "Exercises" },
-    { id: "6", title: "products" },
-    { id: "3", title: "Managers" },
-    { id: "7", title: "plans" },
-    { id: "2", title: "Contact" },
+    { id: "2", title: "Exercises" },
+    { id: "3", title: "products" },
+    { id: "4", title: "Managers" },
+    { id: "5", title: "plans" },
+    { id: "6", title: "Contact" },
   ];
 
   const components = [
@@ -23,12 +24,12 @@ function page() {
       component: <HomePage />,
     },
     {
-      id: `2`,
+      id: `6`,
       component: <ContactPage />,
     },
     {
-      id: `3`,
-      component: "ShopPage",
+      id: `2`,
+      component: <Exercises />,
     },
     {
       id: `4`,

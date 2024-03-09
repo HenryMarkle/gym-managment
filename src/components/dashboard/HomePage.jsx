@@ -95,6 +95,7 @@ export function HomePage() {
   return (
     <>
       <StarterS />
+
       {/* Start Plan Blog */}
 
       <div
@@ -240,8 +241,8 @@ export function HomePage() {
       {/*End Plan Blog */}
 
       {/* Start Ads Blog */}
-      <div className="p-6 rounded-xl mt-10  pt-10 border-b-2 pb-10  shadow-lg ">
-        <p className="font-bold">Ads section</p>
+      <div className="p-6 rounded-xl mt-10  pt-10 border-b-2 pb-10 shadow-lg ">
+        <p className="font-bold text-center mb-10 text-xl">Ads section</p>
         <div id="ads" className="ads  grid grid-cols-2 gap-7 ">
           <div className=" flex flex-col">
             <label htmlFor="image">Ads Background image</label>
@@ -335,7 +336,8 @@ export function HomePage() {
 
       {/* Start shop Blog */}
 
-      <div id="shop" className="add-product-to-shop">
+      <div id="shop" className="add-product-to-shop mt-20 border-t-2 ">
+        <p>Create Product</p>
         <div
           className={`create-plan mt-5 w-full shadow-lg overflow-hidden rounded-[30px] duration-700 flex flex-col ${
             shopOpen ? "h-[620px]" : "h-[55px]"
