@@ -1,37 +1,49 @@
 import React, { useEffect, useState } from "react";
 import { CiSaveDown1 } from "react-icons/ci";
 import { CiSaveUp1 } from "react-icons/ci";
-import storage from '../../app/api/v1/firebase';
+import storage from "../../app/api/v1/firebase";
 import { ref, uploadBytes } from "firebase/storage";
 
-import { getAllSectionsWithExcercises, createSection, createExcercise } from "../../app/api/v1/excercises";
+import {
+  getAllSectionsWithExcercises,
+  createSection,
+  createExcercise,
+} from "../../app/api/v1/excercises";
 
 function Exercises() {
   const [sectionOpen, setSectionOpen] = useState(false);
   const [exercisesOpen, setExercisesOpen] = useState(false);
 
   const [allSectionsWithExcercises, setAllSectionWithExcercises] = useState([]);
-  const [ newExcercise, setNewExcercise ] = useState({ name: '', description: '', sectionName: '' });
+  const [newExcercise, setNewExcercise] = useState({
+    name: "",
+    description: "",
+    sectionName: "",
+  });
+
+  const dammyExerciese = [];
 
   function updateNewExcercise(data) {
     var key = data.target.name;
 
     console.log(`key: ${key}, value: ${data.target.value}`);
 
-    setNewExcercise(prev => ({
+    setNewExcercise((prev) => ({
       ...prev,
 
-      [key]: data.target.value
-    }))
+      [key]: data.target.value,
+    }));
   }
 
-  let newSectionName = '';
+  let newSectionName = "";
   let newSectionImage = null;
 
   useEffect(() => {
-    getAllSectionsWithExcercises().then(setAllSectionWithExcercises).catch(console.log);
-
-  }, [])
+    getAllSectionsWithExcercises()
+      .then(setAllSectionWithExcercises)
+      .catch(console.log);
+    console.log(setAllSectionWithExcercises);
+  }, []);
   return (
     <>
       <div>
@@ -60,36 +72,50 @@ function Exercises() {
                 type="text"
                 name=""
                 id=""
-                onChange={(e) => newSectionName = e.target.value}
+                onChange={(e) => (newSectionName = e.target.value)}
                 placeholder="Section name"
               />
               <p className="font-bold mt-4 mb-2">Sectio image</p>
-              <input type="file" className=" w-full" onChange={(e) => {
-                
-                newSectionImage = e.target.files.length ? e.target.files[0] : null
-              
-                console.log(newSectionImage)
-              }}/>
-              <button onClick={async () => {
-                let createResult = await createSection(newSectionName);
+              <input
+                type="file"
+                className=" w-full"
+                onChange={(e) => {
+                  newSectionImage = e.target.files.length
+                    ? e.target.files[0]
+                    : null;
 
-                if (createResult === 'error' || createResult === 'unauthorized') return;
+                  console.log(newSectionImage);
+                }}
+              />
+              <button
+                onClick={async () => {
+                  let createResult = await createSection(newSectionName);
 
-                console.log('section image was: '+newSectionImage);
-                if (!newSectionImage) return;
-                
-                var extension = newSectionImage.name.includes(".")
-                  ? newSectionImage.name.substring(
-                    newSectionImage.name.lastIndexOf(".") + 1,
-                    newSectionImage.name.length
-                    )
-                  : "";
+                  if (
+                    createResult === "error" ||
+                    createResult === "unauthorized"
+                  )
+                    return;
 
-                let storageRef = ref(storage, `images/excercise_sections/${newSectionName}.${extension}`);
+                  console.log("section image was: " + newSectionImage);
+                  if (!newSectionImage) return;
 
-                await uploadBytes(storageRef, newSectionImage);
+                  var extension = newSectionImage.name.includes(".")
+                    ? newSectionImage.name.substring(
+                        newSectionImage.name.lastIndexOf(".") + 1,
+                        newSectionImage.name.length
+                      )
+                    : "";
 
-              }} className=" bg-green-700 text-white px-4 py-2 mt-4 rounded-md mx-auto w-full my-0 ">
+                  let storageRef = ref(
+                    storage,
+                    `images/excercise_sections/${newSectionName}.${extension}`
+                  );
+
+                  await uploadBytes(storageRef, newSectionImage);
+                }}
+                className=" bg-green-700 text-white px-4 py-2 mt-4 rounded-md mx-auto w-full my-0 "
+              >
                 Crete section
               </button>
             </div>
@@ -128,7 +154,9 @@ function Exercises() {
                 name="sectionName"
                 onChange={updateNewExcercise}
               >
-                {allSectionsWithExcercises.map(a => <option>{a.name}</option>)}
+                {allSectionsWithExcercises?.map((a) => (
+                  <option>{a.name}</option>
+                ))}
               </select>
               <p className="font-bold mb-2">Exercise name</p>
               <input
@@ -148,15 +176,26 @@ function Exercises() {
               />
               <p className="font-bold mt-4 mb-2">Exercise Video</p>
               <input type="file" className=" w-full" />
-              <button onClick={async () => {
+              <button
+                onClick={async () => {
                   let result = await createExcercise(newExcercise);
-                  console.log('create exercise: '+result)
+                  console.log("create exercise: " + result);
 
-                  if (result === 'error' || result === 'sectionNotFound' || result === 'unauthorized') return;
+                  if (
+                    result === "error" ||
+                    result === "sectionNotFound" ||
+                    result === "unauthorized"
+                  )
+                    return;
 
-                  setNewExcercise({ name: '', description: '', sectionName: '' });
-
-              }} className=" bg-green-700 text-white px-4 py-2 mt-4 rounded-md mx-auto w-full my-0 ">
+                  setNewExcercise({
+                    name: "",
+                    description: "",
+                    sectionName: "",
+                  });
+                }}
+                className=" bg-green-700 text-white px-4 py-2 mt-4 rounded-md mx-auto w-full my-0 "
+              >
                 Create Exercise
               </button>
             </div>
