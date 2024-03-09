@@ -93,6 +93,21 @@ export async function deleteSection(name: string): Promise<undefined | 'unauthor
     }
 }
 
+export async function getAllSectionsWithExcercises(): Promise<(Section & { excercises: Excercise[] })[] | 'error'> {
+    try {
+        await client.$connect();
+
+        const sections = await client.excerciseCategory.findMany({ include: { excercises: true } });
+        
+        return sections;
+    } catch (e) {
+        console.log(e);
+        return 'error';
+    } finally {
+        await client.$disconnect();
+    }
+}
+
 // Excercises
 
 export async function getAllExcercises(): Promise<Excercise[] | 'error'> {
