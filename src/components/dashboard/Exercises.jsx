@@ -4,18 +4,34 @@ import { CiSaveUp1 } from "react-icons/ci";
 import storage from '../../app/api/v1/firebase';
 import { ref, uploadBytes } from "firebase/storage";
 
-import { getAllSectionsWithExcercises, createSection } from "../../app/api/v1/excercises";
+import { getAllSectionsWithExcercises, createSection, createExcercise } from "../../app/api/v1/excercises";
 
 function Exercises() {
   const [sectionOpen, setSectionOpen] = useState(false);
   const [exercisesOpen, setExercisesOpen] = useState(false);
+
+  const [allSectionsWithExcercises, setAllSectionWithExcercises] = useState([]);
+  const [ newExcercise, setNewExcercise ] = useState({ name: '', description: '', sectionName: '' });
+
+  function updateNewExcercise(data) {
+    var key = data.target.name;
+
+    console.log(`key: ${key}, value: ${data.target.value}`);
+
+    setNewExcercise(prev => ({
+      ...prev,
+
+      [key]: data.target.value
+    }))
+  }
+
   let newSectionName = '';
   let newSectionImage = null;
 
   useEffect(() => {
-    getAllSectionsWithExcercises().then(sections => console.log(`sections: ${sections}`)).catch(console.log);
+    getAllSectionsWithExcercises().then(setAllSectionWithExcercises).catch(console.log);
 
-  })
+  }, [])
   return (
     <>
       <div>
@@ -48,24 +64,30 @@ function Exercises() {
                 placeholder="Section name"
               />
               <p className="font-bold mt-4 mb-2">Sectio image</p>
-              <input type="file" className=" w-full" />
+              <input type="file" className=" w-full" onChange={(e) => {
+                
+                newSectionImage = e.target.files.length ? e.target.files[0] : null
+              
+                console.log(newSectionImage)
+              }}/>
               <button onClick={async () => {
                 let createResult = await createSection(newSectionName);
 
-                if (createResult === 'error' || createResult === 'unauthorized' || !createResult) return;
+                if (createResult === 'error' || createResult === 'unauthorized') return;
 
+                console.log('section image was: '+newSectionImage);
                 if (!newSectionImage) return;
                 
-                var extension = adsImage.name.includes(".")
-                  ? image.name.substring(
-                      adsImage.name.lastIndexOf(".") + 1,
-                      adsImage.name.length
+                var extension = newSectionImage.name.includes(".")
+                  ? newSectionImage.name.substring(
+                    newSectionImage.name.lastIndexOf(".") + 1,
+                    newSectionImage.name.length
                     )
                   : "";
 
-                let storageRef = ref(storage, `images/${newSectionName}.${extension}`);
+                let storageRef = ref(storage, `images/excercise_sections/${newSectionName}.${extension}`);
 
-                uploadBytes(storageRef, )
+                await uploadBytes(storageRef, newSectionImage);
 
               }} className=" bg-green-700 text-white px-4 py-2 mt-4 rounded-md mx-auto w-full my-0 ">
                 Crete section
@@ -103,33 +125,38 @@ function Exercises() {
               <p className="font-bold mb-2">Exercise section</p>
               <select
                 className="w-full outline-none border-2 rounded-xl px-2 mb-3"
-                name=""
-                id=""
+                name="sectionName"
+                onChange={updateNewExcercise}
               >
-                <option value="bieceps">Biecieps</option>
-                <option value="Trieceps">Trieceps</option>
-                <option value="Chest">Chest</option>
-                <option value="Legs">Legs</option>
+                {allSectionsWithExcercises.map(a => <option>{a.name}</option>)}
               </select>
               <p className="font-bold mb-2">Exercise name</p>
               <input
                 className="w-full"
                 type="text"
-                name=""
-                id=""
+                name="name"
                 placeholder="Exercise name"
+                onChange={updateNewExcercise}
               />
               <p className="font-bold mb-2">Exercise Description</p>
               <textarea
                 className="w-full min-h-[150px] border-2 p-2 rounded-xl resize-none outline-none"
                 type="text"
-                name=""
-                id=""
+                name="description"
                 placeholder="Exercise Description"
+                onChange={updateNewExcercise}
               />
               <p className="font-bold mt-4 mb-2">Exercise Video</p>
               <input type="file" className=" w-full" />
-              <button className=" bg-green-700 text-white px-4 py-2 mt-4 rounded-md mx-auto w-full my-0 ">
+              <button onClick={async () => {
+                  let result = await createExcercise(newExcercise);
+                  console.log('create exercise: '+result)
+
+                  if (result === 'error' || result === 'sectionNotFound' || result === 'unauthorized') return;
+
+                  setNewExcercise({ name: '', description: '', sectionName: '' });
+
+              }} className=" bg-green-700 text-white px-4 py-2 mt-4 rounded-md mx-auto w-full my-0 ">
                 Create Exercise
               </button>
             </div>
