@@ -228,3 +228,20 @@ export async function deleteExcerciseById(
     await client.$disconnect();
   }
 }
+
+export async function updateExcerciseById(id: number, data: Excercise): Promise<undefined | 'unauthorized' |'error'> {
+  try {
+    await client.$connect();
+
+    if (!(await getAuthState())) return "unauthorized";
+
+    await client.excercise.update({ where: { id }, data });
+
+    return;
+  } catch (e) {
+    console.log(e);
+    return "error";
+  } finally {
+    await client.$disconnect();
+  }
+}

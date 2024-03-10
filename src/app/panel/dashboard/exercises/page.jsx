@@ -14,6 +14,7 @@ import {
   getAllSections,
   createExcercise,
   deleteSection,
+  deleteExcerciseById
 } from "../../../api/v1/excercises";
 
 function Exercises() {
@@ -382,6 +383,7 @@ function Exercises() {
                                       className="absolute top-0 right-11"
                                       color="red"
                                       size={23}
+                                      onClick={async () => { await deleteExcerciseById(e.id) }}
                                     />
                                     <div>
                                       <img
