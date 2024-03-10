@@ -4,7 +4,7 @@ import { CiSaveDown1 } from "react-icons/ci";
 import { CiSaveUp1 } from "react-icons/ci";
 import { CiEdit } from "react-icons/ci";
 import { MdDeleteForever } from "react-icons/md";
-
+import "./helper.css";
 import storage from "../../../api/v1/firebase";
 import { ref, uploadBytes } from "firebase/storage";
 
@@ -14,7 +14,7 @@ import {
   getAllSections,
   createExcercise,
   deleteSection,
-  deleteExcerciseById
+  deleteExcerciseById,
 } from "../../../api/v1/excercises";
 
 function Exercises() {
@@ -38,6 +38,8 @@ function Exercises() {
   const [openSection, setOpenSection] = useState([]);
 
   const [openExercises, setOpenExercises] = useState([]);
+
+  const [inEditingExercise, setInEditingExercise] = useState();
 
   function updateNewExcercise(data) {
     var key = data.target.name;
@@ -76,11 +78,11 @@ function Exercises() {
   const [inEditingSections, setInEditinSection] = useState([]);
   return (
     <>
-      <div className="p-5">
+      <div className="p-5 mb-[200px]">
         <p className="font-bold text-3xl mb-6 ">Exercises</p>
         {/* Start section blog */}
         <div
-          className={` shadow-lg p-2  rounded-md overflow-hidden ${
+          className={` shadow-xl  p-2  rounded-md overflow-hidden ${
             sectionOpen ? "h-[max]" : "h-[40px]"
           }`}
         >
@@ -364,7 +366,18 @@ function Exercises() {
                                     }}
                                     className="px-2 flex items-center justify-between relative"
                                   >
-                                    <p className="font-bold ">{e.name}</p>
+                                    {inEditingExercise === e.id ? (
+                                      <>
+                                        <input
+                                          type="text"
+                                          defaultValue={e.name}
+                                        />
+                                      </>
+                                    ) : (
+                                      <>
+                                        <p className="font-bold ">{e.name}</p>
+                                      </>
+                                    )}
                                     <span>
                                       {openExercises.includes(e.id) ? (
                                         <CiSaveUp1 size={23} />
@@ -375,6 +388,7 @@ function Exercises() {
                                   </div>
                                   <div className="content mt-10 grid grid-cols-2 gap-5 shadow-md m-2 p-4 h-[80%] relative">
                                     <CiEdit
+                                      onClick={() => setInEditingExercise(e.id)}
                                       className="absolute top-0 right-4"
                                       size={23}
                                       color="green"
@@ -383,7 +397,9 @@ function Exercises() {
                                       className="absolute top-0 right-11"
                                       color="red"
                                       size={23}
-                                      onClick={async () => { await deleteExcerciseById(e.id) }}
+                                      onClick={async () => {
+                                        await deleteExcerciseById(e.id);
+                                      }}
                                     />
                                     <div>
                                       <img
@@ -396,7 +412,21 @@ function Exercises() {
                                       style={{ overflowWrap: "anywhere" }}
                                       className="font-bold h-[90%] w-[90%]  "
                                     >
-                                      {e.description}
+                                      {inEditingExercise === e.id ? (
+                                        <>
+                                          <textarea
+                                            className=" resize-none h-[70%] w-full mt-4 p-1 border-2 outline-none rounded-xl"
+                                            type="text"
+                                            defaultValue={e.description}
+                                          />
+                                        </>
+                                      ) : (
+                                        <>
+                                          <p className="font-bold ">
+                                            {e.description}
+                                          </p>
+                                        </>
+                                      )}
                                     </p>
                                   </div>
                                 </div>

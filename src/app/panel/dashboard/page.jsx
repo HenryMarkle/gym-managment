@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import "./dashboard.css";
 import { CiSaveDown1 } from "react-icons/ci";
 import { CiSaveUp1 } from "react-icons/ci";
 import {
