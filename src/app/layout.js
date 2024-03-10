@@ -2,6 +2,7 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import SideBar from "../components/dashboard/SideBar";
+import HeaderDash from "../components/dashboard/HeaderDash";
 import { useRouter, usePathname } from "next/navigation";
 import { useEffect } from "react";
 import Footer from "../components/website/Footer";
@@ -28,6 +29,7 @@ export default function RootLayout({ children, showSidebar = true }) {
           path.includes("panel") &&
           !path.includes("dashboard") && <SideBar></SideBar>}
         {!path.includes("panel") && path != "/" && <CustomHeader />}
+        {path.includes("dashboard") && <HeaderDash />}
         {children}
         {!path.includes("panel") && <Footer />}
       </body>
