@@ -77,7 +77,7 @@ function Exercises() {
   return (
     <>
       <div className="p-5">
-        <p className="font-bold text-center text-2xl mb-2 ">Exercises</p>
+        <p className="font-bold text-3xl mb-6 ">Exercises</p>
         {/* Start section blog */}
         <div
           className={` shadow-lg p-2  rounded-md overflow-hidden ${
@@ -90,7 +90,11 @@ function Exercises() {
           >
             <p className="font-bold text-xl ">Sections</p>
             <span>
-              <CiSaveDown1 size={23} />
+              {sectionOpen ? (
+                <CiSaveUp1 size={23} />
+              ) : (
+                <CiSaveDown1 size={23} />
+              )}
             </span>
           </div>
           <div className="flex flex-wrap gap-4 pb-10 mt-10">
@@ -215,7 +219,11 @@ function Exercises() {
           >
             <p className="font-bold text-xl">Exercises</p>
             <span>
-              <CiSaveDown1 size={23} />
+              {exercisesOpen ? (
+                <CiSaveUp1 size={23} />
+              ) : (
+                <CiSaveDown1 size={23} />
+              )}
             </span>
           </div>
           <div className="flex ml-5 gap-4 pb-10">
@@ -357,7 +365,13 @@ function Exercises() {
                                     className="px-2 flex items-center justify-between relative"
                                   >
                                     <p className="font-bold ">{e.name}</p>
-                                    <CiSaveDown1 size={23} />
+                                    <span>
+                                      {openExercises.includes(e.id) ? (
+                                        <CiSaveUp1 size={23} />
+                                      ) : (
+                                        <CiSaveDown1 size={23} />
+                                      )}
+                                    </span>
                                   </div>
                                   <div className="content mt-10 grid grid-cols-2 gap-5 shadow-md m-2 p-4 h-[80%] relative">
                                     <CiEdit
@@ -377,11 +391,12 @@ function Exercises() {
                                         alt=""
                                       />
                                     </div>
-                                    <div>
-                                      <p className="font-bold h-[90%] overflow-auto">
-                                        {e.description}
-                                      </p>
-                                    </div>
+                                    <p
+                                      style={{ overflowWrap: "anywhere" }}
+                                      className="font-bold h-[90%] w-[90%]  "
+                                    >
+                                      {e.description}
+                                    </p>
                                   </div>
                                 </div>
                               </>

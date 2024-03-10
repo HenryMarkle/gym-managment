@@ -12,13 +12,13 @@ function HeaderDash() {
     },
     {
       id: 3,
-      title: "Exercises ",
-      to: "/panel/dashboard/exercises",
+      title: "Market ",
+      to: "/panel/dashboard/market",
       active: false,
     },
     {
       id: 4,
-      title: "Exercises ",
+      title: "market ",
       to: "/panel/dashboard/exercises",
       active: false,
     },
