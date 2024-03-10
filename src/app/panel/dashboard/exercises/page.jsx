@@ -359,7 +359,17 @@ function Exercises() {
                                     <p className="font-bold ">{e.name}</p>
                                     <CiSaveDown1 size={23} />
                                   </div>
-                                  <div className="content mt-10 grid grid-cols-2 gap-5 shadow-md m-2 p-4 h-[80%]">
+                                  <div className="content mt-10 grid grid-cols-2 gap-5 shadow-md m-2 p-4 h-[80%] relative">
+                                    <CiEdit
+                                      className="absolute top-0 right-4"
+                                      size={23}
+                                      color="green"
+                                    />
+                                    <MdDeleteForever
+                                      className="absolute top-0 right-11"
+                                      color="red"
+                                      size={23}
+                                    />
                                     <div>
                                       <img
                                         className=""
