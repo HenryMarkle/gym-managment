@@ -78,7 +78,7 @@ function page() {
                             }
                             console.log(el.id);
                           }}
-                          className="flex justify-between items-center"
+                          className="flex justify-between items-center h-[45px]"
                         >
                           <p className="font-bold">{el.name}</p>
                           <CiSaveDown1 size={24} />
