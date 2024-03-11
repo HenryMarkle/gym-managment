@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from "react";
 import { CiSaveDown1 } from "react-icons/ci";
 import { CiSaveUp1 } from "react-icons/ci";
+import { CiSearch } from "react-icons/ci";
+
 import {
   getProductCategories,
   getCategoryProducts,
@@ -11,6 +13,7 @@ function page() {
   const [categories, setCategories] = useState([]);
   const [activeSection, setActiveSection] = useState();
   const [openProducts, setOpenProducts] = useState([]);
+  const [filterValue, setFilterValue] = useState("");
   useEffect(() => {
     getCategoryProducts().then((cp) => {
       if (cp === "error") {
@@ -28,11 +31,27 @@ function page() {
     });
   }, []);
 
+  useEffect(() => {}, [filterValue]);
+
   return (
     <>
       <div className="shadow-lg h-full m-3 p-4 rounded-lg">
-        <p className="font-bold text-3xl">Market</p>
+        <div className="flex items-center ">
+          <p className="font-bold text-3xl">Market</p>
+          <div className="self-center ml-10 relative">
+            <CiSearch size={22} className=" absolute left-1 top-[2px]" />
+            <input
+              onChange={(e) => setFilterValue(e.target.value)}
+              className="border-2 rounded-xl px-7 w-[400px]"
+              type="text"
+              placeholder="Search product by name"
+            />
+          </div>
+        </div>
         <div className="prodcuts w-full  flex justify-between px-20 mt-6">
+          <div className={`categories  px-6 py-1  font-bold rounded-lg `}>
+            <p className="font-bold cursor-pointer">All Products</p>
+          </div>
           {products?.map((ele, index) => {
             return (
               <React.Fragment key={index}>
@@ -56,6 +75,12 @@ function page() {
           return (
             <>
               {ele.data
+                .filter((ele) =>
+                  ele.name
+                    .trim()
+                    .toLowerCase()
+                    .includes(filterValue.trim().toLowerCase())
+                )
                 .filter((e) => e.categoryId === activeSection)
                 .map((el, index) => {
                   return (
@@ -81,7 +106,11 @@ function page() {
                           className="flex justify-between items-center h-[45px]"
                         >
                           <p className="font-bold">{el.name}</p>
-                          <CiSaveDown1 size={24} />
+                          {openProducts.includes(el.id) ? (
+                            <CiSaveUp1 size={24} />
+                          ) : (
+                            <CiSaveDown1 size={24} />
+                          )}
                         </div>
                         <div className="content mt-4">
                           <p className="mb-2">
