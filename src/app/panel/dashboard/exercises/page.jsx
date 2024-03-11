@@ -162,6 +162,10 @@ function Exercises() {
                     {inEditingSections.includes(ele.id) ? (
                       <>
                         <input
+                          onChange={(e) => {
+                            inEditingExercies.name = e.target.value;
+                            console.log(inEditingExercies.name);
+                          }}
                           className="border-2  my-3  rounded-xl"
                           type="text"
                           defaultValue={ele.name}
@@ -343,7 +347,7 @@ function Exercises() {
                             return (
                               <>
                                 <div
-                                  className={`mt-5 w-[97%] p-2 ${
+                                  className={`mt-5 w-[97%] p-2 -z-50 ${
                                     openExercises.includes(e.id)
                                       ? "h-[400px]"
                                       : "h-[39px]"
@@ -366,18 +370,8 @@ function Exercises() {
                                     }}
                                     className="px-2 flex items-center justify-between relative"
                                   >
-                                    {inEditingExercise === e.id ? (
-                                      <>
-                                        <input
-                                          type="text"
-                                          defaultValue={e.name}
-                                        />
-                                      </>
-                                    ) : (
-                                      <>
-                                        <p className="font-bold ">{e.name}</p>
-                                      </>
-                                    )}
+                                    <p className="font-bold ">{e.name}</p>
+
                                     <span>
                                       {openExercises.includes(e.id) ? (
                                         <CiSaveUp1 size={23} />
@@ -410,21 +404,30 @@ function Exercises() {
                                     </div>
                                     <p
                                       style={{ overflowWrap: "anywhere" }}
-                                      className="font-bold h-[90%] w-[90%]  "
+                                      className=" h-[90%] w-[90%]  "
                                     >
                                       {inEditingExercise === e.id ? (
                                         <>
+                                          <input
+                                            className="px-2"
+                                            type="text"
+                                            defaultValue={e.name}
+                                          />
                                           <textarea
                                             className=" resize-none h-[70%] w-full mt-4 p-1 border-2 outline-none rounded-xl"
                                             type="text"
                                             defaultValue={e.description}
                                           />
+                                          <button className="px-2 bg-green-600 text-white py-1 rounded-lg">
+                                            Submit edits
+                                          </button>
                                         </>
                                       ) : (
                                         <>
-                                          <p className="font-bold ">
-                                            {e.description}
+                                          <p className="mb-5 font-bold">
+                                            {e.name}
                                           </p>
+                                          <p className=" ">{e.description}</p>
                                         </>
                                       )}
                                     </p>
