@@ -5,6 +5,7 @@ import "./plans.css";
 import { MdOutlineCancel } from "react-icons/md";
 import { CiEdit } from "react-icons/ci";
 import { MdDeleteForever } from "react-icons/md";
+import Swal from "sweetalert2";
 function page() {
   const dummyData = [
     {
@@ -41,6 +42,7 @@ function page() {
 
   const [PlanInEditing, setPlanInEditing] = useState();
   const [openManagers, setOpenManagers] = useState([]);
+  const [userEditedAField, setUserEditedAField] = useState(false);
 
   return (
     <div className=" m-4 p-4 rounded-xl">
@@ -53,16 +55,20 @@ function page() {
             <input className="" type="file" placeholder="job title" />
           </div>{" "}
           <div className="flex flex-col mt-2">
-            <label className="font-bold text-md mb-1">Job title</label>
+            <label className="font-bold text-md mb-1">Name</label>
             <input className="px-2" type="text" placeholder="job title" />
           </div>{" "}
           <div className="flex flex-col mt-2">
-            <label className="font-bold text-md mb-1">Name</label>
-            <input className="px-2" type="text" placeholder="Name" />
+            <label className="font-bold text-md mb-1">Description</label>
+            <textarea
+              className="px-2 resize-none outline-none h-[200px] border-2 rounded-xl"
+              type="text"
+              placeholder="Description"
+            />
           </div>
           <div className="flex flex-col mt-2">
-            <label className="font-bold text-md mb-1">Description</label>
-            <input className="px-2" type="text" placeholder="Description" />
+            <label className="font-bold text-md mb-1">Price</label>
+            <input className="px-2" type="text" placeholder="Price" />
           </div>
           <button className="px-4 py-2 rounded-xl bg-green-700 text-white font-bold w-full mt-4">
             Create Plan
@@ -108,6 +114,7 @@ function page() {
                           Name :{" "}
                         </label>
                         <input
+                          onChange={() => setUserEditedAField(true)}
                           disabled={PlanInEditing === ele.id ? false : true}
                           defaultValue={ele.title}
                           className={`px-2 duration-300 ${
@@ -122,6 +129,7 @@ function page() {
                           Price :{" "}
                         </label>
                         <input
+                          onChange={() => setUserEditedAField(true)}
                           disabled={PlanInEditing === ele.id ? false : true}
                           defaultValue={ele.price}
                           className={`px-2 duration-300 ${
@@ -141,6 +149,7 @@ function page() {
                               <>
                                 <div className="flex ">
                                   <input
+                                    onChange={() => setUserEditedAField(true)}
                                     disabled={PlanInEditing ? false : true}
                                     defaultValue={ele}
                                     className="bg-gray-100 border-2 px-3 py-1 w-full mb-3"
@@ -155,9 +164,35 @@ function page() {
                     <div className="flex absolute -top-8 right-0 mb-4 gap-2">
                       {PlanInEditing === ele.id ? (
                         <MdOutlineCancel
-                          size={23}
                           color="green"
-                          onClick={() => setPlanInEditing(null)}
+                          size={23}
+                          onClick={() => {
+                            userEditedAField
+                              ? Swal.fire({
+                                  title: "Do you want to ignore the changes?",
+                                  showDenyButton: true,
+                                  showCancelButton: true,
+                                  confirmButtonText: "Ignore",
+                                  denyButtonText: `Apply `,
+                                }).then((result) => {
+                                  /* Read more about isConfirmed, isDenied below */
+                                  if (result.isConfirmed) {
+                                    Swal.fire(
+                                      "Changes will not be applied !",
+                                      "",
+                                      "error"
+                                    );
+                                  } else if (result.isDenied) {
+                                    Swal.fire(
+                                      "Changes are Saved !",
+                                      "",
+                                      "success"
+                                    );
+                                    setPlanInEditing(null);
+                                  }
+                                })
+                              : setPlanInEditing(null);
+                          }}
                         />
                       ) : (
                         <CiEdit
@@ -174,6 +209,7 @@ function page() {
                   <div className="mt-3">
                     <p className="font-bold">Description : </p>
                     <textarea
+                      onChange={() => setUserEditedAField(true)}
                       disabled={PlanInEditing ? false : true}
                       defaultValue={ele.description}
                       className="resize-none outline-none w-full border-2 px-2 mt-2 h-[200px] overflow-y-auto py-2"
