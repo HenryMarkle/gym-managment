@@ -94,6 +94,8 @@ function starterS() {
     <>
       {/* Start starter Blog */}
 
+      <p className="font-bold text-3xl mb-6 ml-10 mt-5 ">Home</p>
+
       <p className=" font-bold text-center text-xl">Starter Section</p>
       <div
         id="starter"
@@ -179,48 +181,60 @@ function starterS() {
           className="h-[35px] mt-[24px] bg-green-700 text-white rounded-xl cursor-pointer"
           disabled={!edited}
           type="submit"
-          onClick={async () => {
-            updateHomeGeneralInfo({
-              title: gymTitle,
-              description: generalInfo?.description,
-              starter: generalInfo?.sentence,
-              secondSentence: generalInfo?.secondSentence,
-              description: generalInfo?.description,
+          onClick={() => {
+            Swal.fire({
+              title: "Do you want to save the changes?",
+              showDenyButton: true,
+              showCancelButton: true,
+              confirmButtonText: "Save",
+              denyButtonText: `Don't save`,
+            }).then(async (result) => {
+              if (result.isConfirmed) {
+                updateHomeGeneralInfo({
+                  title: gymTitle,
+                  description: generalInfo?.description,
+                  starter: generalInfo?.sentence,
+                  secondSentence: generalInfo?.secondSentence,
+                  description: generalInfo?.description,
+                });
+                if (image !== null) {
+                  var extension = image.name.includes(".")
+                    ? image.name.substring(
+                        image.name.lastIndexOf(".") + 1,
+                        image.name.length
+                      )
+                    : "";
+                  const imagesRef = ref(storage, "images/");
+
+                  const allImages = await listAll(imagesRef);
+
+                  const gymHomeBackImage = allImages.items.find((i) =>
+                    i.name.startsWith("gymHomeBackImage")
+                  );
+
+                  if (gymHomeBackImage) {
+                    const imageRef = ref(
+                      storage,
+                      `images/${gymHomeBackImage.name}`
+                    );
+                    await deleteObject(imageRef);
+                  }
+
+                  const imageRef = ref(
+                    storage,
+                    `images/gymHomeBackImage.${extension}`
+                  );
+                  try {
+                    await uploadBytes(imageRef, image);
+                  } catch (e) {
+                    console.log("failed to upload image: " + e);
+                  }
+                }
+                Swal.fire("Saved!", "", "success");
+              } else if (result.isDenied) {
+                Swal.fire("Changes are not saved", "", "info");
+              }
             });
-
-            if (image !== null) {
-              var extension = image.name.includes(".")
-                ? image.name.substring(
-                    image.name.lastIndexOf(".") + 1,
-                    image.name.length
-                  )
-                : "";
-              const imagesRef = ref(storage, "images/");
-
-              const allImages = await listAll(imagesRef);
-
-              const gymHomeBackImage = allImages.items.find((i) =>
-                i.name.startsWith("gymHomeBackImage")
-              );
-
-              if (gymHomeBackImage) {
-                const imageRef = ref(
-                  storage,
-                  `images/${gymHomeBackImage.name}`
-                );
-                await deleteObject(imageRef);
-              }
-
-              const imageRef = ref(
-                storage,
-                `images/gymHomeBackImage.${extension}`
-              );
-              try {
-                await uploadBytes(imageRef, image);
-              } catch (e) {
-                console.log("failed to upload image: " + e);
-              }
-            }
           }}
         >
           Update

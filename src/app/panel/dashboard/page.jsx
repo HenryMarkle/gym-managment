@@ -286,44 +286,59 @@ export default function HomePage() {
             className=" h-[40px] mt-5 bg-green-700 text-white font-bold rounded-xl"
             disabled={!edited2}
             onClick={async () => {
-              const result = await updateAdsInfo({
-                title: adsTitle,
-                description: adsDescription,
+              Swal.fire({
+                title: "Do you want to save the changes?",
+                showDenyButton: true,
+                showCancelButton: true,
+                confirmButtonText: "Save",
+                denyButtonText: `Don't save`,
+              }).then(async (result) => {
+                if (result.isConfirmed) {
+                  const result = await updateAdsInfo({
+                    title: adsTitle,
+                    description: adsDescription,
+                  });
+
+                  if (result === "success" && adsImage) {
+                    var extension = adsImage.name.includes(".")
+                      ? image.name.substring(
+                          adsImage.name.lastIndexOf(".") + 1,
+                          adsImage.name.length
+                        )
+                      : "";
+                    const imagesRef = ref(storage, "images/");
+
+                    const allImages = await listAll(imagesRef);
+
+                    const adsBackgroundImage = allImages.items.find((i) =>
+                      i.name.startsWith("adsBackgroundImage")
+                    );
+
+                    if (adsBackgroundImage) {
+                      const imageRef = ref(
+                        storage,
+                        `images/${adsBackgroundImage.name}`
+                      );
+                      await deleteObject(imageRef);
+                    }
+
+                    const imageRef = ref(
+                      storage,
+                      `images/adsBackgroundImage.${extension}`
+                    );
+                    try {
+                      await uploadBytes(imageRef, adsImage);
+                    } catch (e) {
+                      console.log(
+                        "failed to upload ads background image: " + e
+                      );
+                    }
+                  }
+                  Swal.fire("Saved!", "", "success");
+                } else if (result.isDenied) {
+                  Swal.fire("Changes are not saved", "", "info");
+                }
               });
-
-              if (result === "success" && adsImage) {
-                var extension = adsImage.name.includes(".")
-                  ? image.name.substring(
-                      adsImage.name.lastIndexOf(".") + 1,
-                      adsImage.name.length
-                    )
-                  : "";
-                const imagesRef = ref(storage, "images/");
-
-                const allImages = await listAll(imagesRef);
-
-                const adsBackgroundImage = allImages.items.find((i) =>
-                  i.name.startsWith("adsBackgroundImage")
-                );
-
-                if (adsBackgroundImage) {
-                  const imageRef = ref(
-                    storage,
-                    `images/${adsBackgroundImage.name}`
-                  );
-                  await deleteObject(imageRef);
-                }
-
-                const imageRef = ref(
-                  storage,
-                  `images/adsBackgroundImage.${extension}`
-                );
-                try {
-                  await uploadBytes(imageRef, adsImage);
-                } catch (e) {
-                  console.log("failed to upload ads background image: " + e);
-                }
-              }
             }}
           >
             Update

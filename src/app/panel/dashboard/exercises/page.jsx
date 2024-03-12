@@ -4,6 +4,8 @@ import { CiSaveDown1 } from "react-icons/ci";
 import { CiSaveUp1 } from "react-icons/ci";
 import { CiEdit } from "react-icons/ci";
 import { MdDeleteForever } from "react-icons/md";
+import { MdOutlineCancel } from "react-icons/md";
+
 import "./helper.css";
 import storage from "../../../api/v1/firebase";
 import { ref, uploadBytes } from "firebase/storage";
@@ -16,6 +18,7 @@ import {
   deleteSection,
   deleteExcerciseById,
 } from "../../../api/v1/excercises";
+import Swal from "sweetalert2";
 
 function Exercises() {
   const [sectionOpen, setSectionOpen] = useState(false);
@@ -40,6 +43,8 @@ function Exercises() {
   const [openExercises, setOpenExercises] = useState([]);
 
   const [inEditingExercise, setInEditingExercise] = useState();
+
+  const [userIsEditingExercise, setUserIsEditingExercise] = useState(false);
 
   function updateNewExcercise(data) {
     var key = data.target.name;
@@ -381,12 +386,51 @@ function Exercises() {
                                     </span>
                                   </div>
                                   <div className="content mt-10 grid grid-cols-2 gap-5 shadow-md m-2 p-4 h-[80%] relative">
-                                    <CiEdit
-                                      onClick={() => setInEditingExercise(e.id)}
-                                      className="absolute top-0 right-4"
-                                      size={23}
-                                      color="green"
-                                    />
+                                    {inEditingExercise === e.id ? (
+                                      <MdOutlineCancel
+                                        color="green"
+                                        className="absolute top-0 right-4"
+                                        size={23}
+                                        onClick={() => {
+                                          userIsEditingExercise
+                                            ? Swal.fire({
+                                                title:
+                                                  "Do you want to ignore the changes?",
+                                                showDenyButton: true,
+                                                showCancelButton: true,
+                                                confirmButtonText: "Ignore",
+                                                denyButtonText: `Apply `,
+                                              }).then((result) => {
+                                                /* Read more about isConfirmed, isDenied below */
+                                                if (result.isConfirmed) {
+                                                  Swal.fire(
+                                                    "Changes will not be applied !",
+                                                    "",
+                                                    "error"
+                                                  );
+                                                  setInEditingExercise(null);
+                                                } else if (result.isDenied) {
+                                                  Swal.fire(
+                                                    "Changes are Saved !",
+                                                    "",
+                                                    "success"
+                                                  );
+                                                  setInEditingExercise(null);
+                                                }
+                                              })
+                                            : setInEditingExercise(null);
+                                        }}
+                                      />
+                                    ) : (
+                                      <CiEdit
+                                        onClick={() =>
+                                          setInEditingExercise(e.id)
+                                        }
+                                        className="absolute top-0 right-4"
+                                        size={23}
+                                        color="green"
+                                      />
+                                    )}
                                     <MdDeleteForever
                                       className="absolute top-0 right-11"
                                       color="red"
@@ -395,6 +439,7 @@ function Exercises() {
                                         await deleteExcerciseById(e.id);
                                       }}
                                     />
+
                                     <div>
                                       <img
                                         className=""
@@ -409,11 +454,17 @@ function Exercises() {
                                       {inEditingExercise === e.id ? (
                                         <>
                                           <input
+                                            onChange={() => {
+                                              setUserIsEditingExercise(true);
+                                            }}
                                             className="px-2"
                                             type="text"
                                             defaultValue={e.name}
                                           />
                                           <textarea
+                                            onChange={() => {
+                                              setUserIsEditingExercise(true);
+                                            }}
                                             className=" resize-none h-[70%] w-full mt-4 p-1 border-2 outline-none rounded-xl"
                                             type="text"
                                             defaultValue={e.description}

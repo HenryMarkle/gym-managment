@@ -18,8 +18,8 @@ function HeaderDash() {
     },
     {
       id: 4,
-      title: "market ",
-      to: "/panel/dashboard/exercises",
+      title: "Managers",
+      to: "/panel/dashboard/managers",
       active: false,
     },
     {
