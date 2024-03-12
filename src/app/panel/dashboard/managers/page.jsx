@@ -115,7 +115,7 @@ function page() {
             return (
               <>
                 <div
-                  className={`manager mx-3 mt-4 pb-6 shadow-md duration-300 overflow-hidden ${
+                  className={`manager mx-3 mt-4 pb-6 shadow-md duration-300 overflow-hidden relative ${
                     openManagers.includes(ele.id) ? "h-max" : "h-[55px]"
                   }`}
                 >
@@ -136,7 +136,7 @@ function page() {
                       <CiSaveDown1 size={22} />
                     </p>
                   </div>
-                  <div className="content mt-10 flex gap-5">
+                  <div className="content mt-10 flex gap-5 relative pt-4">
                     <div className="w-[50%]">
                       <img className="w-[100%]" src={ele.image} alt="" />
                     </div>
@@ -146,7 +146,7 @@ function page() {
                           Name :{" "}
                         </label>
                         <input
-                          disabled
+                          disabled={ManagerInEditing === ele.id ? false : true}
                           defaultValue={ele.name}
                           className="px-2"
                           type="text"
@@ -158,7 +158,7 @@ function page() {
                           Job title :{" "}
                         </label>
                         <input
-                          disabled
+                          disabled={ManagerInEditing === ele.id ? false : true}
                           defaultValue={ele.jobTitle}
                           className="px-2"
                           type="text"
@@ -170,7 +170,7 @@ function page() {
                           Instagram :{" "}
                         </label>
                         <input
-                          disabled
+                          disabled={ManagerInEditing === ele.id ? false : true}
                           defaultValue={ele.Instagram}
                           className="px-2"
                           type="text"
@@ -182,7 +182,7 @@ function page() {
                           Facebook :{" "}
                         </label>
                         <input
-                          disabled
+                          disabled={ManagerInEditing === ele.id ? false : true}
                           defaultValue={ele.facebook}
                           className="px-2"
                           type="text"
@@ -194,7 +194,7 @@ function page() {
                           Twitter :{" "}
                         </label>
                         <input
-                          disabled
+                          disabled={ManagerInEditing === ele.id ? false : true}
                           defaultValue={ele.twitter}
                           className="px-2"
                           type="text"
@@ -202,11 +202,29 @@ function page() {
                         />
                       </div>
                     </div>
+                    <div className="flex absolute -top-8 right-0 mb-4 gap-2">
+                      {ManagerInEditing === ele.id ? (
+                        <MdOutlineCancel
+                          size={23}
+                          color="green"
+                          onClick={() => setManagerInEditing(null)}
+                        />
+                      ) : (
+                        <CiEdit
+                          onClick={() => {
+                            setManagerInEditing(ele.id);
+                          }}
+                          size={23}
+                          color="green"
+                        />
+                      )}
+                      <MdDeleteForever size={23} color="red" />
+                    </div>
                   </div>
                   <div className="mt-3">
                     <p className="font-bold">Description : </p>
                     <textarea
-                      disabled
+                      disabled={ManagerInEditing ? false : true}
                       defaultValue={ele.description}
                       className="resize-none outline-none w-full border-2 px-2 mt-2 h-[200px]"
                     />
