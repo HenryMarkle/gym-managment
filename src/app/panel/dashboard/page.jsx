@@ -94,151 +94,9 @@ export default function HomePage() {
   return (
     <>
       <StarterS />
-
       {/* Start Plan Blog */}
 
-      <div
-        id="plan"
-        className={`create-plan mt-5 w-full  overflow-hidden   duration-700 shadow-xl rounded-lg  ${
-          planOpen ? "h-[570px]" : "h-[85px]"
-        }`}
-      >
-        <div
-          onClick={() => setPlanOpen(!planOpen)}
-          className="header flex justify-between items-center mt-4 px-2 cursor-pointer"
-        >
-          <p className="mb-2 text-[19px] font-bold text-center w-full py-5 ">
-            Create plan
-          </p>
-          {planOpen ? <CiSaveUp1 size={24} /> : <CiSaveDown1 size={24} />}
-        </div>
-        <div className="form-content w-full rounded-[30px] py-1 px-5 grid grid-cols-2 gap-7">
-          <div className="plan-title flex flex-col">
-            <label htmlFor="">Plan title</label>
-            <input
-              value={planTitle}
-              onChange={(e) => setPlanTitle(e.target.value)}
-              type="text"
-              placeholder="Plan title"
-            />
-          </div>{" "}
-          <div className="plan-desc flex flex-col">
-            <label htmlFor="">Plan description</label>
-            <input
-              value={planDesc}
-              onChange={(e) => setPlanDesc(e.target.value)}
-              type="text"
-              placeholder="Plan description"
-            />
-          </div>
-          <div className="plan-desc flex flex-col">
-            <label htmlFor="">Plan duration</label>
-            <input
-              value={planDur}
-              onChange={(e) => setPlanDur(e.target.value)}
-              type="text"
-              placeholder="Plan description"
-            />
-          </div>
-          <div className="plan-price flex flex-col">
-            <label htmlFor="">Plan price</label>
-            <input
-              value={planPrice}
-              onChange={(e) => setPlanPrice(e.target.value)}
-              type="number"
-              placeholder="Plan price"
-            />
-          </div>{" "}
-          <div className="plan-price flex flex-col">
-            <label htmlFor="">Plan Features</label>
-            <div className="w-full ">
-              <input
-                className=" w-[81%] rounded-r-none"
-                value={planfeature}
-                onChange={(e) => setPlanFeature(e.target.value)}
-                type="text"
-                placeholder="Add feature"
-              />
-              <button
-                onClick={() => {
-                  setPlanFeatures([...Planfeatuers, planfeature]);
-                  setPlanFeature("");
-                }}
-                className="w-[19%] bg-green-700 py-1 rounded-r-xl text-white"
-              >
-                Add
-              </button>
-            </div>
-          </div>
-          <button
-            onClick={() => {
-              Swal.fire({
-                title: `Do you want to save the plan?
-                You will be able to edit the plan from Plans page.
-                `,
-                showDenyButton: false,
-                showCancelButton: true,
-                confirmButtonText: "Save",
-                denyButtonText: `Don't save`,
-              }).then(async (result) => {
-                /* Read more about isConfirmed, isDenied below */
-                if (result.isConfirmed) {
-                  const result = await addPlan({
-                    title: planTitle,
-                    description: planDesc,
-                    price: planPrice,
-                    duration: planDur,
-                  });
-                  if (result === "success") {
-                    setPlanTitle("");
-                    setPlanDesc("");
-                    setPlanPrice("");
-                    setPlanDur("");
-                    Swal.fire("Saved!", "", "success");
-                  } else {
-                    Swal.fire("Fail!", "", "error");
-                  }
-                } else if (result.isDenied) {
-                  Swal.fire("Changes are not saved", "", "info");
-                }
-              });
-            }}
-            className="bg-green-700 h-[60%] mt-6 rounded-xl text-white"
-          >
-            Create
-          </button>
-          <div className="plan-price flex flex-col">
-            <label htmlFor="">Added features</label>
-            <div className=" h-[140px] border-2 overflow-y-auto rounded-xl">
-              <div className=" flex flex-row flex-wrap gap-2 p-6">
-                {Planfeatuers.filter((ele) => ele != "").map((ele) => {
-                  return (
-                    <>
-                      <p className="plan-feature relative bg-gray-50 px-4 py-1 m-2">
-                        {ele}
-                        <span
-                          onClick={() => {
-                            const filterdArray = Planfeatuers.filter(
-                              (e) => e != ele
-                            );
-                            setPlanFeatures(filterdArray);
-                          }}
-                          className="absolute -top-5 right-0 bg-gray-50 px-2 cursor-pointer hover:bg-red-500 duration-200 hover:text-white"
-                        >
-                          X
-                        </span>
-                      </p>
-                    </>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
       {/*End Plan Blog */}
-
       {/* Start Ads Blog */}
       <div className="p-6 rounded-xl mt-10  pt-10 border-b-2 pb-10 shadow-lg ">
         <p className="font-bold text-center mb-10 text-xl">Ads section</p>
@@ -345,13 +203,9 @@ export default function HomePage() {
           </button>
         </div>
       </div>
-
       {/* End Ads Blog */}
-
       {/* Start shop Blog */}
-
       <div id="shop" className="add-product-to-shop mt-20 border-t-2 ">
-        <p>Create Product</p>
         <div
           className={`create-plan mt-5 w-full shadow-lg overflow-hidden rounded-[30px] duration-700 flex flex-col ${
             shopOpen ? "h-[620px]" : "h-[55px]"
@@ -361,7 +215,9 @@ export default function HomePage() {
             onClick={() => setShopOpen(!shopOpen)}
             className="header flex justify-between items-center mt-4 px-2 cursor-pointer"
           >
-            <p className="mb-2 text-[19px]">Add product</p>
+            <p className=" text-[19px] text-center font-bold w-full mb-10">
+              Add product
+            </p>
             {shopOpen ? <CiSaveUp1 size={24} /> : <CiSaveDown1 size={24} />}
           </div>
           <div className="form-content w-full mr-10 rounded-[30px] py-1 px-5 flex gap-5">
@@ -611,7 +467,6 @@ export default function HomePage() {
           Changes you make here will appear directly on your gym website.
         </p>
       </div>
-
       {/* End shop Blog */}
     </>
   );
