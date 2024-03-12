@@ -148,7 +148,9 @@ function page() {
                         <input
                           disabled={ManagerInEditing === ele.id ? false : true}
                           defaultValue={ele.name}
-                          className="px-2"
+                          className={`px-2 duration-300 ${
+                            ManagerInEditing === ele.id && "py-1"
+                          }`}
                           type="text"
                           placeholder="name"
                         />
@@ -160,7 +162,9 @@ function page() {
                         <input
                           disabled={ManagerInEditing === ele.id ? false : true}
                           defaultValue={ele.jobTitle}
-                          className="px-2"
+                          className={`px-2 duration-300 ${
+                            ManagerInEditing === ele.id && "py-1"
+                          }`}
                           type="text"
                           placeholder="name"
                         />
@@ -172,7 +176,9 @@ function page() {
                         <input
                           disabled={ManagerInEditing === ele.id ? false : true}
                           defaultValue={ele.Instagram}
-                          className="px-2"
+                          className={`px-2 duration-300 ${
+                            ManagerInEditing === ele.id && "py-1"
+                          }`}
                           type="text"
                           placeholder="name"
                         />
@@ -184,7 +190,9 @@ function page() {
                         <input
                           disabled={ManagerInEditing === ele.id ? false : true}
                           defaultValue={ele.facebook}
-                          className="px-2"
+                          className={`px-2 duration-300 ${
+                            ManagerInEditing === ele.id && "py-1"
+                          }`}
                           type="text"
                           placeholder="name"
                         />
@@ -196,7 +204,9 @@ function page() {
                         <input
                           disabled={ManagerInEditing === ele.id ? false : true}
                           defaultValue={ele.twitter}
-                          className="px-2"
+                          className={`px-2 duration-300 ${
+                            ManagerInEditing === ele.id && "py-1"
+                          }`}
                           type="text"
                           placeholder="name"
                         />

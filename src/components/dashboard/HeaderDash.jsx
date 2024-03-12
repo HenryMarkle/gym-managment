@@ -6,26 +6,26 @@ function HeaderDash() {
     { id: 1, title: "Home", to: "/panel/dashboard" },
     {
       id: 2,
-      title: "Exercises ",
-      to: "/panel/dashboard/exercises",
-      active: false,
-    },
-    {
-      id: 3,
       title: "Market ",
       to: "/panel/dashboard/market",
       active: false,
     },
     {
+      id: 3,
+      title: "Plans",
+      to: "/panel/dashboard/plans",
+      active: false,
+    },
+    {
       id: 4,
-      title: "Managers",
-      to: "/panel/dashboard/managers",
+      title: "Exercises ",
+      to: "/panel/dashboard/exercises",
       active: false,
     },
     {
       id: 5,
-      title: "Exercises ",
-      to: "/panel/dashboard/exercises",
+      title: "Managers",
+      to: "/panel/dashboard/managers",
       active: false,
     },
   ];
