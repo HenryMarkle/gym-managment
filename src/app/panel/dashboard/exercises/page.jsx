@@ -370,7 +370,7 @@ function Exercises() {
                                 <div
                                   className={`mt-5 w-[97%] p-2 -z-50 ${
                                     openExercises.includes(e.id)
-                                      ? "h-[400px]"
+                                      ? "h-[600px]"
                                       : "h-[39px]"
                                   } rounded-lg  shadow-md overflow-hidden duration-500`}
                                 >
@@ -469,6 +469,18 @@ function Exercises() {
                                     >
                                       {inEditingExercise === e.id ? (
                                         <>
+                                          <div className="my-4">
+                                            <label
+                                              className="font-bold mb-2"
+                                              htmlFor=""
+                                            >
+                                              Upload new image
+                                            </label>
+                                            <input
+                                              style={{ padding: 0 }}
+                                              type="file"
+                                            />
+                                          </div>
                                           <input
                                             onChange={() => {
                                               setUserIsEditingExercise(true);
@@ -485,7 +497,7 @@ function Exercises() {
                                             type="text"
                                             defaultValue={e.description}
                                           />
-                                          <button className="px-2 bg-green-600 text-white py-1 rounded-lg">
+                                          <button className="px-2 bg-green-600 text-white py-1 rounded-lg w-full">
                                             Submit edits
                                           </button>
                                         </>

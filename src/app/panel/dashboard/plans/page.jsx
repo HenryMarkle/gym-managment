@@ -80,7 +80,7 @@ function page() {
               <>
                 <div
                   className={`manager mx-3 mt-4 pb-6 shadow-md duration-300 overflow-hidden relative ${
-                    openManagers.includes(ele.id) ? "h-[600px]" : "h-[55px]"
+                    openManagers.includes(ele.id) ? "h-[750px]" : "h-[55px]"
                   }`}
                 >
                   <div
@@ -102,6 +102,11 @@ function page() {
                   </div>
                   <div className="content mt-10 flex gap-5 relative pt-4">
                     <div className="w-[50%]">
+                      {PlanInEditing && (
+                        <>
+                          <input type="file" className="mb-4" />
+                        </>
+                      )}
                       <img
                         className="w-[100%] max-h-[300px]"
                         src={ele.image}
@@ -214,6 +219,14 @@ function page() {
                       defaultValue={ele.description}
                       className="resize-none outline-none w-full border-2 px-2 mt-2 h-[200px] overflow-y-auto py-2"
                     />
+
+                    {PlanInEditing && (
+                      <>
+                        <button className="w-full mt-3 bg-green-700 font-bold text-white rounded-xl px-3 py-1">
+                          Submit edits !
+                        </button>
+                      </>
+                    )}
                   </div>
                 </div>
               </>
