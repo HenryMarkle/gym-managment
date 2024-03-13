@@ -515,9 +515,9 @@ function Exercises() {
                                     />
 
                                     <div>
-                                      {e.video && <audio control>
+                                      {e.video && <video control>
                                         <source src={e.video.url}/>
-                                      </audio>}
+                                      </video>}
                                     </div>
                                     <p
                                       style={{ overflowWrap: "anywhere" }}
