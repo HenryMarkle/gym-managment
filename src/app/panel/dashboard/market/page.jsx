@@ -17,6 +17,7 @@ function page() {
   const [activeSection, setActiveSection] = useState(null);
   const [openProducts, setOpenProducts] = useState([]);
   const [filterValue, setFilterValue] = useState("");
+   
   const [userEditedAField, setUserEditedAField] = useState(false);
   useEffect(() => {
     getCategoryProducts().then((cp) => {
@@ -44,10 +45,12 @@ function page() {
   return (
     <>
       <div className="shadow-lg h-full m-3 p-4 rounded-lg">
+        {/* Start add Product blog */}
+
         <div className="flex items-center ">
           <p className="font-bold text-3xl">Market</p>
           <div className="self-center ml-10 relative">
-            <CiSearch size={24} className=" absolute left-1 top-[2px]" />
+            <CiSearch size={25} className=" absolute left-1 top-[2px]" />
             <input
               onChange={(e) => setFilterValue(e.target.value)}
               className="border-2 rounded-xl px-7 w-[400px]"

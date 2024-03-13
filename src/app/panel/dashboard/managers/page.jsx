@@ -238,6 +238,14 @@ function page() {
                       defaultValue={ele.description}
                       className="resize-none outline-none w-full border-2 px-2 mt-2 h-[200px]"
                     />
+
+                    {ManagerInEditing === ele.id && (
+                      <>
+                        <button className="px-3 py-1 bg-green-700 rounded-xl text-white font-bold w-[95%] mr-4 ml-4">
+                          Submit edits
+                        </button>
+                      </>
+                    )}
                   </div>
                 </div>
               </>

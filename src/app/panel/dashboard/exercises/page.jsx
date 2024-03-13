@@ -193,8 +193,24 @@ function Exercises() {
                       color="green"
                     />
                     <MdDeleteForever
-                      onClick={() => deletSection(ele.name)}
-                      className="absolute top-0"
+                      onClick={() => {
+                        Swal.fire({
+                          title: "Do you want to Delete the Section?",
+                          showDenyButton: true,
+                          showCancelButton: true,
+                          confirmButtonText: "Delete",
+                          denyButtonText: `Don't Delete`,
+                        }).then(async (result) => {
+                          /* Read more about isConfirmed, isDenied below */
+                          if (result.isConfirmed) {
+                            deletSection(ele.name);
+                            Swal.fire("Section Deleted!", "", "success");
+                          } else if (result.isDenied) {
+                            Swal.fire("Section not deleted", "", "info");
+                          }
+                        });
+                      }}
+                      className="absolute top-0 cursor-pointer z-50"
                       color="red"
                       size={23}
                     />
