@@ -169,11 +169,30 @@ function page() {
                                   )}
                                   <MdDeleteForever
                                     onClick={async () => {
-                                      const deleteRes =
-                                        await deleteHomeProductById(el.id);
-                                      console.log(
-                                        "delete product: " + deleteRes
-                                      );
+                                      Swal.fire({
+                                        title:
+                                          "Do you want to delete the product?",
+                                        showDenyButton: true,
+                                        showCancelButton: true,
+                                        confirmButtonText: "delete",
+                                        denyButtonText: `Don't delete`,
+                                      }).then(async (result) => {
+                                        /* Read more about isConfirmed, isDenied below */
+                                        if (result.isConfirmed) {
+                                          const deleteRes =
+                                            await deleteHomeProductById(el.id);
+                                          console.log(
+                                            "delete product: " + deleteRes
+                                          );
+                                          Swal.fire("Deleted!", "", "success");
+                                        } else if (result.isDenied) {
+                                          Swal.fire(
+                                            "Product not deleted",
+                                            "",
+                                            "info"
+                                          );
+                                        }
+                                      });
                                     }}
                                     color="red"
                                     size={23}
@@ -362,11 +381,30 @@ function page() {
                                   )}
                                   <MdDeleteForever
                                     onClick={async () => {
-                                      const deleteRes =
-                                        await deleteHomeProductById(el.id);
-                                      console.log(
-                                        "delete product: " + deleteRes
-                                      );
+                                      Swal.fire({
+                                        title:
+                                          "Do you want to delete the product?",
+                                        showDenyButton: true,
+                                        showCancelButton: true,
+                                        confirmButtonText: "delete",
+                                        denyButtonText: `Don't delete`,
+                                      }).then(async (result) => {
+                                        /* Read more about isConfirmed, isDenied below */
+                                        if (result.isConfirmed) {
+                                          const deleteRes =
+                                            await deleteHomeProductById(el.id);
+                                          console.log(
+                                            "delete product: " + deleteRes
+                                          );
+                                          Swal.fire("Deleted!", "", "success");
+                                        } else if (result.isDenied) {
+                                          Swal.fire(
+                                            "Product not deleted",
+                                            "",
+                                            "info"
+                                          );
+                                        }
+                                      });
                                     }}
                                     color="red"
                                     size={23}

@@ -159,7 +159,7 @@ export default function HomePage() {
 
                   if (result === "success" && adsImage) {
                     var extension = adsImage.name.includes(".")
-                      ? image.name.substring(
+                      ? image?.name?.substring(
                           adsImage.name.lastIndexOf(".") + 1,
                           adsImage.name.length
                         )
@@ -191,8 +191,8 @@ export default function HomePage() {
                         "failed to upload ads background image: " + e
                       );
                     }
+                    Swal.fire("Saved!", "", "success");
                   }
-                  Swal.fire("Saved!", "", "success");
                 } else if (result.isDenied) {
                   Swal.fire("Changes are not saved", "", "info");
                 }

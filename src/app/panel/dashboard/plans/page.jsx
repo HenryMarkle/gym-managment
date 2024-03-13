@@ -208,7 +208,26 @@ function page() {
                           color="green"
                         />
                       )}
-                      <MdDeleteForever size={23} color="red" />
+                      <MdDeleteForever
+                        onClick={() => {
+                          Swal.fire({
+                            title: "Do you want to delete the plan?",
+                            showDenyButton: true,
+                            showCancelButton: true,
+                            confirmButtonText: "delete",
+                            denyButtonText: `Don't delete`,
+                          }).then((result) => {
+                            /* Read more about isConfirmed, isDenied below */
+                            if (result.isConfirmed) {
+                              Swal.fire("Deleted!", "", "success");
+                            } else if (result.isDenied) {
+                              Swal.fire("Plan not deleted", "", "info");
+                            }
+                          });
+                        }}
+                        size={23}
+                        color="red"
+                      />
                     </div>
                   </div>
                   <div className="mt-3">

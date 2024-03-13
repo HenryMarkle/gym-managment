@@ -11,6 +11,7 @@ import { CiEdit } from "react-icons/ci";
 import { MdDeleteForever } from "react-icons/md";
 
 import "./managers.css";
+import Swal from "sweetalert2";
 function page() {
   const dummyData = [
     {
@@ -138,7 +139,17 @@ function page() {
                   </div>
                   <div className="content mt-10 flex gap-5 relative pt-4">
                     <div className="w-[50%]">
-                      <img className="w-[100%]" src={ele.image} alt="" />
+                      {ManagerInEditing && (
+                        <>
+                          <div className="mb-10 ml-3">
+                            <label className="font-bold mb-2">
+                              Upload new image :
+                            </label>
+                            <input type="file" />
+                          </div>
+                        </>
+                      )}
+                      <img className="w-[74%]" src={ele.image} alt="" />
                     </div>
                     <div className="w-[50%]">
                       <div>
@@ -212,7 +223,7 @@ function page() {
                         />
                       </div>
                     </div>
-                    <div className="flex absolute -top-8 right-0 mb-4 gap-2">
+                    <div className="flex absolute -top-8 right-4 mb-4 gap-2">
                       {ManagerInEditing === ele.id ? (
                         <MdOutlineCancel
                           size={23}
@@ -228,7 +239,26 @@ function page() {
                           color="green"
                         />
                       )}
-                      <MdDeleteForever size={23} color="red" />
+                      <MdDeleteForever
+                        onClick={() => {
+                          Swal.fire({
+                            title: "Do you want to delete the trainer?",
+                            showDenyButton: true,
+                            showCancelButton: true,
+                            confirmButtonText: "delete",
+                            denyButtonText: `Don't delete`,
+                          }).then((result) => {
+                            /* Read more about isConfirmed, isDenied below */
+                            if (result.isConfirmed) {
+                              Swal.fire("deleted!", "", "success");
+                            } else if (result.isDenied) {
+                              Swal.fire("Trainer not deleted", "", "info");
+                            }
+                          });
+                        }}
+                        size={23}
+                        color="red"
+                      />
                     </div>
                   </div>
                   <div className="mt-3">
@@ -241,7 +271,7 @@ function page() {
 
                     {ManagerInEditing === ele.id && (
                       <>
-                        <button className="px-3 py-1 bg-green-700 rounded-xl text-white font-bold w-[95%] mr-4 ml-4">
+                        <button className="px-3 py-1 bg-green-700  text-white font-bold w-full ">
                           Submit edits
                         </button>
                       </>

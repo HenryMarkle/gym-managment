@@ -452,7 +452,30 @@ function Exercises() {
                                       color="red"
                                       size={23}
                                       onClick={async () => {
-                                        await deleteExcerciseById(e.id);
+                                        Swal.fire({
+                                          title:
+                                            "Do you want to delete the Exercise?",
+                                          showDenyButton: true,
+                                          showCancelButton: true,
+                                          confirmButtonText: "delete",
+                                          denyButtonText: `Don't delete`,
+                                        }).then(async (result) => {
+                                          /* Read more about isConfirmed, isDenied below */
+                                          if (result.isConfirmed) {
+                                            await deleteExcerciseById(e.id);
+                                            Swal.fire(
+                                              "Deleted!",
+                                              "",
+                                              "success"
+                                            );
+                                          } else if (result.isDenied) {
+                                            Swal.fire(
+                                              "Exercise is not deleted",
+                                              "",
+                                              "info"
+                                            );
+                                          }
+                                        });
                                       }}
                                     />
 
