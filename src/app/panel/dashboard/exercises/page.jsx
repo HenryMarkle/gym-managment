@@ -201,7 +201,6 @@ function Exercises() {
                           confirmButtonText: "Delete",
                           denyButtonText: `Don't Delete`,
                         }).then(async (result) => {
-                          /* Read more about isConfirmed, isDenied below */
                           if (result.isConfirmed) {
                             deletSection(ele.name);
                             Swal.fire("Section Deleted!", "", "success");
