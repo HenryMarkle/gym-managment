@@ -12,6 +12,7 @@ import { ref, uploadBytes } from "firebase/storage";
 
 import {
   getAllSectionsWithExcercises,
+  deleteSectionWithExercises,
   createSection,
   getAllSections,
   createExcercise,

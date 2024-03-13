@@ -102,6 +102,24 @@ export async function deleteSection(
   }
 }
 
+export async function deleteSectionWithExercises(name: string): Promise<undefined | "unauthorized" | 'error'> {
+  try {
+    await client.$connect();
+
+    if (!(await getAuthState())) return "unauthorized";
+
+    await client.excercise.deleteMany({ where: { category: { name } } });
+    await client.excerciseCategory.delete({ where: { name } });
+
+    return;
+  } catch (e) {
+    console.log(e);
+    return "error";
+  } finally {
+    await client.$disconnect();
+  }
+}
+
 export async function getAllSectionsWithExcercises(): Promise<
   (Section & { excercises: Excercise[] })[] | "error"
 > {

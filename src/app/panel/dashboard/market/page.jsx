@@ -9,6 +9,7 @@ import { MdDeleteForever } from "react-icons/md";
 import {
   getProductCategories,
   getCategoryProducts,
+  deleteHomeProductById
 } from "../../../api/v1/dashboard";
 import Swal from "sweetalert2";
 function page() {
@@ -187,7 +188,10 @@ function page() {
                                       size={23}
                                     />
                                   )}
-                                  <MdDeleteForever color="red" size={23} />
+                                  <MdDeleteForever onClick={async () => {
+                                    const deleteRes = await deleteHomeProductById(el.id);
+                                    console.log("delete product: "+deleteRes);
+                                  }} color="red" size={23} />
                                 </div>
                               </div>
                               <div className="mb-5">
