@@ -29,37 +29,32 @@ function page() {
    
   const [userEditedAField, setUserEditedAField] = useState(false);
 
-  const [allProductImages, setAllProductImages] = useState(new Map());
-
   async function getProductImageUrls(id) {
     const storageRef = ref(storage, `images/products/${id}/`);
 
     const result = await listAll(storageRef);
 
-    return result.items.map(async i => await getDownloadURL(i));
+    let urls = []
+
+    for (let item of result.items) {
+      urls.push({url: await getDownloadURL(item), obj: item});
+    }
+
+    return urls;
   }
 
   useEffect(() => {
-    getCategoryProducts().then((cp) => {
+    getCategoryProducts().then(async (cp) => {
       if (cp === "error") {
         console.log("There is an error with getting the data !");
       } else {
-        setProducts(cp);
-
         for (let category of cp) {
           for (let prod of category.data) {
-            getProductImageUrls(prod.id).then(urls => {
-              console.log("product images: "+urls)
-
-              doneUrls = [];
-
-              Promise.allSettled(urls).then(u => {
-                allProductImages.set(prod.id, u);
-                setAllProductImages(p => p);
-              });
-            });
+            prod.images = await getProductImageUrls(prod.id);
           }
         }
+
+        setProducts(cp);
       }
     });
 
@@ -177,20 +172,20 @@ function page() {
                               <div className="product-images flex justify-evenly items-center mb-5 relative">
                                 {/* Product Images */}
 
-                                {allProductImages.get(el.id)?.map(async i => <>
-                                  <div className="shadow-lg rounded-lg  p-2 relative">
+                                {el.images?.map(i => <div className="shadow-lg rounded-lg  p-2 relative">
                                   <img
                                     className="w-[250px] rounded-xl"
-                                    src={await i}
+                                    src={i.url}
                                     alt=""
                                   />{" "}
                                   {inEditingProduct === el.id && (
                                     <span className="cursor-pointer absolute -top-2 -right-2">
-                                      <TiDelete size={25} color="red" />
+                                      <TiDelete onClick={() => {
+                                        deleteObject(ref(storage, `images/products/${el.id}/${i.obj.name}`));
+                                      }} size={25} color="red" />
                                     </span>
                                   )}
-                                  </div>
-                                </>)}
+                                  </div>)}
 
                                 <div className="flex items-center absolute top-0 right-0 gap-4">
                                   {inEditingProduct === el.id ? (
@@ -392,18 +387,20 @@ function page() {
                             </div>
                             <div className="content mt-4">
                               <div className="product-images flex justify-evenly items-center mb-5 relative">
-                                <div className="shadow-lg rounded-lg  p-2 relative">
+                              {el.images?.map(i => <div className="shadow-lg rounded-lg  p-2 relative">
                                   <img
                                     className="w-[250px] rounded-xl"
-                                    src="https://cdn.dribbble.com/userupload/5397328/file/original-abbf9d218b53b1b11f8ead1f9529216e.png?resize=400x300&vertical=center"
+                                    src={i.url}
                                     alt=""
                                   />{" "}
                                   {inEditingProduct === el.id && (
                                     <span className="cursor-pointer absolute -top-2 -right-2">
-                                      <TiDelete size={25} color="red" />
+                                      <TiDelete onClick={() => {
+                                        deleteObject(ref(storage, `images/products/${el.id}/${i.obj.name}`))
+                                      }} size={25} color="red" />
                                     </span>
                                   )}
-                                </div>
+                                  </div>)}
 
                                 <div className="flex items-center absolute top-0 right-0 gap-4">
                                   {inEditingProduct === el.id ? (
