@@ -419,6 +419,31 @@ export async function deleteHomeProduct(name: string): Promise<"success" | "unau
   }
 }
 
+export async function updateProduct(id: number, data: { name: string, description: string, price: number }): Promise<undefined | 'unauthorized' | 'error'> {
+  try {
+    await client.$connect();
+
+    const sc = cookies().get("session");
+    if (!sc) return "unauthorized";
+    if (!(await client.user.count({ where: { session: sc.value } })))
+      return "unauthorized";
+
+    await client.product.update({ where: { id }, data: { 
+      name: data.name, 
+      description: data.description, 
+      price: data.price, 
+      updatedAt: new Date() 
+    } });
+
+    return;
+  } catch (e) {
+    console.log("failed to update product: " + e);
+    return "error";
+  } finally {
+    await client.$disconnect();
+  }
+}
+
 export async function deleteHomeProductById(id: number): Promise<"success" | "unauthorized" | "error"> {
   try {
     await client.$connect();

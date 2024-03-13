@@ -7,6 +7,7 @@ import { MdOutlineCancel } from "react-icons/md";
 import { CiEdit } from "react-icons/ci";
 import { MdDeleteForever } from "react-icons/md";
 import {
+  updateProduct,
   getProductCategories,
   getCategoryProducts,
   deleteHomeProductById,
@@ -20,6 +21,10 @@ function page() {
   const [openProducts, setOpenProducts] = useState([]);
   const [filterValue, setFilterValue] = useState("");
 
+  const [editedProductName, setEditedProductName] = useState('');
+  const [editedProductDescription, setEditedProductDescription] = useState('');
+  const [editedProductprice, setEditedProductPrice] = useState(0);
+   
   const [userEditedAField, setUserEditedAField] = useState(false);
   useEffect(() => {
     getCategoryProducts().then((cp) => {
@@ -216,6 +221,32 @@ function page() {
                                     <></>
                                   )}
                                 </div>
+                                <div className="flex items-center gap-4">
+                                  {inEditingProduct === el.id ? (
+                                    <MdOutlineCancel
+                                      color="green"
+                                      size={23}
+                                      onClick={() => setInEditingProduct(null)}
+                                    />
+                                  ) : (
+                                    <CiEdit
+                                      onClick={() => {
+                                        console.log('setting data: '+el)
+                                        setEditedProductName(el.name);
+                                        setEditedProductDescription(el.description);
+                                        setEditedProductPrice(el.price);
+
+                                        setInEditingProduct(el.id)
+                                      }}
+                                      color="green"
+                                      size={23}
+                                    />
+                                  )}
+                                  <MdDeleteForever onClick={async () => {
+                                    const deleteRes = await deleteHomeProductById(el.id);
+                                    console.log("delete product: "+deleteRes);
+                                  }} color="red" size={23} />
+                                </div>
                               </div>
                               <div className="mb-5">
                                 {inEditingProduct === el.id ? (
@@ -400,6 +431,10 @@ function page() {
                                     <>
                                       <span className="font-bold">Name : </span>
                                       <input
+                                        onChange={({ target }) => {
+                                          setEditedProductName(target.value);
+                                          setUserEditedAField(true);
+                                        }}
                                         className="border-2 px-2 rounded-xl"
                                         type="text"
                                         defaultValue={el.name}
@@ -409,12 +444,82 @@ function page() {
                                     <></>
                                   )}
                                 </div>
+                                <div className="flex items-center gap-4">
+                                  {inEditingProduct === el.id ? (
+                                    <MdOutlineCancel
+                                      color="green"
+                                      size={23}
+                                      onClick={() => {
+                                        userEditedAField
+                                          ? Swal.fire({
+                                              title:
+                                                "Do you want to ignore the changes?",
+                                              showDenyButton: true,
+                                              showCancelButton: true,
+                                              confirmButtonText: "Ignore",
+                                              denyButtonText: `Apply `,
+                                            }).then((result) => {
+                                              /* Read more about isConfirmed, isDenied below */
+                                              if (result.isConfirmed) {
+                                                Swal.fire(
+                                                  "Changes will not be applied !",
+                                                  "",
+                                                  "error"
+                                                );
+                                              } else if (result.isDenied) {
+                                                Swal.fire(
+                                                  "Changes are Saved !",
+                                                  "",
+                                                  "success"
+                                                );
+                                                setInEditingProduct(null);
+                                              }
+                                            })
+                                          : setInEditingProduct(null);
+                                      }}
+                                    />
+                                  ) : (
+                                    <CiEdit
+                                      onClick={() => {
+                                        console.log('setting data: '+el)
+                                        setEditedProductName(el.name);
+                                        setEditedProductDescription(el.description);
+                                        setEditedProductPrice(el.price);
+                                        
+                                        setInEditingProduct(el.id);
+                                      }}
+                                      color="green"
+                                      size={23}
+                                    />
+                                  )}
+                                    <MdDeleteForever onClick={async () => {
+                                      const result = await Swal.fire({
+                                        title: 'Are you sure?',
+                                        showCancelButton: true,
+                                        confirmButtonText: "Yes",
+                                        cancelButtonText: "Cancel"
+                                      });
+
+                                      if (result.isConfirmed) {
+                                        const deleteRes = await deleteHomeProductById(el.id);
+                                      
+                                        if (deleteRes === 'success') {
+                                          await Swal.fire("Product deleted successfully", "", "success")
+                                        }
+                                      }
+                                    const deleteRes = await deleteHomeProductById(el.id);
+                                    console.log("delete product: "+deleteRes);
+                                  }} color="red" size={23} />                                </div>
                               </div>
                               <div className="mb-5">
                                 {inEditingProduct === el.id ? (
                                   <>
                                     <span className="font-bold">price : </span>
                                     <input
+                                      onChange={({ target }) => {
+                                        setEditedProductPrice(Number(target.value))
+                                        setUserEditedAField(true);
+                                      }}
                                       className="border-2 px-2 rounded-xl"
                                       type="text"
                                       defaultValue={el.price}
@@ -436,6 +541,10 @@ function page() {
                                         Description :{" "}
                                       </p>
                                       <textarea
+                                        onChange={(e) => {
+                                          setEditedProductDescription(e.target.value)
+                                          setUserEditedAField(true);
+                                        }}
                                         className="ml-3 flex-1 border-2 outline-none rounded-xl resize-none h-[200px] px-2"
                                         defaultValue={el.description}
                                       />
@@ -451,6 +560,11 @@ function page() {
                                           denyButtonText: `Don't save`,
                                         }).then((result) => {
                                           if (result.isConfirmed) {
+                                            updateProduct(el.id, { 
+                                              name: editedProductName, 
+                                              description: editedProductDescription, 
+                                              price: editedProductprice
+                                            });
                                             Swal.fire("Saved!", "", "success");
                                           } else if (result.isDenied) {
                                             Swal.fire(
