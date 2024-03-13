@@ -203,7 +203,7 @@ function Exercises() {
                           denyButtonText: `Don't Delete`,
                         }).then(async (result) => {
                           if (result.isConfirmed) {
-                            deletSection(ele.name);
+                            deleteSectionWithExercises(ele.name);
                             Swal.fire("Section Deleted!", "", "success");
                           } else if (result.isDenied) {
                             Swal.fire("Section not deleted", "", "info");
