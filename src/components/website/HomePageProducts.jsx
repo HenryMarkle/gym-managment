@@ -14,10 +14,30 @@ import Link from "next/link";
 function Products() {
   const [products, setProducts] = useState([]);
 
+  async function getProductImages(id) {
+    const storageRed = ref(storage, `images/products/${id}`);
+    const listRes = await listAll(storageRed);
+    
+    let urls = [];
+
+    for (let item of listRes.items) {
+      urls.push(await getDownloadURL(item));
+    }
+
+    return urls;
+  }
+
   useEffect(() => {
-    getHomeProducts().then((p) => {
+    getHomeProducts().then(async (p) => {
       if (p === "error" || p === "unauthorized") {
-      } else setProducts(p);
+      } else {
+        for (let product of p) {
+          product.images = await getProductImages(product.id);
+        }
+
+        setProducts(p);
+      
+      }
       console.log(products);
     });
   }, []);
@@ -55,11 +75,9 @@ function Products() {
                   >
                     <Link href={`/product/${ele.id}`}>
                       <div className=" flex flex-col min-h-[280px]">
-                        <img
-                          className="w-[220px] self-center"
-                          src="https://cdn.akakce.com/hardline-nutrition/hardline-nutrition-progainer-5000-gr-z.jpg"
-                          alt=""
-                        />
+                        { ele.images?.length &&
+                          <img className="w-[220px] self-center" src={ele.images[0]} /> 
+                        }
                         <div className="flex w-full p-3 items-center">
                           <p className="w-[100%] min-h-[71px] text-sm mt-2">
                             <span className=" text-website2 font-bold text-lg mr-1">

@@ -8,7 +8,7 @@ import { MdOutlineCancel } from "react-icons/md";
 
 import "./helper.css";
 import storage from "../../../api/v1/firebase";
-import { ref, uploadBytes } from "firebase/storage";
+import { ref, uploadBytes, getDownloadURL, listAll, deleteObject } from "firebase/storage";
 
 import {
   getAllSectionsWithExcercises,
@@ -18,6 +18,8 @@ import {
   createExcercise,
   deleteSection,
   deleteExcerciseById,
+  updateExcerciseById,
+  updateSectionById,
 } from "../../../api/v1/excercises";
 import Swal from "sweetalert2";
 
@@ -32,6 +34,11 @@ function Exercises() {
     description: "",
     sectionName: "",
   });
+
+  const [editedExercise, setEditedExercise] = useState({ name: "", description: "" });
+  const [editedExerciseVideo, setEditedExerciseVideo] = useState(null);
+
+  const [editedSection, setEditedSection] = useState({ name: '' })
 
   const deletSection = async (name) => {
     await deleteSection(name)
@@ -50,8 +57,6 @@ function Exercises() {
   function updateNewExcercise(data) {
     var key = data.target.name;
 
-    // console.log(`key: ${key}, value: ${data.target.value}`);
-
     setNewExcercise((prev) => ({
       ...prev,
 
@@ -63,10 +68,32 @@ function Exercises() {
   let newSectionImage = null;
   let newExerciseVideo = null;
 
+  async function getExcerciseSectionImage(id) {
+    const result = await listAll(ref(storage, `vidoes/excercises/`));
+    const found = result.items.find(i => i.name.startsWith(id.toString()));
+
+    return found ? {url: await getDownloadURL(found), obj: found} : undefined;
+  }
+
+  async function getExcerciseVideo(id) {
+    const result = await listAll(ref(storage, `videos/excercises2/`))
+    const found = result.items.find(i => i.name.startsWith(id?.toString() ?? ''));
+
+    return found ? {url: await getDownloadURL(found), obj: found} : undefined;
+  }
+
   useEffect(() => {
     getAllSectionsWithExcercises()
-      .then((response) => {
+      .then(async (response) => {
         if (response !== "error") {
+          for (let section of response) {
+            section.image = await getExcerciseSectionImage(section.id);
+
+            for (let exc of section.excercises) {
+              exc.video = await getExcerciseVideo(exc.id);
+            }
+          }
+
           setAllSectionWithExcercises(response);
           console.log(response);
         }
@@ -169,8 +196,9 @@ function Exercises() {
                       <>
                         <input
                           onChange={(e) => {
-                            inEditingExercies.name = e.target.value;
-                            console.log(inEditingExercies.name);
+                            inEditingExercise.name = e.target.value;
+                            setEditedSection(p => ({...p, name: e.target.value}));
+                            console.log(inEditingExercise.name);
                           }}
                           className="border-2  my-3  rounded-xl"
                           type="text"
@@ -186,7 +214,7 @@ function Exercises() {
                     )}
                     <CiEdit
                       onClick={() => {
-                        setInEditinSection((prev) => [ele.id]);
+                        setEditedSection({ name: ele.name });
                         console.log(inEditingSections);
                       }}
                       className="absolute top-0 right-4"
@@ -215,13 +243,18 @@ function Exercises() {
                       size={23}
                     />
 
-                    <img
-                      src="https://image-prod.iol.co.za/resize/640x64000/?source=https://xlibris.public.prod.oc.inl.infomaker.io:8443/opencontent/objects/47e4c8ec-2500-58d9-a698-e8d54f04be98&operation=CROP&offset=0x0&resize=1080x1350&webp=true"
-                      alt=""
-                    />
+                    {/* Section image */}
+
+                    { ele.image && 
+                    
+                      <img src={ele.image.url}/>
+                    }
+
                     {inEditingSections.includes(ele.id) && (
                       <>
-                        <button className=" w-full bg-green-600 mt-4 py-2 text-white font-bold rounded-lg">
+                        <button onClick={() => {
+                          updateSectionById(ele.id, editedSection);
+                        }} className=" w-full bg-green-600 mt-4 py-2 text-white font-bold rounded-lg">
                           Submit edits
                         </button>
                       </>
@@ -262,6 +295,8 @@ function Exercises() {
                 name="sectionName"
                 onChange={updateNewExcercise}
               >
+                <option disabled selected>Select</option>
+                
                 {allSectionsWithExcercises.map((a) => (
                   <option>{a.name}</option>
                 ))}
@@ -480,11 +515,9 @@ function Exercises() {
                                     />
 
                                     <div>
-                                      <img
-                                        className=""
-                                        src="https://steelfitusa.com/cdn/shop/articles/The-Anatomy-of-the-Biceps.jpg?v=1660142064&width=1500"
-                                        alt=""
-                                      />
+                                      {e.video && <video control>
+                                        <source src={e.video.url}/>
+                                      </video>}
                                     </div>
                                     <p
                                       style={{ overflowWrap: "anywhere" }}
@@ -502,25 +535,43 @@ function Exercises() {
                                             <input
                                               style={{ padding: 0 }}
                                               type="file"
+                                              onChange={({ target }) => setEditedExerciseVideo(target.files.length ? target.files[0] : null)}
                                             />
                                           </div>
                                           <input
-                                            onChange={() => {
+                                            onChange={({ target }) => {
                                               setUserIsEditingExercise(true);
+                                              setEditedExercise(prev => ({...prev, name: target.value}));
                                             }}
                                             className="px-2"
                                             type="text"
                                             defaultValue={e.name}
                                           />
                                           <textarea
-                                            onChange={() => {
+                                            onChange={({ target }) => {
                                               setUserIsEditingExercise(true);
+                                              setEditedExercise(prev => ({...prev, description: target.value }))
                                             }}
                                             className=" resize-none h-[70%] w-full mt-4 p-1 border-2 outline-none rounded-xl"
                                             type="text"
                                             defaultValue={e.description}
                                           />
-                                          <button className="px-2 bg-green-600 text-white py-1 rounded-lg w-full">
+                                          <button onClick={async () => {
+                                            const result = await updateExcerciseById(e.id, editedExercise);
+                                          
+                                            // success
+                                            if (!result && editedExerciseVideo) {
+                                              const objects = await listAll(ref(storage, `videos/excercises2/`));
+
+                                              const exists = objects.items.find(i => i.startsWith(e.id.toString()));
+                                              
+                                              if (exists) {
+                                                await deleteObject(ref(storage, `videos/excercises2/${exists.name}`))
+                                              }
+
+                                              await uploadBytes(ref(storage, `videos/excercises2/${editedExerciseVideo.name}`), editedExerciseVideo);
+                                            }
+                                          }} className="px-2 bg-green-600 text-white py-1 rounded-lg w-full">
                                             Submit edits
                                           </button>
                                         </>

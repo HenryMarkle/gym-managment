@@ -102,6 +102,23 @@ export async function deleteSection(
   }
 }
 
+export async function updateSectionById(id: number, data: { name: string }): Promise<undefined | 'unauthorized' | 'error'> {
+  try {
+    await client.$connect();
+
+    if (!(await getAuthState())) return "unauthorized";
+
+    await client.excerciseCategory.update({ where: { id }, data: { name: data.name } });
+
+    return;
+  } catch (e) {
+    console.log(e);
+    return "error";
+  } finally {
+    await client.$disconnect();
+  }
+}
+
 export async function deleteSectionWithExercises(name: string): Promise<undefined | "unauthorized" | 'error'> {
   try {
     await client.$connect();
@@ -248,6 +265,23 @@ export async function deleteExcerciseById(
 }
 
 export async function updateExcerciseById(id: number, data: Excercise): Promise<undefined | 'unauthorized' |'error'> {
+  try {
+    await client.$connect();
+
+    if (!(await getAuthState())) return "unauthorized";
+
+    await client.excercise.update({ where: { id }, data });
+
+    return;
+  } catch (e) {
+    console.log(e);
+    return "error";
+  } finally {
+    await client.$disconnect();
+  }
+}
+
+export async function updateExcerciseById2(id: number, data: { name: string, description: string }): Promise<undefined | 'unauthorized' |'error'> {
   try {
     await client.$connect();
 
