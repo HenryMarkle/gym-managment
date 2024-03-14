@@ -1,14 +1,10 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
-import Switch from "react-toggle-switch";
 import { CiSearch } from "react-icons/ci";
 import BeatLoader from "react-spinners/BeatLoader";
 import Slider from "../../components/website/Slider";
 import "./market.css";
 import {
-  getHomeProducts,
   getProductCategories,
   getCategoryProducts,
 } from "../../app/api/v1/dashboard";
@@ -16,7 +12,6 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
-import Link from "next/link";
 
 function Market() {
   const [categories, setCategories] = useState([]);
