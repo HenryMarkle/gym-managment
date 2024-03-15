@@ -10,6 +10,9 @@ import "swiper/css/scrollbar";
 import Link from "next/link";
 import { CiSearch } from "react-icons/ci";
 import "../market.css";
+
+import { getProductImageUrls } from "../../../lib/images";
+
 function page({}) {
   const params = useParams();
   const [showSpinner, setShowSpinner] = useState(false);
@@ -18,9 +21,16 @@ function page({}) {
   const [searchingValue, setSearhingValue] = useState("");
   useEffect(() => {
     console.log(params);
+    
     getProductsOfCategory(params.cat ?? "").then((c) => {
-      if (c === "error") {
-      } else setProducts(c);
+      if (c !== "error") {
+        const promises = c.map(product => {
+          const promise = getProductImageUrls(product.id).then(urls => product.images = urls);
+          return promise;
+        });
+
+        Promise.all(promises).then(() => setProducts(c));
+      }
     });
   }, []);
 
@@ -106,11 +116,15 @@ function page({}) {
                 <div className="product-card w-[23%] shadow-lg">
                   <Link href={`/product/${ele.id}`}>
                     <div className=" flex flex-col min-h-[280px]">
-                      <img
+                      { ele.images?.length &&
+
+                        <img
                         className="w-[220px] self-center"
-                        src="https://cdn.akakce.com/hardline-nutrition/hardline-nutrition-progainer-5000-gr-z.jpg"
+                        src={ele.images[0]}
                         alt=""
-                      />
+                        />
+
+                      }
                       <div className="flex w-full p-3 items-center">
                         <p className="w-[100%] min-h-[71px] text-sm mt-2">
                           <span className=" text-website2 font-bold text-lg mr-1">

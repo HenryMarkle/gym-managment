@@ -18,6 +18,7 @@ import StarterS from "../../../components/website/components/starterS";
 import storage from "../../api/v1/firebase";
 import { listAll, ref, uploadBytes, deleteObject } from "firebase/storage";
 import Swal from "sweetalert2";
+import { uploadProductImages } from "../../../lib/images";
 
 export default function HomePage() {
   const [edited, setEdited] = useState(false);
@@ -231,7 +232,7 @@ export default function HomePage() {
                   id="product-images"
                   onChange={(e) => {
                     setEdited2(true);
-                    setProductImage(e.target.files ?? { length: 0 });
+                    setProductImage(e.target.files ?? new FileList());
                   }}
                 />
               </div>{" "}
@@ -318,36 +319,14 @@ export default function HomePage() {
                         productImage.length &&
                         typeof addResult === "number"
                       ) {
-                        const storageRef = ref(
-                          storage,
-                          `images/products/${addResult}/`
-                        );
+                        const result = await uploadProductImages(addResult, productImage);
 
-                        try {
-                          const allImages = await listAll(storageRef);
-
-                          allImages.items.forEach(
-                            async (i) => await deleteObject(i)
-                          );
-
-                          for (let f = 0; f < productImage.length ?? 0; f++) {
-                            await uploadBytes(
-                              ref(
-                                storage,
-                                `images/products/${addResult}/${
-                                  productImage.item(f).name
-                                }`
-                              )
-                            );
-                          }
-                        } catch (e) {
-                          console.log(
-                            "could not perform product creation operation: " + e
-                          );
-                          Swal.fire("Fail!", "", "error");
+                        if (result) {
+                          Swal.fire("Failed to upload images", "", "error");
+                        } else {
+                          Swal.fire("Saved!", "", "success");
                         }
 
-                        Swal.fire("Saved!", "", "success");
                         setProductDesc("");
                         setProductMarka("");
                         setProductPrice("");

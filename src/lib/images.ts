@@ -1,6 +1,24 @@
 import storage from '../app/api/v1/firebase';
 import { ref, listAll, getDownloadURL, deleteObject, uploadBytes } from 'firebase/storage';
 
+export async function uploadProductImages(id: number, images: FileList): Promise<undefined | 'error'> {
+    try {
+        const storageRef = ref(storage, `images/products/${id}/`);
+
+        const response = await listAll(storageRef);
+
+        if (response.items.length) {
+            for (let item of response.items) await deleteObject(item);
+        }
+
+        for (let image of images) await uploadBytes(ref(storage, `images/products/${id}/${image.name}`), image);
+
+    } catch (e) {
+        console.log(`uploadPrductImages(): ${e}`);
+        return 'error';
+    }
+}
+
 export async function getProductImageUrls(id: number): Promise<string[]> {
     try {
         const storageRef = ref(storage, `/images/products/${id}`);
@@ -65,7 +83,7 @@ export async function getTrainerImageUrl(id: number): Promise<string | null> {
 
 export async function uploadTrainerImage(id: number, image: File) {
     try {
-        const images = await listAll(ref(storage, `image/trainers/${id}`));
+        const images = await listAll(ref(storage, `images/trainers/${id}`));
 
         if (images.items.length) {
             for (let image of images.items) await deleteObject(image);
