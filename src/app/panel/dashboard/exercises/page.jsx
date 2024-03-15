@@ -10,6 +10,8 @@ import "./helper.css";
 import storage from "../../../api/v1/firebase";
 import { ref, uploadBytes, getDownloadURL, listAll, deleteObject } from "firebase/storage";
 
+import { getExerciseSectionImageUrl, getExerciseVideoUrl } from "../../../../lib/images";
+
 import {
   getAllSectionsWithExcercises,
   deleteSectionWithExercises,
@@ -68,29 +70,15 @@ function Exercises() {
   let newSectionImage = null;
   let newExerciseVideo = null;
 
-  async function getExcerciseSectionImage(id) {
-    const result = await listAll(ref(storage, `vidoes/excercises/`));
-    const found = result.items.find(i => i.name.startsWith(id.toString()));
-
-    return found ? {url: await getDownloadURL(found), obj: found} : undefined;
-  }
-
-  async function getExcerciseVideo(id) {
-    const result = await listAll(ref(storage, `videos/excercises2/`))
-    const found = result.items.find(i => i.name.startsWith(id?.toString() ?? ''));
-
-    return found ? {url: await getDownloadURL(found), obj: found} : undefined;
-  }
-
   useEffect(() => {
     getAllSectionsWithExcercises()
       .then(async (response) => {
         if (response !== "error") {
           for (let section of response) {
-            section.image = await getExcerciseSectionImage(section.id);
+            section.image = await getExerciseSectionImageUrl(section.id);
 
             for (let exc of section.excercises) {
-              exc.video = await getExcerciseVideo(exc.id);
+              exc.video = await getExerciseVideoUrl(exc.id);
             }
           }
 
@@ -192,7 +180,7 @@ function Exercises() {
               return (
                 <>
                   <div className="sction w-1/6 shadow-md px-4 relative py-5 rounded-lg">
-                    {inEditingSections.includes(ele.id) ? (
+                    {inEditingSections.find(s => s.id === ele.id) ? (
                       <>
                         <input
                           onChange={(e) => {
@@ -214,6 +202,10 @@ function Exercises() {
                     )}
                     <CiEdit
                       onClick={() => {
+                        if (inEditingSections.find(s => s.id === ele.id)) {
+                          setInEditinSection(array => array.filter(s => s.id !== ele.id))
+                        }
+                        else setInEditinSection([ele])
                         setEditedSection({ name: ele.name });
                         console.log(inEditingSections);
                       }}
@@ -250,7 +242,7 @@ function Exercises() {
                       <img src={ele.image.url}/>
                     }
 
-                    {inEditingSections.includes(ele.id) && (
+                    {inEditingSections.find(s => s.id === ele.id) && (
                       <>
                         <button onClick={() => {
                           updateSectionById(ele.id, editedSection);
@@ -358,7 +350,7 @@ function Exercises() {
 
                   let storageRef = ref(
                     storage,
-                    `videos/exercises/${result}.${extension}`
+                    `videos/excercises2/${result}.${extension}`
                   );
 
                   await uploadBytes(storageRef, newExerciseVideo);
@@ -474,8 +466,10 @@ function Exercises() {
                                       />
                                     ) : (
                                       <CiEdit
-                                        onClick={() =>
-                                          setInEditingExercise(e.id)
+                                        onClick={() => {
+                                            setInEditingExercise(e.id);
+                                            setEditedExercise({ name: e.name, description: e.description });
+                                          }
                                         }
                                         className="absolute top-0 right-4"
                                         size={23}
@@ -516,7 +510,7 @@ function Exercises() {
 
                                     <div>
                                       {e.video && <video control>
-                                        <source src={e.video.url}/>
+                                        <source src={e.video.url} type="video/mp4"/>
                                       </video>}
                                     </div>
                                     <p

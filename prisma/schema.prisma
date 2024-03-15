@@ -150,3 +150,15 @@ model Excercise {
   category ExcerciseCategory @relation(fields: [categoryId], references: [id])
   categoryId Int
 }
+
+model Trainer {
+  id Int @id @default(autoincrement())
+
+  job String @default("")
+  name String
+  description String
+
+  instagram String
+  facebook String
+  twitter String
+}

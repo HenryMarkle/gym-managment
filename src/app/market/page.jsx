@@ -12,6 +12,10 @@ import {
   getProductCategories,
   getCategoryProducts,
 } from "../../app/api/v1/dashboard";
+
+import storage from '../api/v1/firebase';
+import { ref, listAll, getDownloadURL } from 'firebase/storage';
+
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -33,14 +37,10 @@ function Market() {
       if (cp === "error") {
       } else {
         setProducts(cp);
-        console.log(cp);
       }
     });
 
-    getProductCategories().then((c) => {
-      if (c === "error") {
-      } else setCategories(c);
-    });
+    getProductCategories().then(setCategories)    
   }, []);
 
   const handleScroll = () => {
@@ -60,13 +60,6 @@ function Market() {
       setSendedFilterValue("");
     }
   }, [filterInputValue]);
-
-  // useEffect(() => {
-  //   const typingTimer = setTimeout(() => {
-  //     setShowSpinner(false);
-  //   }, 3000);
-  //   clearTimeout(typingTimer);
-  // }, [filterInputValue]);
 
   return (
     <>
@@ -131,18 +124,9 @@ function Market() {
               speedMultiplier={1}
             />
           </div>
-          {/* <button
-              onClick={() => setSendedFilterValue(filterInputValue)}
-              className=" text-white bg-orange-500 px-3 py-[5.3px] rounded-r-md "
-            >
-              Apply
-            </button> */}
         </div>
         <div className="parent-market ml-10 px-[100px] w-[100%] ">
           <div className="cat-filters ml-[22%]">
-            {/* <p className="text-website2 mt-2 font-bold">
-              You can filter by typing name or selecting category !
-            </p> */}
             <div
               className={`filter-by-categorie flex overflow-x-auto ${
                 categories.length > 8 ? "justify-between" : "justify-center"
@@ -165,16 +149,16 @@ function Market() {
             </div>
           </div>
           <div className="right p-4 ml-[12%] mt-4">
-            {products.map((ele) => {
+            {products.map(product => {
               return (
-                <React.Fragment key={ele.id}>
+                <React.Fragment key={product.id}>
                   <Slider
                     cat={catFilteringValue}
                     sendedFilterValue={sendedFilterValue}
                     min={min}
                     max={max}
-                    id={ele.id}
-                    data={ele}
+                    id={product.id}
+                    data={product}
                   />
                 </React.Fragment>
               );
