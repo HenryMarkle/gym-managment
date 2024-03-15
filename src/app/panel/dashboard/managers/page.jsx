@@ -283,12 +283,13 @@ function page() {
                             showCancelButton: true,
                             confirmButtonText: "delete",
                             denyButtonText: `Don't delete`,
-                          }).then((result) => {
+                          }).then(async (result) => {
                             /* Read more about isConfirmed, isDenied below */
                             if (result.isConfirmed) {
-                              Swal.fire("deleted!", "", "success");
+                              if (!(await deleteTrainerbyId(ele.id))) Swal.fire("deleted!", "", "success");
+                              else await  Swal.fire("Failed to delete", "", "error")
                             } else if (result.isDenied) {
-                              Swal.fire("Trainer not deleted", "", "info");
+                              await Swal.fire("Trainer not deleted", "", "info");
                             }
                           });
                         }}
