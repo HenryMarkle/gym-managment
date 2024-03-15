@@ -5,6 +5,7 @@ import { NextResponse } from "next/server";
 import path from "path";
 import client from "./client";
 import { cookies } from "next/headers";
+import { ProductCategory } from "@prisma/client";
 
 const gymHomeBackImage = 'gymHomeBackImage';
 const adsBackground = 'adsBackground';
@@ -357,6 +358,19 @@ export async function getHomeProducts(): Promise<(Product & { category: { id: nu
         deletedAt: p.deletedAt?.toDateString() ?? null
       }
     })
+  } catch (e) {
+    console.log("failed to get a product: " + e);
+    return "error";
+  }
+}
+
+export async function getProductById(id: number): Promise<Product & { category: ProductCategory } | 'notFound' | 'error'> {
+  try {
+    const product = await client.product.findUnique({ where: { id }, include: { category: true } });
+  
+    if (!product) return 'notFound';
+
+    return {...product, price: product.price.toNumber(), createdAt: product.createdAt.toDateString(), updatedAt: product.updatedAt.toDateString(), deletedAt: product.deletedAt?.toDateString() };
   } catch (e) {
     console.log("failed to get a product: " + e);
     return "error";

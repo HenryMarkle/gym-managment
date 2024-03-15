@@ -1,10 +1,9 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CiInstagram } from "react-icons/ci";
 import { CiFacebook } from "react-icons/ci";
 import { FaXTwitter } from "react-icons/fa6";
 import { CiSaveDown1 } from "react-icons/ci";
-import { CiSaveUp1 } from "react-icons/ci";
 
 import { MdOutlineCancel } from "react-icons/md";
 import { CiEdit } from "react-icons/ci";
@@ -12,48 +11,68 @@ import { MdDeleteForever } from "react-icons/md";
 
 import "./managers.css";
 import Swal from "sweetalert2";
+
+import { createTrainer, replaceTrainerById, deleteTrainerbyId, getTrainers } from '../../../api/v1/tariner';
+import { getTrainerImageUrl, uploadTrainerImage } from "../../../../lib/images";
 function page() {
-  const dummyData = [
-    {
-      id: 1,
-      image:
-        "https://www.thimble.com/wp-content/uploads/2022/05/Personal-Trainer-Salary-Guide.jpg",
-      name: "Abdullah Towait",
-      jobTitle: "Strength Trainer",
-      Instagram: "https:://",
-      facebook: "https:://",
-      twitter: "https:://",
-      description:
-        "Bitters cliche tattooed 8-bit distillery mustache. Keytar succulents gluten-free vegan church-key pour-over seitan flannel.",
-    },
-    {
-      id: 2,
-      image:
-        "https://www.mensjournal.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTk2MTM1OTAwNDIyMzUwMzQx/main2-trainer2.jpg",
-      name: "Ali Haseni",
-      jobTitle: "Muscle Trainer",
-      Instagram: "https:://",
-      facebook: "https:://",
-      twitter: "https:://",
-      description:
-        "Bitters cliche tattooed 8-bit distillery mustache. Keytar succulents gluten-free vegan church-key pour-over seitan flannel.",
-    },
-    {
-      id: 3,
-      image:
-        "https://www.abdulhamittopcu.com/wp-content/uploads/2018/10/personal-trainer-1024x683.jpg",
-      name: "Mo.Salum",
-      jobTitle: "Power Trainer",
-      Instagram: "https:://",
-      facebook: "https:://",
-      twitter: "https:://",
-      description:
-        "Bitters cliche tattooed 8-bit distillery mustache. Keytar succulents gluten-free vegan church-key pour-over seitan flannel.",
-    },
-  ];
 
   const [ManagerInEditing, setManagerInEditing] = useState();
   const [openManagers, setOpenManagers] = useState([]);
+
+  let editedManager = null;
+  let editedManagerImage = null;
+
+  const [newManager, setNewManager] = useState({ id: 0, job: '', name: '', description: '', instagram: '', facebook: '', twitter: '' });
+  const [newManagerImage, setNewManagerImage] = useState(null);
+  
+  const [managers, setManagers] = useState([]);
+
+  function updateEditedManagerState(event) {
+    let key = event.target.name;
+    let value = event.target.value;
+
+    editedManager[key] = value;
+  }
+
+  async function updateManager() {
+    if (!editedManager) return;
+
+    const result = await replaceTrainerById(editedManager.id, editedManager);
+  
+    if (result || !editedManagerImage) return;
+
+    await uploadTrainerImage(editedManager.id, editedManagerImage);
+  }
+
+  function updateNewManagerState(event) {
+    const key = event.target.name;
+    const value = event.target.value;
+
+    setNewManager(prev => ({
+      ...prev,
+      [key]: value, 
+    }));
+  }
+
+  async function createManager() {
+    const result = await createTrainer(newManager);
+  
+    if (typeof result === 'number' && newManagerImage) {
+      await uploadTrainerImage(result, newManagerImage);
+    }
+  }
+
+  useEffect(() => {
+    // Get all trainers
+    getTrainers().then(async response => {
+      if (response !== 'error') {
+        for (let manager of response) {
+          manager.image = await getTrainerImageUrl(manager.id);
+        }
+        setManagers(response);
+      }
+    });
+  }, [])
 
   return (
     <div className=" m-4 p-4 rounded-xl">
@@ -63,19 +82,19 @@ function page() {
           <p className="font-bold text-center py-3">Create manager</p>
           <div className="flex flex-col mt-2">
             <label className="font-bold text-md mb-1">Image</label>
-            <input className="" type="file" placeholder="job title" />
+            <input className="" type="file" placeholder="job title" onChange={({target}) => setNewManagerImage(target.files.length ? target.files[0] : null)}/>
           </div>{" "}
           <div className="flex flex-col mt-2">
             <label className="font-bold text-md mb-1">Job title</label>
-            <input className="px-2" type="text" placeholder="job title" />
+            <input className="px-2" type="text" placeholder="job title" name="job" onChange={updateNewManagerState} />
           </div>{" "}
           <div className="flex flex-col mt-2">
             <label className="font-bold text-md mb-1">Name</label>
-            <input className="px-2" type="text" placeholder="Name" />
+            <input className="px-2" type="text" placeholder="Name" name="name" onChange={updateNewManagerState} />
           </div>
           <div className="flex flex-col mt-2">
             <label className="font-bold text-md mb-1">Description</label>
-            <input className="px-2" type="text" placeholder="Description" />
+            <input className="px-2" type="text" placeholder="Description" name="description" onChange={updateNewManagerState} />
           </div>
           <p className="mt-4 font-bold py-2 border-y-2">
             Social media accounts
@@ -87,7 +106,7 @@ function page() {
               size={19}
               className="absolute bottom-1 right-2"
             />
-            <input className="px-2" type="text" placeholder="Instagram" />
+            <input className="px-2" type="text" placeholder="Instagram" name="instagram" onChange={updateNewManagerState} />
           </div>{" "}
           <div className="flex flex-col mt-2 relative">
             <label className="font-bold text-md mb-1">Facebook</label>
@@ -96,7 +115,7 @@ function page() {
               size={19}
               className="absolute bottom-1 right-2"
             />
-            <input className="px-2" type="text" placeholder="Facebook" />
+            <input className="px-2" type="text" placeholder="Facebook" name="facebook" onChange={updateNewManagerState} />
           </div>
           <div className="flex flex-col mt-2 relative">
             <label className="font-bold text-md mb-1">Twitter(X)</label>
@@ -105,14 +124,17 @@ function page() {
               size={19}
               className="absolute bottom-1 right-2"
             />
-            <input className="px-2" type="text" placeholder="Twitter(X)" />
+            <input className="px-2" type="text" placeholder="Twitter(X)" name="twitter" onChange={updateNewManagerState} />
           </div>
-          <button className="px-4 py-2 rounded-xl bg-green-700 text-white font-bold w-full mt-4">
+          <button onClick={createManager} className="px-4 py-2 rounded-xl bg-green-700 text-white font-bold w-full mt-4">
             Create manager
           </button>
         </div>
+
+        {/* Display Managers */}
+
         <div className="managers shadow-lg w-[60%] ">
-          {dummyData.map((ele) => {
+          {managers.map((ele) => {
             return (
               <>
                 <div
@@ -145,7 +167,7 @@ function page() {
                             <label className="font-bold mb-2">
                               Upload new image :
                             </label>
-                            <input type="file" />
+                            <input type="file" onChange={({target}) => editedManagerImage = target.files.length ? target.files[0] : null} />
                           </div>
                         </>
                       )}
@@ -164,6 +186,8 @@ function page() {
                           }`}
                           type="text"
                           placeholder="name"
+                          name="name"
+                          onChange={updateEditedManagerState}
                         />
                       </div>{" "}
                       <div className="mt-5">
@@ -172,12 +196,14 @@ function page() {
                         </label>
                         <input
                           disabled={ManagerInEditing === ele.id ? false : true}
-                          defaultValue={ele.jobTitle}
+                          defaultValue={ele.job}
                           className={`px-2 duration-300 ${
                             ManagerInEditing === ele.id && "py-1"
                           }`}
                           type="text"
                           placeholder="name"
+                          name="job"
+                          onChange={updateEditedManagerState}
                         />
                       </div>{" "}
                       <div className="mt-5">
@@ -186,12 +212,14 @@ function page() {
                         </label>
                         <input
                           disabled={ManagerInEditing === ele.id ? false : true}
-                          defaultValue={ele.Instagram}
+                          defaultValue={ele.instagram}
                           className={`px-2 duration-300 ${
                             ManagerInEditing === ele.id && "py-1"
                           }`}
                           type="text"
                           placeholder="name"
+                          name="instagram"
+                          onChange={updateEditedManagerState}
                         />
                       </div>{" "}
                       <div className="mt-5">
@@ -206,6 +234,8 @@ function page() {
                           }`}
                           type="text"
                           placeholder="name"
+                          name="facebook"
+                          onChange={updateEditedManagerState}
                         />
                       </div>{" "}
                       <div className="mt-5">
@@ -220,6 +250,8 @@ function page() {
                           }`}
                           type="text"
                           placeholder="name"
+                          name="twitter"
+                          onChange={updateEditedManagerState}
                         />
                       </div>
                     </div>
@@ -228,12 +260,16 @@ function page() {
                         <MdOutlineCancel
                           size={23}
                           color="green"
-                          onClick={() => setManagerInEditing(null)}
+                          onClick={() => {
+                            setManagerInEditing(null);
+                            editedManager = null;
+                          }}
                         />
                       ) : (
                         <CiEdit
                           onClick={() => {
                             setManagerInEditing(ele.id);
+                            editedManager = ele;
                           }}
                           size={23}
                           color="green"
@@ -247,12 +283,13 @@ function page() {
                             showCancelButton: true,
                             confirmButtonText: "delete",
                             denyButtonText: `Don't delete`,
-                          }).then((result) => {
+                          }).then(async (result) => {
                             /* Read more about isConfirmed, isDenied below */
                             if (result.isConfirmed) {
-                              Swal.fire("deleted!", "", "success");
+                              if (!(await deleteTrainerbyId(ele.id))) Swal.fire("deleted!", "", "success");
+                              else await  Swal.fire("Failed to delete", "", "error")
                             } else if (result.isDenied) {
-                              Swal.fire("Trainer not deleted", "", "info");
+                              await Swal.fire("Trainer not deleted", "", "info");
                             }
                           });
                         }}
@@ -267,11 +304,13 @@ function page() {
                       disabled={ManagerInEditing ? false : true}
                       defaultValue={ele.description}
                       className="resize-none outline-none w-full border-2 px-2 mt-2 h-[200px]"
+                      name="description"
+                      onChange={updateEditedManagerState}
                     />
 
                     {ManagerInEditing === ele.id && (
                       <>
-                        <button className="px-3 py-1 bg-green-700  text-white font-bold w-full ">
+                        <button onClick={updateManager} className="px-3 py-1 bg-green-700  text-white font-bold w-full ">
                           Submit edits
                         </button>
                       </>
