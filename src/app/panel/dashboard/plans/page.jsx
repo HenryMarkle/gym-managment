@@ -80,7 +80,7 @@ function page() {
               <>
                 <div
                   className={`manager mx-3 mt-4 pb-6 shadow-md duration-300 overflow-hidden relative ${
-                    openManagers.includes(ele.id) ? "h-[750px]" : "h-[55px]"
+                    openManagers.includes(ele.id) ? "h-max" : "h-[55px]"
                   }`}
                 >
                   <div
@@ -104,7 +104,12 @@ function page() {
                     <div className="w-[50%]">
                       {PlanInEditing && (
                         <>
-                          <input type="file" className="mb-4" />
+                          <div className="flex flex-col">
+                            <label className="font-bold mb-1" htmlFor="">
+                              Upload new Image :
+                            </label>
+                            <input type="file" className="mb-4" />
+                          </div>
                         </>
                       )}
                       <img

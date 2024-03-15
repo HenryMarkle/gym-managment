@@ -13,8 +13,14 @@ import {
   deleteHomeProductById,
 } from "../../../api/v1/dashboard";
 import Swal from "sweetalert2";
-import storage from '../../../api/v1/firebase';
-import { ref, uploadBytes, deleteObject, listAll, getDownloadURL } from 'firebase/storage';
+import storage from "../../../api/v1/firebase";
+import {
+  ref,
+  uploadBytes,
+  deleteObject,
+  listAll,
+  getDownloadURL,
+} from "firebase/storage";
 import { TiDelete } from "react-icons/ti";
 function page() {
   const [products, setProducts] = useState([]);
@@ -23,10 +29,10 @@ function page() {
   const [openProducts, setOpenProducts] = useState([]);
   const [filterValue, setFilterValue] = useState("");
 
-  const [editedProductName, setEditedProductName] = useState('');
-  const [editedProductDescription, setEditedProductDescription] = useState('');
+  const [editedProductName, setEditedProductName] = useState("");
+  const [editedProductDescription, setEditedProductDescription] = useState("");
   const [editedProductprice, setEditedProductPrice] = useState(0);
-   
+
   const [userEditedAField, setUserEditedAField] = useState(false);
 
   async function getProductImageUrls(id) {
@@ -34,10 +40,10 @@ function page() {
 
     const result = await listAll(storageRef);
 
-    let urls = []
+    let urls = [];
 
     for (let item of result.items) {
-      urls.push({url: await getDownloadURL(item), obj: item});
+      urls.push({ url: await getDownloadURL(item), obj: item });
     }
 
     return urls;
@@ -53,7 +59,6 @@ function page() {
             prod.images = await getProductImageUrls(prod.id);
           }
         }
-
         setProducts(cp);
       }
     });
@@ -62,17 +67,11 @@ function page() {
       if (c === "error") {
       } else setCategories(c);
     });
-
-
-  }, []);
+  }, [products]);
 
   useEffect(() => {}, [filterValue]);
 
-  
-
   const [inEditingProduct, setInEditingProduct] = useState();
-
-  const [newProduct, setNewProduct] = useState();
 
   return (
     <>
@@ -82,7 +81,7 @@ function page() {
         <div className="flex items-center ">
           <p className="font-bold text-3xl">Market</p>
           <div className="self-center ml-10 relative">
-            <CiSearch size={25} className=" absolute left-1 top-[2px]" />
+            <CiSearch size={25} className=" absolute left-1 " />
             <input
               onChange={(e) => setFilterValue(e.target.value)}
               className="border-2 rounded-xl px-7 w-[400px]"
@@ -172,20 +171,31 @@ function page() {
                               <div className="product-images flex justify-evenly items-center mb-5 relative">
                                 {/* Product Images */}
 
-                                {el.images?.map(i => <div className="shadow-lg rounded-lg  p-2 relative">
-                                  <img
-                                    className="w-[250px] rounded-xl"
-                                    src={i.url}
-                                    alt=""
-                                  />{" "}
-                                  {inEditingProduct === el.id && (
-                                    <span className="cursor-pointer absolute -top-2 -right-2">
-                                      <TiDelete onClick={() => {
-                                        deleteObject(ref(storage, `images/products/${el.id}/${i.obj.name}`));
-                                      }} size={25} color="red" />
-                                    </span>
-                                  )}
-                                  </div>)}
+                                {el.images?.map((i) => (
+                                  <div className="shadow-lg rounded-lg  p-2 relative">
+                                    <img
+                                      className="w-[250px] rounded-xl"
+                                      src={i.url}
+                                      alt=""
+                                    />{" "}
+                                    {inEditingProduct === el.id && (
+                                      <span className="cursor-pointer absolute -top-2 -right-2">
+                                        <TiDelete
+                                          onClick={() => {
+                                            deleteObject(
+                                              ref(
+                                                storage,
+                                                `images/products/${el.id}/${i.obj.name}`
+                                              )
+                                            );
+                                          }}
+                                          size={25}
+                                          color="red"
+                                        />
+                                      </span>
+                                    )}
+                                  </div>
+                                ))}
 
                                 <div className="flex items-center absolute top-0 right-0 gap-4">
                                   {inEditingProduct === el.id ? (
@@ -269,7 +279,6 @@ function page() {
                                     <></>
                                   )}
                                 </div>
-                               
                               </div>
                               <div className="mb-5">
                                 {inEditingProduct === el.id ? (
@@ -387,20 +396,31 @@ function page() {
                             </div>
                             <div className="content mt-4">
                               <div className="product-images flex justify-evenly items-center mb-5 relative">
-                              {el.images?.map(i => <div className="shadow-lg rounded-lg  p-2 relative">
-                                  <img
-                                    className="w-[250px] rounded-xl"
-                                    src={i.url}
-                                    alt=""
-                                  />{" "}
-                                  {inEditingProduct === el.id && (
-                                    <span className="cursor-pointer absolute -top-2 -right-2">
-                                      <TiDelete onClick={() => {
-                                        deleteObject(ref(storage, `images/products/${el.id}/${i.obj.name}`))
-                                      }} size={25} color="red" />
-                                    </span>
-                                  )}
-                                  </div>)}
+                                {el.images?.map((i) => (
+                                  <div className="shadow-lg rounded-lg  p-2 relative">
+                                    <img
+                                      className="w-[250px] rounded-xl"
+                                      src={i.url}
+                                      alt=""
+                                    />{" "}
+                                    {inEditingProduct === el.id && (
+                                      <span className="cursor-pointer absolute -top-2 -right-2">
+                                        <TiDelete
+                                          onClick={() => {
+                                            deleteObject(
+                                              ref(
+                                                storage,
+                                                `images/products/${el.id}/${i.obj.name}`
+                                              )
+                                            );
+                                          }}
+                                          size={25}
+                                          color="red"
+                                        />
+                                      </span>
+                                    )}
+                                  </div>
+                                ))}
 
                                 <div className="flex items-center absolute top-0 right-0 gap-4">
                                   {inEditingProduct === el.id ? (
@@ -471,7 +491,7 @@ function page() {
                                   )}
                                 </div>
                                 <div className="mb-5 ml-5">
-                                  {inEditingProduct === el.id ? (
+                                  {inEditingProduct === el.id && (
                                     <>
                                       <span className="font-bold">Name : </span>
                                       <input
@@ -484,76 +504,8 @@ function page() {
                                         defaultValue={el.name}
                                       />
                                     </>
-                                  ) : (
-                                    <></>
                                   )}
                                 </div>
-                                <div className="flex items-center gap-4">
-                                  {inEditingProduct === el.id ? (
-                                    <MdOutlineCancel
-                                      color="green"
-                                      size={23}
-                                      onClick={() => {
-                                        userEditedAField
-                                          ? Swal.fire({
-                                              title:
-                                                "Do you want to ignore the changes?",
-                                              showDenyButton: true,
-                                              showCancelButton: true,
-                                              confirmButtonText: "Ignore",
-                                              denyButtonText: `Apply `,
-                                            }).then((result) => {
-                                              /* Read more about isConfirmed, isDenied below */
-                                              if (result.isConfirmed) {
-                                                Swal.fire(
-                                                  "Changes will not be applied !",
-                                                  "",
-                                                  "error"
-                                                );
-                                              } else if (result.isDenied) {
-                                                Swal.fire(
-                                                  "Changes are Saved !",
-                                                  "",
-                                                  "success"
-                                                );
-                                                setInEditingProduct(null);
-                                              }
-                                            })
-                                          : setInEditingProduct(null);
-                                      }}
-                                    />
-                                  ) : (
-                                    <CiEdit
-                                      onClick={() => {
-                                        console.log('setting data: '+el)
-                                        setEditedProductName(el.name);
-                                        setEditedProductDescription(el.description);
-                                        setEditedProductPrice(el.price);
-                                        
-                                        setInEditingProduct(el.id);
-                                      }}
-                                      color="green"
-                                      size={23}
-                                    />
-                                  )}
-                                    <MdDeleteForever onClick={async () => {
-                                      const result = await Swal.fire({
-                                        title: 'Are you sure?',
-                                        showCancelButton: true,
-                                        confirmButtonText: "Yes",
-                                        cancelButtonText: "Cancel"
-                                      });
-
-                                      if (result.isConfirmed) {
-                                        const deleteRes = await deleteHomeProductById(el.id);
-                                      
-                                        if (deleteRes === 'success') {
-                                          await Swal.fire("Product deleted successfully", "", "success")
-                                        }
-                                      }
-                                    const deleteRes = await deleteHomeProductById(el.id);
-                                    console.log("delete product: "+deleteRes);
-                                  }} color="red" size={23} />                                </div>
                               </div>
                               <div className="mb-5">
                                 {inEditingProduct === el.id ? (
@@ -561,7 +513,9 @@ function page() {
                                     <span className="font-bold">price : </span>
                                     <input
                                       onChange={({ target }) => {
-                                        setEditedProductPrice(Number(target.value))
+                                        setEditedProductPrice(
+                                          Number(target.value)
+                                        );
                                         setUserEditedAField(true);
                                       }}
                                       className="border-2 px-2 rounded-xl"
@@ -586,7 +540,9 @@ function page() {
                                       </p>
                                       <textarea
                                         onChange={(e) => {
-                                          setEditedProductDescription(e.target.value)
+                                          setEditedProductDescription(
+                                            e.target.value
+                                          );
                                           setUserEditedAField(true);
                                         }}
                                         className="ml-3 flex-1 border-2 outline-none rounded-xl resize-none h-[200px] px-2"
@@ -604,10 +560,11 @@ function page() {
                                           denyButtonText: `Don't save`,
                                         }).then((result) => {
                                           if (result.isConfirmed) {
-                                            updateProduct(el.id, { 
-                                              name: editedProductName, 
-                                              description: editedProductDescription, 
-                                              price: editedProductprice
+                                            updateProduct(el.id, {
+                                              name: editedProductName,
+                                              description:
+                                                editedProductDescription,
+                                              price: editedProductprice,
                                             });
                                             Swal.fire("Saved!", "", "success");
                                           } else if (result.isDenied) {
