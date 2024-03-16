@@ -9,8 +9,8 @@ import {
   getCategoryProducts,
 } from "../../app/api/v1/dashboard";
 
-import storage from '../api/v1/firebase';
-import { ref, listAll, getDownloadURL } from 'firebase/storage';
+import storage from "../api/v1/firebase";
+import { ref, listAll, getDownloadURL } from "firebase/storage";
 
 import "swiper/css";
 import "swiper/css/navigation";
@@ -35,7 +35,7 @@ function Market() {
       }
     });
 
-    getProductCategories().then(setCategories)    
+    getProductCategories().then(setCategories);
   }, []);
 
   const handleScroll = () => {
@@ -144,7 +144,7 @@ function Market() {
             </div>
           </div>
           <div className="right p-4 ml-[12%] mt-4">
-            {products.map(product => {
+            {products.map((product) => {
               return (
                 <React.Fragment key={product.id}>
                   <Slider
