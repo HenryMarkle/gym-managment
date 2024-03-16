@@ -23,7 +23,7 @@ import {
 } from "firebase/storage";
 import { TiDelete } from "react-icons/ti";
 function page() {
-  const [shopOpen, setShopOpen] = useState(false);
+  const [shopOpen, setShopOpen] = useState(true);
   const [products, setProducts] = useState([]);
   const [categories, setCategoriesOfCreatedProducts] = useState([]);
   const [activeSection, setActiveSection] = useState(null);
@@ -98,20 +98,24 @@ function page() {
   return (
     <>
       <p className="font-bold text-3xl ml-10 mt-3">Market</p>
-      <div id="shop" className="add-product-to-shop mt-20 border-t-2 ">
+      <div id="shop" className="add-product-to-shop mt-4 border-t-2 ">
         <div
-          className={`create-plan mt-5 w-full shadow-lg overflow-hidden rounded-[30px] duration-700 flex flex-col ${
-            shopOpen ? "h-[680px]" : "h-[75px]"
+          className={`create-plan  w-[97%] mx-4 mt-4 shadow-lg overflow-hidden rounded-[30px] duration-700 flex flex-col ${
+            shopOpen ? "h-[650px]" : "h-[55px]"
           }`}
         >
           <div
             onClick={() => setShopOpen(!shopOpen)}
-            className="header flex justify-between items-center mt-4 px-2 cursor-pointer"
+            className="header flex justify-between items-center mt-4 px-2 cursor-pointer relative"
           >
             <p className=" text-[19px] text-center font-bold w-full mb-10">
               Add product
             </p>
-            {shopOpen ? <CiSaveUp1 size={24} /> : <CiSaveDown1 size={24} />}
+            {shopOpen ? (
+              <CiSaveUp1 className="absolute right-2 top-[5px]" size={24} />
+            ) : (
+              <CiSaveDown1 className="absolute right-2 top-[5px]" size={24} />
+            )}
           </div>
           <div className="form-content w-full mr-10 rounded-[30px] py-1 px-5 flex gap-5">
             <div className="flex flex-col gap-5 w-[100%] border-r-2 pr-10 ">
@@ -224,7 +228,6 @@ function page() {
                         } else {
                           Swal.fire("Saved!", "", "success");
                         }
-
                         setProductDesc("");
                         setProductMarka("");
                         setProductPrice("");
@@ -346,12 +349,12 @@ function page() {
       <div className="shadow-lg h-full m-3 p-4 rounded-lg">
         {/* Start add Product blog */}
 
-        <div className="flex items-center ">
+        <div className=" items-center ">
           <div className="self-center ml-10 relative">
             <CiSearch size={25} className=" absolute left-1 " />
             <input
               onChange={(e) => setFilterValue(e.target.value)}
-              className="border-2 rounded-xl px-7 w-[400px]"
+              className="border-2 rounded-xl px-7 w-[100%]"
               type="text"
               placeholder="Search product by name"
             />
@@ -637,7 +640,7 @@ function page() {
                           <div
                             className={`shadow-lg px-2 py-2 rounded-lg mt-4 duration-300 overflow-hidden ${
                               openProducts.includes(el.id)
-                                ? "h-[670px]"
+                                ? "h-max"
                                 : "h-[45px]"
                             }`}
                           >
