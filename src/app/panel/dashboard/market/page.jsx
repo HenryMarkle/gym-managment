@@ -97,6 +97,7 @@ function page() {
 
   return (
     <>
+      <p className="font-bold text-3xl ml-10 mt-3">Market</p>
       <div id="shop" className="add-product-to-shop mt-20 border-t-2 ">
         <div
           className={`create-plan mt-5 w-full shadow-lg overflow-hidden rounded-[30px] duration-700 flex flex-col ${
@@ -117,6 +118,7 @@ function page() {
               <div className="product-images flex flex-col">
                 <label htmlFor="product-images">Product images</label>
                 <input
+                  className="border-2 rounded-2xl"
                   type="file"
                   multiple
                   name=""
@@ -130,6 +132,7 @@ function page() {
               <div className="product-name flex flex-col">
                 <label htmlFor="product-name">Product name</label>
                 <input
+                  className="border-2 rounded-2xl px-2"
                   value={productTitle}
                   onChange={(e) => setProductTitle(e.target.value)}
                   type="text"
@@ -140,6 +143,7 @@ function page() {
               <div className="product-desc flex flex-col">
                 <label htmlFor="product-description">Product Description</label>
                 <input
+                  className="border-2 rounded-2xl px-2"
                   value={productDesc}
                   onChange={(e) => setProductDesc(e.target.value)}
                   type="text"
@@ -150,6 +154,7 @@ function page() {
               <div className="product-price flex flex-col">
                 <label htmlFor="product-price">Product price</label>
                 <input
+                  className="border-2 rounded-2xl px-2"
                   value={productPrice}
                   onChange={(e) => setProductPrice(e.target.value)}
                   type="text"
@@ -160,6 +165,7 @@ function page() {
               <div className="product-company flex flex-col">
                 <label htmlFor="product-company">Product marka</label>
                 <input
+                  className="border-2 rounded-2xl px-2"
                   value={productMarka}
                   onChange={(e) => setProductMarka(e.target.value)}
                   type="text"
@@ -243,6 +249,7 @@ function page() {
                 <div className="flex flex-col w-[76%]">
                   <label htmlFor="product-name">Category name</label>
                   <input
+                    className="border-2 rounded-2xl px-2"
                     value={newcategorTitle}
                     onChange={(e) => setNewCategoryTitle(e.target.value)}
                     type="text"
@@ -334,16 +341,12 @@ function page() {
             </div>
           </div>
         </div>
-        <p className="mb-14 mt-10 text-center font-bold text-[23px]">
-          Changes you make here will appear directly on your gym website.
-        </p>
       </div>
 
       <div className="shadow-lg h-full m-3 p-4 rounded-lg">
         {/* Start add Product blog */}
 
         <div className="flex items-center ">
-          <p className="font-bold text-3xl">Market</p>
           <div className="self-center ml-10 relative">
             <CiSearch size={25} className=" absolute left-1 " />
             <input
