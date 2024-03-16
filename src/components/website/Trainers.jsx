@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { CiInstagram } from "react-icons/ci";
 import { CiFacebook } from "react-icons/ci";
 import { CiTwitter } from "react-icons/ci";
 import "./helper.css";
+
+import { getTrainers } from "../../app/api/v1/tariner";
+import { getTrainerImageUrl } from "../../lib/images";
+
 export default function Trainers() {
   const dummayData = [
     {
@@ -27,6 +31,22 @@ export default function Trainers() {
       desc: "Bitters cliche tattooed 8-bit distillery mustache. Keytar succulents gluten-free vegan church-key pour-over seitan flannel.",
     },
   ];
+
+  const [trainers, setTrainers] = useState([]);
+
+  useEffect(() => {
+    getTrainers().then(res => {
+      if (res !== 'error') {
+        Promise
+          .all(res.map(r => {
+            let promise = getTrainerImageUrl(r.id).then(url => r.img = url);
+            return promise;
+          }))
+          .then(() => setTrainers(res));
+      }
+    })
+  }, [])
+
   return (
     <>
       <div className=" pt-[50px]">
@@ -36,12 +56,9 @@ export default function Trainers() {
         <p className="waves"></p>
         <p className="waves"></p>
         <p className="waves"></p>
-        <p className="mt-10 text-center opacity-60">
-          Nunc urna sem, laoreet ut metus id, aliquet consequat magna. Sed
-          viverra ipsum dolor, ultricies fermentum massa consequat eu.
-        </p>
+        
         <div className="trainers flex justify-center mt-20 gap-20">
-          {dummayData.map((ele) => {
+          {trainers.map((ele) => {
             return (
               <>
                 <div
@@ -52,22 +69,21 @@ export default function Trainers() {
                     style={{ backgroundImage: `url(${ele.img})` }}
                     className="img"
                   >
-                    {/* <img className="" src={ele.img} alt={ele.name} /> */}
                   </div>
                   <p className=" text-website2 text-sm mt-3 mb-3">
                     {ele.workTitle}
                   </p>
                   <p className="font-bold text-lg mb-3 ">{ele.name}</p>
-                  <p className=" opacity-65 text-sm mb-4">{ele.desc}</p>
+                  <p className=" opacity-65 text-sm mb-4">{ele.description}</p>
                   <div className="media flex gap-3  justify-center w-full">
                     <span>
-                      <CiInstagram />
+                      <CiInstagram href={ele.instagram} />
                     </span>
                     <span>
-                      <CiFacebook />
+                      <CiFacebook href={ele.facebook} />
                     </span>
                     <span>
-                      <CiTwitter />
+                      <CiTwitter href={ele.twitter} />
                     </span>
                   </div>
                 </div>
