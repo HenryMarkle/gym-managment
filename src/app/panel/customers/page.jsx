@@ -288,52 +288,57 @@ function page() {
                     .includes(filterValue.toUpperCase().replace(/\s/g, ""))
               )
                 .sort((a, b) => a.name.localeCompare(b.name))
-                .map((ele, index) => (
-                  <tr
-                    key={ele.id}
-                    onClick={() => router.push(`/panel/customer/${ele.id}`)}
-                    className={`h-[90px]`}
-                  >
-                    <td className=" relative">
-                      {`${
-                        ele.name.length > 8
-                          ? ele.name?.slice(0, 8)
-                          : ele.name?.toUpperCase()
-                      } ` +
-                        `${
-                          ele.surname.length > 8
-                            ? ele.surname?.toUpperCase().slice(0, 8) + "..."
-                            : ele.surname?.toUpperCase()
-                        }`}
-                    </td>
-                    <td>{ele.age}</td>
-                    <td>{ele.gender}</td>
-                    <td>{ele.bucketPrice} TL</td>
-                    <td>{ele.paymentAmount} TL</td>
-                    <td>{ele.bucketPrice - ele.paymentAmount} TL</td>
-                    <td>
-                      {
-                        <DateConvertor
-                          date={new Date(ele.startedAt).toDateString()}
-                        />
-                      }
-                    </td>
-                    <td>
-                      {" "}
-                      {
-                        <DateConvertor
-                          date={new Date(ele.endsAt).toDateString()}
-                        />
-                      }
-                    </td>
-                    <td>
-                      {Math.ceil(
-                        (new Date(ele.endsAt) - new Date()) /
-                          (1000 * 60 * 60 * 24)
-                      )}
-                    </td>
-                  </tr>
-                ))
+                .map((ele, index) => {
+                  console.log(ele.createdAt.getMonth());
+                  return (
+                    <>
+                      <tr
+                        key={ele.id}
+                        onClick={() => router.push(`/panel/customer/${ele.id}`)}
+                        className={`h-[90px]`}
+                      >
+                        <td className=" relative">
+                          {`${
+                            ele.name.length > 8
+                              ? ele.name?.slice(0, 8)
+                              : ele.name?.toUpperCase()
+                          } ` +
+                            `${
+                              ele.surname.length > 8
+                                ? ele.surname?.toUpperCase().slice(0, 8) + "..."
+                                : ele.surname?.toUpperCase()
+                            }`}
+                        </td>
+                        <td>{ele.age}</td>
+                        <td>{ele.gender}</td>
+                        <td>{ele.bucketPrice} TL</td>
+                        <td>{ele.paymentAmount} TL</td>
+                        <td>{ele.bucketPrice - ele.paymentAmount} TL</td>
+                        <td>
+                          {
+                            <DateConvertor
+                              date={new Date(ele.startedAt).toDateString()}
+                            />
+                          }
+                        </td>
+                        <td>
+                          {" "}
+                          {
+                            <DateConvertor
+                              date={new Date(ele.endsAt).toDateString()}
+                            />
+                          }
+                        </td>
+                        <td>
+                          {Math.ceil(
+                            (new Date(ele.endsAt) - new Date()) /
+                              (1000 * 60 * 60 * 24)
+                          )}
+                        </td>
+                      </tr>
+                    </>
+                  );
+                })
             : // <p>No customers</p>
               null}
         </tbody>

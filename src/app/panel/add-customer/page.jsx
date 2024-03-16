@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { addCustomer } from "../../api/v1/customer";
 import "./main.css";
 import Swal from "sweetalert2";
-
+import { useRouter } from "next/navigation";
 function page() {
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
@@ -14,6 +14,7 @@ function page() {
   const [bucketPrice, setPucketPrice] = useState(null);
   const [payment, setPayment] = useState(0);
   const [disabled, setDisabled] = useState(true);
+  const router = useRouter();
   async function doIt() {
     const result = await addCustomer({
       name,
@@ -24,7 +25,9 @@ function page() {
       endDate: new Date(endDate).toISOString(),
       bucketPrice: bucketPrice,
       payment,
-    });
+    })
+      .then((res) => router.replace("/panel/customers"))
+      .catch((err) => console.log(err));
 
     console.log(result);
   }
