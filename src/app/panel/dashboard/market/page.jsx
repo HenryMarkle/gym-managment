@@ -11,6 +11,7 @@ import {
   getProductCategories,
   getCategoryProducts,
   deleteHomeProductById,
+  addHomeProduct,
 } from "../../../api/v1/dashboard";
 import Swal from "sweetalert2";
 import storage from "../../../api/v1/firebase";
@@ -22,6 +23,7 @@ import {
   getDownloadURL,
 } from "firebase/storage";
 import { TiDelete } from "react-icons/ti";
+import { uploadProductImages } from "../../../../lib/images";
 function page() {
   const [shopOpen, setShopOpen] = useState(true);
   const [products, setProducts] = useState([]);
