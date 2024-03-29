@@ -17,10 +17,7 @@ function Footer() {
         <div className="1 overflow-hidden flex justify-center items-center rounded-xl h-[286px]">
           <MapsComponent height={"400px"} width={"600px"} />
         </div>
-        <div className="2 flex gap-6">
-          <div className="1 w-[50%] bg-green-300 p-2">
-            Contact info : like phones and location and email etc.
-          </div>
+        <div className=" flex gap-6">
           <div className="2 flex-1 ">
             <p className="text-white flex flex-col gap-5">
               {data.map((ele) => {
@@ -28,7 +25,7 @@ function Footer() {
                   <React.Fragment key={ele.id}>
                     <Link
                       href={ele.to}
-                      className="w-full text-white font-bold border-l-2 pl-3 hover:text-website2 duration-300 hover:border-b-2 hover:pb-2 cursor-pointer  "
+                      className="w-full text-white font-bold border-l-2 pl-3 hover:text-website2 duration-300 hover:border-b-2 hover:pb-2 cursor-pointer border-r-2  "
                     >
                       <span key={ele.id}>{ele.title}</span>
                     </Link>

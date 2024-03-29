@@ -4,7 +4,7 @@ import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { BallTriangle } from "react-loader-spinner";
 import { getHomeProducts } from "../../app/api/v1/dashboard";
-import storage from '../../app/api/v1/firebase';
+import storage from "../../app/api/v1/firebase";
 import { ref, listAll, getDownloadURL } from "firebase/storage";
 import "swiper/css";
 import "swiper/css/navigation";
@@ -17,7 +17,7 @@ function Products() {
   async function getProductImages(id) {
     const storageRed = ref(storage, `images/products/${id}`);
     const listRes = await listAll(storageRed);
-    
+
     let urls = [];
 
     for (let item of listRes.items) {
@@ -36,7 +36,6 @@ function Products() {
         }
 
         setProducts(p);
-      
       }
       console.log(products);
     });
@@ -65,19 +64,22 @@ function Products() {
             {products.map((ele) => {
               const id = ele.id;
 
-
-
               return (
                 <>
                   <SwiperSlide
                     key={ele.id}
-                    className="product shadow-lg flex flex-col justify-center items-center rounded-xl min-w-[300px]"
+                    className="product shadow-md flex flex-col justify-center items-center rounded-xl min-w-[300px] hover:shadow-lg hover:scale-[0.3] duration-300"
                   >
                     <Link href={`/product/${ele.id}`}>
-                      <div className=" flex flex-col min-h-[280px]">
-                        { ele.images?.length &&
-                          <img className="w-[220px] self-center" src={ele.images[0]} /> 
-                        }
+                      <div className=" flex flex-col min-h-[280px] ">
+                        <div className="flex items-center justify-center h-[160px] w-full">
+                          {ele.images?.length && (
+                            <img
+                              className="h-full w-auto self-center"
+                              src={ele.images[0]}
+                            />
+                          )}
+                        </div>
                         <div className="flex w-full p-3 items-center">
                           <p className="w-[100%] min-h-[71px] text-sm mt-2">
                             <span className=" text-website2 font-bold text-lg mr-1">
