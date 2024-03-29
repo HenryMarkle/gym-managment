@@ -81,7 +81,10 @@ function page() {
 
     getProductCategories().then((c) => {
       if (c === "error") {
-      } else setCategoriesOfCreatedProducts(c);
+      } else {
+        setCategoriesOfCreatedProducts(c);
+        console.log(c);
+      }
     });
   }, [products]);
 
@@ -190,8 +193,8 @@ function page() {
                   <option selected value="select">
                     Select
                   </option>
-                  {allProductCategories.map((c) => (
-                    <option>{c}</option>
+                  {categories?.map((c) => (
+                    <option>{c.name}</option>
                   ))}
                 </select>
               </div>
