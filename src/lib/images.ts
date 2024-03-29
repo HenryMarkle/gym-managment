@@ -50,12 +50,12 @@ export async function getExerciseVideoUrl(id: number): Promise<string | null> {
     }
 }
 
-export async function getExerciseSectionImageUrl(id: number): Promise<string | null> {
+export async function getExerciseSectionImageUrl(name: string): Promise<string | null> {
     try {
         const storageRef = ref(storage, `videos/exercises/`);
         const response = await listAll(storageRef);
 
-        const found = response.items.find(i => i.name.startsWith(id.toString()));
+        const found = response.items.find(i => i.name.startsWith(name));
 
         if (found) {
             return await getDownloadURL(found);

@@ -1,6 +1,10 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { BsArrowDownCircleFill, BsArrowUpCircleFill } from "react-icons/bs";
+import { useParams } from "next/navigation";
+
+import { getAllExcercisesOfSection } from "../../api/v1/excercises";
+import { getExerciseSectionImageUrl, getExerciseVideoUrl } from "../../../lib/images";
 
 function page() {
   const [openArray, setOpenArray] = useState([1]);
@@ -12,6 +16,38 @@ function page() {
       setOpenArray((prevArray) => [...prevArray, id]);
     }
   };
+
+  ///
+  ///
+  const sectionName = useParams();
+  
+  const [sectionImageUrl, setSectionImageUrl] = useState('')
+
+  /*
+    id: number;
+    name: string;
+    description: string;
+    categoryId: number;
+    videoUrl: string
+  */
+  const [exerciseUrl, setExericeUrl] = useState('');
+
+  useEffect(() => {
+    getAllExcercisesOfSection(sectionName).then(res => {
+      if (res !== 'error') {
+        // section image
+        getExerciseSectionImageUrl(sectionName).then(setSectionImageUrl);
+
+        // exercise videos
+        let promises = res.map(e => getExerciseVideoUrl(e.id).then(url => e.videoUrl = url))
+        Promise.all(promises);
+        setExericeUrl(res);
+      }
+    })
+  }, [])
+  ///
+  ///
+
   const dummyData = [
     {
       id: 1,
