@@ -26,14 +26,16 @@ export async function addUser(
 
     if (!sc) return 'unauthorized';
 
-    const user = await client.user.findUnique({ where: { session: sc.value } });
+    const _user = await client.user.findUnique({ where: { session: sc.value } });
 
-    if (!user) return 'unauthorized';
+    if (!_user) return 'unauthorized';
 
 
     // Check if user already exists
 
-    if (await client.user.count({ where: { email: user.email } }))
+    const count = await client.user.count({ where: { email: user.email } })
+
+    if (count)
       return "duplicate";
 
     const hashed = await bcrypt.hash(user.password, 10);

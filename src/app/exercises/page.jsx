@@ -1,7 +1,33 @@
-import React from "react";
+'use client'
+
+import React, { useEffect, useState } from "react";
 import "./exercise.css";
 import Link from "next/link";
+
+import { getExerciseSectionImageUrl } from "../../lib/images";
+import { getAllSections } from "../api/v1/excercises";
+
 function page() {
+
+  /// exercise sections only.
+  /// properties:
+  ///   id
+  ///   name
+  ///   imageUrl
+  const [exerciseSections, setExerciseSections] = useState([]);
+
+  useEffect(() => {
+    getAllSections().then(res => {
+      if (res !== 'error') {
+        let promises = res.map(s => getExerciseSectionImageUrl(s.id).then(url => s.imageUrl = url));
+        Promise.all(promises);
+        setExerciseSections(res);
+      }
+    })
+  }, [])
+  ///
+  ///
+
   const dammydata = [
     {
       id: 1,
