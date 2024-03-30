@@ -137,6 +137,21 @@ export async function deleteSectionWithExercises(name: string): Promise<undefine
   }
 }
 
+export async function countSectionExercises(name: string): Promise<number | 'error'> {
+  try {
+    await client.$connect();
+
+    const count = await client.excercise.count({ where: { category: { name } } });
+
+    return count;
+  } catch (e) {
+    console.log(`Could not count section exercises: ${e}`);
+    return 'error';
+  } finally {
+    await client.$disconnect();
+  }
+}
+
 export async function getAllSectionsWithExcercises(): Promise<
   (Section & { excercises: Excercise[] })[] | "error"
 > {

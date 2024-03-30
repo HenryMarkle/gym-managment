@@ -52,7 +52,7 @@ export async function getExerciseVideoUrl(id: number): Promise<string | null> {
 
 export async function getExerciseSectionImageUrl(name: string): Promise<string | null> {
     try {
-        const storageRef = ref(storage, `videos/exercises/`);
+        const storageRef = ref(storage, `images/excercise_sections/`);
         const response = await listAll(storageRef);
 
         const found = response.items.find(i => i.name.startsWith(name));

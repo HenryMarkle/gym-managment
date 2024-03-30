@@ -73,26 +73,12 @@ function Exercises() {
   let newSectionImage = null;
   let newExerciseVideo = null;
 
-  async function getExcerciseSectionImage(id) {
-    const result = await listAll(ref(storage, `vidoes/excercises/`));
-    const found = result.items.find(i => i.name.startsWith(id.toString()));
-
-    return found ? {url: await getDownloadURL(found), obj: found} : undefined;
-  }
-
-  async function getExcerciseVideo(id) {
-    const result = await listAll(ref(storage, `videos/excercises2/`))
-    const found = result.items.find(i => i.name.startsWith(id?.toString() ?? ''));
-
-    return found ? {url: await getDownloadURL(found), obj: found} : undefined;
-  }
-
   useEffect(() => {
     getAllSectionsWithExcercises()
       .then(async (response) => {
         if (response !== "error") {
           for (let section of response) {
-            section.image = await getExerciseSectionImageUrl(section.id);
+            section.image = await getExerciseSectionImageUrl(section.name);
 
             for (let exc of section.excercises) {
               exc.video = await getExerciseVideoUrl(exc.id);
@@ -108,7 +94,6 @@ function Exercises() {
     getAllSections().then((res) => {
       if (res !== "error") {
         setAllSections(res);
-        console.log(res);
       }
     });
   }, []);
@@ -267,7 +252,7 @@ function Exercises() {
 
                     { ele.image && 
                     
-                      <img src={ele.image.url}/>
+                      <img src={ele.image}/>
                     }
 
                     {inEditingSections.find(s => s.id === ele.id) && (

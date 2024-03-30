@@ -42,6 +42,9 @@ function page() {
         let promises = res.map(e => getExerciseVideoUrl(e.id).then(url => e.videoUrl = url))
         Promise.all(promises);
         setExericeUrl(res);
+
+        console.log(`Exercise URL: ${exerciseUrl}`);
+        console.log(`Section URL: ${sectionImageUrl}`);
       }
     })
   }, [])

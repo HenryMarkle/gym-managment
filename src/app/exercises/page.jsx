@@ -5,7 +5,7 @@ import "./exercise.css";
 import Link from "next/link";
 
 import { getExerciseSectionImageUrl } from "../../lib/images";
-import { getAllSections } from "../api/v1/excercises";
+import { getAllSections, countSectionExercises } from "../api/v1/excercises";
 
 function page() {
   /// exercise sections only.
@@ -17,45 +17,23 @@ function page() {
 
   useEffect(() => {
     getAllSections().then((res) => {
-      if (res !== "error") {
-        let promises = res.map((s) =>
-          getExerciseSectionImageUrl(s.id).then((url) => (s.imageUrl = url))
-        );
-        Promise.all(promises);
-        setExerciseSections(res);
-        console.log(res);
-      }
+      if (res === "error") return; 
+
+      let urlPromises = res.map((s) =>
+        getExerciseSectionImageUrl(s.name).then((url) => (s.imageUrl = url))
+      );
+
+      let countPromises = res.map(s => countSectionExercises(s.name).then(c => s.exerciseCount = c));
+
+      Promise.all([...urlPromises, ...countPromises]);
+      
+      setExerciseSections(res);
     });
   }, []);
   ///
   ///
 
-  const dammydata = [
-    {
-      id: 1,
-      title: "Biceps",
-      img: "https://fitnessvolt.com/wp-content/uploads/2022/07/Wider-Biceps.jpg",
-      exercieseRelated: 45,
-    },
-    {
-      id: 2,
-      title: "Triceps",
-      img: "https://fitnessvolt.com/wp-content/uploads/2022/07/Wider-Biceps.jpg",
-      exercieseRelated: 23,
-    },
-    {
-      id: 3,
-      title: "Legs",
-      img: "https://fitnessvolt.com/wp-content/uploads/2022/07/Wider-Biceps.jpg",
-      exercieseRelated: 12,
-    },
-    {
-      id: 4,
-      title: "Chest",
-      img: "https://fitnessvolt.com/wp-content/uploads/2022/07/Wider-Biceps.jpg",
-      exercieseRelated: 83,
-    },
-  ];
+
   return (
     <>
       <div className="exercises p-[50px] overflow-hidden">
@@ -63,19 +41,23 @@ function page() {
           Exercises
         </p>
         <div className="exerciese-container  gap-10">
-          {dammydata.map((ele, index) => {
+          {exerciseSections.map((ele, index) => {
             return (
               <React.Fragment key={index}>
                 <Link className="w-full" href={`/exercise/${ele.id}`}>
                   <div
-                    style={{ backgroundImage: `url(${ele.img})` }}
+                    style={{ backgroundImage: `url(${ele.imageUrl})` }}
                     className="exercise relative mt-3 lg:mt-20 h-[400px] shadow-2xl rounded-md bg-repeat-round flex items-center w-full justify-center flex-col cursor-pointer"
                   >
                     <p className="exercise-title font-bold text-[30px] text-white z-50 w-full text-center ">
-                      {ele.title}
+                      {ele.name}
                     </p>{" "}
                     <p className=" font-bold text-[20px] mt-3 text-website2  z-50 w-full text-center ">
-                      +{ele.exercieseRelated} Exercises
+                      {
+                      ele.exerciseCount 
+                      ? "+"+(ele.exerciseCount - 1)+" Exercises"
+                      : ""
+                      }
                     </p>
                   </div>
                 </Link>
