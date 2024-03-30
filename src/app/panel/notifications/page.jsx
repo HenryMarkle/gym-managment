@@ -11,16 +11,16 @@ import DateConverter from "../../../components/dashboard/DateConvertor";
 
 function Page() {
   const [height400, setHeight400] = useState([]);
-  const [dummyDate, setDummyDate] = useState([]);
-
+  const [messages, setMessages] = useState([]);
+  const [changed, setChanged] = useState(0);
   useEffect(() => {
     console.log(height400);
     getAllAnnouncments().then((v) => {
       const sortedArray = v.sort((a, b) => new Date(b.sent) - new Date(a.sent));
-      setDummyDate(sortedArray ?? []);
+      setMessages(sortedArray ?? []);
       console.log(v);
     });
-  }, [height400]);
+  }, [height400, changed]);
 
   async function readMessage(id, email) {
     const res = await markAsRead(id, email);
@@ -29,9 +29,9 @@ function Page() {
 
   return (
     <>
-      {dummyDate ? (
+      {messages ? (
         <div className="notification ml-[26%] mt-10 shadow-xl rounded-[31px] m-4 min-h-[600px] overflow-hidden">
-          {dummyDate
+          {messages
             .sort((a, b) => new Date(b.date) - new Date(a.date))
             .map((ele, index) => (
               <div
@@ -50,6 +50,8 @@ function Page() {
                           ele.id,
                           await getCurrentUserId()
                         );
+                        setMessages([...messages, { ...ele, read: true }]);
+                        setChanged(changed + 1);
                         console.log("mark as read: " + res);
                       }}
                       hidden={ele.read}

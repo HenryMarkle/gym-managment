@@ -10,6 +10,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
+import "./helper.css";
 import Link from "next/link";
 function Products() {
   const [products, setProducts] = useState([]);
@@ -75,7 +76,7 @@ function Products() {
                         <div className="flex items-center justify-center h-[160px] w-full">
                           {ele.images?.length && (
                             <img
-                              className="h-full w-auto self-center"
+                              className="h-full w-auto self-center animat"
                               src={ele.images[0]}
                             />
                           )}

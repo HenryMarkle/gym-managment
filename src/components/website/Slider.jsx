@@ -9,28 +9,31 @@ import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "./helper.css";
 
-import storage from '../../app/api/v1/firebase';
-import { ref, listAll, getDownloadURL } from 'firebase/storage';
+import storage from "../../app/api/v1/firebase";
+import { ref, listAll, getDownloadURL } from "firebase/storage";
 
 function Slider({ data, id, min, max, sendedFilterValue, cat }) {
   const [sections, setSections] = useState(data);
 
   useEffect(() => {
-    console.log("product id: "+ id);
+    console.log("product id: " + id);
 
     async function setImages() {
       for (let product of data.data) {
         product.images = [];
-  
-        const response = await listAll(ref(storage, `images/products/${product.id}`))
-        const urls = await Promise.all(response.items.map(i => getDownloadURL(i)));
+
+        const response = await listAll(
+          ref(storage, `images/products/${product.id}`)
+        );
+        const urls = await Promise.all(
+          response.items.map((i) => getDownloadURL(i))
+        );
         product.images = urls;
       }
-    };
+    }
 
-    setImages().then(() => setSections(prev => prev));
-
-  }, [])
+    setImages().then(() => setSections((prev) => prev));
+  }, []);
 
   return (
     <>
@@ -72,13 +75,14 @@ function Slider({ data, id, min, max, sendedFilterValue, cat }) {
                     <SwiperSlide className="product shadow-lg flex flex-col justify-center items-center rounded-xl min-w-[250px]">
                       <Link href={`/product/${ele.id}`}>
                         <div className="flex flex-col">
-                          {
-                            ele.images?.length > 0 ?
-
-                            <img className="w-full self-center p-[30px]" src={ele.images[0]} />
-
-                            : ""
-                          }
+                          {ele.images?.length > 0 ? (
+                            <img
+                              className="w-full self-center h-[200px] p-[20px]"
+                              src={ele.images[0]}
+                            />
+                          ) : (
+                            ""
+                          )}
                           <div className="flex w-full p-3 items-center">
                             <p className="w-[100%] text-sm h-[60px]">
                               <span className=" text-website2 font-bold text-lg mr-1 leading-3">
@@ -150,16 +154,14 @@ function Slider({ data, id, min, max, sendedFilterValue, cat }) {
                       <SwiperSlide className="product shadow-lg flex flex-col justify-center items-center rounded-xl min-w-[250px]">
                         <Link href={`/product/${ele.id}`}>
                           <div className="flex flex-col">
-                            { ele.images?.length &&
-
+                            {ele.images?.length && (
                               <img
                                 className="w-full self-center p-[30px]"
                                 src={ele.images[0]}
                                 alt=""
                               />
-                              
-                            }
-                            
+                            )}
+
                             <div className="flex w-full p-3 items-center">
                               <p className="w-[100%] text-sm h-[60px]">
                                 <span className=" text-website2 font-bold text-lg mr-1 leading-3">
