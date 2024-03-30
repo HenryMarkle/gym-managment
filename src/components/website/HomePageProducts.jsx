@@ -63,14 +63,9 @@ function Products() {
             onSlideChange={() => console.log("slide change")}
           >
             {products.map((ele) => {
-              const id = ele.id;
-
               return (
-                <>
-                  <SwiperSlide
-                    key={ele.id}
-                    className="product shadow-md flex flex-col justify-center items-center rounded-xl min-w-[300px] hover:shadow-lg hover:scale-[0.3] duration-300"
-                  >
+                <React.Fragment key={ele.id}>
+                  <SwiperSlide className="product shadow-md flex flex-col justify-center items-center rounded-xl min-w-[300px] hover:shadow-lg hover:scale-[0.3] duration-300">
                     <Link href={`/product/${ele.id}`}>
                       <div className=" flex flex-col min-h-[280px] ">
                         <div className="flex items-center justify-center h-[160px] w-full">
@@ -100,7 +95,7 @@ function Products() {
                       </div>
                     </Link>
                   </SwiperSlide>
-                </>
+                </React.Fragment>
               );
             })}
           </Swiper>

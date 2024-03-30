@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import React, { useEffect, useState } from "react";
 import "./exercise.css";
@@ -8,7 +8,6 @@ import { getExerciseSectionImageUrl } from "../../lib/images";
 import { getAllSections } from "../api/v1/excercises";
 
 function page() {
-
   /// exercise sections only.
   /// properties:
   ///   id
@@ -17,14 +16,17 @@ function page() {
   const [exerciseSections, setExerciseSections] = useState([]);
 
   useEffect(() => {
-    getAllSections().then(res => {
-      if (res !== 'error') {
-        let promises = res.map(s => getExerciseSectionImageUrl(s.id).then(url => s.imageUrl = url));
+    getAllSections().then((res) => {
+      if (res !== "error") {
+        let promises = res.map((s) =>
+          getExerciseSectionImageUrl(s.id).then((url) => (s.imageUrl = url))
+        );
         Promise.all(promises);
         setExerciseSections(res);
+        console.log(res);
       }
-    })
-  }, [])
+    });
+  }, []);
   ///
   ///
 

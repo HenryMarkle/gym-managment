@@ -39,7 +39,7 @@ function Plans() {
           <div className="plans w-full flex flex-col gap-14 items-start justify-center mt-16 mx-auto my-0 px-[150px]">
             {plans.map((ele) => {
               return (
-                <>
+                <React.Fragment key={ele.id}>
                   <Link className="w-full" href={`/plan/${ele.id}`}>
                     <div className="plan flex flex-row gap-4 w-full">
                       <CgGym
@@ -69,7 +69,7 @@ function Plans() {
                       </div>
                     </div>
                   </Link>
-                </>
+                </React.Fragment>
               );
             })}
           </div>

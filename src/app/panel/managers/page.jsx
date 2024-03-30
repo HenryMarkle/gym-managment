@@ -21,7 +21,7 @@ function page() {
           return (
             <>
               <Link href={`/panel/maanger/${ele.id}`}>
-                <div className="koch shadow-sm shadow-green-700  relative  h-[300px] p-2 mt-10 rounded-[31px]">
+                <div className="koch shadow-sm shadow-green-700  relative  h-[250px] p-2 mt-10 rounded-[31px]">
                   <img
                     className="h-[100px] rounded-full absolute -top-12 left-[50%] transform translate-x-[-50%] border-4 border-emerald-900 z-50 outline  outline-white outline-4"
                     src="https://pbs.twimg.com/media/FjU2lkcWYAgNG6d.jpg"
@@ -31,6 +31,7 @@ function page() {
                     <p className="text-center font-bold text-[19px]">
                       {ele.name}
                     </p>
+                    <p className="text-center mt-3 text-[16px]">{ele.email}</p>
                     <div className="other-info mt-4">
                       <p>
                         <span className="font-bold text-[17px]">Salary</span> :

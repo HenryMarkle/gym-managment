@@ -2,10 +2,14 @@
 import React, { useEffect, useState } from "react";
 import { getHomeGeneralInfo } from "../../app/api/v1/dashboard";
 import { getGymName } from "../../app/api/v1/user";
+import { GiHamburgerMenu } from "react-icons/gi";
+import { MdOutlineMenuOpen } from "react-icons/md";
+import { RiCloseCircleLine } from "react-icons/ri";
 import Navbar from "./Navbar";
 import Link from "next/link";
 import storage from "../../app/api/v1/firebase";
 import { ref, listAll, getDownloadURL } from "firebase/storage";
+import { CiBurger } from "react-icons/ci";
 
 function Header() {
   const [scrollPosition, setScrollPosition] = useState(0);
@@ -14,6 +18,7 @@ function Header() {
   const [genInfo, setGenInfo] = useState(null);
   const [headerImageURL, setHeaderImageURL] = useState(null);
   const [allImages, setAllImages] = useState([]);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   //   Start scrool Value
 
@@ -45,12 +50,14 @@ function Header() {
   useEffect(() => {
     getHomeGeneralInfo().then((i) => {
       if (i === "error" || i === "unauthorized") {
-        console.log("first");
+        console.log("error");
       } else {
         // setGenInfo(i);
         const words = i.title.split(" ");
         console.log(words[1]);
         setGymName(words);
+        setGenInfo(i);
+        console.log(i);
       }
     });
   }, []);
@@ -64,6 +71,8 @@ function Header() {
 
   //   End scrool Value
 
+  // Start mobile open
+
   return (
     <>
       <div
@@ -71,8 +80,33 @@ function Header() {
           backgroundImage: `url(${headerImageURL})`,
           backgroundRepeat: "round",
         }}
-        className="header-parent h-[100vh] bg-emerald-200 z-50"
+        className="header-parent h-[100vh] bg-orange-600 z-50"
       >
+        <div className={`hidden mobile-header ${menuOpen ? "menu-open" : ""}`}>
+          {/* show me on mobile :: message from Ali */}
+          <div className="header-content-title">
+            <div>
+              <span>
+                {gymName[0]} <span className="text-website2">{gymName[1]}</span>
+              </span>
+            </div>
+            <p className="relative">
+              <GiHamburgerMenu
+                className={`${menuOpen ? "go-right" : "menu"}`}
+                onClick={() => setMenuOpen(!menuOpen)}
+                size={23}
+              />
+
+              <RiCloseCircleLine
+                onClick={() => setMenuOpen(!menuOpen)}
+                className={`close-menu-icon ${
+                  menuOpen ? "go-down-take-place" : ""
+                }`}
+                size={27}
+              />
+            </p>
+          </div>
+        </div>
         <div
           style={headerStyle}
           className={`header-bar w-full h-20 z-[100] justify-evenly px-[210px] duration-700 flex items-center  ${
@@ -98,7 +132,7 @@ function Header() {
           <Navbar />
         </div>
         <div className="content flex items-center justify-center h-full ">
-          <div className="mb-40 text-center">
+          <div className="desc-content-starter-page mb-40 text-center">
             <p className="text-center mb-2 font-bold text-2xl text-white">
               {genInfo?.sentence ?? ""}
             </p>
@@ -108,7 +142,7 @@ function Header() {
             <a
               href={`https://wa.me/+905399127498?text=Hello, I want to become a member ?`}
             >
-              <button className="mt-5 bg-[#ed563b] text-white px-4 text-xl py-4 rounded-sm">
+              <button className=" self-end mt-[90%] transform  md:mt-5 bg-[#ed563b] text-white px-4 text-xl py-4 rounded-sm">
                 BECOME A MEMBER
               </button>
             </a>
