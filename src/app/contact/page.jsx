@@ -13,8 +13,8 @@ function page() {
   const [message, setMwssage] = useState("");
   return (
     <>
-      <div className="mx-[240px] my-20 grid grid-cols-2 gap-10">
-        <div className="contact-left">
+      <div className="lg:mx-[240px] lg:my-20 lg:grid lg:grid-cols-2 gap-10 p-4 overflow-hidden ">
+        <div className="contact-left mb-10 lg:mb-2 border-b-2 pb-4">
           <div className="form-contact flex flex-col gap-10 h-[400px]">
             <div className="head">
               <p className="small-line relative h-[40px] font-extrabold text-2xl">
@@ -48,13 +48,13 @@ function page() {
             </div>
           </div>
         </div>
-        <div className="contact-right relative h-[400px] w-auto">
+        <div className="contact-right relative p-4 lg:p-0 lg:h-[400px] w-auto">
           <GoogleMaps height={"400px"} />
-          <div className="p absolute -top-8 bg-[#ed563b] h-[300px] w-[200px] -z-10 -right-8"></div>
+          <div className="p absolute lg:-top-8 -top-3  mt-10-top-4 bg-[#ed563b] h-[300px] w-[200px] -z-10 -right-1 lg:-right-8"></div>
         </div>
       </div>
-      <div className="bottom-icons mx-[300px] justify-center pl-20 ">
-        <div className=" grid grid-cols-3">
+      <div className="bottom-icons lg:mx-[300px] lg:justify-center lg:pl-20 ">
+        <div className=" lg:grid lg:grid-cols-3 flex flex-col gap-10 lg:gap-0 justify-center items-center mt-5 lg:mt-0 ">
           <div className="location flex gap-4">
             <div className="location-icon flex items-center">
               <FaMapLocationDot color="#ed563b" size={50} />

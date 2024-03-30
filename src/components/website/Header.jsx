@@ -20,6 +20,14 @@ function Header() {
   const [allImages, setAllImages] = useState([]);
   const [menuOpen, setMenuOpen] = useState(false);
 
+  const headerData = [
+    { id: 1, title: "Home", to: "/" },
+    { id: 3, title: "Plans", to: "/plans" },
+    { id: 4, title: "Market", to: "/market" },
+    { id: 5, title: "Exercises", to: "/exercises" },
+    { id: 6, title: "About", to: "/about" },
+    { id: 7, title: "Contact", to: "/contact" },
+  ];
   //   Start scrool Value
 
   const handleScroll = () => {
@@ -80,7 +88,7 @@ function Header() {
           backgroundImage: `url(${headerImageURL})`,
           backgroundRepeat: "round",
         }}
-        className="header-parent h-[100vh] bg-orange-600 z-50"
+        className="header-parent overflow-hidden h-[100vh] bg-orange-600 z-50"
       >
         <div className={`hidden mobile-header ${menuOpen ? "menu-open" : ""}`}>
           {/* show me on mobile :: message from Ali */}
@@ -92,11 +100,10 @@ function Header() {
             </div>
             <p className="relative">
               <GiHamburgerMenu
-                className={`${menuOpen ? "go-right" : "menu"}`}
+                className={`menu ${menuOpen ? "go-right" : ""}`}
                 onClick={() => setMenuOpen(!menuOpen)}
                 size={23}
               />
-
               <RiCloseCircleLine
                 onClick={() => setMenuOpen(!menuOpen)}
                 className={`close-menu-icon ${
@@ -106,6 +113,25 @@ function Header() {
               />
             </p>
           </div>
+        </div>
+        <div
+          className={`linkes lg:hidden absolute top-10 duration-300 px-3 flex w-full h-[70vh] flex-col justify-evenly ${
+            menuOpen ? "flex" : "hidden"
+          }`}
+        >
+          {headerData.map((ele) => {
+            return (
+              <React.Fragment key={ele.id}>
+                <Link
+                  onClick={() => setMenuOpen(false)}
+                  href={ele.to}
+                  className="one-link border-b-2 pb-2 border-orange-500"
+                >
+                  <p className="font-bold text-[20px]">{ele.title}</p>
+                </Link>{" "}
+              </React.Fragment>
+            );
+          })}
         </div>
         <div
           style={headerStyle}

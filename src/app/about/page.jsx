@@ -1,23 +1,22 @@
 function page() {
   return (
     <>
-      <div className="px-20 py-12 flex gap-20">
-        <div className="left w-1/2 h-[79vh] relative">
-          <div className="bor border-orange-600 border-[28px] h-full w-1/2 relative"></div>
+      <div className="lg:px-20 p-4 lg:p-0 lg:py-12 flex flex-col lg:flex-row ">
+        <div className="left lg:w-1/2 h-[79vh] relative">
+          <div className="bor border-orange-600 border-[28px] h-full lg:w-1/2 relative"></div>
 
-          <div className="img absolute top-16 left-[18%] rounded-3xl overflow-hidden">
+          <div className="img absolute top-16 lg:left-[18%] rounded-3xl overflow-hidden">
             <img
-              className="z-[999]"
-              width="290px"
+              className="z-[999] lg:w-[290px] w-[240px]"
               src="https://media.macphun.com/img/uploads/customer/how-to/608/15542038745ca344e267fb80.28757312.jpg?q=85&w=1340"
               alt="gym image"
             />
           </div>
         </div>
-        <div className="right w-[70%]">
+        <div className="right shadow-md p-2 mt-5 rounded-lg lg:w-[70%]">
           <p className="text-2xl text-website2 font-extrabold">About Us !</p>
           <div className="mt-4">
-            <p className="mb-4 text-3xl font-bold">
+            <p className="mb-4 lg:text-3xl font-bold">
               We Have Been Training Since Years !
             </p>
             <p>

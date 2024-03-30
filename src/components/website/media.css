@@ -13,7 +13,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 900px;
+    height: 600px;
     padding: 0;
     margin: 0;
     overflow: hidden;
@@ -70,5 +70,16 @@
   }
   .menu {
     transition: 0.4s;
+  }
+  .header-parent {
+    height: 100vh;
+  }
+  .one-link {
+    transition: 0.2s;
+  }
+  .one-link:hover {
+    scale: 1.04;
+    color: rgb(255, 72, 0);
+    border-color: black;
   }
 }

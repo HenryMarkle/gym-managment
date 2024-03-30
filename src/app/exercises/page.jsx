@@ -58,16 +58,18 @@ function page() {
   ];
   return (
     <>
-      <div className="exercises p-[50px]">
-        <p className=" font-extrabold text-5xl text-website2">Exercises</p>
+      <div className="exercises p-[50px] overflow-hidden">
+        <p className=" font-extrabold text-2xl lg:text-5xl text-website2">
+          Exercises
+        </p>
         <div className="exerciese-container  gap-10">
           {dammydata.map((ele, index) => {
             return (
               <React.Fragment key={index}>
-                <Link href={`/exercise/${ele.id}`}>
+                <Link className="w-full" href={`/exercise/${ele.id}`}>
                   <div
                     style={{ backgroundImage: `url(${ele.img})` }}
-                    className="exercise relative mt-20 h-[400px] shadow-2xl rounded-md bg-repeat-round flex items-center justify-center flex-col cursor-pointer"
+                    className="exercise relative mt-3 lg:mt-20 h-[400px] shadow-2xl rounded-md bg-repeat-round flex items-center w-full justify-center flex-col cursor-pointer"
                   >
                     <p className="exercise-title font-bold text-[30px] text-white z-50 w-full text-center ">
                       {ele.title}

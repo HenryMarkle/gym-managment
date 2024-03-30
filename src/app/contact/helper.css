@@ -1,5 +1,7 @@
-.contact-parent {
-  grid-template-columns: 15% 1fr;
+@media (min-width: 991px) {
+  .contact-parent {
+    grid-template-columns: 15% 1fr;
+  }
 }
 .small-line::after {
   position: absolute;
