@@ -43,8 +43,8 @@ function Products() {
   }, []);
   return (
     <>
-      <div className="container-site">
-        <p className="text-center  font-extrabold text-4xl ">
+      <div className="lg:py-[100px] py-20">
+        <p className="text-center font-extrabold lg:text-4xl flex justify-center">
           OUR <span className="text-website2">MARKET</span>
         </p>
         <p className="waves"></p>
@@ -65,7 +65,7 @@ function Products() {
             {products.map((ele) => {
               return (
                 <React.Fragment key={ele.id}>
-                  <SwiperSlide className="product shadow-md flex flex-col justify-center items-center rounded-xl min-w-[300px] hover:shadow-lg hover:scale-[0.3] duration-300">
+                  <SwiperSlide className="product shadow-md flex flex-col justify-center items-center rounded-xl lg:min-w-[300px] hover:shadow-lg hover:scale-[0.3] duration-300">
                     <Link href={`/product/${ele.id}`}>
                       <div className=" flex flex-col min-h-[280px] ">
                         <div className="flex items-center justify-center h-[160px] w-full">
