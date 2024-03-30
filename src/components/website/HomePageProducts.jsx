@@ -65,13 +65,13 @@ function Products() {
             {products.map((ele) => {
               return (
                 <React.Fragment key={ele.id}>
-                  <SwiperSlide className="product shadow-md flex flex-col justify-center items-center rounded-xl lg:min-w-[300px] hover:shadow-lg hover:scale-[0.3] duration-300">
+                  <SwiperSlide className="product shadow-md flex flex-col justify-center items-center overflow-hidden rounded-xl lg:min-w-[300px] hover:shadow-lg hover:scale-[0.3] duration-300">
                     <Link href={`/product/${ele.id}`}>
-                      <div className=" flex flex-col min-h-[280px] ">
+                      <div className=" flex flex-col w-full min-h-[280px]  ">
                         <div className="flex items-center justify-center h-[160px] w-full">
                           {ele.images?.length && (
                             <img
-                              className="h-full w-auto self-center animat"
+                              className="h-full max-w-[340px]  self-center animat"
                               src={ele.images[0]}
                             />
                           )}
