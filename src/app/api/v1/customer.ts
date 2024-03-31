@@ -235,6 +235,23 @@ export async function deleteCustomerById(id: number) {
     }
 }
 
+export async function markCustomerAsDeleted(id: number): Promise<undefined | 'unauthorized' | 'error'> {
+  try {
+    await client.$connect();
+
+    const sc = cookies().get('session');
+
+    if (!sc) return 'unauthorized';
+    
+    await client.subscriber.update({ where: { id }, data: { deletedAt: new Date() } });
+  } catch (e) {
+    console.log(`Could not mark customer as deleted: $${e}`);
+    return 'error'
+  } finally {
+    await client.$disconnect();
+  }
+}
+
 /**
  * 
  * @returns true if operation is successful
