@@ -20,7 +20,7 @@ function Navbar() {
   }, []);
 
   useEffect(() => {
-    console.log(scrollPosition);
+    // console.log(scrollPosition);
   }, [scrollPosition]);
 
   const headerStyle =

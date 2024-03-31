@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from "react";
 import "./exercise.css";
 import Link from "next/link";
-
 import { getExerciseSectionImageUrl } from "../../lib/images";
 import { getAllSections, countSectionExercises } from "../api/v1/excercises";
 
@@ -17,22 +16,24 @@ function page() {
 
   useEffect(() => {
     getAllSections().then((res) => {
-      if (res === "error") return; 
+      if (res === "error") return;
 
       let urlPromises = res.map((s) =>
         getExerciseSectionImageUrl(s.name).then((url) => (s.imageUrl = url))
       );
 
-      let countPromises = res.map(s => countSectionExercises(s.name).then(c => s.exerciseCount = c));
+      let countPromises = res.map((s) =>
+        countSectionExercises(s.name).then((c) => (s.exerciseCount = c))
+      );
 
       Promise.all([...urlPromises, ...countPromises]);
-      
+
       setExerciseSections(res);
     });
   }, []);
-  ///
-  ///
 
+  ///
+  ///
 
   return (
     <>
@@ -42,22 +43,24 @@ function page() {
         </p>
         <div className="exerciese-container  gap-10">
           {exerciseSections.map((ele, index) => {
+            console.log(ele);
             return (
               <React.Fragment key={index}>
                 <Link className="w-full" href={`/exercise/${ele.id}`}>
+                  <img src={ele.imageUrl} alt="img" />
                   <div
-                    style={{ backgroundImage: `url(${ele.imageUrl})` }}
-                    className="exercise relative mt-3 lg:mt-20 h-[400px] shadow-2xl rounded-md bg-repeat-round flex items-center w-full justify-center flex-col cursor-pointer"
+                    style={{
+                      backgroundImage: `url(${ele.imageUrl && ele.imageUrl})`,
+                    }}
+                    className={`exercise relative mt-3 lg:mt-20 h-[400px] shadow-2xl rounded-md bg-repeat-round flex items-center w-full justify-center flex-col cursor-pointer `}
                   >
                     <p className="exercise-title font-bold text-[30px] text-white z-50 w-full text-center ">
                       {ele.name}
                     </p>{" "}
                     <p className=" font-bold text-[20px] mt-3 text-website2  z-50 w-full text-center ">
-                      {
-                      ele.exerciseCount 
-                      ? "+"+(ele.exerciseCount - 1)+" Exercises"
-                      : ""
-                      }
+                      {ele.exerciseCount
+                        ? "+" + (ele.exerciseCount - 1) + " Exercises"
+                        : ""}
                     </p>
                   </div>
                 </Link>

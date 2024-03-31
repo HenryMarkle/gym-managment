@@ -51,54 +51,9 @@ function Products() {
         <p className="waves"></p>
         <p className="waves"></p>
         {products?.length ? (
-          <Swiper
-            // install Swiper modules
-            modules={[Navigation, Pagination, Scrollbar, A11y]}
-            spaceBetween={50}
-            slidesPerView={3}
-            navigation
-            pagination={{ clickable: true }}
-            scrollbar={{ draggable: true }}
-            // onSwiper={(swiper) => console.log(swiper)}
-            onSlideChange={() => console.log("slide change")}
-          >
-            {products.map((ele) => {
-              return (
-                <React.Fragment key={ele.id}>
-                  <SwiperSlide className="product shadow-md flex flex-col justify-center items-center overflow-hidden rounded-xl lg:min-w-[300px] hover:shadow-lg hover:scale-[0.3] duration-300">
-                    <Link href={`/product/${ele.id}`}>
-                      <div className=" flex flex-col w-full min-h-[280px]  ">
-                        <div className="flex items-center justify-center h-[160px] w-full">
-                          {ele.images?.length && (
-                            <img
-                              className="h-full max-w-[340px]  self-center animat"
-                              src={ele.images[0]}
-                            />
-                          )}
-                        </div>
-                        <div className="flex w-full p-3 items-center">
-                          <p className="w-[100%] min-h-[71px] text-sm mt-2">
-                            <span className=" text-website2 font-bold text-lg mr-1">
-                              {ele.marka}
-                            </span>{" "}
-                            {ele.description.length > 70
-                              ? ele.description.slice(0, 70) + "..."
-                              : ele.description}
-                          </p>
-                        </div>
-                        <div className="flex justify-between items-center w-full p-3">
-                          <p className="text-website2">{ele.price} TL</p>
-                          <button className="buy-button shadow-md p-2 text-website2 ">
-                            Buy Now
-                          </button>
-                        </div>
-                      </div>
-                    </Link>
-                  </SwiperSlide>
-                </React.Fragment>
-              );
-            })}
-          </Swiper>
+          <>
+            <p>Show product new swipper</p>
+          </>
         ) : (
           <div className="flex justify-center items-center my-20">
             <BallTriangle

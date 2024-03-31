@@ -65,13 +65,13 @@ function Header() {
         console.log(words[1]);
         setGymName(words);
         setGenInfo(i);
-        console.log(i);
+        // console.log(i);
       }
     });
   }, []);
 
   useEffect(() => {
-    console.log(scrollPosition);
+    // console.log(scrollPosition);
   }, [scrollPosition]);
 
   const headerStyle =
