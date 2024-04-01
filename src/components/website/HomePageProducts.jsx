@@ -51,9 +51,62 @@ function Products() {
         <p className="waves"></p>
         <p className="waves"></p>
         {products?.length ? (
-          <>
-            <p>Show product new swipper</p>
-          </>
+          <Swiper
+            // install Swiper modules
+            modules={[Navigation, Pagination, Scrollbar, A11y]}
+            spaceBetween={50}
+            slidesPerView={3}
+            navigation
+            pagination={{ clickable: true }}
+            scrollbar={{ draggable: true }}
+            // onSwiper={(swiper) => console.log(swiper)}
+            onSlideChange={() => console.log("slide change")}
+          >
+            {products.map((ele) => {
+              return (
+                <React.Fragment key={ele.id}>
+                  <SwiperSlide
+                    style={{ width: "304px" }}
+                    className="shadow-md flex flex-col  overflow-hidden rounded-xl  hover:shadow-lg w-[304px] duration-300"
+                  >
+                    <Link href={`/product/${ele.id}`}>
+                      <div className=" flex flex-col  min-h-[280px] w-full">
+                        <div className="flex items-center justify-center h-[160px] w-full">
+                          {ele.images?.length && (
+                            <img
+                              className="h-full max-w-[340px] px-10 self-center animat"
+                              src={ele.images[0]}
+                            />
+                          )}
+                        </div>
+                        <div className="flex w-full p-3 items-center">
+                          <div className="w-[100%] min-h-[71px] text-sm  flex ">
+                            <span className=" text-website2 font-bold text-lg mr-1">
+                              {ele.marka}
+                            </span>{" "}
+                            <span
+                              className="ml-2 mt-1"
+                              style={{ overflowWrap: "anywhere" }}
+                            >
+                              {ele.description.length > 70
+                                ? ele.description.slice(0, 70) + "..."
+                                : ele.description}
+                            </span>
+                          </div>
+                        </div>
+                        <div className="flex justify-between items-center w-full p-3">
+                          <p className="text-website2">{ele.price} TL</p>
+                          <button className="buy-button shadow-md p-2 text-website2 ">
+                            Buy Now
+                          </button>
+                        </div>
+                      </div>
+                    </Link>
+                  </SwiperSlide>
+                </React.Fragment>
+              );
+            })}
+          </Swiper>
         ) : (
           <div className="flex justify-center items-center my-20">
             <BallTriangle

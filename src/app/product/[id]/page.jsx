@@ -7,15 +7,13 @@ import { BallTriangle } from "react-loader-spinner";
 import "../helper.css";
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-
 import { useParams } from "next/navigation";
-
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import Link from "next/link";
-
+import Carousel from "../../../hooks/Carousel";
 import { getProductImageUrls } from "../../../lib/images";
 
 function page() {
@@ -26,46 +24,41 @@ function page() {
   const { id } = useParams();
 
   useEffect(() => {
-    getProductById(Number(id)).then((response) => {
-      if (response === "error" || response == "notFound") return; 
-      
-      // Get images of the current product
-      getProductImageUrls(Number(id)).then(urls => {
-          // Update images
-          setImages(urls)
-          // Update product
-          setProduct(response);
+    const fetchData = async () => {
+      try {
+        const productResponse = await getProductById(Number(id));
+        if (productResponse === "error" || productResponse === "notFound")
+          return;
 
+        const productImages = await getProductImageUrls(Number(id));
+        setImages(productImages);
+        setProduct(productResponse);
+        const productsOfCategory = await getProductsOfCategory(
+          productResponse.category.name
+        );
+        if (productsOfCategory !== "error") {
+          const productsWithImages = await Promise.all(
+            productsOfCategory.map(async (p) => {
+              const imageUrls = await getProductImageUrls(p.id);
+              p.images = imageUrls;
+              return p;
+            })
+          );
+          setProducts(productsWithImages);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
 
-          // Get products of same category
-          getProductsOfCategory(response.category.name).then((response) => {
-            if (response !== "error") {
-              // Get images of all products THEN update with setProducts
-              Promise.all(
-                response.map((p) =>
-                  getProductImageUrls(p.id).then((urls) => (p.images = urls))
-                )
-              ).then(() => setProducts(response));
-            }
-          });
-      });
-    });
-  }, []);
+    fetchData();
+  }, [id]);
 
   return (
     <>
       <div className="lg:px-20 p-3 lg:pt-10 flex flex-col lg:flex-row justify-between gap-8 h-[550px]">
         <div className="slide-container lg:w-[25%] border-2 p-10 h-[400px]  rounded-md">
-          <Slide transitionDuration={300} autoplay={false}>
-            {images.map((slideImage, index) => (
-              <div
-                key={index}
-                className="flex justify-center items-center h-[100%] bg-white"
-              >
-                <img className="w-auto " src={slideImage} alt="" />
-              </div>
-            ))}
-          </Slide>
+          <Carousel data={images} />
         </div>
         <div className="tow flex-1 ">
           <div className="product-name border-2 p-2 rounded-md ">

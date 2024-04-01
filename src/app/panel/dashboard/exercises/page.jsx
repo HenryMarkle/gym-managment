@@ -8,9 +8,19 @@ import { MdOutlineCancel } from "react-icons/md";
 
 import "./helper.css";
 import storage from "../../../api/v1/firebase";
-import { ref, uploadBytes, getDownloadURL, listAll, deleteObject } from "firebase/storage";
+import {
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  listAll,
+  deleteObject,
+} from "firebase/storage";
 
-import { getExerciseSectionImageUrl, getExerciseVideoUrl, uploadExerciseSectionImage } from "../../../../lib/images";
+import {
+  getExerciseSectionImageUrl,
+  getExerciseVideoUrl,
+  uploadExerciseSectionImage,
+} from "../../../../lib/images";
 
 import {
   getAllSectionsWithExcercises,
@@ -83,20 +93,21 @@ function Exercises() {
         }
       })
       .catch(console.log);
+  }, []);
 
+  useEffect(() => {
     getAllSections().then(async (res) => {
-      if (res === "error") return; 
-      
+      if (res === "error") return;
+
       for (let section of res) {
         section.imageURL = await getExerciseSectionImageUrl(section.id);
       }
 
       setAllSections(res);
-      console.log('sections here')
-      console.log(res)
+      console.log("sections here");
+      console.log(res);
     });
   }, []);
-
   const [inEditingSections, setInEditinSection] = useState([]);
   return (
     <>
@@ -159,7 +170,10 @@ function Exercises() {
                   console.log("section image was: " + newSectionImage);
                   if (!newSectionImage) return;
 
-                  await uploadExerciseSectionImage(createResult, newSectionImage);
+                  await uploadExerciseSectionImage(
+                    createResult,
+                    newSectionImage
+                  );
 
                   Swal.fire({
                     position: "top-end",
@@ -178,7 +192,7 @@ function Exercises() {
               return (
                 <>
                   <div className="sction w-1/6 shadow-md px-4 relative py-5 rounded-lg">
-                    {inEditingSections.find(s => s.id === ele.id) ? (
+                    {inEditingSections.find((s) => s.id === ele.id) ? (
                       <>
                         <input
                           onChange={(e) => {
@@ -203,10 +217,11 @@ function Exercises() {
                     )}
                     <CiEdit
                       onClick={() => {
-                        if (inEditingSections.find(s => s.id === ele.id)) {
-                          setInEditinSection(array => array.filter(s => s.id !== ele.id))
-                        }
-                        else setInEditinSection([ele])
+                        if (inEditingSections.find((s) => s.id === ele.id)) {
+                          setInEditinSection((array) =>
+                            array.filter((s) => s.id !== ele.id)
+                          );
+                        } else setInEditinSection([ele]);
                         setEditedSection({ name: ele.name });
                         console.log(inEditingSections);
                       }}
@@ -238,12 +253,9 @@ function Exercises() {
 
                     {/* Section image */}
 
-                    { ele.image && 
-                    
-                      <img src={ele.imageURL}/>
-                    }
+                    {ele.image && <img src={ele.imageURL} />}
 
-                    {inEditingSections.find(s => s.id === ele.id) && (
+                    {inEditingSections.find((s) => s.id === ele.id) && (
                       <>
                         <button
                           onClick={() => {
@@ -473,10 +485,12 @@ function Exercises() {
                                     ) : (
                                       <CiEdit
                                         onClick={() => {
-                                            setInEditingExercise(e.id);
-                                            setEditedExercise({ name: e.name, description: e.description });
-                                          }
-                                        }
+                                          setInEditingExercise(e.id);
+                                          setEditedExercise({
+                                            name: e.name,
+                                            description: e.description,
+                                          });
+                                        }}
                                         className="absolute top-0 right-4"
                                         size={23}
                                         color="green"
@@ -515,9 +529,14 @@ function Exercises() {
                                     />
 
                                     <div>
-                                      {e.video && <video control>
-                                        <source src={e.video.url} type="video/mp4"/>
-                                      </video>}
+                                      {e.video && (
+                                        <video control>
+                                          <source
+                                            src={e.video.url}
+                                            type="video/mp4"
+                                          />
+                                        </video>
+                                      )}
                                     </div>
                                     <p
                                       style={{ overflowWrap: "anywhere" }}

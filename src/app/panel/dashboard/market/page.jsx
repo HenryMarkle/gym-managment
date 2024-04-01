@@ -100,6 +100,27 @@ function page() {
     });
   }, []);
 
+  const handelEditProduct = () => {
+    Swal.fire({
+      title: "Do you want to save the changes?",
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: "Save",
+      denyButtonText: `Don't save`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        updateProduct(el.id, {
+          name: editedProductName,
+          description: editedProductDescription,
+          price: editedProductprice,
+        });
+        Swal.fire("Saved!", "", "success");
+      } else if (result.isDenied) {
+        Swal.fire("Changes are not saved", "", "info");
+      }
+    });
+  };
+
   return (
     <>
       <p className="font-bold text-3xl ml-10 mt-3">Market</p>
@@ -445,7 +466,6 @@ function page() {
                             <div className="content mt-4">
                               <div className="product-images flex justify-evenly items-center mb-5 relative">
                                 {/* Product Images */}
-
                                 {el.images?.map((i) => (
                                   <div className="shadow-lg rounded-lg  p-2 relative">
                                     <img
@@ -747,9 +767,7 @@ function page() {
                                 <div className="mb-5">
                                   {inEditingProduct === el.id ? (
                                     <>
-                                      <span className="font-bold">
-                                        Marka :{" "}
-                                      </span>
+                                      <span className="font-bold">Marka :</span>
                                       <input
                                         className="border-2 px-2 rounded-xl"
                                         type="text"
@@ -758,9 +776,7 @@ function page() {
                                     </>
                                   ) : (
                                     <>
-                                      <span className="font-bold">
-                                        Marka :{" "}
-                                      </span>{" "}
+                                      <span className="font-bold">Marka :</span>
                                       {el.marka}
                                     </>
                                   )}
@@ -787,9 +803,9 @@ function page() {
                                   <>
                                     <span className="font-bold">price : </span>
                                     <input
-                                      onChange={({ target }) => {
+                                      onChange={(e) => {
                                         setEditedProductPrice(
-                                          Number(target.value)
+                                          Number(e.target.value)
                                         );
                                         setUserEditedAField(true);
                                       }}
@@ -825,32 +841,7 @@ function page() {
                                       />
                                     </div>
                                     <button
-                                      onClick={() => {
-                                        Swal.fire({
-                                          title:
-                                            "Do you want to save the changes?",
-                                          showDenyButton: true,
-                                          showCancelButton: true,
-                                          confirmButtonText: "Save",
-                                          denyButtonText: `Don't save`,
-                                        }).then((result) => {
-                                          if (result.isConfirmed) {
-                                            updateProduct(el.id, {
-                                              name: editedProductName,
-                                              description:
-                                                editedProductDescription,
-                                              price: editedProductprice,
-                                            });
-                                            Swal.fire("Saved!", "", "success");
-                                          } else if (result.isDenied) {
-                                            Swal.fire(
-                                              "Changes are not saved",
-                                              "",
-                                              "info"
-                                            );
-                                          }
-                                        });
-                                      }}
+                                      onClick={handelEditProduct}
                                       className="bg-green-700 px-2 py-2 rounded-md text-white font-bold mt-3 w-full mx-auto my-0"
                                     >
                                       Submit edits
