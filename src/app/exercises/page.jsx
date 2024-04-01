@@ -19,16 +19,14 @@ function page() {
       if (res === "error") return;
 
       let urlPromises = res.map((s) =>
-        getExerciseSectionImageUrl(s.name).then((url) => (s.imageUrl = url))
+        getExerciseSectionImageUrl(s.id).then((url) => (s.imageUrl = url))
       );
 
       let countPromises = res.map((s) =>
         countSectionExercises(s.name).then((c) => (s.exerciseCount = c))
       );
 
-      Promise.all([...urlPromises, ...countPromises]);
-
-      setExerciseSections(res);
+      Promise.all([...urlPromises, ...countPromises]).then(() => setExerciseSections(res));
     });
   }, []);
 
@@ -47,10 +45,10 @@ function page() {
             return (
               <React.Fragment key={index}>
                 <Link className="w-full" href={`/exercise/${ele.id}`}>
-                  <img src={ele.imageUrl} alt="img" />
+                  {/* <img src={ele.imageUrl} alt="img" /> */}
                   <div
                     style={{
-                      backgroundImage: `url(${ele.imageUrl && ele.imageUrl})`,
+                      backgroundImage: `url(${ele.imageUrl})`,
                     }}
                     className={`exercise relative mt-3 lg:mt-20 h-[400px] shadow-2xl rounded-md bg-repeat-round flex items-center w-full justify-center flex-col cursor-pointer `}
                   >

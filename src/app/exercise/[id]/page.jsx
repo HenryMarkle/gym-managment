@@ -19,7 +19,7 @@ function page() {
 
   ///
   ///
-  const sectionName = useParams();
+  const { id } = useParams();
   
   const [sectionImageUrl, setSectionImageUrl] = useState('')
 
@@ -30,20 +30,23 @@ function page() {
     categoryId: number;
     videoUrl: string
   */
-  const [exerciseUrl, setExericeUrl] = useState('');
+  const [exercises, setExerices] = useState([]);
 
   useEffect(() => {
-    getAllExcercisesOfSection(sectionName).then(res => {
+    getAllExcercisesOfSection(Number(id)).then(res => {
       if (res !== 'error') {
         // section image
-        getExerciseSectionImageUrl(sectionName).then(setSectionImageUrl);
+        getExerciseSectionImageUrl(Number(id)).then(setSectionImageUrl);
 
         // exercise videos
         let promises = res.map(e => getExerciseVideoUrl(e.id).then(url => e.videoUrl = url))
-        Promise.all(promises);
-        setExericeUrl(res);
+        
+        Promise.allSettled(promises).then(() => {
+          setExerices(res);
+        });
+        
 
-        console.log(`Exercise URL: ${exerciseUrl}`);
+        console.log(`Exercise URL: ${exercises}`);
         console.log(`Section URL: ${sectionImageUrl}`);
       }
     })
@@ -51,70 +54,6 @@ function page() {
   ///
   ///
 
-  const dummyData = [
-    {
-      id: 1,
-      title: "exercise name",
-      desc: `  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-    Itaque eveniet quia praesentium quaerat deserunt et
-    inventore cum porro ex, repellat eum, aliquid, omnis
-    corrupti optio numquam quisquam ut magnam doloremque? Lorem
-    ipsum dolor sit amet consectetur adipisicing elit. Itaque
-    eveniet quia praesentium quaerat deserunt et inventore cum
-    porro ex, repe Lorem ipsum`,
-    },
-    {
-      id: 2,
-      title: "exercise name",
-      desc: `  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-    Itaque eveniet quia praesentium quaerat deserunt et
-    inventore cum porro ex, repellat eum, aliquid, omnis
-    corrupti optio numquam quisquam ut magnam doloremque? Lorem
-    ipsum dolor sit amet consectetur adipisicing elit. Itaque
-    eveniet quia praesentium quaerat deserunt et inventore cum
-    porro ex, repe Lorem ipsum`,
-    },
-    {
-      id: 3,
-      title: "exercise name",
-      desc: `  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-    Itaque eveniet quia praesentium quaerat deserunt et
-    inventore cum porro ex, repellat eum, aliquid, omnis
-    corrupti optio numquam quisquam ut magnam doloremque? Lorem
-    ipsum dolor sit amet consectetur adipisicing elit. Itaque
-    eveniet quia praesentium quaerat deserunt et inventore cum
-    porro ex, repe Lorem ipsum`,
-    },
-    {
-      id: 4,
-      title: "exercise name",
-      desc: `  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-      Itaque eveniet quia praesentium quaerat deserunt et
-      inventore cum porro ex, repellat eum, aliquid, omnis
-      corrupti optio numquam quisquam ut magnam doloremque? Lorem
-      ipsum dolor sit amet consectetur adipisicing elit. Itaque
-      eveniet quia praesentium quaerat deserunt et inventore cum
-      porro ex, repe Lorem ipsum Lorem ipsum dolor sit amet consectetur adipisicing elit.
-      Itaque eveniet quia praesentium quaerat deserunt et
-      inventore cum porro ex, repellat eum, aliquid, omnis
-      corrupti optio numquam quisquam ut magnam doloremque? Lorem
-      ipsum dolor sit amet consectetur adipisicing elit. Itaque
-      eveniet quia praesentium quaerat deserunt et inventore cum
-      porro ex, repe Lorem ipsum Lorem ipsum dolor sit amet consectetur adipisicing elit.
-      Itaque eveniet quia praesentium quaerat deserunt et
-      inventore cum porro ex, repellat eum, aliquid, omnis
-      corrupti optio numquam quisquam ut magnam doloremque? Lorem
-      ipsum dolor sit amet consectetur adipisicing elit. Itaque
-      eveniet quia praesentium quaerat deserunt et inventore cum
-      porro ex, repe Lorem ipsum Lorem ipsum dolor sit amet consectetur adipisicing elit.
-      Itaque eveniet quia praesentium quaerat deserunt et
-      inventore cum porro ex, repellat eum, aliquid, omnis
-      corrupti optio numquam quisquam ut magnam doloremque? Lorem
-      ipsum dolor sit amet consectetur adipisicing elit. Itaque
-      eveniet quia praesentium quaerat deserunt et inventore cum
-      porro ex, repe Lorem ipsum`,
-    },
-  ];
 
   return (
     <>
@@ -126,13 +65,13 @@ function page() {
           <div className="exer-left-image bg-orange-400 h-[490px] w-[35%] overflow-hidden rounded-xl">
             <img
               className="h-full"
-              src="https://cdn.mos.cms.futurecdn.net/zkrwxQVtsn3Yi2Pgmh89eN-1200-80.jpg"
+              src={sectionImageUrl}
               alt=""
             />
           </div>
           <div className="exer-right w-[63%] rounded-xl">
             <div className="exer-exercises flex flex-col gap-6">
-              {dummyData.map((ele) => {
+              {exercises.map((ele) => {
                 return (
                   <div key={ele.id} onClick={() => handleOpenArray(ele.id)}>
                     <div
@@ -141,7 +80,7 @@ function page() {
                       } `}
                     >
                       <div className="title flex justify-between items-center ">
-                        <p className="font-extrabold text-xl ">{ele.title}</p>
+                        <p className="font-extrabold text-xl ">{ele.name}</p>
                         <p className="pr-2 w-[50%] flex justify-end ">
                           {openArray.includes(ele.id) ? (
                             <BsArrowUpCircleFill size={23} color="#ed563b" />
@@ -154,13 +93,13 @@ function page() {
                         <div className="video w-[100%]">
                           <iframe
                             className="w-full h-[360px] my-5 rounded-lg"
-                            src="https://www.youtube.com/embed/VIDEO_ID"
+                            src={ele.videoUrl}
                             frameborder="0"
                             allowfullscreen
                           ></iframe>
                         </div>
                         <div className="description w-full pl-10 mt-5 font-bold pr-5 h-[90%]">
-                          {ele.desc}
+                          {ele.description}
                         </div>
                       </div>
                     </div>

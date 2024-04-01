@@ -189,13 +189,13 @@ export async function getAllExcercises(): Promise<Excercise[] | "error"> {
 }
 
 export async function getAllExcercisesOfSection(
-  name: string
+  id: number
 ): Promise<Excercise[] | "error"> {
   try {
     await client.$connect();
 
     const section = await client.excerciseCategory.findUnique({
-      where: { name },
+      where: { id },
       include: { excercises: true },
     });
 
