@@ -66,15 +66,15 @@ export async function getSectionByName(
 
 export async function createSection(
   name: string
-): Promise<undefined | "unauthorized" | "error"> {
+): Promise<number | "unauthorized" | "error"> {
   try {
     await client.$connect();
 
     if (!(await getAuthState())) return "unauthorized";
 
-    await client.excerciseCategory.create({ data: { name } });
+    const created = await client.excerciseCategory.create({ data: { name } });
 
-    return;
+    return created.id;
   } catch (e) {
     console.log(e);
     return "error";

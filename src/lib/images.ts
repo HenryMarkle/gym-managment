@@ -38,6 +38,23 @@ export async function getExerciseVideoUrl(id: number): Promise<string | null> {
         const storageRef = ref(storage, `videos/excercises2/`);
         const response = await listAll(storageRef);
 
+        const foundURL = response.items.find(i => i.name.startsWith(id.toString()));
+
+        if (!foundURL) return null;
+
+        return await getDownloadURL(foundURL);
+
+    } catch (e) {
+        console.log(`getExerciseVideoUrl: error: ${e}`);
+        return null;
+    }
+}
+
+export async function getExerciseSectionImageUrl(id: number): Promise<string | null> {
+    try {
+        const storageRef = ref(storage, `images/excercise_sections/${id}`);
+        const response = await listAll(storageRef);
+
         if (response.items.length) {
             return await getDownloadURL(response.items[0]);
         } 
@@ -50,22 +67,18 @@ export async function getExerciseVideoUrl(id: number): Promise<string | null> {
     }
 }
 
-export async function getExerciseSectionImageUrl(name: string): Promise<string | null> {
+export async function uploadExerciseSectionImage(id: number, image: File) {
     try {
-        const storageRef = ref(storage, `images/excercise_sections/`);
-        const response = await listAll(storageRef);
+        const storageRef = ref(storage, `images/excercise_sections/${id}`);
 
-        const found = response.items.find(i => i.name.startsWith(name));
+        const list = await listAll(storageRef);
 
-        if (found) {
-            return await getDownloadURL(found);
-        } 
-        
-        return null;
+        await Promise.allSettled(list.items.map(deleteObject));
+
+        await uploadBytes(ref(storage, `images/excercise_sections/${id}/${image.name}`), image);
 
     } catch (e) {
-        console.log(`getExerciseVideoUrl: error: ${e}`);
-        return null;
+        console.log(`uploadExerciseSectionImage(): ${e}`);
     }
 }
 

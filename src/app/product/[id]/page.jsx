@@ -27,25 +27,28 @@ function page() {
 
   useEffect(() => {
     getProductById(Number(id)).then((response) => {
-      if (response !== "error" && response !== "notFound") {
-        // Get images of the current product
-        getProductImageUrls(Number(id)).then(setImages);
+      if (response === "error" || response == "notFound") return; 
+      
+      // Get images of the current product
+      getProductImageUrls(Number(id)).then(urls => {
+          // Update images
+          setImages(urls)
+          // Update product
+          setProduct(response);
 
-        // Update product
-        setProduct(response);
 
-        // Get products of same category
-        getProductsOfCategory(response.category.name).then((response) => {
-          if (response !== "error") {
-            // Get images of all products THEN update with setProducts
-            Promise.all(
-              response.map((p) =>
-                getProductImageUrls(p.id).then((urls) => (p.images = urls))
-              )
-            ).then(() => setProducts(response));
-          }
-        });
-      }
+          // Get products of same category
+          getProductsOfCategory(response.category.name).then((response) => {
+            if (response !== "error") {
+              // Get images of all products THEN update with setProducts
+              Promise.all(
+                response.map((p) =>
+                  getProductImageUrls(p.id).then((urls) => (p.images = urls))
+                )
+              ).then(() => setProducts(response));
+            }
+          });
+      });
     });
   }, []);
 

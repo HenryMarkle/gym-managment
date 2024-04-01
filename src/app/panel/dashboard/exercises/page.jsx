@@ -10,7 +10,7 @@ import "./helper.css";
 import storage from "../../../api/v1/firebase";
 import { ref, uploadBytes, getDownloadURL, listAll, deleteObject } from "firebase/storage";
 
-import { getExerciseSectionImageUrl, getExerciseVideoUrl } from "../../../../lib/images";
+import { getExerciseSectionImageUrl, getExerciseVideoUrl, uploadExerciseSectionImage } from "../../../../lib/images";
 
 import {
   getAllSectionsWithExcercises,
@@ -45,12 +45,6 @@ function Exercises() {
 
   const [editedSection, setEditedSection] = useState({ name: "" });
 
-  const deletSection = async (name) => {
-    await deleteSection(name)
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
-  };
-
   const [openSection, setOpenSection] = useState([]);
 
   const [openExercises, setOpenExercises] = useState([]);
@@ -78,7 +72,7 @@ function Exercises() {
       .then(async (response) => {
         if (response !== "error") {
           for (let section of response) {
-            section.image = await getExerciseSectionImageUrl(section.name);
+            // section.image = await getExerciseSectionImageUrl(section.id);
 
             for (let exc of section.excercises) {
               exc.video = await getExerciseVideoUrl(exc.id);
@@ -86,15 +80,20 @@ function Exercises() {
           }
 
           setAllSectionWithExcercises(response);
-          console.log(response);
         }
       })
       .catch(console.log);
 
-    getAllSections().then((res) => {
-      if (res !== "error") {
-        setAllSections(res);
+    getAllSections().then(async (res) => {
+      if (res === "error") return; 
+      
+      for (let section of res) {
+        section.imageURL = await getExerciseSectionImageUrl(section.id);
       }
+
+      setAllSections(res);
+      console.log('sections here')
+      console.log(res)
     });
   }, []);
 
@@ -134,7 +133,7 @@ function Exercises() {
                 onChange={(e) => (newSectionName = e.target.value)}
                 placeholder="Section name"
               />
-              <p className="font-bold mt-4 mb-2">Sectio image</p>
+              <p className="font-bold mt-4 mb-2">Section image</p>
               <input
                 type="file"
                 className=" w-full"
@@ -160,19 +159,8 @@ function Exercises() {
                   console.log("section image was: " + newSectionImage);
                   if (!newSectionImage) return;
 
-                  var extension = newSectionImage.name.includes(".")
-                    ? newSectionImage.name.substring(
-                        newSectionImage.name.lastIndexOf(".") + 1,
-                        newSectionImage.name.length
-                      )
-                    : "";
+                  await uploadExerciseSectionImage(createResult, newSectionImage);
 
-                  let storageRef = ref(
-                    storage,
-                    `images/excercise_sections/${newSectionName}.${extension}`
-                  );
-
-                  await uploadBytes(storageRef, newSectionImage);
                   Swal.fire({
                     position: "top-end",
                     icon: "success",
@@ -183,7 +171,7 @@ function Exercises() {
                 }}
                 className=" bg-green-700 text-white px-4 py-2 mt-4 rounded-md mx-auto w-full my-0 "
               >
-                Crete section
+                Create section
               </button>
             </div>
             {allSections.map((ele) => {
@@ -252,7 +240,7 @@ function Exercises() {
 
                     { ele.image && 
                     
-                      <img src={ele.image}/>
+                      <img src={ele.imageURL}/>
                     }
 
                     {inEditingSections.find(s => s.id === ele.id) && (
