@@ -308,7 +308,7 @@ export async function addPlan(plan: { title: string, description: string, price:
   }
 }
 
-export async function deletePlan(id: number): Promise<boolean | "unauthorized" | "error"> {
+export async function deletePlanById(id: number): Promise<boolean | "unauthorized" | "error"> {
   try {
     await client.$connect();
 

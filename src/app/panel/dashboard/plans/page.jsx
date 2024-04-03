@@ -7,11 +7,15 @@ import { CiEdit } from "react-icons/ci";
 import { MdDeleteForever } from "react-icons/md";
 import Swal from "sweetalert2";
 
-import { addPlan, getHomePlans, getPlanById } from "../../../api/v1/dashboard";
+import { addPlan, getHomePlans, deletePlanById } from "../../../api/v1/dashboard";
 import { uploadPlanImage, getPlanImageUrl } from "../../../../lib/images";
 
 function page() {
 
+  // Mohamed's Changes
+  //
+  
+  
   // This is what a single plan looks like
   const [ plans, setPlans ] = useState([ {
     id: 0,
@@ -40,6 +44,26 @@ function page() {
     })
   });
 
+  async function createPlan({
+    title,  // string
+    description,  // string
+    price,  // number
+    duration, // string
+    features  // array of strings
+  }) {
+    await addPlan(arguments[0]);
+  }
+
+  async function deletePlan(id) {
+    await deletePlanById(id);
+  }
+
+  async function uploadImage(id, image) {
+    await uploadPlanImage(id, image);
+  }
+
+  //
+  // End of Mohamed's Changes
 
   const dummyData = [
     {
