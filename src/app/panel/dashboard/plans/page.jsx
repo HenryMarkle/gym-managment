@@ -1,12 +1,46 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CiSaveDown1 } from "react-icons/ci";
 import "./plans.css";
 import { MdOutlineCancel } from "react-icons/md";
 import { CiEdit } from "react-icons/ci";
 import { MdDeleteForever } from "react-icons/md";
 import Swal from "sweetalert2";
+
+import { addPlan, getHomePlans, getPlanById } from "../../../api/v1/dashboard";
+import { uploadPlanImage, getPlanImageUrl } from "../../../../lib/images";
+
 function page() {
+
+  // This is what a single plan looks like
+  const [ plans, setPlans ] = useState([ {
+    id: 0,
+
+    title: '',
+    description: '',
+    price: 0,
+    duration: '',
+    features: [''],
+    imageURL: '',
+
+    createdAt: '',
+    updatedAt: '',
+    deletedAt: null
+
+  } ]);
+  
+  useEffect(() => {
+    getHomePlans().then(response => {
+      if (response === 'error') return;
+
+      // Get image URLs then setPlans
+      Promise
+        .allSettled(response.map(p => getPlanImageUrl(p.id).then(url => p.imageURL = url)))
+        .then(() => setPlans(response));
+    })
+  });
+
+
   const dummyData = [
     {
       id: 1,
