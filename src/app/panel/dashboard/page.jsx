@@ -13,7 +13,14 @@ import Swal from "sweetalert2";
 
 export default function HomePage() {
   const [edited2, setEdited2] = useState(false);
-  const [generalInfo, setGeneralInfo] = useState(null);
+
+  const [generalInfo, setGeneralInfo] = useState({
+    title: '',
+    sentence: '',
+    secondSentence: '',
+    planDescription: ''
+  });
+  
   const [adsTitle, setAdsTitle] = useState("");
   const [adsDescription, setAdsDescription] = useState("");
   const [adsImage, setAdsImage] = useState(null);
