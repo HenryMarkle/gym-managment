@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import Footer from "../components/website/Footer";
 import CustomHeader from "../components/website/CustomHeader";
 import { isUserSignedIn } from "./api/v1/user";
+import { ReduxProvider } from "../redux/provider";
 // import Cookies from "js-cookie";
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,13 +26,15 @@ export default function RootLayout({ children, showSidebar = true }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        {showSidebar &&
-          path.includes("panel") &&
-          !path.includes("dashboard") && <SideBar></SideBar>}
-        {!path.includes("panel") && path != "/" && <CustomHeader />}
-        {path.includes("dashboard") && <HeaderDash />}
-        {children}
-        {!path.includes("panel") && <Footer />}
+        <ReduxProvider>
+          {showSidebar &&
+            path.includes("panel") &&
+            !path.includes("dashboard") && <SideBar></SideBar>}
+          {!path.includes("panel") && path != "/" && <CustomHeader />}
+          {path.includes("dashboard") && <HeaderDash />}
+          {children}
+          {!path.includes("panel") && <Footer />}
+        </ReduxProvider>
       </body>
     </html>
   );

@@ -4,8 +4,6 @@ import Chart from "../../components/dashboard/Chart";
 import Stats_top from "../../components/dashboard/StatsTop";
 import { useRouter, usePathname } from "next/navigation";
 import MoneyStats from "../../components/dashboard/RightSideStats";
-import tr from "../../locales/tr";
-import en from "../../locales/en";
 import {
   getUsersLeftChartData,
   getUsersCreatedChartData,
@@ -35,8 +33,6 @@ function page() {
     // router.push("/");
   }, []);
 
-  const { locale } = router;
-  const t = locale === "en" ? en : tr;
   return (
     <>
       {path.includes("panel") && (
@@ -49,7 +45,10 @@ function page() {
                   <Chart title="New Customers" data={created} />
                 </div>
                 <div className="left-2 h-[400px]">
-                  <Chart title="Ending Subscriptions This Year Lol" data={left} />
+                  <Chart
+                    title="Ending Subscriptions This Year Lol"
+                    data={left}
+                  />
                 </div>
               </div>
               <MoneyStats />

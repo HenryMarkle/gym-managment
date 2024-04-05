@@ -23,13 +23,13 @@ function Carousel({ data }) {
   };
   return (
     <>
-      <div className="relative w-full h-full flex m-4">
+      <div className="relative w-full h-full flex m-4 ">
         <p className="absolute right-2 -top-10 font-bold text-orange-600">
-          {data.length ? goValue + 1 : goValue}/{data.length}
+          {data?.length ? goValue + 1 : goValue}/{data?.length}
         </p>
         <div className="dots w-full -bottom-3 absolute my-0 mx-auto ">
           <ul className="flex justify-center list-none">
-            {data.map((ele, index) => {
+            {data?.map((ele, index) => {
               return (
                 <>
                   <li
@@ -44,7 +44,7 @@ function Carousel({ data }) {
           </ul>
         </div>
         <div className="flex items-center">
-          <div className="absolute  ml-2">
+          <div className="absolute ml-2 h-[23px] rounded-full bg-white">
             <IoArrowBackCircle
               enableBackground={true}
               onClick={() => handelGoBackButton()}
@@ -52,7 +52,7 @@ function Carousel({ data }) {
               size={23}
             />
           </div>
-          <div className=" absolute right-0 mr-2">
+          <div className=" absolute right-0 mr-2 h-[23px] rounded-full bg-white">
             <IoArrowForwardCircleSharp
               enableBackground={true}
               onClick={() => handelGoForwardButton()}

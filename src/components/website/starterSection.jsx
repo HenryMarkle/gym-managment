@@ -4,11 +4,11 @@ import {
   getHomeGeneralInfo,
   updateHomeGeneralInfo,
   getProductCategories,
-} from "../../../app/api/v1/dashboard";
+} from "../../app/api/v1/dashboard";
 
 // Firebase
 
-import storage from "../../../app/api/v1/firebase";
+import storage from "../../app/api/v1/firebase";
 import { listAll, ref, uploadBytes, deleteObject } from "firebase/storage";
 import Swal from "sweetalert2";
 
