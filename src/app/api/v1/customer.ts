@@ -148,7 +148,7 @@ export async function addCustomer(
  * @returns a list of all subscribers
  * @returns null if an error has occurred
  */
-export async function getAllCustomers(): Promise<Customer[] | 'unauthorized' | null> {
+export async function getAllCustomers(includeMarkAsDeleted: boolean = false): Promise<Customer[] | 'unauthorized' | null> {
   await client.$connect();
 
   try {
@@ -160,8 +160,12 @@ export async function getAllCustomers(): Promise<Customer[] | 'unauthorized' | n
 
     if (!user) return 'unauthorized';
 
-    const customers = await client.subscriber.findMany();
-    if (!customers) return null;
+    const customers = await client.subscriber.findMany(
+      includeMarkAsDeleted 
+        ? undefined 
+        : { where: { deletedAt: null } });
+    
+      if (!customers) return null;
 
     return customers.map(c => {
       return { ...c,
@@ -217,7 +221,7 @@ export async function getCustomerById(
   }
 }
 
-export async function deleteCustomerById(id: number) {
+export async function deleteCustomerById(id: number, permanent: boolean = false) {
     await client.$connect();
 
     try {
@@ -226,7 +230,11 @@ export async function deleteCustomerById(id: number) {
       const manager = await client.user.findUnique({ where: { session: c.value } });
       if (!manager) return;
 
-      await client.subscriber.delete({ where: { id } });
+      if (permanent) 
+        await client.subscriber.delete({ where: { id } }); 
+      else 
+        await client.subscriber.update({ where: { id }, data: { deletedAt: new Date() } });
+
       await client.event.create({ data: { event: "delete", target: "customer", actorId: manager.id  } });
     } catch (e) {
         console.log(e);

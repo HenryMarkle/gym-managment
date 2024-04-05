@@ -1,5 +1,22 @@
+import { randomUUID } from 'crypto';
 import storage from '../app/api/v1/firebase';
 import { ref, listAll, getDownloadURL, deleteObject, uploadBytes } from 'firebase/storage';
+
+export async function uploadPlanImage(id: number, image: File) {
+    let storageRef = ref(storage, `images/plans/${id}`);
+
+    const images = await listAll(storageRef);
+
+    for (let item of images.items) await deleteObject(item);
+
+    await uploadBytes(ref(storage, `images/plans/${id}/${randomUUID()}`), image);
+}
+
+export async function getPlanImageUrl(id: number): Promise<string | undefined> {
+    const response = await listAll(ref(storage, `images/plans/${id}`));
+
+    return response.items.length ? await getDownloadURL(response.items[0]) : undefined;
+}
 
 export async function uploadProductImages(id: number, images: FileList): Promise<undefined | 'error'> {
     try {
@@ -91,8 +108,6 @@ export async function getTrainerImageUrl(id: number): Promise<string | null> {
         return null;
     }
 }
-
-// upload
 
 export async function uploadTrainerImage(id: number, image: File) {
     try {

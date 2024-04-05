@@ -6,6 +6,7 @@ import path from "path";
 import client from "./client";
 import { cookies } from "next/headers";
 import { ProductCategory } from "@prisma/client";
+import { connect } from "http2";
 
 const gymHomeBackImage = 'gymHomeBackImage';
 const adsBackground = 'adsBackground';
@@ -189,8 +190,10 @@ export async function updatePlanParagraph(paragraph: string): Promise<'success' 
     }
 }
 
-export async function getHomePlans(): Promise<Plan[] | "unauthorized" | "error"> {
+export async function getHomePlans(): Promise<Plan[]| "error"> {
   try {
+    await client.$connect();
+
     const plans = await client.plan.findMany({ include: { features: true } });
     return plans.map(p => {
       return {...p,
@@ -205,6 +208,30 @@ export async function getHomePlans(): Promise<Plan[] | "unauthorized" | "error">
     console.log("failed to fetch plans: " + e);
     return "error";
   } finally {
+    await client.$disconnect();
+  }
+}
+
+export async function getPlanById(id: number): Promise<Plan | "notFound" | "error"> {
+  try {
+    await client.$connect();
+
+    const plan = await client.plan.findUnique({ where: { id }, include: { features: true } });
+
+    if (!plan) return "notFound";
+
+    return {...plan, 
+      features: plan.features.map(f => f.name), 
+      price: plan.price.toNumber(), 
+      createdAt: plan.createdAt.toDateString(), 
+      updatedAt: plan.updatedAt.toDateString(), 
+      deletedAt: plan.deletedAt?.toDateString() 
+    };
+  } catch (e) {
+    console.log(`failed to get plan by ID: ${e}`);
+    return "error";
+  } finally {
+    await client.$disconnect();
   }
 }
 
@@ -246,7 +273,7 @@ export async function addPlanForm(formData: FormData) {
   }
 }
 
-export async function addPlan(plan: { title: string, description: string, price: number, duration: string, features: string[] }): Promise<"success" | "unauthorized" | "error"> {
+export async function addPlan(plan: { title: string, description: string, price: number, duration: string, features: string[] }): Promise<number | "unauthorized" | "error"> {
   try {
     await client.$connect();
 
@@ -274,14 +301,14 @@ export async function addPlan(plan: { title: string, description: string, price:
     for (let f in plan.features) {
       await client.planFeature.create({ data: { name: f, planId: createdPlan.id  } });
     }
-    return "success";
+    return createdPlan.id;
   } catch (e) {
     console.log("failed to add a plan: " + e);
     return "error";
   }
 }
 
-export async function deletePlan(name: string): Promise<boolean | "unauthorized" | "error"> {
+export async function deletePlanById(id: number): Promise<boolean | "unauthorized" | "error"> {
   try {
     await client.$connect();
 
@@ -290,7 +317,7 @@ export async function deletePlan(name: string): Promise<boolean | "unauthorized"
     if (!(await client.user.count({ where: { session: sc.value } })))
       return "unauthorized";
 
-    await client.plan.delete({ where: { title: name } });
+    await client.plan.delete({ where: { id } });
 
     return true;
   } catch (e) {

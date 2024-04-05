@@ -15,7 +15,12 @@ import Swal from "sweetalert2";
 function starterS() {
   const [edited, setEdited] = useState(false);
   const [gymTitle, setGymTitle] = useState("");
-  const [generalInfo, setGeneralInfo] = useState(null);
+  const [generalInfo, setGeneralInfo] = useState({
+    title: '',
+    sentence: '',
+    secondSentence: '',
+    plansDescription: ''
+  });
 
   const [categoreies, setCategories] = useState([]);
   const [allProductCategories, setAllProductCategories] = useState([]);
@@ -28,6 +33,7 @@ function starterS() {
       setGymTitle(d.title);
     });
 
+    // what is this doing here?
     getProductCategories().then((c) => {
       if (c === "error") {
         console.log("error");
@@ -50,7 +56,7 @@ function starterS() {
       denyButtonText: `Don't save`,
     }).then(async (result) => {
       if (result.isConfirmed) {
-        updateHomeGeneralInfo({
+        await updateHomeGeneralInfo({
           title: gymTitle,
           description: generalInfo?.description,
           starter: generalInfo?.sentence,
@@ -128,7 +134,7 @@ function starterS() {
             value={generalInfo?.sentence}
             onChange={(e) => {
               setGeneralInfo((g) => {
-                return { ...g, sentence: e.target.data };
+                return { ...g, sentence: e.target.value };
               });
               setEdited(true);
             }}

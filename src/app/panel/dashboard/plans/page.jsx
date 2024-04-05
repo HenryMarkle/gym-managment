@@ -1,12 +1,70 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CiSaveDown1 } from "react-icons/ci";
 import "./plans.css";
 import { MdOutlineCancel } from "react-icons/md";
 import { CiEdit } from "react-icons/ci";
 import { MdDeleteForever } from "react-icons/md";
 import Swal from "sweetalert2";
+
+import { addPlan, getHomePlans, deletePlanById } from "../../../api/v1/dashboard";
+import { uploadPlanImage, getPlanImageUrl } from "../../../../lib/images";
+
 function page() {
+
+  // Mohamed's Changes
+  //
+  
+  
+  // This is what a single plan looks like
+  const [ plans, setPlans ] = useState([ {
+    id: 0,
+
+    title: '',
+    description: '',
+    price: 0,
+    duration: '',
+    features: [''],
+    imageURL: '',
+
+    createdAt: '',
+    updatedAt: '',
+    deletedAt: null
+
+  } ]);
+  
+  useEffect(() => {
+    getHomePlans().then(response => {
+      if (response === 'error') return;
+
+      // Get image URLs then setPlans
+      Promise
+        .allSettled(response.map(p => getPlanImageUrl(p.id).then(url => p.imageURL = url)))
+        .then(() => setPlans(response));
+    })
+  });
+
+  async function createPlan({
+    title,  // string
+    description,  // string
+    price,  // number
+    duration, // string
+    features  // array of strings
+  }) {
+    await addPlan(arguments[0]);
+  }
+
+  async function deletePlan(id) {
+    await deletePlanById(id);
+  }
+
+  async function uploadImage(id, image) {
+    await uploadPlanImage(id, image);
+  }
+
+  //
+  // End of Mohamed's Changes
+
   const dummyData = [
     {
       id: 1,
