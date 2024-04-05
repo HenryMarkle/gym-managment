@@ -253,7 +253,7 @@ function Exercises() {
 
                     {/* Section image */}
 
-                    {ele.image && <img src={ele.imageURL} />}
+                    {<img src={ele.imageURL ? ele.imageURL : ''} />}
 
                     {inEditingSections.find((s) => s.id === ele.id) && (
                       <>
