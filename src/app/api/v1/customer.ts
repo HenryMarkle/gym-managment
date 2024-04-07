@@ -191,7 +191,7 @@ export async function getAllCustomers(includeMarkAsDeleted: boolean = false): Pr
  * @returns 'error' if an error has occurred
  */
 export async function getCustomerById(
-  id: number
+  id: number, includeDeleted: boolean
 ): Promise<Customer | null | 'unauthorized' | "error"> {
   await client.$connect();
 
@@ -204,7 +204,9 @@ export async function getCustomerById(
 
     if (!user) return 'unauthorized';
 
-    const customer = await client.subscriber.findUnique({ where: { id } });
+    const customer = includeDeleted 
+      ? await client.subscriber.findUnique({ where: { id } }) 
+      : await client.subscriber.findUnique({ where: { id, deletedAt: null } });
     if (!customer) return null;
 
     return {...customer, 

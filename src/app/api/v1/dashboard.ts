@@ -328,8 +328,39 @@ export async function deletePlanById(id: number): Promise<boolean | "unauthorize
   }
 }
 
+export async function replacePlan(id: number, data: { title: string, description: string, price: number, duration: string, features: string[] }): Promise<undefined | "notFound" | "unauthorized" | "error"> {
+  try {
+    await client.$connect();
+
+    const found = await client.plan.findUnique({ where: { id }, include: { features: true } });
+
+    if (!found) return "notFound";
+
+    await client.plan.update({ 
+      where: { id }, 
+      data: { 
+        title: data.title, 
+        description: data.description, 
+        price: data.price,
+        duration: data.duration,
+      },
+    });
+
+    await Promise.allSettled(found.features.map(i => client.planFeature.delete({ where: { id: i.id } })))
+
+    for (let feature of data.features) {
+      await client.planFeature.create({ data: { name: feature, planId: id } });
+    }
+  } catch (e) {
+    console.log(e);
+    return "error";
+  } finally {
+    await client.$disconnect();
+  }
+}
+
 export async function getAdsInfo(): Promise<
-  { title: string; description: string } | "unauthorized" | "error"
+  { title: string, description: string } | "unauthorized" | "error"
 > {
   try {
     const d = await importJSON();
