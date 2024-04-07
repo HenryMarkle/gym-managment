@@ -109,7 +109,7 @@ function page() {
       denyButtonText: `Don't save`,
     }).then((result) => {
       if (result.isConfirmed) {
-        updateProduct(el.id, {
+        updateProduct(result.id, {
           name: editedProductName,
           description: editedProductDescription,
           price: editedProductprice,

@@ -12,19 +12,31 @@ import { MdDeleteForever } from "react-icons/md";
 import "./managers.css";
 import Swal from "sweetalert2";
 
-import { createTrainer, replaceTrainerById, deleteTrainerbyId, getTrainers } from '../../../api/v1/tariner';
+import {
+  createTrainer,
+  replaceTrainerById,
+  deleteTrainerbyId,
+  getTrainers,
+} from "../../../api/v1/tariner";
 import { getTrainerImageUrl, uploadTrainerImage } from "../../../../lib/images";
 function page() {
-
   const [ManagerInEditing, setManagerInEditing] = useState();
   const [openManagers, setOpenManagers] = useState([]);
 
   let editedManager = null;
   let editedManagerImage = null;
 
-  const [newManager, setNewManager] = useState({ id: 0, job: '', name: '', description: '', instagram: '', facebook: '', twitter: '' });
+  const [newManager, setNewManager] = useState({
+    id: 0,
+    job: "",
+    name: "",
+    description: "",
+    instagram: "",
+    facebook: "",
+    twitter: "",
+  });
   const [newManagerImage, setNewManagerImage] = useState(null);
-  
+
   const [managers, setManagers] = useState([]);
 
   function updateEditedManagerState(event) {
@@ -38,7 +50,7 @@ function page() {
     if (!editedManager) return;
 
     const result = await replaceTrainerById(editedManager.id, editedManager);
-  
+
     if (result || !editedManagerImage) return;
 
     await uploadTrainerImage(editedManager.id, editedManagerImage);
@@ -48,31 +60,32 @@ function page() {
     const key = event.target.name;
     const value = event.target.value;
 
-    setNewManager(prev => ({
+    setNewManager((prev) => ({
       ...prev,
-      [key]: value, 
+      [key]: value,
     }));
   }
 
   async function createManager() {
     const result = await createTrainer(newManager);
-  
-    if (typeof result === 'number' && newManagerImage) {
+
+    if (typeof result === "number" && newManagerImage) {
       await uploadTrainerImage(result, newManagerImage);
     }
   }
 
   useEffect(() => {
     // Get all trainers
-    getTrainers().then(async response => {
-      if (response !== 'error') {
+    getTrainers().then(async (response) => {
+      if (response !== "error") {
         for (let manager of response) {
           manager.image = await getTrainerImageUrl(manager.id);
         }
         setManagers(response);
+        console.log(response);
       }
     });
-  }, [])
+  }, []);
 
   return (
     <div className=" m-4 p-4 rounded-xl">
@@ -82,19 +95,44 @@ function page() {
           <p className="font-bold text-center py-3">Create manager</p>
           <div className="flex flex-col mt-2">
             <label className="font-bold text-md mb-1">Image</label>
-            <input className="" type="file" placeholder="job title" onChange={({target}) => setNewManagerImage(target.files.length ? target.files[0] : null)}/>
+            <input
+              className=""
+              type="file"
+              placeholder="job title"
+              onChange={({ target }) =>
+                setNewManagerImage(target.files.length ? target.files[0] : null)
+              }
+            />
           </div>{" "}
           <div className="flex flex-col mt-2">
             <label className="font-bold text-md mb-1">Job title</label>
-            <input className="px-2" type="text" placeholder="job title" name="job" onChange={updateNewManagerState} />
+            <input
+              className="px-2"
+              type="text"
+              placeholder="job title"
+              name="job"
+              onChange={updateNewManagerState}
+            />
           </div>{" "}
           <div className="flex flex-col mt-2">
             <label className="font-bold text-md mb-1">Name</label>
-            <input className="px-2" type="text" placeholder="Name" name="name" onChange={updateNewManagerState} />
+            <input
+              className="px-2"
+              type="text"
+              placeholder="Name"
+              name="name"
+              onChange={updateNewManagerState}
+            />
           </div>
           <div className="flex flex-col mt-2">
             <label className="font-bold text-md mb-1">Description</label>
-            <input className="px-2" type="text" placeholder="Description" name="description" onChange={updateNewManagerState} />
+            <input
+              className="px-2"
+              type="text"
+              placeholder="Description"
+              name="description"
+              onChange={updateNewManagerState}
+            />
           </div>
           <p className="mt-4 font-bold py-2 border-y-2">
             Social media accounts
@@ -106,7 +144,13 @@ function page() {
               size={19}
               className="absolute bottom-1 right-2"
             />
-            <input className="px-2" type="text" placeholder="Instagram" name="instagram" onChange={updateNewManagerState} />
+            <input
+              className="px-2"
+              type="text"
+              placeholder="Instagram"
+              name="instagram"
+              onChange={updateNewManagerState}
+            />
           </div>{" "}
           <div className="flex flex-col mt-2 relative">
             <label className="font-bold text-md mb-1">Facebook</label>
@@ -115,7 +159,13 @@ function page() {
               size={19}
               className="absolute bottom-1 right-2"
             />
-            <input className="px-2" type="text" placeholder="Facebook" name="facebook" onChange={updateNewManagerState} />
+            <input
+              className="px-2"
+              type="text"
+              placeholder="Facebook"
+              name="facebook"
+              onChange={updateNewManagerState}
+            />
           </div>
           <div className="flex flex-col mt-2 relative">
             <label className="font-bold text-md mb-1">Twitter(X)</label>
@@ -124,9 +174,18 @@ function page() {
               size={19}
               className="absolute bottom-1 right-2"
             />
-            <input className="px-2" type="text" placeholder="Twitter(X)" name="twitter" onChange={updateNewManagerState} />
+            <input
+              className="px-2"
+              type="text"
+              placeholder="Twitter(X)"
+              name="twitter"
+              onChange={updateNewManagerState}
+            />
           </div>
-          <button onClick={createManager} className="px-4 py-2 rounded-xl bg-green-700 text-white font-bold w-full mt-4">
+          <button
+            onClick={createManager}
+            className="px-4 py-2 rounded-xl bg-green-700 text-white font-bold w-full mt-4"
+          >
             Create manager
           </button>
         </div>
@@ -134,7 +193,7 @@ function page() {
         {/* Display Managers */}
 
         <div className="managers shadow-lg w-[60%] ">
-          {managers.map((ele) => {
+          {managers?.map((ele) => {
             return (
               <>
                 <div
@@ -167,7 +226,14 @@ function page() {
                             <label className="font-bold mb-2">
                               Upload new image :
                             </label>
-                            <input type="file" onChange={({target}) => editedManagerImage = target.files.length ? target.files[0] : null} />
+                            <input
+                              type="file"
+                              onChange={({ target }) =>
+                                (editedManagerImage = target.files.length
+                                  ? target.files[0]
+                                  : null)
+                              }
+                            />
                           </div>
                         </>
                       )}
@@ -286,10 +352,20 @@ function page() {
                           }).then(async (result) => {
                             /* Read more about isConfirmed, isDenied below */
                             if (result.isConfirmed) {
-                              if (!(await deleteTrainerbyId(ele.id))) Swal.fire("deleted!", "", "success");
-                              else await  Swal.fire("Failed to delete", "", "error")
+                              if (!(await deleteTrainerbyId(ele.id)))
+                                Swal.fire("deleted!", "", "success");
+                              else
+                                await Swal.fire(
+                                  "Failed to delete",
+                                  "",
+                                  "error"
+                                );
                             } else if (result.isDenied) {
-                              await Swal.fire("Trainer not deleted", "", "info");
+                              await Swal.fire(
+                                "Trainer not deleted",
+                                "",
+                                "info"
+                              );
                             }
                           });
                         }}
@@ -310,7 +386,10 @@ function page() {
 
                     {ManagerInEditing === ele.id && (
                       <>
-                        <button onClick={updateManager} className="px-3 py-1 bg-green-700  text-white font-bold w-full ">
+                        <button
+                          onClick={updateManager}
+                          className="px-3 py-1 bg-green-700  text-white font-bold w-full "
+                        >
                           Submit edits
                         </button>
                       </>

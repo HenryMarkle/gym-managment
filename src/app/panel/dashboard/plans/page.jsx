@@ -7,49 +7,54 @@ import { CiEdit } from "react-icons/ci";
 import { MdDeleteForever } from "react-icons/md";
 import Swal from "sweetalert2";
 
-import { addPlan, getHomePlans, deletePlanById } from "../../../api/v1/dashboard";
+import {
+  addPlan,
+  getHomePlans,
+  deletePlanById,
+} from "../../../api/v1/dashboard";
 import { uploadPlanImage, getPlanImageUrl } from "../../../../lib/images";
 
 function page() {
-
   // Mohamed's Changes
   //
-  
-  
+
   // This is what a single plan looks like
-  const [ plans, setPlans ] = useState([ {
-    id: 0,
+  const [plans, setPlans] = useState([
+    {
+      id: 0,
 
-    title: '',
-    description: '',
-    price: 0,
-    duration: '',
-    features: [''],
-    imageURL: '',
+      title: "",
+      description: "",
+      price: 0,
+      duration: "",
+      features: [""],
+      imageURL: "",
 
-    createdAt: '',
-    updatedAt: '',
-    deletedAt: null
+      createdAt: "",
+      updatedAt: "",
+      deletedAt: null,
+    },
+  ]);
 
-  } ]);
-  
   useEffect(() => {
-    getHomePlans().then(response => {
-      if (response === 'error') return;
+    getHomePlans().then((response) => {
+      if (response === "error") return;
 
       // Get image URLs then setPlans
-      Promise
-        .allSettled(response.map(p => getPlanImageUrl(p.id).then(url => p.imageURL = url)))
-        .then(() => setPlans(response));
-    })
+      Promise.allSettled(
+        response.map((p) =>
+          getPlanImageUrl(p.id).then((url) => (p.imageURL = url))
+        )
+      ).then(() => setPlans(response));
+    });
   });
 
   async function createPlan({
-    title,  // string
-    description,  // string
-    price,  // number
+    title, // string
+    description, // string
+    price, // number
     duration, // string
-    features  // array of strings
+    features, // array of strings
   }) {
     await addPlan(arguments[0]);
   }
@@ -64,39 +69,6 @@ function page() {
 
   //
   // End of Mohamed's Changes
-
-  const dummyData = [
-    {
-      id: 1,
-      title: "Abdullah Plan",
-      price: 1240,
-      image:
-        "https://www.thimble.com/wp-content/uploads/2022/05/Personal-Trainer-Salary-Guide.jpg",
-      features: ["Strength Trainer", "Strength Trainer", "Strength Trainer"],
-      description:
-        "Bitters cliche tattooed 8-bit distillery mustache. Keytar succulents gluten-free vegan church-key pour-over seitan flannel.Bitters cliche tattooed 8-bit distillery mustache. Keytar succulents gluten-free vegan church-key pour-over seitan flannel.Bitters cliche tattooed 8-bit distillery mustache. Keytar succulents gluten-free vegan church-key pour-over seitan flannel.Bitters cliche tattooed 8-bit distillery mustache. Keytar succulents gluten-free vegan church-key pour-over seitan flannel.Bitters cliche tattooed 8-bit distillery mustache. Keytar succulents gluten-free vegan church-key pour-over seitan flannel.Bitters cliche tattooed 8-bit distillery mustache. Keytar succulents gluten-free vegan church-key pour-over seitan flannel.Bitters cliche tattooed 8-bit distillery mustache. Keytar succulents gluten-free vegan church-key pour-over seitan flannel.Bitters cliche tattooed 8-bit distillery mustache. Keytar succulents gluten-free vegan church-key pour-over seitan flannel.",
-    },
-    {
-      id: 2,
-      title: "Ali Plan",
-      price: 1240,
-      image:
-        "https://www.thimble.com/wp-content/uploads/2022/05/Personal-Trainer-Salary-Guide.jpg",
-      features: ["Strength Trainer", "Strength Trainer", "Strength Trainer"],
-      description:
-        "Bitters cliche tattooed 8-bit distillery mustache. Keytar succulents gluten-free vegan church-key pour-over seitan flannel.Bitters cliche tattooed 8-bit distillery mustache. Keytar succulents gluten-free vegan church-key pour-over seitan flannel.Bitters cliche tattooed 8-bit distillery mustache. Keytar succulents gluten-free vegan church-key pour-over seitan flannel.Bitters cliche tattooed 8-bit distillery mustache. Keytar succulents gluten-free vegan church-key pour-over seitan flannel.Bitters cliche tattooed 8-bit distillery mustache. Keytar succulents gluten-free vegan church-key pour-over seitan flannel.Bitters cliche tattooed 8-bit distillery mustache. Keytar succulents gluten-free vegan church-key pour-over seitan flannel.Bitters cliche tattooed 8-bit distillery mustache. Keytar succulents gluten-free vegan church-key pour-over seitan flannel.Bitters cliche tattooed 8-bit distillery mustache. Keytar succulents gluten-free vegan church-key pour-over seitan flannel.",
-    },
-    {
-      id: 3,
-      title: "Mohammad Plan",
-      price: 1240,
-      image:
-        "https://www.thimble.com/wp-content/uploads/2022/05/Personal-Trainer-Salary-Guide.jpg",
-      features: ["Strength Trainer", "Strength Trainer", "Strength Trainer"],
-      description:
-        "Bitters cliche tattooed 8-bit distillery mustache. Keytar succulents gluten-free vegan church-key pour-over seitan flannel.Bitters cliche tattooed 8-bit distillery mustache. Keytar succulents gluten-free vegan church-key pour-over seitan flannel.Bitters cliche tattooed 8-bit distillery mustache. Keytar succulents gluten-free vegan church-key pour-over seitan flannel.Bitters cliche tattooed 8-bit distillery mustache. Keytar succulents gluten-free vegan church-key pour-over seitan flannel.Bitters cliche tattooed 8-bit distillery mustache. Keytar succulents gluten-free vegan church-key pour-over seitan flannel.Bitters cliche tattooed 8-bit distillery mustache. Keytar succulents gluten-free vegan church-key pour-over seitan flannel.Bitters cliche tattooed 8-bit distillery mustache. Keytar succulents gluten-free vegan church-key pour-over seitan flannel.Bitters cliche tattooed 8-bit distillery mustache. Keytar succulents gluten-free vegan church-key pour-over seitan flannel.",
-    },
-  ];
 
   const [PlanInEditing, setPlanInEditing] = useState();
   const [openManagers, setOpenManagers] = useState([]);
@@ -133,7 +105,7 @@ function page() {
           </button>
         </div>
         <div className="managers shadow-lg w-[60%] ">
-          {dummyData.map((ele) => {
+          {plans?.map((ele) => {
             return (
               <>
                 <div
@@ -279,10 +251,11 @@ function page() {
                             showCancelButton: true,
                             confirmButtonText: "delete",
                             denyButtonText: `Don't delete`,
-                          }).then((result) => {
+                          }).then(async (result) => {
                             /* Read more about isConfirmed, isDenied below */
                             if (result.isConfirmed) {
                               Swal.fire("Deleted!", "", "success");
+                              await deletePlan(Number(ele.id));
                             } else if (result.isDenied) {
                               Swal.fire("Plan not deleted", "", "info");
                             }

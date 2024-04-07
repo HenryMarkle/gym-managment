@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import "./dashboard.css";
-import StarterS from "../../../components/website/components/starterS";
+import StarterS from "../../../components/website/starterSection.jsx";
 import {
   getHomeGeneralInfo,
   getAdsInfo,
@@ -15,12 +15,12 @@ export default function HomePage() {
   const [edited2, setEdited2] = useState(false);
 
   const [generalInfo, setGeneralInfo] = useState({
-    title: '',
-    sentence: '',
-    secondSentence: '',
-    planDescription: ''
+    title: "",
+    sentence: "",
+    secondSentence: "",
+    planDescription: "",
   });
-  
+
   const [adsTitle, setAdsTitle] = useState("");
   const [adsDescription, setAdsDescription] = useState("");
   const [adsImage, setAdsImage] = useState(null);
