@@ -109,6 +109,108 @@ function Exercises() {
     });
   }, []);
   const [inEditingSections, setInEditinSection] = useState([]);
+
+  const addSection = async () => {
+    let createResult = await createSection(newSectionName);
+
+    if (
+      createResult === "error" ||
+      createResult === "unauthorized" ||
+      newSectionName === ""
+    )
+      return;
+
+    console.log("section image was: " + newSectionImage);
+    if (!newSectionImage) return;
+
+    await uploadExerciseSectionImage(createResult, newSectionImage);
+
+    Swal.fire({
+      position: "top-end",
+      icon: "success",
+      title: "Your work has been saved",
+      showConfirmButton: false,
+      timer: 1500,
+    });
+  };
+
+  const editIconOnClick = () => {
+    if (inEditingSections.find((s) => s.id === ele.id)) {
+      setInEditinSection((array) => array.filter((s) => s.id !== ele.id));
+    } else setInEditinSection([ele]);
+    setEditedSection({ name: ele.name });
+    console.log(inEditingSections);
+  };
+
+  const deleteIconOnClick = () => {
+    Swal.fire({
+      title: "Do you want to Delete the Section?",
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: "Delete",
+      denyButtonText: `Don't Delete`,
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        deleteSectionWithExercises(ele.name);
+        Swal.fire("Section Deleted!", "", "success");
+      } else if (result.isDenied) {
+        Swal.fire("Section not deleted", "", "info");
+      }
+    });
+  };
+
+  const createExercise = async () => {
+    let result = await createExcercise(newExcercise);
+    console.log("create exercise: " + result);
+
+    if (
+      result === "error" ||
+      result === "sectionNotFound" ||
+      result === "unauthorized"
+    )
+      return;
+
+    setNewExcercise({
+      name: "",
+      description: "",
+      sectionName: "",
+    });
+
+    console.log("new video: " + newExerciseVideo);
+
+    if (!newExerciseVideo) return;
+
+    var extension = newExerciseVideo.name.includes(".")
+      ? newExerciseVideo.name.substring(
+          newExerciseVideo.name.lastIndexOf(".") + 1,
+          newExerciseVideo.name.length
+        )
+      : "";
+
+    let storageRef = ref(storage, `videos/excercises2/${result}.${extension}`);
+
+    await uploadBytes(storageRef, newExerciseVideo);
+  };
+
+  const submitEdits = async () => {
+    const result = await updateExcerciseById(e.id, editedExercise);
+
+    // success
+    if (!result && editedExerciseVideo) {
+      const objects = await listAll(ref(storage, `videos/excercises2/`));
+
+      const exists = objects.items.find((i) => i.startsWith(e.id.toString()));
+
+      if (exists) {
+        await deleteObject(ref(storage, `videos/excercises2/${exists.name}`));
+      }
+
+      await uploadBytes(
+        ref(storage, `videos/excercises2/${editedExerciseVideo.name}`),
+        editedExerciseVideo
+      );
+    }
+  };
   return (
     <>
       <div className="p-5 mb-[200px]">
@@ -157,32 +259,7 @@ function Exercises() {
                 }}
               />
               <button
-                onClick={async () => {
-                  let createResult = await createSection(newSectionName);
-
-                  if (
-                    createResult === "error" ||
-                    createResult === "unauthorized" ||
-                    newSectionName === ""
-                  )
-                    return;
-
-                  console.log("section image was: " + newSectionImage);
-                  if (!newSectionImage) return;
-
-                  await uploadExerciseSectionImage(
-                    createResult,
-                    newSectionImage
-                  );
-
-                  Swal.fire({
-                    position: "top-end",
-                    icon: "success",
-                    title: "Your work has been saved",
-                    showConfirmButton: false,
-                    timer: 1500,
-                  });
-                }}
+                onClick={() => addSection()}
                 className=" bg-green-700 text-white px-4 py-2 mt-4 rounded-md mx-auto w-full my-0 "
               >
                 Create section
@@ -216,36 +293,13 @@ function Exercises() {
                       </>
                     )}
                     <CiEdit
-                      onClick={() => {
-                        if (inEditingSections.find((s) => s.id === ele.id)) {
-                          setInEditinSection((array) =>
-                            array.filter((s) => s.id !== ele.id)
-                          );
-                        } else setInEditinSection([ele]);
-                        setEditedSection({ name: ele.name });
-                        console.log(inEditingSections);
-                      }}
+                      onClick={() => editIconOnClick()}
                       className="absolute top-0 right-4"
                       size={23}
                       color="green"
                     />
                     <MdDeleteForever
-                      onClick={() => {
-                        Swal.fire({
-                          title: "Do you want to Delete the Section?",
-                          showDenyButton: true,
-                          showCancelButton: true,
-                          confirmButtonText: "Delete",
-                          denyButtonText: `Don't Delete`,
-                        }).then(async (result) => {
-                          if (result.isConfirmed) {
-                            deleteSectionWithExercises(ele.name);
-                            Swal.fire("Section Deleted!", "", "success");
-                          } else if (result.isDenied) {
-                            Swal.fire("Section not deleted", "", "info");
-                          }
-                        });
-                      }}
+                      onClick={() => deleteIconOnClick()}
                       className="absolute top-0 cursor-pointer z-50"
                       color="red"
                       size={23}
@@ -338,41 +392,7 @@ function Exercises() {
                 }
               />
               <button
-                onClick={async () => {
-                  let result = await createExcercise(newExcercise);
-                  console.log("create exercise: " + result);
-
-                  if (
-                    result === "error" ||
-                    result === "sectionNotFound" ||
-                    result === "unauthorized"
-                  )
-                    return;
-
-                  setNewExcercise({
-                    name: "",
-                    description: "",
-                    sectionName: "",
-                  });
-
-                  console.log("new video: " + newExerciseVideo);
-
-                  if (!newExerciseVideo) return;
-
-                  var extension = newExerciseVideo.name.includes(".")
-                    ? newExerciseVideo.name.substring(
-                        newExerciseVideo.name.lastIndexOf(".") + 1,
-                        newExerciseVideo.name.length
-                      )
-                    : "";
-
-                  let storageRef = ref(
-                    storage,
-                    `videos/excercises2/${result}.${extension}`
-                  );
-
-                  await uploadBytes(storageRef, newExerciseVideo);
-                }}
+                onClick={() => createExercise()}
                 className=" bg-green-700 text-white px-4 py-2 mt-4 rounded-md mx-auto w-full my-0 "
               >
                 Create Exercise
@@ -588,50 +608,7 @@ function Exercises() {
                                             defaultValue={e.description}
                                           />
                                           <button
-                                            onClick={async () => {
-                                              const result =
-                                                await updateExcerciseById(
-                                                  e.id,
-                                                  editedExercise
-                                                );
-
-                                              // success
-                                              if (
-                                                !result &&
-                                                editedExerciseVideo
-                                              ) {
-                                                const objects = await listAll(
-                                                  ref(
-                                                    storage,
-                                                    `videos/excercises2/`
-                                                  )
-                                                );
-
-                                                const exists =
-                                                  objects.items.find((i) =>
-                                                    i.startsWith(
-                                                      e.id.toString()
-                                                    )
-                                                  );
-
-                                                if (exists) {
-                                                  await deleteObject(
-                                                    ref(
-                                                      storage,
-                                                      `videos/excercises2/${exists.name}`
-                                                    )
-                                                  );
-                                                }
-
-                                                await uploadBytes(
-                                                  ref(
-                                                    storage,
-                                                    `videos/excercises2/${editedExerciseVideo.name}`
-                                                  ),
-                                                  editedExerciseVideo
-                                                );
-                                              }
-                                            }}
+                                            onClick={() => submitEdits()}
                                             className="px-2 bg-green-600 text-white py-1 rounded-lg w-full"
                                           >
                                             Submit edits

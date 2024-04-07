@@ -51,6 +51,14 @@ function page({}) {
     };
   }, []);
 
+  const filteringSpinner = (e) => {
+    setSearhingValue(e.target.value);
+    setShowSpinner(true);
+    setTimeout(() => {
+      setShowSpinner(false);
+    }, 200);
+  };
+
   return (
     <>
       <div className="filters-father flex items-center mx-10">
@@ -79,13 +87,7 @@ function page({}) {
             </div>
             <div className="2 w-full">
               <input
-                onChange={(e) => {
-                  setSearhingValue(e.target.value);
-                  setShowSpinner(true);
-                  setTimeout(() => {
-                    setShowSpinner(false);
-                  }, 2000);
-                }}
+                onChange={() => filteringSpinner(e)}
                 type="text"
                 className="pl-2 w-full"
                 placeholder="xxxxxxxx"

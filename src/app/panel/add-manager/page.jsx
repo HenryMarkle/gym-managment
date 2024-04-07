@@ -13,10 +13,32 @@ function page() {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
 
-  useEffect(() => {
-    console.log(startedAt, name, gender, surname, age, salary);
-  }, [startedAt, name, gender, surname, age, salary]);
-
+  const addCustomer = async () => {
+    Swal.fire({
+      title: "Do you want to save the changes?",
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: "Save",
+      denyButtonText: `Don't save`,
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        Swal.fire("Saved!", "", "success");
+        const res = await addUser({
+          name,
+          surname,
+          age: Number(age),
+          gender,
+          salary: Number(salary),
+          startDate: new Date().toISOString(),
+          email,
+          password,
+        });
+        console.log("add-manager: " + JSON.stringify(res));
+      } else if (result.isDenied) {
+        Swal.fire("Changes are not saved", "", "info");
+      }
+    });
+  };
   return (
     <>
       <div className="add ml-[30%] mt-10 flex justify-between px-4 py-16 mr-[10%] gap-10 shadow-xl h-[650px] rounded-[31px]">
@@ -87,33 +109,7 @@ function page() {
             />
           </div>
           <button
-            onClick={async () => {
-              Swal.fire({
-                title: "Do you want to save the changes?",
-                showDenyButton: true,
-                showCancelButton: true,
-                confirmButtonText: "Save",
-                denyButtonText: `Don't save`,
-              }).then(async (result) => {
-                /* Read more about isConfirmed, isDenied below */
-                if (result.isConfirmed) {
-                  Swal.fire("Saved!", "", "success");
-                  const res = await addUser({
-                    name,
-                    surname,
-                    age: Number(age),
-                    gender,
-                    salary: Number(salary),
-                    startDate: new Date().toISOString(),
-                    email,
-                    password,
-                  });
-                  console.log("add-manager: " + JSON.stringify(res));
-                } else if (result.isDenied) {
-                  Swal.fire("Changes are not saved", "", "info");
-                }
-              });
-            }}
+            onClick={() => addCustomer()}
             className=" mt-[25px] px-9 w-full py-2 rounded-xl bg-customRed text-white font-bold text-[18px] "
           >
             Create

@@ -32,6 +32,29 @@ function page() {
     console.log(result);
   }
 
+  const createCustomer = () => {
+    Swal.fire({
+      title: "Do you want to save the customer?",
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: "Save",
+      denyButtonText: `Don't save`,
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        if (name.length && surname.length) {
+          doIt();
+          Swal.fire("Saved!", "", "success");
+        } else {
+          Swal.fire("Please enter name and surname", "", "error");
+        }
+      }
+      if (result.isDenied) {
+        Swal.fire("Changes are not saved", "", "info");
+      }
+    });
+  };
+
   return (
     <>
       <div className="add ml-[30%] mt-10 flex justify-between px-4 py-16 mr-[10%] shadow-xl h-[650px] rounded-[31px]">
@@ -125,28 +148,7 @@ function page() {
           </div>
           <button
             disabled={false}
-            onClick={() => {
-              Swal.fire({
-                title: "Do you want to save the customer?",
-                showDenyButton: true,
-                showCancelButton: true,
-                confirmButtonText: "Save",
-                denyButtonText: `Don't save`,
-              }).then((result) => {
-                /* Read more about isConfirmed, isDenied below */
-                if (result.isConfirmed) {
-                  if (name.length && surname.length) {
-                    doIt();
-                    Swal.fire("Saved!", "", "success");
-                  } else {
-                    Swal.fire("Please enter name and surname", "", "error");
-                  }
-                }
-                if (result.isDenied) {
-                  Swal.fire("Changes are not saved", "", "info");
-                }
-              });
-            }}
+            onClick={() => createCustomer()}
             className={`mt-[25px] px-9 w-full py-2 rounded-xl bg-customRed text-white font-bold text-[18px]`}
           >
             Create

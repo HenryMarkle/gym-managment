@@ -26,7 +26,9 @@ function page() {
         countSectionExercises(s.name).then((c) => (s.exerciseCount = c))
       );
 
-      Promise.all([...urlPromises, ...countPromises]).then(() => setExerciseSections(res));
+      Promise.all([...urlPromises, ...countPromises]).then(() =>
+        setExerciseSections(res)
+      );
     });
   }, []);
 
@@ -41,7 +43,6 @@ function page() {
         </p>
         <div className="exerciese-container  gap-10">
           {exerciseSections.map((ele, index) => {
-            console.log(ele);
             return (
               <React.Fragment key={index}>
                 <Link className="w-full" href={`/exercise/${ele.id}`}>
