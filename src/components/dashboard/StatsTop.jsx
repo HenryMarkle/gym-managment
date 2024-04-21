@@ -7,8 +7,13 @@ import {
   countExpiredCustomers,
 } from "../../app/api/v1/customer";
 import { countUsers } from "../../app/api/v1/user";
+import { HiUsers } from "react-icons/hi";
+import { CiSettings } from "react-icons/ci";
+import { HiOutlineBellAlert } from "react-icons/hi2";
+import { useRouter } from "next/navigation";
 
 function Stats_top() {
+  const router = useRouter();
   const [allCustomers, setAllCustomers] = useState(0);
   const [endingCustomers, setEndingCustomers] = useState(0);
   const [expiredCustomers, setExpiredCustomers] = useState(0);
@@ -28,46 +33,80 @@ function Stats_top() {
 
   return (
     <>
-      <div className="stats flex gap-10 grid-cols-3">
-        <div className="users-in0gym  p-5 bg-customRed w-[20%] text-[#ffcb00] rounded-[31px] overflow-hidden shadow-md text-center flex flex-col items-center">
-          <span className=" opacity-90 mb-1 text-white font-bold">
-            Cureent Users
-          </span>
-          {/* <p className="h-[80%] w-[65%] bg-white rounded-[50%] flex items-center justify-center border-[10px] border-red-500  ">
-                <span>20</span>
-              </p> */}
-          <span className="mt-4 text-[50px] font-bold text-customRed">
-            <CountUp end={allCustomers} />
-          </span>
+      <div className="flex justify-between items-center">
+        <div>
+          <p className=" font-bold text-2xl">Welcome,Gym</p>
+          <p className=" opacity-60">manage your gym</p>
         </div>
-        <div className=" users-in0gym  p-5 bg-customRed w-[20%] rounded-3xl text-[#ffcb00] overflow-hidden shadow-md text-center flex flex-col items-center">
-          <span className=" opacity-90 mb-1 text-white font-bold">
-            Cureent Managers
-          </span>
-          {/* <p className="h-[80%] w-[65%] bg-white rounded-[50%] flex items-center justify-center border-[10px] border-red-500  ">
-                <span>20</span>
-              </p> */}
-          <span className="mt-4 text-[50px] font-bold text-customRed">
-            {" "}
-            <CountUp end={allUsers} />
-          </span>
+        <div className="flex gap-3">
+          <p className="h-[30px] bg-white items-center flex w-[30px] justify-center rounded-md">
+            <CiSettings
+              onClick={() => router.push("panel/settings")}
+              size={23}
+            />
+          </p>
+          <p className="h-[30px] relative bg-white items-center flex w-[30px] justify-center rounded-md">
+            <HiOutlineBellAlert
+              onClick={() => router.push("panel/notifications")}
+              size={23}
+            />
+            <span className="absolute top-0 right-1 h-2 w-2 bg-red-500 rounded-full"></span>
+          </p>
         </div>
-        <div className=" users-in0gym  users-registers-end p-5 bg-customRed w-[20%] text-[#ffcb00] rounded-3xl overflow-hidden shadow-md text-center flex flex-col items-center">
-          <span className=" opacity-90 mb-1 text-white font-bold">
-            Will end in 1 week
-          </span>
-          <span className="mt-4 text-[50px] font-bold text-customRed">
-            {" "}
-            <CountUp end={endingCustomers} />
-          </span>
+      </div>
+
+      <div className="flex justify-between mt-5 gap-5">
+        <div className=" bg-white w-1/4 flex justify-center items-center py-[15px] h-[120px] rounded-md">
+          <div className="flex gap-5 mt-4">
+            <p className=" self-center">
+              <HiUsers size={55} />
+            </p>
+            <div>
+              <p className=" opacity-80">Cureent users</p>
+              <span className="text-black font-extrabold text-[30px]">
+                <CountUp end={allCustomers} duration={3} />
+              </span>
+            </div>
+          </div>
         </div>
-        <div className=" users-in0gym  managers-in-gym p-5 bg-customRed text-[#ffcb00] w-[20%] rounded-3xl overflow-hidden shadow-md text-center flex flex-col items-center">
-          <span className=" opacity-90 mb-1 text-white font-bold">
-            Ended Users
-          </span>
-          <span className="mt-4 text-[50px] font-bold text-customRed">
-            <CountUp end={expiredCustomers} />
-          </span>
+        <div className=" bg-white w-1/4 flex justify-center items-center py-[15px] h-[120px] rounded-md">
+          <div className="flex gap-5 mt-4">
+            <p className=" self-center">
+              <HiUsers size={55} />
+            </p>
+            <div>
+              <p className=" opacity-80">Cureent Managers</p>
+              <span className="text-black font-extrabold text-[30px]">
+                <CountUp end={allUsers} duration={3} />
+              </span>
+            </div>
+          </div>
+        </div>{" "}
+        <div className=" bg-white w-1/4 flex justify-center items-center py-[15px] h-[120px] rounded-md">
+          <div className="flex gap-5 mt-4">
+            <p className=" self-center">
+              <HiUsers size={55} />
+            </p>
+            <div>
+              <p className=" opacity-80">End in 1 Week</p>
+              <span className="text-black font-extrabold text-[30px]">
+                <CountUp end={endingCustomers} duration={3} />
+              </span>
+            </div>
+          </div>
+        </div>{" "}
+        <div className=" bg-white w-1/4 flex justify-center items-center py-[15px] h-[120px] rounded-md">
+          <div className="flex gap-5 mt-4">
+            <p className=" self-center">
+              <HiUsers size={55} />
+            </p>
+            <div>
+              <p className=" opacity-80">Ended users</p>
+              <span className="text-black font-extrabold text-[30px]">
+                <CountUp end={expiredCustomers} duration={3} />
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </>

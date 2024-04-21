@@ -17,7 +17,7 @@ function page() {
   return (
     <>
       <div className="managers ml-[23%] m-4 min-h-[700px]  relative rounded-[31px] mt-20  gap-y-10  ">
-        {allUsers.map((ele) => {
+        {allUsers?.map((ele) => {
           return (
             <>
               <Link href={`/panel/maanger/${ele.id}`}>

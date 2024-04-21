@@ -9,8 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^6.5.1",
-    "@fortawesome/free-solid-svg-icons": "^6.5.1",
+    "@flaticon/flaticon-uicons": "^3.2.1",
+    "@fortawesome/fontawesome-svg-core": "^6.5.2",
+    "@fortawesome/free-solid-svg-icons": "^6.5.2",
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@prisma/client": "^5.11.0",
     "@react-google-maps/api": "^2.19.2",
@@ -40,7 +41,7 @@
     "react-icons": "^5.0.1",
     "react-id-swiper": "^4.0.0",
     "react-loader-spinner": "^6.1.6",
-    "react-quill": "^2.0.0",
+    "react-quill": "^0.0.2",
     "react-redux": "^9.1.0",
     "react-router-dom": "^6.21.3",
     "react-slick": "^0.30.1",
@@ -50,7 +51,7 @@
     "recharts": "^2.10.4",
     "sharp": "^0.33.2",
     "styled-components": "^6.1.8",
-    "sweetalert2": "^11.10.4",
+    "sweetalert2": "^11.6.13",
     "swiper": "^11.0.6"
   },
   "devDependencies": {

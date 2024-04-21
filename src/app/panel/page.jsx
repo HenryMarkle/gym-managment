@@ -36,15 +36,15 @@ function page() {
   return (
     <>
       {path.includes("panel") && (
-        <div className="father-home overflow-hidden">
-          <div className="home-content flex w-[78%] flex-col mt-10 ml-[370px]">
+        <div className="overflow-hidden bg-[#eee]">
+          <div className="home-content flex w-[77%] flex-col pt-8 ml-[330px] ">
             <Stats_top />
-            <div className="info-stats flex mt-[80px] gap-[10px] ml-10 h-auto w-full ">
-              <div className="left-main w-[60%] ml-2 p-2  ">
-                <div className="left-1 h-[400px] ">
+            <div className="info-stats flex mt-[80px] gap-[10px]  h-auto w-full ">
+              <div className="left-main w-[70%] flex flex-col gap-2 rounded-md">
+                <div className="left-1 h-[400px] bg-white p-2 rounded-md">
                   <Chart title="New Customers" data={created} />
                 </div>
-                <div className="left-2 h-[400px]">
+                <div className="left-2 w-full h-[300px] bg-white p-2 rounded-md">
                   <Chart
                     title="Ending Subscriptions This Year Lol"
                     data={left}

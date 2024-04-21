@@ -61,10 +61,10 @@ function SideBar() {
           showMessage
             ? `sidebar ${
                 mobile && `open-sidebar  `
-              } w-[820px] h-[100vh] fixed top-0 left-0 flex  bg-customRed rounded-tr-[31px] rounded-br-[31px] p-[25px] duration-500 z-[100]`
+              } w-[820px] h-[100vh] fixed top-0 left-0 flex  bg-white rounded-tr-[31px]  p-[25px] duration-500 z-[100]`
             : `sidebar ${
                 mobile && `open-sidebar`
-              } w-[329px] h-[100vh] fixed top-0 left-0  bg-customRed rounded-tr-[31px] rounded-br-[31px] p-[15px] duration-500 z-[100]`
+              } w-[290px] h-[100vh] fixed top-0 left-0  bg-white  p-[15px] duration-500 z-[100]`
         }
       >
         <div className="show-mobile w-full justify-between hidden items-center">
@@ -82,116 +82,131 @@ function SideBar() {
             />
           )}
         </div>
-        <div>
+        <div className="mt-[30px]">
           <div className="flex  justify-between  items-center mb-5 mx-4">
             <Link className=" text-center" href="/panel">
-              <p className="gym-tit font-bold text-[23px] text-center text-white">
+              <p className="gym-tit font-bold text-[23px] text-center text-[#5540fb]">
                 {gymName}
               </p>
             </Link>
           </div>
-          <div className="top-content flex flex-col gap-9 w-[210px]">
-            <div className=" h-[60vh] content text-center flex flex-col items-start self-center gap-[33px] ml-9">
-              <Link
-                onClick={() => {
-                  setShowMessage(false);
-                  setMobile(false);
-                }}
-                href="/panel"
-              >
-                <div className="home flex justify-center gap-4 text-white items-center ">
-                  <span>
-                    <FaHome size="23px" />
-                  </span>
-                  Homepage
-                </div>
-              </Link>
-              <Link
-                target="_blank"
-                onClick={() => {
-                  setShowMessage(false);
-                  setMobile(false);
-                }}
-                href="/panel/dashboard"
-              >
-                <div className="home flex justify-center gap-4 text-white items-center ">
-                  <span>
-                    <TiWorld size="23px" />
-                  </span>
-                  website panel
-                </div>{" "}
-              </Link>
-              <Link
-                onClick={() => {
-                  setShowMessage(false);
-                  setMobile(false);
-                }}
-                href="/panel/add-customer"
-              >
-                <div className="home flex justify-center gap-4 text-white items-center">
-                  <span>
-                    <IoIosAddCircle size="23px" />
-                  </span>{" "}
-                  Create customer
-                </div>{" "}
-              </Link>
-              <Link
-                onClick={() => {
-                  setShowMessage(false);
-                  setMobile(false);
-                }}
-                href="/panel/customers"
-              >
-                <div className="home flex justify-center gap-4 text-white items-center ">
-                  <span>
-                    <FaClipboardList size="23px" />
-                  </span>{" "}
-                  Customers
-                </div>{" "}
-              </Link>{" "}
-              <Link
-                onClick={() => {
-                  setShowMessage(false);
-                  setMobile(false);
-                }}
-                href="/panel/add-manager"
-              >
-                <div className="home flex justify-center gap-4 text-white items-center">
-                  <span>
-                    <IoIosAddCircle size="23px" />
-                  </span>{" "}
-                  Create Maneger
-                </div>{" "}
-              </Link>
-              <Link
-                onClick={() => {
-                  setShowMessage(false);
-                  setMobile(false);
-                }}
-                href="/panel/managers"
-              >
-                <div className="home flex justify-center gap-4 text-white items-center ">
-                  <span>
-                    <BsFillPersonFill size="23px" />
-                  </span>
-                  managers
-                </div>
-              </Link>
-              <Link
-                onClick={() => {
-                  setShowMessage(false);
-                  setMobile(false);
-                }}
-                href="/panel/events"
-              >
-                <div className="home flex justify-center gap-4 text-white items-center ">
-                  <span>
-                    <BsCalendar2EventFill size="23px" />
-                  </span>{" "}
-                  events
-                </div>{" "}
-              </Link>{" "}
-              {mobile ? (
+          <div className="top-content flex flex-col  mx-4 ">
+            <div className=" h-[60vh] mt-[40px] w-full  flex flex-col items-start self-center gap-[25px] ">
+              <div className=" bg-[#5540fb] w-full py-[8px] rounded-md ">
+                <Link
+                  className="h-full "
+                  onClick={() => {
+                    setShowMessage(false);
+                    setMobile(false);
+                  }}
+                  href="/panel"
+                >
+                  <div className="home flex gap-2 text-black  px-2">
+                    <span className="text-white">
+                      <FaHome size="23px" color="white" />
+                    </span>
+                    <p className="text-white">Homepage</p>
+                  </div>
+                </Link>
+              </div>
+              <div className=" w-full py-[8px] rounded-md  ">
+                <Link
+                  target="_blank"
+                  onClick={() => {
+                    setShowMessage(false);
+                    setMobile(false);
+                  }}
+                  href="/panel/dashboard"
+                >
+                  <div className="home flex  gap-4 text-black items-center  px-2 ">
+                    <span>
+                      <TiWorld size="23px" />
+                    </span>
+                    website panel
+                  </div>{" "}
+                </Link>
+              </div>{" "}
+              <div className="w-full py-[8px] rounded-md ">
+                <Link
+                  onClick={() => {
+                    setShowMessage(false);
+                    setMobile(false);
+                  }}
+                  href="/panel/add-customer"
+                >
+                  <div className="home flex  gap-4 text-black items-center  px-2">
+                    <span>
+                      <IoIosAddCircle size="23px" />
+                    </span>{" "}
+                    Create customer
+                  </div>{" "}
+                </Link>
+              </div>{" "}
+              <div className=" w-full py-[8px] rounded-md ">
+                <Link
+                  onClick={() => {
+                    setShowMessage(false);
+                    setMobile(false);
+                  }}
+                  href="/panel/customers"
+                >
+                  <div className="home flex  gap-4 text-black items-center  px-2">
+                    <span>
+                      <FaClipboardList size="23px" />
+                    </span>{" "}
+                    Customers
+                  </div>{" "}
+                </Link>{" "}
+              </div>{" "}
+              <div className="  w-full py-[8px] rounded-md ">
+                <Link
+                  onClick={() => {
+                    setShowMessage(false);
+                    setMobile(false);
+                  }}
+                  href="/panel/add-manager"
+                >
+                  <div className="home flex  gap-4 text-black items-center  px-2">
+                    <span>
+                      <IoIosAddCircle size="23px" />
+                    </span>{" "}
+                    Create Maneger
+                  </div>{" "}
+                </Link>
+              </div>{" "}
+              <div className="  w-full py-[8px] rounded-md ">
+                <Link
+                  onClick={() => {
+                    setShowMessage(false);
+                    setMobile(false);
+                  }}
+                  href="/panel/managers"
+                >
+                  <div className="home flex  gap-4 text-black items-center  px-2">
+                    <span>
+                      <BsFillPersonFill size="23px" />
+                    </span>
+                    managers
+                  </div>
+                </Link>
+              </div>{" "}
+              <div className="  w-full py-[8px] rounded-md flex items-start">
+                <Link
+                  onClick={() => {
+                    setShowMessage(false);
+                    setMobile(false);
+                  }}
+                  href="/panel/events"
+                >
+                  <div className="home flex  gap-4 text-black items-center  px-2">
+                    <span>
+                      <BsCalendar2EventFill size="23px" />
+                    </span>{" "}
+                    events
+                  </div>{" "}
+                </Link>{" "}
+              </div>{" "}
+              {/* {mobile ? (
                 <Link
                   onClick={() => {
                     setShowMessage(false);
@@ -199,14 +214,14 @@ function SideBar() {
                   }}
                   href="/panel/message-mobile"
                 >
-                  <div className=" flex justify-center gap-4 text-white items-center">
+                  <div className=" flex  gap-4 text-black items-center  px-2">
                     <BiSolidMessageAdd size="23px" />
                     <p className="text-white">Craete message</p>
                   </div>
                 </Link>
               ) : (
                 <div
-                  className="home flex justify-center gap-4 text-white items-center cursor-pointer "
+                  className="home flex justify-center gap-4 text-black items-center cursor-pointer "
                   onClick={() => setShowMessage(!showMessage)}
                 >
                   <span>
@@ -214,37 +229,9 @@ function SideBar() {
                   </span>{" "}
                   Create message
                 </div>
-              )}
-              <Link
-                onClick={() => {
-                  setShowMessage(false);
-                  setMobile(false);
-                }}
-                href="/panel/notifications"
-              >
-                <div className="home flex justify-center gap-4 text-white items-center ">
-                  <span>
-                    <IoIosNotifications size="23px" />
-                  </span>{" "}
-                  Notifications
-                </div>
-              </Link>
-              <Link
-                onClick={() => {
-                  setShowMessage(false);
-                  setMobile(false);
-                }}
-                href="/panel/settings"
-              >
-                <div className="home flex justify-center gap-4 text-white items-center ">
-                  <span>
-                    <IoSettings size="23px" />
-                  </span>{" "}
-                  Settings
-                </div>
-              </Link>
+              )} */}
             </div>
-            <div className="flex logout justify-center mt-[106px] gap-3 items-center">
+            <div className="flex logout  mt-[106px] gap-3 items-center">
               <IoIosLogOut size="23px" className=" font-bold " color="white" />
               <button
                 onClick={async () => {

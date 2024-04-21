@@ -25,6 +25,11 @@ function Page() {
   return (
     <>
       <div className="flex justify-center mt-10">
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur,
+          cum nulla vel sed harum quis quisquam molestiae aspernatur qui optio,
+          atque excepturi. Cumque pariatur voluptatem eaque odio illo a sunt.
+        </p>
         <input
           className="border-2"
           type="number"

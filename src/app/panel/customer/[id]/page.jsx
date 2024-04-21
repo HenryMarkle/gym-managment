@@ -43,10 +43,8 @@ function page() {
         }
       }
     });
-  }, [id]); // Removed startedAt from the dependency array
+  }, [id]);
 
-  // misleading name: signifies a pure alert. 
-  // Actual purpose: delete a customer.
   const showAlert = (id) => {
     Swal.fire({
       title: "Are you sure?",
