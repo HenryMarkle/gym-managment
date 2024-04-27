@@ -11,7 +11,7 @@ import { HiUsers } from "react-icons/hi";
 import { CiSettings } from "react-icons/ci";
 import { HiOutlineBellAlert } from "react-icons/hi2";
 import { useRouter } from "next/navigation";
-
+import { Svg1, Svg2, Svg3, Svg4 } from "../../assets/Svgs";
 function Stats_top() {
   const router = useRouter();
   const [allCustomers, setAllCustomers] = useState(0);
@@ -33,33 +33,11 @@ function Stats_top() {
 
   return (
     <>
-      <div className="flex justify-between items-center">
-        <div>
-          <p className=" font-bold text-2xl">Welcome,Gym</p>
-          <p className=" opacity-60">manage your gym</p>
-        </div>
-        <div className="flex gap-3">
-          <p className="h-[30px] bg-white items-center flex w-[30px] justify-center rounded-md">
-            <CiSettings
-              onClick={() => router.push("panel/settings")}
-              size={23}
-            />
-          </p>
-          <p className="h-[30px] relative bg-white items-center flex w-[30px] justify-center rounded-md">
-            <HiOutlineBellAlert
-              onClick={() => router.push("panel/notifications")}
-              size={23}
-            />
-            <span className="absolute top-0 right-1 h-2 w-2 bg-red-500 rounded-full"></span>
-          </p>
-        </div>
-      </div>
-
       <div className="flex justify-between mt-5 gap-5">
         <div className=" bg-white w-1/4 flex justify-center items-center py-[15px] h-[120px] rounded-md">
           <div className="flex gap-5 mt-4">
             <p className=" self-center">
-              <HiUsers size={55} />
+              <Svg1 />
             </p>
             <div>
               <p className=" opacity-80">Cureent users</p>
@@ -72,7 +50,7 @@ function Stats_top() {
         <div className=" bg-white w-1/4 flex justify-center items-center py-[15px] h-[120px] rounded-md">
           <div className="flex gap-5 mt-4">
             <p className=" self-center">
-              <HiUsers size={55} />
+              <Svg2 />
             </p>
             <div>
               <p className=" opacity-80">Cureent Managers</p>
@@ -85,7 +63,7 @@ function Stats_top() {
         <div className=" bg-white w-1/4 flex justify-center items-center py-[15px] h-[120px] rounded-md">
           <div className="flex gap-5 mt-4">
             <p className=" self-center">
-              <HiUsers size={55} />
+              <Svg3 />
             </p>
             <div>
               <p className=" opacity-80">End in 1 Week</p>
@@ -98,7 +76,7 @@ function Stats_top() {
         <div className=" bg-white w-1/4 flex justify-center items-center py-[15px] h-[120px] rounded-md">
           <div className="flex gap-5 mt-4">
             <p className=" self-center">
-              <HiUsers size={55} />
+              <Svg4 />
             </p>
             <div>
               <p className=" opacity-80">Ended users</p>

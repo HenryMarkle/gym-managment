@@ -12,6 +12,7 @@ import {
   getCategoryProducts,
   deleteHomeProductById,
   addHomeProduct,
+  addProductCategory
 } from "../../../api/v1/dashboard";
 import Swal from "sweetalert2";
 import storage from "../../../api/v1/firebase";
@@ -50,6 +51,12 @@ function page() {
   const [allProductCategories, setAllProductCategories] = useState([]);
   const [deletedCategories, setDeletedCategories] = useState([]);
   const [userEditedAField, setUserEditedAField] = useState(false);
+
+  // 
+  async function createProductCategory(name) {
+    await addProductCategory(name);
+  }
+  //
 
   async function getProductImageUrls(id) {
     const storageRef = ref(storage, `images/products/${id}/`);
@@ -107,16 +114,17 @@ function page() {
       showCancelButton: true,
       confirmButtonText: "Save",
       denyButtonText: `Don't save`,
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
         updateProduct(result.id, {
           name: editedProductName,
           description: editedProductDescription,
           price: editedProductprice,
         });
-        Swal.fire("Saved!", "", "success");
+
+        await Swal.fire("Saved!", "", "success");
       } else if (result.isDenied) {
-        Swal.fire("Changes are not saved", "", "info");
+        await Swal.fire("Changes are not saved", "", "info");
       }
     });
   };

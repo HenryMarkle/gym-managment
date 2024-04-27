@@ -63,6 +63,21 @@ function MoneyStats() {
     findIncome();
   }, [month, income]);
 
+  const months = [
+    "Ocak",
+    "Şubat",
+    "Mart",
+    "Nisan",
+    "Mayıs",
+    "Haziran",
+    "Temmuz",
+    "Ağustos",
+    "Eylül",
+    "Ekim",
+    "Kasım",
+    "Aralık",
+  ];
+
   return (
     <div className="right">
       <div className="income-for-gym bg-white shadow-sm w-[100%] h-[300px] rounded-md">
@@ -74,7 +89,7 @@ function MoneyStats() {
                 <span className="mr-1 text-black">
                   <CountUp duration={0.7} end={moneyOfSelectedMonth} />
                 </span>
-                <span className="text-black">{selectedOptionMoney}</span>
+                <span className="text-txt_primery">{selectedOptionMoney}</span>
               </p>
               <p className="flex justify-start gap-5 text-[18px] font-bold text-white ">
                 {month === "Total" ? (
@@ -98,20 +113,7 @@ function MoneyStats() {
             <option className="text-black" value="Total">
               Tümü
             </option>
-            {[
-              "Ocak",
-              "Şubat",
-              "Mart",
-              "Nisan",
-              "Mayıs",
-              "Haziran",
-              "Temmuz",
-              "Ağustos",
-              "Eylül",
-              "Ekim",
-              "Kasım",
-              "Aralık",
-            ].map((month, index) => (
+            {months.map((month, index) => (
               <option
                 className="text-black"
                 key={index}
@@ -133,7 +135,7 @@ function MoneyStats() {
           <span className="mr-1 text-black">
             <CountUp end={salaries} />
           </span>
-          <span className="text-black">{selectedOptionMoney}</span>
+          <span className="text-txt_primery">{selectedOptionMoney}</span>
         </p>
         <p className="p-2 m-2 text-center text-black text-[15px] font-bold">
           This calculates the salaries of the managers who are signed in this

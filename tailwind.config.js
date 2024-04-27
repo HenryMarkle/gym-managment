@@ -8,13 +8,18 @@ module.exports = {
   ],
   theme: {
     extend: {
-      backgroundImage: {
-        customRed:
-          "linear-gradient(0deg, rgba(17,140,175,1) 6%, rgba(66,172,157,1) 100%)",
-        websitebg: "#ed563b",
-      },
       textColor: {
-        website2: "#ed563b",
+        txt_primery: "#5541fb",
+        txt_secondery: "#fb6b2f",
+      },
+      backgroundColor: {
+        bg_custom: "#eeeeee",
+        bg_primery: "#5541fb",
+        bg_secondery: "#fb6b2f",
+      },
+      borderColor: {
+        border_primery: "#5541fb",
+        border_secondery: "#fb6b2f",
       },
     },
   },

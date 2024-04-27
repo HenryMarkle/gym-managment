@@ -13,9 +13,6 @@ function page() {
     const result = await doSignin(email, password);
     if (result) {
       router.replace("/panel");
-      setTimeout(() => {
-        window.location.reload();
-      }, 150);
     }
   }
   return (

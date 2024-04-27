@@ -1,9 +1,9 @@
 "use client";
 import React, { useState } from "react";
 import { addCustomer } from "../../api/v1/customer";
-import "./main.css";
 import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
+
 function page() {
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
@@ -57,21 +57,42 @@ function page() {
 
   return (
     <>
-      <div className="bg-gray-100 -z-40 h-[100vh]">
-        <div className="add ml-[30%]  flex justify-between px-4  mr-[10%] shadow-xl rounded-[31px]">
-          <div className="mt-12 flex justify-between w-full">
-            <div className="left w z-30">
-              <div className="start-date flex-col flex">
-                <label htmlFor="">Start Date</label>
+      <div className=" bg-bg_custom -z-40 pt-10 h-[100vh]">
+        <div className="add ml-[30%] px-4 mr-[10%] shadow-sm rounded-[6px] bg-white">
+          <div className="head flex justify-between items-center pt-10">
+            <p className="font-bold text-[20px]">Create Customer</p>
+            <div>
+              <button className="mr-4 bg-white text-txt_secondery border border_primery px-4 py-2 rounded-[5px]">
+                Cansel
+              </button>
+
+              <button
+                onClick={() => createCustomer()}
+                className="bg-bg_secondery text-white px-4 py-2 rounded-[5px]"
+              >
+                Create Customer
+              </button>
+            </div>
+          </div>
+          <div className="mt-12 flex w-full h-[450px] gap-3">
+            <div className="left w-1/2 z-30 flex flex-col gap-3">
+              <div className="start-date flex-col flex  ">
+                <label className=" font-bold text-md mb-[5px]" htmlFor="">
+                  Start Date
+                </label>
                 <input
+                  className="py-2 px-3 border-2 border-red rounded-[9px]"
                   onChange={(e) => setStartdate(e.target.value)}
                   type="date"
                   placeholder="Start date"
                 />
               </div>
               <div className="name flex-col flex ">
-                <label htmlFor="">Name</label>
+                <label className=" font-bold text-md mb-[5px]" htmlFor="">
+                  Name
+                </label>
                 <input
+                  className="py-2 px-3 border-2 border-red rounded-[9px]"
                   onChange={(e) => {
                     setName(e.target.value);
                   }}
@@ -80,28 +101,36 @@ function page() {
                 />
               </div>
               <div className="surname flex-col flex">
-                <label htmlFor="">Surname</label>
+                <label className=" font-bold text-md mb-[5px]" htmlFor="">
+                  Surname
+                </label>
                 <input
+                  className="py-2 px-3 border-2 border-red rounded-[9px]"
                   onChange={(e) => setSurname(e.target.value)}
                   type="text"
                   placeholder="Surname"
                 />
               </div>
               <div className="age flex-col flex">
-                <label htmlFor="">Age</label>
+                <label className=" font-bold text-md mb-[5px]" htmlFor="">
+                  Age
+                </label>
                 <input
+                  className="py-2 px-3 border-2 border-red rounded-[9px]"
                   onChange={(e) => setAge(e.target.value)}
                   type="number"
                   placeholder="Age"
                 />
               </div>
               <div className="gender flex-col flex">
-                <label htmlFor="">Gender</label>
+                <label className=" font-bold text-md mb-[5px]" htmlFor="">
+                  Gender
+                </label>
                 <select
                   onChange={(e) => setGender(e.target.value)}
                   name="gender"
                   id=""
-                  className=" outline-none rounded-xl"
+                  className=" outline-none  py-2 px-3 border-2 border-red rounded-[9px]"
                 >
                   <option value="Gender">Gender</option>
                   <option value="Male">Male</option>
@@ -110,19 +139,25 @@ function page() {
               </div>
               {/* Duration dont forget */}
             </div>
-            <div className="right z-30">
+            <div className="right z-30 w-1/2 flex flex-col gap-3">
               {" "}
               <div className="end-date flex-col flex">
-                <label htmlFor="">End Date</label>
+                <label className=" font-bold text-md mb-[5px]" htmlFor="">
+                  End Date
+                </label>
                 <input
+                  className="py-2 px-3 border-2 border-red rounded-[9px]"
                   onChange={(e) => setEndDate(e.target.value)}
                   type="date"
                   placeholder="End date"
                 />
               </div>
               <div className="price flex-col flex">
-                <label htmlFor="pucket">Pucket price</label>
+                <label className=" font-bold text-md mb-[5px]" htmlFor="pucket">
+                  Pucket price
+                </label>
                 <input
+                  className="py-2 px-3 border-2 border-red rounded-[9px]"
                   onChange={(e) => setPucketPrice(e.target.value)}
                   name="pucket-price"
                   type="number"
@@ -130,8 +165,9 @@ function page() {
                 />
               </div>
               <div className="paid flex-col flex">
-                <label>Payment</label>
+                <label className=" font-bold text-md mb-[5px]">Payment</label>
                 <input
+                  className="py-2 px-3 border-2 border-red rounded-[9px]"
                   onChange={(e) => setPayment(e.target.value)}
                   type="number"
                   name=""
@@ -140,21 +176,18 @@ function page() {
                 />
               </div>
               <div className="money-left flex-col flex">
-                <label> Money left</label>
+                <label className=" font-bold text-md mb-[5px]">
+                  {" "}
+                  Money left
+                </label>
                 <input
+                  className="py-2 px-3 border-2 border-red rounded-[9px]"
                   type="text"
                   value={bucketPrice - payment}
                   disabled
                   placeholder="money left"
                 />
               </div>
-              <button
-                disabled={false}
-                onClick={() => createCustomer()}
-                className={`mt-[25px] px-9 w-full py-2 rounded-xl bg-customRed text-white font-bold text-[18px]`}
-              >
-                Create
-              </button>
             </div>
           </div>
         </div>

@@ -7,11 +7,7 @@ import { CiEdit } from "react-icons/ci";
 import { MdDeleteForever } from "react-icons/md";
 import Swal from "sweetalert2";
 
-import {
-  addPlan,
-  getHomePlans,
-  deletePlanById,
-} from "../../../api/v1/dashboard";
+import { addPlan, getHomePlans, deletePlanById, replacePlan } from "../../../api/v1/dashboard";
 import { uploadPlanImage, getPlanImageUrl } from "../../../../lib/images";
 
 function page() {
@@ -65,6 +61,15 @@ function page() {
 
   async function uploadImage(id, image) {
     await uploadPlanImage(id, image);
+  }
+
+  /**
+   * 
+   * @param {number} id 
+   * @param {{ title: string, description: string, price: number, duration: string, features: string[] }} data 
+   */
+  async function updatePlan(id, data) {
+    await replacePlan(id, data)
   }
 
   //

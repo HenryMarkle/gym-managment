@@ -38,6 +38,59 @@ function SideBar() {
   const [gymName, setGymName] = useState("");
   const router = useRouter();
 
+  <FaHome size="23px" color="white" />;
+  const [windows, setWindows] = useState([
+    {
+      id: 1,
+      to: "/panel",
+      title: "Home",
+      icon: <FaHome size="23px" />,
+      active: true,
+    },
+    {
+      id: 2,
+      to: "/panel/dashboard",
+      title: "website panel",
+      icon: <TiWorld size="23px" />,
+      active: false,
+    },
+    {
+      id: 3,
+      to: "/panel/add-customer",
+      title: "Create customer",
+      icon: <IoIosAddCircle size="23px" />,
+      active: false,
+    },
+    {
+      id: 4,
+      to: "/panel/customers",
+      active: false,
+      title: "Customers",
+      icon: <FaClipboardList size="23px" />,
+    },
+    {
+      id: 5,
+      to: "/panel/add-manager",
+      title: "Create Maneger",
+      active: false,
+      icon: <IoIosAddCircle size="23px" />,
+    },
+    {
+      id: 6,
+      to: "/panel/managers",
+      title: "managers",
+      active: false,
+      icon: <BsFillPersonFill size="23px" />,
+    },
+    {
+      id: 7,
+      to: "/panel/events",
+      active: false,
+      title: "events",
+      icon: <BsCalendar2EventFill size="23px" />,
+    },
+  ]);
+
   useEffect(() => {
     console.log(filterdArray);
     console.log(message);
@@ -91,121 +144,59 @@ function SideBar() {
             </Link>
           </div>
           <div className="top-content flex flex-col  mx-4 ">
-            <div className=" h-[60vh] mt-[40px] w-full  flex flex-col items-start self-center gap-[25px] ">
-              <div className=" bg-[#5540fb] w-full py-[8px] rounded-md ">
-                <Link
-                  className="h-full "
-                  onClick={() => {
-                    setShowMessage(false);
-                    setMobile(false);
-                  }}
-                  href="/panel"
-                >
-                  <div className="home flex gap-2 text-black  px-2">
-                    <span className="text-white">
-                      <FaHome size="23px" color="white" />
-                    </span>
-                    <p className="text-white">Homepage</p>
-                  </div>
-                </Link>
-              </div>
-              <div className=" w-full py-[8px] rounded-md  ">
-                <Link
-                  target="_blank"
-                  onClick={() => {
-                    setShowMessage(false);
-                    setMobile(false);
-                  }}
-                  href="/panel/dashboard"
-                >
-                  <div className="home flex  gap-4 text-black items-center  px-2 ">
-                    <span>
-                      <TiWorld size="23px" />
-                    </span>
-                    website panel
-                  </div>{" "}
-                </Link>
-              </div>{" "}
-              <div className="w-full py-[8px] rounded-md ">
-                <Link
-                  onClick={() => {
-                    setShowMessage(false);
-                    setMobile(false);
-                  }}
-                  href="/panel/add-customer"
-                >
-                  <div className="home flex  gap-4 text-black items-center  px-2">
-                    <span>
-                      <IoIosAddCircle size="23px" />
-                    </span>{" "}
-                    Create customer
-                  </div>{" "}
-                </Link>
-              </div>{" "}
-              <div className=" w-full py-[8px] rounded-md ">
-                <Link
-                  onClick={() => {
-                    setShowMessage(false);
-                    setMobile(false);
-                  }}
-                  href="/panel/customers"
-                >
-                  <div className="home flex  gap-4 text-black items-center  px-2">
-                    <span>
-                      <FaClipboardList size="23px" />
-                    </span>{" "}
-                    Customers
-                  </div>{" "}
-                </Link>{" "}
-              </div>{" "}
-              <div className="  w-full py-[8px] rounded-md ">
-                <Link
-                  onClick={() => {
-                    setShowMessage(false);
-                    setMobile(false);
-                  }}
-                  href="/panel/add-manager"
-                >
-                  <div className="home flex  gap-4 text-black items-center  px-2">
-                    <span>
-                      <IoIosAddCircle size="23px" />
-                    </span>{" "}
-                    Create Maneger
-                  </div>{" "}
-                </Link>
-              </div>{" "}
-              <div className="  w-full py-[8px] rounded-md ">
-                <Link
-                  onClick={() => {
-                    setShowMessage(false);
-                    setMobile(false);
-                  }}
-                  href="/panel/managers"
-                >
-                  <div className="home flex  gap-4 text-black items-center  px-2">
-                    <span>
-                      <BsFillPersonFill size="23px" />
-                    </span>
-                    managers
-                  </div>
-                </Link>
-              </div>{" "}
-              <div className="  w-full py-[8px] rounded-md flex items-start">
-                <Link
-                  onClick={() => {
-                    setShowMessage(false);
-                    setMobile(false);
-                  }}
-                  href="/panel/events"
-                >
-                  <div className="home flex  gap-4 text-black items-center  px-2">
-                    <span>
-                      <BsCalendar2EventFill size="23px" />
-                    </span>{" "}
-                    events
-                  </div>{" "}
-                </Link>{" "}
-              </div>{" "}
+            <div className=" h-[60vh] mt-[40px] w-full  flex flex-col items-start self-center gap-[15px] ">
+              {windows.map((ele) => {
+                window.sessionStorage.getItem("active")
+                  ? null
+                  : window.sessionStorage.setItem("active", windows[0].id);
+                return (
+                  <React.Fragment key={ele.id}>
+                    <div
+                      onClick={() =>
+                        window.sessionStorage.setItem("active", ele.id)
+                      }
+                      className={`${
+                        window.sessionStorage.getItem("active") ===
+                        String(ele.id)
+                          ? "bg-[#5540fb]"
+                          : "bg-white"
+                      } w-full py-[8px] rounded-md duration-500`}
+                    >
+                      <Link
+                        className="h-full "
+                        onClick={() => {
+                          setShowMessage(false);
+                          setMobile(false);
+                        }}
+                        href={ele.to}
+                      >
+                        <div className="home flex gap-2 text-black  px-2">
+                          <span
+                            className={`${
+                              window.sessionStorage.getItem("active") ===
+                              String(ele.id)
+                                ? " text-white"
+                                : "text-black"
+                            } `}
+                          >
+                            {ele.icon}
+                          </span>
+                          <p
+                            className={`${
+                              window.sessionStorage.getItem("active") ===
+                              String(ele.id)
+                                ? " text-white"
+                                : "text-black"
+                            } `}
+                          >
+                            {ele.title}
+                          </p>
+                        </div>
+                      </Link>
+                    </div>
+                  </React.Fragment>
+                );
+              })}
               {/* {mobile ? (
                 <Link
                   onClick={() => {
