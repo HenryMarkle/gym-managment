@@ -27,6 +27,8 @@ model User {
 
   gymName String @default("Gym")
 
+  comments SubscriberComment[]
+
   messageRead MessageRead[]
   logs Event[]
 
@@ -46,6 +48,8 @@ model Subscriber {
   paymentAmount Decimal
   startedAt DateTime
   endsAt DateTime
+
+  comments SubscriberComment[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt @default(now())
@@ -161,4 +165,20 @@ model Trainer {
   instagram String
   facebook String
   twitter String
+}
+
+model SubscriberComment {
+  id Int @id @default(autoincrement())
+
+  text String @default("")
+
+  senderId Int
+  subscriberId Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+  deletedAt DateTime?
+
+  sender User @relation(fields: [senderId], references: [id])
+  subscriber Subscriber @relation(fields: [subscriberId], references: [id])
 }
