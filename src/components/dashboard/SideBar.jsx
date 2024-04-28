@@ -242,7 +242,7 @@ function SideBar() {
                   className=" font-bold "
                   color="black"
                 />
-                <button className="text-black bg-inherit font-bold">
+                <button className="text-black bg-inherit font-bold border-none">
                   Logout
                 </button>
               </div>

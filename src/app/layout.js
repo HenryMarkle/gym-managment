@@ -10,7 +10,6 @@ import CustomHeader from "../components/website/CustomHeader";
 import { isUserSignedIn } from "./api/v1/user";
 import Header from "../components/dashboard/Header";
 import { ReduxProvider } from "../redux/provider";
-import { usePathname } from "next/navigation";
 
 // import Cookies from "js-cookie";
 const inter = Inter({ subsets: ["latin"] });
