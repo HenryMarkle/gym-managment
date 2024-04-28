@@ -85,7 +85,7 @@ function MoneyStats() {
           <div className="flex flex-col justify-between h-full">
             <p className="text-left font-bold text-[26px] text-black">Income</p>
             <div className="mb-10">
-              <p className="text-left mb-2 flex justify-start h-[50%] font-bold text-[30px] text-white">
+              <p className="text-left mb-2 flex justify-start h-[50%] font-bold text-[50px] ">
                 <span className="mr-1 text-black">
                   <CountUp duration={0.7} end={moneyOfSelectedMonth} />
                 </span>
@@ -93,9 +93,11 @@ function MoneyStats() {
               </p>
               <p className="flex justify-start gap-5 text-[18px] font-bold text-white ">
                 {month === "Total" ? (
-                  <p className="text-black">Total income</p>
+                  <p className="text-black text-[15px] opacity-65 mt-5">
+                    Total income
+                  </p>
                 ) : (
-                  <span className="text-black text-[15px] opacity-65">
+                  <span className="text-black text-[15px] opacity-65 mt-5">
                     The income of <span className="text-black">{month}</span>
                   </span>
                 )}
@@ -126,21 +128,21 @@ function MoneyStats() {
         </div>
       </div>
       <div className="Salaries-of-managers bg-white shadow-sm h-[300px] w-[100%] rounded-md mt-4">
-        <div className="selects flex justify-between mx-4 pt-3">
-          <p className=" text-center font-bold text-[30px] text-black">
-            Salaries
-          </p>
+        <div className="selects flex flex-col mx-4 pt-3 justify-between h-full">
+          <p className="  font-bold text-[30px] text-black">Salaries</p>
+          <div>
+            <p className=" font-bold text-[40px] text-white">
+              <span className="mr-1 text-black">
+                <CountUp end={salaries} />
+              </span>
+              <span className="text-txt_primery">{selectedOptionMoney}</span>
+            </p>
+            <p className="p-2 m-2 text-center text-black text-[15px] font-bold">
+              This calculates the salaries of the managers who are signed in
+              this system
+            </p>
+          </div>
         </div>
-        <p className="text-center flex items-center justify-center h-[50%] font-bold text-[40px] text-white">
-          <span className="mr-1 text-black">
-            <CountUp end={salaries} />
-          </span>
-          <span className="text-txt_primery">{selectedOptionMoney}</span>
-        </p>
-        <p className="p-2 m-2 text-center text-black text-[15px] font-bold">
-          This calculates the salaries of the managers who are signed in this
-          system
-        </p>
       </div>
     </div>
   );

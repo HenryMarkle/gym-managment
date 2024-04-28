@@ -245,10 +245,6 @@ input::-webkit-file-upload-button {
   padding: 2px 12px;
 }
 
-button {
-  border: none !important;
-}
-
 .noSelect {
   -webkit-tap-highlight-color: transparent;
   -webkit-touch-callout: none;

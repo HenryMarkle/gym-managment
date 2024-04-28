@@ -1,12 +1,13 @@
 "use client";
-import "./main.css";
-import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { getAllCustomers } from "../../api/v1/customer";
 import { CiSearch } from "react-icons/ci";
 import { useRouter } from "next/navigation";
+import { MdOutlineFilterList } from "react-icons/md";
+import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import DateConvertor from "../../../components/dashboard/DateConvertor";
 function page() {
+  const [selectIsOpen, setSelectIsOpen] = useState(false);
   const [AllCustomers, setAllCustomers] = useState([]);
   const [filterValue, setFilterValue] = useState("");
   const [lengs, setlngs] = useState(AllCustomers.length);
@@ -197,88 +198,89 @@ function page() {
     }));
     setFilterObject(activeSort);
   };
+
+  const handleSelectClick = () => {
+    setSelectIsOpen((prev) => !prev);
+  };
+
   return (
     <>
-      <div className="search ml-[27%] mt-4 px-1 flex items-center gap-10">
-        <div className="flex justify-between border-2 px-1 rounded-xl">
-          <input
-            style={{ border: "none" }}
-            onChange={(e) => setFilterValue(e.target.value)}
-            className="py-3 w-full uppercase"
-            type="text"
-            placeholder="Search Customer"
-          />
-          <CiSearch size={30} className="mt-2" />
-        </div>
-
-        {/* Start filter option */}
-
-        <div className=" flex flex-col mt-10">
-          <div className="sort flex items-center border-b-2 pb-3">
-            <div className="mr-2">
-              <p className="font-bold">Sort by :</p>
-            </div>
-            <div className="sorting-options flex gap-8">
-              {filterObject.map((ele) => {
-                return (
-                  <React.Fragment key={ele.id}>
-                    <p
-                      onClick={() => handelActive(ele.id)}
-                      className={`shadow-md px-3 py-1 cursor-pointer duration-300 rounded-lg ${
-                        ele.active ? "bg-customRed font-bold text-white" : ""
-                      }`}
-                    >
-                      {ele.title}
-                    </p>
-                  </React.Fragment>
-                );
-              })}
-            </div>
-          </div>
-          <div className="filtersOntable mt-5 flex gap-3 items-center">
-            <p className="font-bold">Customers registeration will end in :</p>
+      <div className="bg-bg_custom h-[100vh]">
+        <div className="search ml-[21%]   flex justify-between items-center flex-row-reverse gap-10 mx-8 pt-8">
+          <div className="flex px-1 rounded-xl bg-white items-center self-baseline w-[400px]">
+            <CiSearch size={30} color="gray" className="mr-2 h-[50px]" />
             <input
-              onChange={(e) => setDaysFilter(e.target.value)}
-              className="shadow-md px-2 py-1 w-[150px]"
-              type="number"
-              placeholder="for example : 7"
+              style={{ border: "none" }}
+              onChange={(e) => setFilterValue(e.target.value)}
+              className="py-2 w-full "
+              type="text"
+              placeholder="Search Customer"
             />
-            <select
-              onChange={(e) => {
-                daysFilter.length && setDayORmonthOryear(e.target.value);
-              }}
-              className="outline-none border-[#eee]"
-              name=""
-              id=""
-            >
-              <option value="days">days</option>
-              <option value="months">monthes</option>
-              <option value="years">years</option>
-            </select>
           </div>
+          <div
+            className={`bg-white overflow-hidden rounded-md px-2 duration-300 py-2 w-[220px] ${
+              selectIsOpen ? "h-[230px]" : "h-[50px]"
+            }`}
+          >
+            <div className="flex justify-around items-center mb-4 mt-[5px] z-50">
+              <span>
+                <MdOutlineFilterList size={23} color="gray" />
+              </span>
+              <p className="text-gray-500">Sort by price</p>
+              <span onClick={handleSelectClick}>
+                <MdOutlineKeyboardArrowDown size={23} color="gray" />
+              </span>
+            </div>
+            {filterObject.map((ele) => {
+              return (
+                <React.Fragment key={ele.id}>
+                  <p
+                    onClick={() => handelActive(ele.id)}
+                    className={` px-3 py-1 cursor-pointer duration-300 border-b-2 last:border-0 hover:ml-2 hover:border-border_primery hover:text-txt_primery ${
+                      ele.active ? "text-black" : "text-black"
+                    }`}
+                  >
+                    {ele.title}
+                  </p>
+                </React.Fragment>
+              );
+            })}
+          </div>
+          {/* <div className="filtersOntable mt-5 flex gap-3 items-center">
+              <p className="font-bold">Customers registeration will end in :</p>
+              <input
+                onChange={(e) => setDaysFilter(e.target.value)}
+                className="shadow-md px-2 py-1 w-[150px]"
+                type="number"
+                placeholder="for example : 7"
+              />
+              <select
+                onChange={(e) => {
+                  daysFilter.length && setDayORmonthOryear(e.target.value);
+                }}
+                className="outline-none border-[#eee]"
+                name=""
+                id=""
+              >
+                <option value="days">days</option>
+                <option value="months">monthes</option>
+                <option value="years">years</option>
+              </select>
+            </div> */}
         </div>
-      </div>
-
-      <div className="ml-[27%] mt-4 font-bold text-sm">
-        you have {lengs} member in this table.
-      </div>
-      <table className="ml-[25%] w-[70%] mt-5 shadow-xl p-6 rounded-[31px] overflow-hidden mb-5">
-        <thead>
-          <tr className=" h-[60px] hover:bg-green-200">
-            <th className=" border-r-[1px]">Name</th>
-            <th className=" border-r-[1px]">Age</th>
-            <th className=" border-r-[1px]">Gender</th>
-            <th className=" border-r-[1px]">Package</th>
-            <th className=" border-r-[1px]">Paid</th>
-            <th className=" border-r-[1px]">Should Pay</th>
-            <th className=" border-r-[1px]">Start Date</th>
-            <th className=" border-r-[1px]">End Date</th>
-            <th className=" ">Days Left</th>
-          </tr>
-        </thead>
-        <tbody>
-          {AllCustomers.length > 0
-            ? AllCustomers?.filter(
+        <div className="ml-[21%] relative w-[77%] mt-5 bg-white p-6 rounded-[9px] mb-5">
+          <div className="table w-full border-[1px] border-gray-200 rounded-[9px]">
+            <div className="t-head flex w-full  border-b-[1px] p-5">
+              <p className="w-[14.2%] text-gray-500">Name</p>
+              <p className="w-[14.2%] text-gray-500">Age</p>
+              <p className="w-[14.2%] text-gray-500">Gender</p>
+              <p className="w-[14.2%] text-gray-500">Package</p>
+              <p className="w-[14.2%] text-gray-500">Start Date</p>
+              <p className="w-[14.2%] text-gray-500">End Date</p>
+              <p className="w-[14.2%] text-gray-500">Days left</p>
+            </div>
+            {AllCustomers.length > 0 &&
+              AllCustomers?.filter(
                 (el) =>
                   el.name?.toUpperCase().includes(filterValue.toUpperCase()) ||
                   el.name?.toUpperCase() === filterValue.toUpperCase() ||
@@ -288,61 +290,54 @@ function page() {
                     .includes(filterValue.toUpperCase().replace(/\s/g, ""))
               )
                 .sort((a, b) => a.name.localeCompare(b.name))
-                .map((ele, index) => {
-                  console.log(ele.createdAt.getMonth());
+                .map((e) => {
                   return (
                     <>
-                      <tr
-                        key={ele.id}
-                        onClick={() => router.push(`/panel/customer/${ele.id}`)}
-                        className={`h-[90px]`}
-                      >
-                        <td className=" relative">
-                          {`${
-                            ele.name.length > 8
-                              ? ele.name?.slice(0, 8)
-                              : ele.name?.toUpperCase()
-                          } ` +
-                            `${
-                              ele.surname.length > 8
-                                ? ele.surname?.toUpperCase().slice(0, 8) + "..."
-                                : ele.surname?.toUpperCase()
-                            }`}
-                        </td>
-                        <td>{ele.age}</td>
-                        <td>{ele.gender}</td>
-                        <td>{ele.bucketPrice} TL</td>
-                        <td>{ele.paymentAmount} TL</td>
-                        <td>{ele.bucketPrice - ele.paymentAmount} TL</td>
-                        <td>
+                      <div className="w-full flex justify-between border-b-2 px-4 py-5">
+                        <p className="w-[14.2%]">
+                          <div className="flex items-center gap-2">
+                            <img
+                              className="h-[30px] rounded-full"
+                              src="https://sm.ign.com/ign_nordic/cover/a/avatar-gen/avatar-generations_prsz.jpg"
+                              alt=""
+                            />
+                            <p>
+                              {(e.name + "" + e.surname).length > 10
+                                ? (e.name + "" + e.surname).slice(0, 8) + "..."
+                                : e.name + "" + e.surname}
+                            </p>
+                          </div>
+                        </p>
+                        <p className="w-[14.2%]">{e.age}</p>
+                        <p className="w-[14.2%]">{e.gender}</p>
+                        <div className="w-[14.2%] bg-[#f86e372c] flex items-center justify-center py-2 rounded-[9px]  mr-[90px] text-center">
+                          <p className="text-txt_secondery">{e.bucketPrice}</p>
+                        </div>
+                        <p className="w-[14.2%]">
                           {
                             <DateConvertor
-                              date={new Date(ele.startedAt).toDateString()}
+                              date={new Date(e.startedAt).toDateString()}
                             />
                           }
-                        </td>
-                        <td>
-                          {" "}
-                          {
-                            <DateConvertor
-                              date={new Date(ele.endsAt).toDateString()}
-                            />
-                          }
-                        </td>
-                        <td>
+                        </p>
+                        <p className="w-[14.2%]">
+                          <DateConvertor
+                            date={new Date(e.endsAt).toDateString()}
+                          />
+                        </p>
+                        <p className="w-[14.2%]">
                           {Math.ceil(
-                            (new Date(ele.endsAt) - new Date()) /
+                            (new Date(e.endsAt) - new Date()) /
                               (1000 * 60 * 60 * 24)
                           )}
-                        </td>
-                      </tr>
+                        </p>
+                      </div>
                     </>
                   );
-                })
-            : // <p>No customers</p>
-              null}
-        </tbody>
-      </table>
+                })}
+          </div>
+        </div>
+      </div>
     </>
   );
 }
