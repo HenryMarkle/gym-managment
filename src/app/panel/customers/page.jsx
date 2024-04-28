@@ -22,6 +22,8 @@ function page() {
     { id: 4, active: false, title: "Days left" },
   ]);
 
+  let [openToolTip, setOpenToolTip] = useState();
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -203,9 +205,18 @@ function page() {
     setSelectIsOpen((prev) => !prev);
   };
 
+  const [showTooltip, setShowTooltip] = useState(false);
+
+  const formatNumber = (e) => {
+    return Intl.NumberFormat("en-US", {
+      notation: "compact",
+      maximumFractionDigits: 2,
+    }).format(e);
+  };
+
   return (
     <>
-      <div className="bg-bg_custom h-[100vh]">
+      <div className="bg-bg_custom h-max pb-10">
         <div className="search ml-[21%]   flex justify-between items-center flex-row-reverse gap-10 mx-8 pt-8">
           <div className="flex px-1 rounded-xl bg-white items-center self-baseline w-[400px]">
             <CiSearch size={30} color="gray" className="mr-2 h-[50px]" />
@@ -295,23 +306,50 @@ function page() {
                     <>
                       <div className="w-full flex justify-between border-b-2 px-4 py-5">
                         <p className="w-[14.2%]">
-                          <div className="flex items-center gap-2">
-                            <img
-                              className="h-[30px] rounded-full"
-                              src="https://sm.ign.com/ign_nordic/cover/a/avatar-gen/avatar-generations_prsz.jpg"
-                              alt=""
-                            />
+                          <div
+                            onMouseOut={() => setOpenToolTip(null)}
+                            onMouseOver={() => setOpenToolTip(e.id)}
+                            className="flex items-center gap-2 relative"
+                          >
+                            <div
+                              className={`absolute tooltip h-7 w-max px-4 py-2  bg-white shadow-sm text-txt_primery -top-9 -left-5 rounded-md ${
+                                openToolTip === e.id
+                                  ? "opacity-90"
+                                  : "opacity-0"
+                              } duration-75`}
+                            >
+                              <p className="font-bold">
+                                {e.name + " " + e.surname}
+                              </p>
+                            </div>
+                            {e.gender === "Male" ? (
+                              <img
+                                className="h-[30px] rounded-full"
+                                src="https://w7.pngwing.com/pngs/246/366/png-transparent-computer-icons-avatar-user-profile-man-avatars-logo-monochrome-black-thumbnail.png"
+                                alt=""
+                              />
+                            ) : (
+                              <img
+                                className="h-[30px] rounded-full"
+                                src="https://www.stubai.com/wp-content/uploads/2021/03/computer-icons-user-women-avatar-22ded174b35a982e8fe2343df9c73dde.png"
+                                alt=""
+                              />
+                            )}
                             <p>
-                              {(e.name + "" + e.surname).length > 10
-                                ? (e.name + "" + e.surname).slice(0, 8) + "..."
-                                : e.name + "" + e.surname}
+                              {(e.name + " " + e.surname).length > 10
+                                ? (e.name + " " + e.surname).slice(0, 8) + "..."
+                                : e.name + " " + e.surname}
                             </p>
                           </div>
                         </p>
                         <p className="w-[14.2%]">{e.age}</p>
                         <p className="w-[14.2%]">{e.gender}</p>
-                        <div className="w-[14.2%] bg-[#f86e372c] flex items-center justify-center py-2 rounded-[9px]  mr-[90px] text-center">
-                          <p className="text-txt_secondery">{e.bucketPrice}</p>
+                        <div className="w-[14.2%] ">
+                          <div className="w-[55%] bg-[#ec5c232c] flex items-center justify-center py-2 rounded-[9px]   text-center">
+                            <p className="text-txt_secondery font-bold">
+                              {formatNumber(e.bucketPrice)}
+                            </p>
+                          </div>
                         </div>
                         <p className="w-[14.2%]">
                           {
