@@ -52,14 +52,14 @@ function SideBar() {
     {
       id: 2,
       to: "/panel/dashboard",
-      title: "website panel",
+      title: "Web sitesi kontrol paneli",
       icon: <TiWorld size="23px" />,
       active: false,
     },
     {
       id: 3,
       to: "/panel/add-customer",
-      title: "Create customer",
+      title: "Müşteri oluştur",
       icon: <IoIosAddCircle size="23px" />,
       active: false,
     },
@@ -67,20 +67,20 @@ function SideBar() {
       id: 4,
       to: "/panel/customers",
       active: false,
-      title: "Customers",
+      title: "Müşteriler",
       icon: <FaClipboardList size="23px" />,
     },
     {
       id: 5,
       to: "/panel/add-manager",
-      title: "Create Maneger",
+      title: "Yönetici Oluştur",
       active: false,
       icon: <IoIosAddCircle size="23px" />,
     },
     {
       id: 6,
       to: "/panel/managers",
-      title: "managers",
+      title: "Yöneticiler",
       active: false,
       icon: <BsFillPersonFill size="23px" />,
     },
@@ -88,7 +88,7 @@ function SideBar() {
       id: 7,
       to: "/panel/events",
       active: false,
-      title: "events",
+      title: "Olaylar",
       icon: <BsCalendar2EventFill size="23px" />,
     },
   ]);
@@ -243,7 +243,7 @@ function SideBar() {
                   color="black"
                 />
                 <button className="text-black bg-inherit font-bold border-none">
-                  Logout
+                Çıkış Yap
                 </button>
               </div>
             </div>
@@ -273,7 +273,7 @@ function SideBar() {
           <div className="create-message flex-1  ml-[2%] rounded-[31px] relative overflow-hidden p-5 flex  gap-[20px] ">
             <div className="first ">
               <p className="text-center font-bold text-[#ffcb00] text-[24px] ">
-                Create message
+              Mesaj oluşturmak
               </p>
               <div className="message-box h-[200px] overflow-y-auto ">
                 <textarea
@@ -284,14 +284,14 @@ function SideBar() {
               </div>
               <div className="choose-how-can-see mt-2">
                 <p className="  text-[17px] text-[#ffcb00]">
-                  To send it to everyone choose{" "}
-                  <span className="font-bold">All</span>.
+                Herkese göndermek için seçin..{" "}
+                  <span className="font-bold">Hepsi</span>.
                 </p>
                 <div
                   onClick={() => setOPenSelect(!openSelect)}
                   className=" w-full text-white  mt-3 bg-customRed py-1 px-2 flex justify-between items-center rounded-[31px] "
                 >
-                  <span>Who Can see The message</span>
+                  <span>Mesajı kimler görebilir?</span>
                   {openSelect ? (
                     <LiaChevronCircleUpSolid size={22} />
                   ) : (
@@ -310,7 +310,7 @@ function SideBar() {
                       className=" text-white text-[17px] mr-1"
                       htmlFor="All"
                     >
-                      All
+                      Hepsi
                     </label>
                     <input
                       onChange={() => {
@@ -326,11 +326,11 @@ function SideBar() {
                   </div>
                   {isAllChecked ? (
                     <p className=" text-[#ffcb00]  duration-300 opacity-90 mx-2 my-2 font-bold">
-                      All managers will recive the message
+                      Tüm yöneticiler mesajı alacak
                     </p>
                   ) : (
                     <p className=" text-[#ffcb00] absolute  opacity-0 font-bold ">
-                      All managers will recive the message
+                      Tüm yöneticiler mesajı alacak
                     </p>
                   )}
                   {dummyData.map((e) => {
@@ -375,7 +375,7 @@ function SideBar() {
                 }}
                 className=" text-green-700 shadow-xl h-max w-max mx-auto my-0 px-10 py-1 bg-[#ffcb00] rounded-[31px] font-bold"
               >
-                Submit
+Göndermek
               </button>
             </div>
             <div

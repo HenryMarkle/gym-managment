@@ -40,7 +40,8 @@ function Stats_top() {
               <Svg1 />
             </p>
             <div>
-              <p className=" opacity-80">Cureent users</p>
+              <p className=" opacity-80">
+Mevcut kullanıcılar</p>
               <span className="text-black font-extrabold text-[30px]">
                 <CountUp end={allCustomers} duration={3} />
               </span>
@@ -53,7 +54,7 @@ function Stats_top() {
               <Svg2 />
             </p>
             <div>
-              <p className=" opacity-80">Cureent Managers</p>
+              <p className=" opacity-80">Mevcut yöneticiler</p>
               <span className="text-black font-extrabold text-[30px]">
                 <CountUp end={allUsers} duration={3} />
               </span>
@@ -66,7 +67,7 @@ function Stats_top() {
               <Svg3 />
             </p>
             <div>
-              <p className=" opacity-80">End in 1 Week</p>
+              <p className=" opacity-80">1 hafta içinde biter</p>
               <span className="text-black font-extrabold text-[30px]">
                 <CountUp end={endingCustomers} duration={3} />
               </span>
@@ -79,7 +80,7 @@ function Stats_top() {
               <Svg4 />
             </p>
             <div>
-              <p className=" opacity-80">Ended users</p>
+              <p className=" opacity-80">Sona eren abonelikler</p>
               <span className="text-black font-extrabold text-[30px]">
                 <CountUp end={expiredCustomers} duration={3} />
               </span>
