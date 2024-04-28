@@ -10,7 +10,7 @@ import { CiEdit } from "react-icons/ci";
 import { MdDeleteForever } from "react-icons/md";
 
 import "./managers.css";
-import Swal from "sweetalert2";
+// import Swal from "sweetalert2";
 
 import {
   createTrainer,
@@ -342,33 +342,33 @@ function page() {
                         />
                       )}
                       <MdDeleteForever
-                        onClick={() => {
-                          Swal.fire({
-                            title: "Do you want to delete the trainer?",
-                            showDenyButton: true,
-                            showCancelButton: true,
-                            confirmButtonText: "delete",
-                            denyButtonText: `Don't delete`,
-                          }).then(async (result) => {
-                            /* Read more about isConfirmed, isDenied below */
-                            if (result.isConfirmed) {
-                              if (!(await deleteTrainerbyId(ele.id)))
-                                Swal.fire("deleted!", "", "success");
-                              else
-                                await Swal.fire(
-                                  "Failed to delete",
-                                  "",
-                                  "error"
-                                );
-                            } else if (result.isDenied) {
-                              await Swal.fire(
-                                "Trainer not deleted",
-                                "",
-                                "info"
-                              );
-                            }
-                          });
-                        }}
+                        // onClick={() => {
+                        //   Swal.fire({
+                        //     title: "Do you want to delete the trainer?",
+                        //     showDenyButton: true,
+                        //     showCancelButton: true,
+                        //     confirmButtonText: "delete",
+                        //     denyButtonText: `Don't delete`,
+                        //   }).then(async (result) => {
+                        //     /* Read more about isConfirmed, isDenied below */
+                        //     if (result.isConfirmed) {
+                        //       if (!(await deleteTrainerbyId(ele.id)))
+                        //         Swal.fire("deleted!", "", "success");
+                        //       else
+                        //         await Swal.fire(
+                        //           "Failed to delete",
+                        //           "",
+                        //           "error"
+                        //         );
+                        //     } else if (result.isDenied) {
+                        //       await Swal.fire(
+                        //         "Trainer not deleted",
+                        //         "",
+                        //         "info"
+                        //       );
+                        //     }
+                        //   });
+                        // }}
                         size={23}
                         color="red"
                       />
