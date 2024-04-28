@@ -10,6 +10,8 @@ import CustomHeader from "../components/website/CustomHeader";
 import { isUserSignedIn } from "./api/v1/user";
 import Header from "../components/dashboard/Header";
 import { ReduxProvider } from "../redux/provider";
+import { usePathname } from "next/navigation";
+
 // import Cookies from "js-cookie";
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,6 +26,10 @@ export default function RootLayout({ children }) {
       }
     });
   }, []);
+
+  useEffect(() => {
+    window.sessionStorage.setItem("activePath", path);
+  }, [path]);
   return (
     <html lang="en">
       <body className={inter.className}>
@@ -32,7 +38,9 @@ export default function RootLayout({ children }) {
             !path.includes("sign-in") &&
             !path.includes("dashboard") && <SideBar></SideBar>}
           {!path.includes("panel") && path != "/" && <CustomHeader />}
-          {path.includes("panel") && !path.includes("sign-in") && <Header />}
+          {path.includes("panel") &&
+            !path.includes("sign-in") &&
+            !path.includes("dashboard") && <Header />}
           {path.includes("dashboard") && <HeaderDash />}
           {children}
           {!path.includes("panel") && <Footer />}

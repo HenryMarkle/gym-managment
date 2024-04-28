@@ -14,6 +14,7 @@ import { BsFillPersonFill } from "react-icons/bs";
 import { LiaChevronCircleUpSolid } from "react-icons/lia";
 import { getGymName } from "../../app/api/v1/user";
 import { signout } from "../../app/api/v1/auth";
+import { usePathname } from "next/navigation";
 import "./helper.css";
 
 import {
@@ -36,6 +37,7 @@ function SideBar() {
   const [mobile, setMobile] = useState(false);
   const [dummyData, setDummyData] = useState([]);
   const [gymName, setGymName] = useState("");
+  const path = usePathname();
   const router = useRouter();
 
   <FaHome size="23px" color="white" />;
@@ -146,20 +148,17 @@ function SideBar() {
           <div className="top-content flex flex-col  mx-4 ">
             <div className=" h-[60vh] mt-[40px] w-full  flex flex-col items-start self-center gap-[15px] ">
               {windows.map((ele) => {
-                window.sessionStorage.getItem("active")
+                path
                   ? null
-                  : window.sessionStorage.setItem("active", windows[0].id);
+                  : window.sessionStorage.setItem("activePath", windows[0].to);
                 return (
-                  <React.Fragment key={ele.id}>
+                  <React.Fragment key={ele.to}>
                     <div
                       onClick={() =>
-                        window.sessionStorage.setItem("active", ele.id)
+                        window.sessionStorage.setItem("activePath", ele.to)
                       }
                       className={`${
-                        window.sessionStorage.getItem("active") ===
-                        String(ele.id)
-                          ? "bg-[#5540fb]"
-                          : "bg-white"
+                        path === ele.to ? "bg-[#5540fb]" : "bg-white"
                       } w-full py-[8px] rounded-md duration-500`}
                     >
                       <Link
@@ -173,20 +172,14 @@ function SideBar() {
                         <div className="home flex gap-2 text-black  px-2">
                           <span
                             className={`${
-                              window.sessionStorage.getItem("active") ===
-                              String(ele.id)
-                                ? " text-white"
-                                : "text-black"
+                              path === ele.to ? " text-white" : "text-black"
                             } `}
                           >
                             {ele.icon}
                           </span>
                           <p
                             className={`${
-                              window.sessionStorage.getItem("active") ===
-                              String(ele.id)
-                                ? " text-white"
-                                : "text-black"
+                              path === ele.to ? " text-white" : "text-black"
                             } `}
                           >
                             {ele.title}
@@ -222,9 +215,9 @@ function SideBar() {
                 </div>
               )} */}
             </div>
-            <div className="flex logout  mt-[106px] gap-3 items-center">
-              <IoIosLogOut size="23px" className=" font-bold " color="white" />
-              <button
+            <div className="flex logout mt-[106px] gap-3 items-center ml-4">
+              <div
+                className="flex gap-2 cursor-pointer"
                 onClick={async () => {
                   Swal.fire({
                     title: "Are you sure?",
@@ -243,10 +236,16 @@ function SideBar() {
                     }
                   });
                 }}
-                className="text-white bg-inherit font-bold"
               >
-                Logout
-              </button>
+                <IoIosLogOut
+                  size="23px"
+                  className=" font-bold "
+                  color="black"
+                />
+                <button className="text-black bg-inherit font-bold">
+                  Logout
+                </button>
+              </div>
             </div>
           </div>
         </div>
