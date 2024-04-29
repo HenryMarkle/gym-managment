@@ -17,7 +17,7 @@ function page() {
           <div className="form shadow-2xl h-[460px] w-[370px] my-[100px] mx-auto p-4 rounded-[31px] flex flex-col justify-between z-2 bg-white">
             <div className="items mt-8 flex flex-col gap-9">
               <p className=" text-center text-[20px] font-bold">
-                Create Account
+              Hesap oluşturmak
               </p>
               <input
                 onChange={(e) => setEmail(e.target.value)}
@@ -72,17 +72,17 @@ function page() {
                 }}
                 className=" bg-customRed text-white py-2 px-9 my-0 mx-auto rounded-3xl  shadow-xl "
               >
-                Create
+                Yaratmak
               </button>
             </div>
             <div>
               <p className=" text-[14px]  text-black">
-                Already have an account ?{" "}
+              Zaten hesabınız var mı?{" "}
                 <Link
                   className="text-orange-600 font-bold"
                   href="/panel/sign-in"
                 >
-                  Login
+                  Giriş yapmak
                 </Link>
               </p>
             </div>

@@ -42,11 +42,11 @@ function page() {
             <div className="info-stats flex mt-[50px] gap-[10px]  h-auto w-full ">
               <div className="left-main w-[70%] flex flex-col gap-2 rounded-md">
                 <div className="left-1 h-[400px] bg-white p-2 rounded-md">
-                  <Chart title="New Customers" data={created} />
+                  <Chart title="Yeni müşteriler" data={created} />
                 </div>
                 <div className="left-2 w-full h-[300px] bg-white p-2 rounded-md">
                   <Chart
-                    title="Ending Subscriptions This Year Lol"
+                    title="Abonelikler Bu Yıl Sona Eriyor"
                     data={left}
                   />
                 </div>

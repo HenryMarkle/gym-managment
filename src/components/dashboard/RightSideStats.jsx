@@ -83,7 +83,7 @@ function MoneyStats() {
       <div className="income-for-gym bg-white shadow-sm w-[100%] h-[300px] rounded-md">
         <div className="selects flex justify-between mx-4 pt-3 h-full">
           <div className="flex flex-col justify-between h-full">
-            <p className="text-left font-bold text-[26px] text-black">Income</p>
+            <p className="text-left font-bold text-[26px] text-black">Gelirim</p>
             <div className="mb-10">
               <p className="text-left mb-2 flex justify-start h-[50%] font-bold text-[50px] ">
                 <span className="mr-1 text-black">
@@ -94,11 +94,11 @@ function MoneyStats() {
               <p className="flex justify-start gap-5 text-[18px] font-bold text-white ">
                 {month === "Total" ? (
                   <p className="text-black text-[15px] opacity-65 mt-5">
-                    Total income
+                    Toplam gelir
                   </p>
                 ) : (
                   <span className="text-black text-[15px] opacity-65 mt-5">
-                    The income of <span className="text-black">{month}</span>
+                    Geliri <span className="text-black">{month}</span>
                   </span>
                 )}
               </p>
@@ -129,7 +129,7 @@ function MoneyStats() {
       </div>
       <div className="Salaries-of-managers bg-white shadow-sm h-[300px] w-[100%] rounded-md mt-4">
         <div className="selects flex flex-col mx-4 pt-3 justify-between h-full">
-          <p className="  font-bold text-[30px] text-black">Salaries</p>
+          <p className="  font-bold text-[30px] text-black">Maaşlar</p>
           <div>
             <p className=" font-bold text-[40px] text-white">
               <span className="mr-1 text-black">
@@ -138,8 +138,8 @@ function MoneyStats() {
               <span className="text-txt_primery">{selectedOptionMoney}</span>
             </p>
             <p className="p-2 m-2 text-center text-black text-[15px] font-bold">
-              This calculates the salaries of the managers who are signed in
-              this system
+            Bu, oturum açan yöneticilerin maaşlarını hesaplar
+              bu sistem
             </p>
           </div>
         </div>

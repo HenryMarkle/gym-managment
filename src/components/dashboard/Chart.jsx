@@ -9,18 +9,18 @@ function ChartComponent({ title, data }) {
         className="mb-10 shadow-lg p-4"
         data={{
           labels: [
-            "January",
-            "February",
-            "March",
-            "April",
-            "May",
-            "June",
-            "July",
-            "August",
-            "September",
-            "October",
-            "November",
-            "December",
+            "Ocak",
+            "Şubat",
+            "Mart",
+            "Nisan",
+            "Mayıs",
+            "Haziran",
+            "Temmuz",
+            "Ağustos",
+            "Eylül",
+            "Ekim",
+            "Kasım",
+            "Aralık",
           ],
           datasets: [
             {

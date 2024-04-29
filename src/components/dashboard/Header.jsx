@@ -7,8 +7,9 @@ function Header() {
   return (
     <div className="flex justify-between items-center pl-[22%] bg-[#eeeeee] pr-6 pt-6">
       <div>
-        <p className=" font-bold text-2xl">Welcome,Gym</p>
-        <p className=" opacity-60">manage your gym</p>
+        <p className=" font-bold text-2xl">
+Hoş geldiniz</p>
+        <p className=" opacity-60">Spor salonunuzu yönetin</p>
       </div>
       <div className="flex gap-3">
         <p className="h-[30px] bg-white items-center flex w-[30px] justify-center rounded-md">
