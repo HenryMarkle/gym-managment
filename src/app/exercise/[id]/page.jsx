@@ -4,7 +4,10 @@ import { BsArrowDownCircleFill, BsArrowUpCircleFill } from "react-icons/bs";
 import { useParams } from "next/navigation";
 
 import { getAllExcercisesOfSection } from "../../api/v1/excercises";
-import { getExerciseSectionImageUrl, getExerciseVideoUrl } from "../../../lib/images";
+import {
+  getExerciseSectionImageUrl,
+  getExerciseVideoUrl,
+} from "../../../lib/images";
 
 function page() {
   const [openArray, setOpenArray] = useState([1]);
@@ -20,8 +23,8 @@ function page() {
   ///
   ///
   const { id } = useParams();
-  
-  const [sectionImageUrl, setSectionImageUrl] = useState('')
+
+  const [sectionImageUrl, setSectionImageUrl] = useState("");
 
   /*
     id: number;
@@ -33,27 +36,27 @@ function page() {
   const [exercises, setExerices] = useState([]);
 
   useEffect(() => {
-    getAllExcercisesOfSection(Number(id)).then(res => {
-      if (res !== 'error') {
+    getAllExcercisesOfSection(Number(id)).then((res) => {
+      if (res !== "error") {
         // section image
         getExerciseSectionImageUrl(Number(id)).then(setSectionImageUrl);
 
         // exercise videos
-        let promises = res.map(e => getExerciseVideoUrl(e.id).then(url => e.videoUrl = url))
-        
+        let promises = res.map((e) =>
+          getExerciseVideoUrl(e.id).then((url) => (e.videoUrl = url))
+        );
+
         Promise.allSettled(promises).then(() => {
           setExerices(res);
         });
-        
 
         console.log(`Exercise URL: ${exercises}`);
         console.log(`Section URL: ${sectionImageUrl}`);
       }
-    })
-  }, [])
+    });
+  }, []);
   ///
   ///
-
 
   return (
     <>
@@ -63,11 +66,7 @@ function page() {
         </p>
         <div className="exer-image mt-5 flex gap-10">
           <div className="exer-left-image bg-orange-400 h-[490px] w-[35%] overflow-hidden rounded-xl">
-            <img
-              className="h-full"
-              src={sectionImageUrl}
-              alt=""
-            />
+            <img className="h-full" src={sectionImageUrl} alt="" />
           </div>
           <div className="exer-right w-[63%] rounded-xl">
             <div className="exer-exercises flex flex-col gap-6">

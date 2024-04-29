@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+"use client";
+import React, { useState } from "react";
 import Chart from "react-apexcharts";
 
 const App = ({ data }) => {
@@ -6,7 +7,6 @@ const App = ({ data }) => {
     chart: {
       id: "apexchart-example",
     },
-    colors: ["#008FFB"],
     xaxis: {
       categories: [
         "Ocak",
@@ -27,22 +27,18 @@ const App = ({ data }) => {
 
   const [series, setSeries] = useState([
     {
-      name: "Customers",
-      data: data,
+      name: "series-1",
+      data: [30, 40, 35, 50, 49, 60, 70, 91, 125, 132, 21, 2],
     },
   ]);
-
-  useEffect(() => {
-    setSeries([{ name: "Customers", data: data }]);
-  }, [data]);
 
   return (
     <Chart
       options={options}
       series={series}
       type="bar"
-      width={750}
-      height={271}
+      width={500}
+      height={320}
     />
   );
 };

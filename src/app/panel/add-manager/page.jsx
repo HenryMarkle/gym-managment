@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { addUser } from "../../api/v1/user";
 import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
-
 function AddUserPage() {
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
@@ -54,6 +53,7 @@ function AddUserPage() {
       <div className="add ml-[30%] px-4 mr-[10%] shadow-sm rounded-[6px] bg-white">
         <div className="head flex justify-between items-center pt-10">
           <p className="font-bold text-[20px]">Create Manager</p>
+
           <div>
             <button
               onClick={handleCancel}
@@ -100,7 +100,7 @@ function AddUserPage() {
                 name="startDate"
                 type="date"
                 placeholder="Start date"
-              />
+              />{" "}
             </div>
 
             <div className="age flex-col flex">
