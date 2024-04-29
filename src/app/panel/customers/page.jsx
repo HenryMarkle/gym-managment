@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { MdOutlineFilterList } from "react-icons/md";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import DateConvertor from "../../../components/dashboard/DateConvertor";
+import Link from "next/link";
 function page() {
   const [selectIsOpen, setSelectIsOpen] = useState(false);
   const [AllCustomers, setAllCustomers] = useState([]);
@@ -214,9 +215,11 @@ function page() {
     }).format(e);
   };
 
+  const [sortingSentence, setSortingSentence] = useState("Select filter");
+
   return (
     <>
-      <div className="bg-bg_custom h-max pb-10">
+      <div className="bg-bg_custom min-h-[100vh] pb-10">
         <div className="search ml-[21%]   flex justify-between items-center flex-row-reverse gap-10 mx-8 pt-8">
           <div className="flex px-1 rounded-xl bg-white items-center self-baseline w-[400px]">
             <CiSearch size={30} color="gray" className="mr-2 h-[50px]" />
@@ -237,7 +240,7 @@ function page() {
               <span>
                 <MdOutlineFilterList size={23} color="gray" />
               </span>
-              <p className="text-gray-500">Sort by price</p>
+              <p className="text-gray-500">{sortingSentence}</p>
               <span onClick={handleSelectClick}>
                 <MdOutlineKeyboardArrowDown size={23} color="gray" />
               </span>
@@ -246,7 +249,10 @@ function page() {
               return (
                 <React.Fragment key={ele.id}>
                   <p
-                    onClick={() => handelActive(ele.id)}
+                    onClick={() => {
+                      handelActive(ele.id);
+                      setSortingSentence(ele.title);
+                    }}
                     className={` px-3 py-1 cursor-pointer duration-300 border-b-2 last:border-0 hover:ml-2 hover:border-border_primery hover:text-txt_primery ${
                       ele.active ? "text-black" : "text-black"
                     }`}
@@ -291,7 +297,7 @@ function page() {
               <p className="w-[14.2%] text-gray-500">Days left</p>
             </div>
             {AllCustomers.length > 0 &&
-              AllCustomers?.filter(
+              AllCustomers.filter(
                 (el) =>
                   el.name?.toUpperCase().includes(filterValue.toUpperCase()) ||
                   el.name?.toUpperCase() === filterValue.toUpperCase() ||
@@ -300,76 +306,89 @@ function page() {
                     .replace(/\s/g, "")
                     .includes(filterValue.toUpperCase().replace(/\s/g, ""))
               )
-                .sort((a, b) => a.name.localeCompare(b.name))
+                .sort((a, b) => {
+                  switch (sortingSentence) {
+                    case "Name":
+                      return a.name.localeCompare(b.name);
+                    case "Price":
+                      return b.bucketPrice - a.bucketPrice;
+                    // Add more cases for other sorting options if needed
+                    default:
+                      return 0;
+                  }
+                })
                 .map((e) => {
                   return (
                     <>
-                      <div className="w-full flex justify-between border-b-2 px-4 py-5">
-                        <p className="w-[14.2%]">
-                          <div
-                            onMouseOut={() => setOpenToolTip(null)}
-                            onMouseOver={() => setOpenToolTip(e.id)}
-                            className="flex items-center gap-2 relative"
-                          >
+                      <Link href={`customer/${e.id}`}>
+                        <div className="w-full flex justify-between border-b-2 px-4 py-5">
+                          <p className="w-[14.2%]">
                             <div
-                              className={`absolute tooltip h-7 w-max px-4 py-2  bg-white shadow-sm text-txt_primery -top-9 -left-5 rounded-md ${
-                                openToolTip === e.id
-                                  ? "opacity-90"
-                                  : "opacity-0"
-                              } duration-75`}
+                              onMouseOut={() => setOpenToolTip(null)}
+                              onMouseOver={() => setOpenToolTip(e.id)}
+                              className="flex items-center gap-2 relative"
                             >
-                              <p className="font-bold">
-                                {e.name + " " + e.surname}
+                              <div
+                                className={`absolute tooltip h-7 w-max px-4 py-2  bg-white shadow-sm text-txt_primery -top-9 -left-5 rounded-md ${
+                                  openToolTip === e.id
+                                    ? "opacity-90"
+                                    : "opacity-0"
+                                } duration-75`}
+                              >
+                                <p className="font-bold">
+                                  {e.name + " " + e.surname}
+                                </p>
+                              </div>
+                              {e.gender === "Male" ? (
+                                <img
+                                  className="h-[30px] rounded-full"
+                                  src="https://w7.pngwing.com/pngs/246/366/png-transparent-computer-icons-avatar-user-profile-man-avatars-logo-monochrome-black-thumbnail.png"
+                                  alt=""
+                                />
+                              ) : (
+                                <img
+                                  className="h-[30px] rounded-full"
+                                  src="https://www.stubai.com/wp-content/uploads/2021/03/computer-icons-user-women-avatar-22ded174b35a982e8fe2343df9c73dde.png"
+                                  alt=""
+                                />
+                              )}
+                              <p>
+                                {(e.name + " " + e.surname).length > 10
+                                  ? (e.name + " " + e.surname).slice(0, 8) +
+                                    "..."
+                                  : e.name + " " + e.surname}
                               </p>
                             </div>
-                            {e.gender === "Male" ? (
-                              <img
-                                className="h-[30px] rounded-full"
-                                src="https://w7.pngwing.com/pngs/246/366/png-transparent-computer-icons-avatar-user-profile-man-avatars-logo-monochrome-black-thumbnail.png"
-                                alt=""
-                              />
-                            ) : (
-                              <img
-                                className="h-[30px] rounded-full"
-                                src="https://www.stubai.com/wp-content/uploads/2021/03/computer-icons-user-women-avatar-22ded174b35a982e8fe2343df9c73dde.png"
-                                alt=""
-                              />
-                            )}
-                            <p>
-                              {(e.name + " " + e.surname).length > 10
-                                ? (e.name + " " + e.surname).slice(0, 8) + "..."
-                                : e.name + " " + e.surname}
-                            </p>
+                          </p>
+                          <p className="w-[14.2%]">{e.age}</p>
+                          <p className="w-[14.2%]">{e.gender}</p>
+                          <div className="w-[14.2%] ">
+                            <div className="w-[55%] bg-[#ec5c232c] flex items-center justify-center py-2 rounded-[9px]   text-center">
+                              <p className="text-txt_secondery font-bold">
+                                {formatNumber(e.bucketPrice)}
+                              </p>
+                            </div>
                           </div>
-                        </p>
-                        <p className="w-[14.2%]">{e.age}</p>
-                        <p className="w-[14.2%]">{e.gender}</p>
-                        <div className="w-[14.2%] ">
-                          <div className="w-[55%] bg-[#ec5c232c] flex items-center justify-center py-2 rounded-[9px]   text-center">
-                            <p className="text-txt_secondery font-bold">
-                              {formatNumber(e.bucketPrice)}
-                            </p>
-                          </div>
-                        </div>
-                        <p className="w-[14.2%]">
-                          {
+                          <p className="w-[14.2%]">
+                            {
+                              <DateConvertor
+                                date={new Date(e.startedAt).toDateString()}
+                              />
+                            }
+                          </p>
+                          <p className="w-[14.2%]">
                             <DateConvertor
-                              date={new Date(e.startedAt).toDateString()}
+                              date={new Date(e.endsAt).toDateString()}
                             />
-                          }
-                        </p>
-                        <p className="w-[14.2%]">
-                          <DateConvertor
-                            date={new Date(e.endsAt).toDateString()}
-                          />
-                        </p>
-                        <p className="w-[14.2%]">
-                          {Math.ceil(
-                            (new Date(e.endsAt) - new Date()) /
-                              (1000 * 60 * 60 * 24)
-                          )}
-                        </p>
-                      </div>
+                          </p>
+                          <p className="w-[14.2%]">
+                            {Math.ceil(
+                              (new Date(e.endsAt) - new Date()) /
+                                (1000 * 60 * 60 * 24)
+                            )}
+                          </p>
+                        </div>
+                      </Link>
                     </>
                   );
                 })}
