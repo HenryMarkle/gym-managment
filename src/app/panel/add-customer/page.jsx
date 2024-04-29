@@ -39,7 +39,7 @@ function Page() {
 
     if (result) {
       router.replace("/panel/customers");
-      Swal.fire("Saved!", "", "success");
+      Swal.fire("Kaydedildi!", "", "Başarı");
     }
   };
 
@@ -55,20 +55,20 @@ function Page() {
   const handleSubmit = () => {
     if (validateForm()) {
       Swal.fire({
-        title: "Do you want to save the customer?",
+        title: "Müşterinin bilgilerini kaydetmek istiyor musunuz?",
         showDenyButton: true,
         showCancelButton: true,
-        confirmButtonText: "Save",
-        denyButtonText: `Don't save`,
+        confirmButtonText: "Kaydetmek",
+        denyButtonText: `Kaydetme`,
       }).then((result) => {
         if (result.isConfirmed) {
           handleCreateCustomer();
         } else if (result.isDenied) {
-          Swal.fire("Changes are not saved", "", "info");
+          Swal.fire("Değişiklikler kaydedilmedi", "", "Bilgi");
         }
       });
     } else {
-      Swal.fire("Please enter name and surname", "", "error");
+      Swal.fire("Lütfen adınızı ve soyadınızı girin", "", "Hata");
     }
   };
 
@@ -82,13 +82,13 @@ function Page() {
               onClick={handleCancel}
               className="mr-4 bg-white text-txt_secondery shadow-sm px-4 py-2 rounded-[5px] border-[1px] border-border_secondery border-solid"
             >
-              Cancel
+              İptal etmek
             </button>
             <button
               onClick={handleSubmit}
               className="bg-bg_secondery shadow-sm text-white px-4 py-2 rounded-[5px]"
             >
-              Create Customer
+              Müşteri oluştur
             </button>
           </div>
         </div>
@@ -96,7 +96,7 @@ function Page() {
           {/* Left Column */}
           <div className="left w-1/2 z-30 flex flex-col gap-3">
             <div className="start-date flex-col flex">
-              <label className="font-bold text-md mb-[5px]">Start Date</label>
+              <label className="font-bold text-md mb-[5px]">Başlangıç ​​tarihi</label>
               <input
                 className="py-2 px-3 border-2 border-red rounded-[9px]"
                 onChange={handleChange}
@@ -106,88 +106,88 @@ function Page() {
               />
             </div>
             <div className="name flex-col flex">
-              <label className="font-bold text-md mb-[5px]">Name</label>
+              <label className="font-bold text-md mb-[5px]">İsim</label>
               <input
                 className="py-2 px-3 border-2 border-red rounded-[9px]"
                 onChange={handleChange}
                 name="name"
                 type="text"
-                placeholder="Name"
+                placeholder="İsim"
               />
             </div>
             <div className="surname flex-col flex">
-              <label className="font-bold text-md mb-[5px]">Surname</label>
+              <label className="font-bold text-md mb-[5px]">Soyadı</label>
               <input
                 className="py-2 px-3 border-2 border-red rounded-[9px]"
                 onChange={handleChange}
                 name="surname"
                 type="text"
-                placeholder="Surname"
+                placeholder="Soyadı"
               />
             </div>
             <div className="age flex-col flex">
-              <label className="font-bold text-md mb-[5px]">Age</label>
+              <label className="font-bold text-md mb-[5px]">Yaş</label>
               <input
                 className="py-2 px-3 border-2 border-red rounded-[9px]"
                 onChange={handleChange}
                 name="age"
                 type="number"
-                placeholder="Age"
+                placeholder="Yaş"
               />
             </div>
           </div>
           {/* Right Column */}
           <div className="right w-1/2 z-30 flex flex-col gap-3">
             <div className="end-date flex-col flex">
-              <label className="font-bold text-md mb-[5px]">End Date</label>
+              <label className="font-bold text-md mb-[5px]">Bitiş tarihi</label>
               <input
                 className="py-2 px-3 border-2 border-red rounded-[9px]"
                 onChange={handleChange}
                 name="endDate"
                 type="date"
-                placeholder="End date"
+                placeholder="Bitiş tarihi"
               />
             </div>
             <div className="gender flex-col flex">
-              <label className="font-bold text-md mb-[5px]">Gender</label>
+              <label className="font-bold text-md mb-[5px]">Cinsiyet</label>
               <select
                 className="outline-none py-2 px-3 border-2 border-red rounded-[9px]"
                 onChange={handleChange}
                 name="gender"
               >
-                <option value="">Select Gender</option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
+                <option value="">Cinsiyet seç</option>
+                <option value="Male">Erkek</option>
+                <option value="Female">Dişi</option>
               </select>
             </div>
             <div className="price flex-col flex">
-              <label className="font-bold text-md mb-[5px]">Bucket Price</label>
+              <label className="font-bold text-md mb-[5px]">Kova Fiyatı</label>
               <input
                 className="py-2 px-3 border-2 border-red rounded-[9px]"
                 onChange={handleChange}
                 name="bucketPrice"
                 type="number"
-                placeholder="Bucket price"
+                placeholder="Kova Fiyatı"
               />
             </div>
             <div className="paid flex-col flex">
-              <label className="font-bold text-md mb-[5px]">Payment</label>
+              <label className="font-bold text-md mb-[5px]">Ödeme</label>
               <input
                 className="py-2 px-3 border-2 border-red rounded-[9px]"
                 onChange={handleChange}
                 name="payment"
                 type="number"
-                placeholder="Paid"
+                placeholder="Ödenen miktar"
               />
             </div>
             <div className="money-left flex-col flex">
-              <label className="font-bold text-md mb-[5px]">Money Left</label>
+              <label className="font-bold text-md mb-[5px]">Kalan para</label>
               <input
                 className="py-2 px-3 border-2 border-red rounded-[9px]"
                 type="text"
                 value={formData.bucketPrice - formData.payment}
                 disabled
-                placeholder="Money left"
+                placeholder="Kalan para"
               />
             </div>
           </div>
