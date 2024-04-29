@@ -16,11 +16,11 @@ function page() {
   const [dayORmonthOryear, setDayORmonthOryear] = useState("days");
   const router = useRouter();
   const [filterObject, setFilterObject] = useState([
-    { id: 1, active: true, title: "Start data" },
-    { id: 5, active: false, title: "Ended Customers" },
-    { id: 2, active: false, title: "End data" },
-    { id: 3, active: false, title: "Price" },
-    { id: 4, active: false, title: "Days left" },
+    { id: 1, active: true, title: "Başlangıç ​​tarihi" },
+    { id: 5, active: false, title: "Biten Müşteriler" },
+    { id: 2, active: false, title: "Bitiş tarihi" },
+    { id: 3, active: false, title: "Fiyat" },
+    { id: 4, active: false, title: "Kalan günler" },
   ]);
 
   let [openToolTip, setOpenToolTip] = useState();
@@ -137,7 +137,7 @@ function page() {
       const activeFilter = filterObject.find((filter) => filter.active);
       if (activeFilter) {
         switch (activeFilter.title) {
-          case "Start data":
+          case "Start date":
             sortedResult.sort(
               (a, b) => new Date(b.startedAt) - new Date(a.startedAt)
             );
@@ -152,7 +152,7 @@ function page() {
                 ) < 0
             );
             break;
-          case "End data":
+          case "End date":
             sortedResult.sort(
               (a, b) => new Date(a.endsAt) - new Date(b.endsAt)
             );
@@ -215,7 +215,7 @@ function page() {
     }).format(e);
   };
 
-  const [sortingSentence, setSortingSentence] = useState("Select filter");
+  const [sortingSentence, setSortingSentence] = useState("Filtre Seç");
 
   return (
     <>
@@ -228,7 +228,7 @@ function page() {
               onChange={(e) => setFilterValue(e.target.value)}
               className="py-2 w-full "
               type="text"
-              placeholder="Search Customer"
+              placeholder="Müşteri Ara"
             />
           </div>
           <div
@@ -288,13 +288,13 @@ function page() {
         <div className="ml-[21%] relative w-[77%] mt-5 bg-white p-6 rounded-[9px] mb-5">
           <div className="table w-full border-[1px] border-gray-200 rounded-[9px]">
             <div className="t-head flex w-full  border-b-[1px] p-5">
-              <p className="w-[14.2%] text-gray-500">Name</p>
-              <p className="w-[14.2%] text-gray-500">Age</p>
-              <p className="w-[14.2%] text-gray-500">Gender</p>
-              <p className="w-[14.2%] text-gray-500">Package</p>
-              <p className="w-[14.2%] text-gray-500">Start Date</p>
-              <p className="w-[14.2%] text-gray-500">End Date</p>
-              <p className="w-[14.2%] text-gray-500">Days left</p>
+              <p className="w-[14.2%] text-gray-500">İsim</p>
+              <p className="w-[14.2%] text-gray-500">Yaş</p>
+              <p className="w-[14.2%] text-gray-500">Cinsiyet</p>
+              <p className="w-[14.2%] text-gray-500">Paket</p>
+              <p className="w-[14.2%] text-gray-500">Başlangıç ​​tarihi</p>
+              <p className="w-[14.2%] text-gray-500">Bitiş tarihi</p>
+              <p className="w-[14.2%] text-gray-500">Kalan günler</p>
             </div>
             {AllCustomers.length > 0 &&
               AllCustomers.filter(
