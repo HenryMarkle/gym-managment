@@ -52,7 +52,7 @@ function SideBar() {
     {
       id: 2,
       to: "/panel/dashboard",
-      title: "Web sitesi kontrol paneli",
+      title: "Web sitesi",
       icon: <TiWorld size="23px" />,
       active: false,
     },
@@ -243,7 +243,7 @@ function SideBar() {
                   color="black"
                 />
                 <button className="text-black bg-inherit font-bold border-none">
-                Çıkış Yap
+                  Çıkış Yap
                 </button>
               </div>
             </div>
@@ -273,7 +273,7 @@ function SideBar() {
           <div className="create-message flex-1  ml-[2%] rounded-[31px] relative overflow-hidden p-5 flex  gap-[20px] ">
             <div className="first ">
               <p className="text-center font-bold text-[#ffcb00] text-[24px] ">
-              Mesaj oluşturmak
+                Mesaj oluşturmak
               </p>
               <div className="message-box h-[200px] overflow-y-auto ">
                 <textarea
@@ -284,7 +284,7 @@ function SideBar() {
               </div>
               <div className="choose-how-can-see mt-2">
                 <p className="  text-[17px] text-[#ffcb00]">
-                Herkese göndermek için seçin..{" "}
+                  Herkese göndermek için seçin..{" "}
                   <span className="font-bold">Hepsi</span>.
                 </p>
                 <div
@@ -375,7 +375,7 @@ function SideBar() {
                 }}
                 className=" text-green-700 shadow-xl h-max w-max mx-auto my-0 px-10 py-1 bg-[#ffcb00] rounded-[31px] font-bold"
               >
-Göndermek
+                Göndermek
               </button>
             </div>
             <div
