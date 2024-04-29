@@ -1,34 +1,7 @@
 import Link from "next/link";
 import React from "react";
-
+import { headerData } from "./data";
 function HeaderDash() {
-  const headerData = [
-    { id: 1, title: "Home", to: "/panel/dashboard" },
-    {
-      id: 2,
-      title: "Market ",
-      to: "/panel/dashboard/market",
-      active: false,
-    },
-    {
-      id: 3,
-      title: "Plans",
-      to: "/panel/dashboard/plans",
-      active: false,
-    },
-    {
-      id: 4,
-      title: "Exercises ",
-      to: "/panel/dashboard/exercises",
-      active: false,
-    },
-    {
-      id: 5,
-      title: "Managers",
-      to: "/panel/dashboard/managers",
-      active: false,
-    },
-  ];
   return (
     <>
       <div className="header-dashboard flex items-center px-8 h-[50px] bg-green-600 mb-5 justify-around">

@@ -2,15 +2,8 @@
 import Link from "next/link";
 import React from "react";
 import MapsComponent from "./GoogleMaps";
+import { windowsData as data } from "./data";
 function Footer() {
-  const data = [
-    { id: 1, title: "Home", to: "/" },
-    { id: 2, title: "Plans", to: "/plans" },
-    { id: 3, title: "Market", to: "/market" },
-    { id: 4, title: "Exercises", to: "/exercises" },
-    { id: 6, title: "Contact", to: "/contact" },
-    { id: 5, title: "About", to: "/about" },
-  ];
   return (
     <div className="lg:h-[350px] w-full bg-neutral-900 lg:p-14 p-4 mt-28">
       <div className="maps lg:grid lg:grid-cols-2 gap-9 flex  flex-col-reverse items-center">

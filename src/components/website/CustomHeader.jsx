@@ -6,7 +6,7 @@ import { SlBasket } from "react-icons/sl";
 import { RiCloseCircleLine } from "react-icons/ri";
 import { GiHamburgerMenu } from "react-icons/gi";
 import "../website/media.css";
-
+import { windowsData } from "./data";
 function CustomNav() {
   const [gymName, setGymName] = useState([]);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -23,15 +23,6 @@ function CustomNav() {
       }
     });
   }, []);
-
-  const headerData = [
-    { id: 1, title: "Home", to: "/" },
-    { id: 3, title: "Plans", to: "/plans" },
-    { id: 4, title: "Market", to: "/market" },
-    { id: 5, title: "Exercises", to: "/exercises" },
-    { id: 2, title: "About", to: "/about" },
-    { id: 6, title: "Contact", to: "/contact" },
-  ];
 
   return (
     <>
@@ -64,7 +55,7 @@ function CustomNav() {
           menuOpen ? "flex" : "hidden"
         }`}
       >
-        {headerData.map((ele) => {
+        {windowsData.map((ele) => {
           return (
             <React.Fragment key={ele.id}>
               <Link
@@ -88,7 +79,7 @@ function CustomNav() {
             </Link>
           </div>
           <div className="flex flex-1 justify-evenly">
-            {headerData.map((ele) => (
+            {windowsData.map((ele) => (
               <Link key={ele.id} href={ele.to}>
                 <span
                   className={

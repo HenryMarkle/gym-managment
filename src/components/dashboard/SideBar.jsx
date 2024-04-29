@@ -1,31 +1,17 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { FaHome, FaClipboardList } from "react-icons/fa";
-import { IoIosCloseCircle } from "react-icons/io";
-import { IoSettings } from "react-icons/io5";
-import { BiSolidMessageAdd } from "react-icons/bi";
-import { IoIosCloseCircleOutline } from "react-icons/io";
-import { CiCircleChevDown } from "react-icons/ci";
 import { RxHamburgerMenu } from "react-icons/rx";
-import { BsCalendar2EventFill } from "react-icons/bs";
-import { TiWorld } from "react-icons/ti";
-import { BsFillPersonFill } from "react-icons/bs";
-import { LiaChevronCircleUpSolid } from "react-icons/lia";
+import { FaHome } from "react-icons/fa";
+import { IoIosCloseCircleOutline } from "react-icons/io";
 import { getGymName } from "../../app/api/v1/user";
 import { signout } from "../../app/api/v1/auth";
 import { usePathname } from "next/navigation";
-import "./helper.css";
-
-import {
-  IoIosLogOut,
-  IoIosAddCircle,
-  IoIosNotifications,
-} from "react-icons/io";
+import { windows } from "./data";
+import { IoIosLogOut } from "react-icons/io";
 import Link from "next/link";
-
-import { getAllUsers, createAnnouncement } from "../../app/api/v1/user";
 import Swal from "sweetalert2";
+import { getAllUsers } from "../../app/api/v1/user";
 
 function SideBar() {
   const [message, setMessage] = useState("");
@@ -41,57 +27,6 @@ function SideBar() {
   const router = useRouter();
 
   <FaHome size="23px" color="white" />;
-  const [windows, setWindows] = useState([
-    {
-      id: 1,
-      to: "/panel",
-      title: "Home",
-      icon: <FaHome size="23px" />,
-      active: true,
-    },
-    {
-      id: 2,
-      to: "/panel/dashboard",
-      title: "Web sitesi",
-      icon: <TiWorld size="23px" />,
-      active: false,
-    },
-    {
-      id: 3,
-      to: "/panel/add-customer",
-      title: "Müşteri oluştur",
-      icon: <IoIosAddCircle size="23px" />,
-      active: false,
-    },
-    {
-      id: 4,
-      to: "/panel/customers",
-      active: false,
-      title: "Müşteriler",
-      icon: <FaClipboardList size="23px" />,
-    },
-    {
-      id: 5,
-      to: "/panel/add-manager",
-      title: "Yönetici Oluştur",
-      active: false,
-      icon: <IoIosAddCircle size="23px" />,
-    },
-    {
-      id: 6,
-      to: "/panel/managers",
-      title: "Yöneticiler",
-      active: false,
-      icon: <BsFillPersonFill size="23px" />,
-    },
-    {
-      id: 7,
-      to: "/panel/events",
-      active: false,
-      title: "Olaylar",
-      icon: <BsCalendar2EventFill size="23px" />,
-    },
-  ]);
 
   useEffect(() => {
     console.log(filterdArray);
@@ -249,26 +184,8 @@ function SideBar() {
             </div>
           </div>
         </div>
-        {/*  */}
-        {/*  */}
-        {/*  */}
-        {/*  */}
-        {/*  */}
-        {/*  */}
-        {/*  */}
-        {/*  */}
-        {/*  */}
-        {/*  */}
-        {/*  */}
-        {/*  */}
-        {/*  */}
-        {/*  */}
-        {/*  */}
-        {/*  */}
-        {/*  */}
-        {/*  */}
-        {/*  */}
 
+        {/* 
         {showMessage ? (
           <div className="create-message flex-1  ml-[2%] rounded-[31px] relative overflow-hidden p-5 flex  gap-[20px] ">
             <div className="first ">
@@ -387,7 +304,7 @@ function SideBar() {
           </div>
         ) : (
           <div className="create-message w-[1px] bg-red-600 ml-14 rounded-[31px] overflow-hidden duration-900"></div>
-        )}
+        )} */}
       </div>
     </>
   );

@@ -5,8 +5,8 @@ import {
   getTotalIncome,
   getTotalSalaries,
 } from "../../app/api/v1/customer";
-
-function MoneyStats() {
+import { months } from "./data";
+const MoneyStats = () => {
   const [selectedOptionMoney, setSelectedOptionMoney] = useState("TL");
   const [income, setIncome] = useState(0);
   const [month, setMonth] = useState("Total");
@@ -15,7 +15,7 @@ function MoneyStats() {
   const [moneyOfSelectedMonth, setMoneyOfSelectedMonth] = useState(0);
 
   useEffect(() => {
-    async function fetchData() {
+    const fetchData = async () => {
       try {
         const incomeResponse = await getTotalIncome();
         setIncome(incomeResponse);
@@ -25,13 +25,13 @@ function MoneyStats() {
       } catch (error) {
         console.error("Failed to fetch data:", error);
       }
-    }
+    };
 
     fetchData();
   }, [monthNumber]);
 
   useEffect(() => {
-    async function fetchCustomers() {
+    const fetchCustomers = async () => {
       try {
         const customers = await getAllCustomers();
         let totalMoney = 0;
@@ -49,7 +49,7 @@ function MoneyStats() {
       } catch (error) {
         console.error("Failed to fetch customers:", error);
       }
-    }
+    };
 
     fetchCustomers();
   }, [monthNumber]);
@@ -63,27 +63,14 @@ function MoneyStats() {
     findIncome();
   }, [month, income]);
 
-  const months = [
-    "Ocak",
-    "Şubat",
-    "Mart",
-    "Nisan",
-    "Mayıs",
-    "Haziran",
-    "Temmuz",
-    "Ağustos",
-    "Eylül",
-    "Ekim",
-    "Kasım",
-    "Aralık",
-  ];
-
   return (
     <div className="right">
       <div className="income-for-gym bg-white shadow-sm w-[100%] h-[300px] rounded-md">
         <div className="selects flex justify-between mx-4 pt-3 h-full">
           <div className="flex flex-col justify-between h-full">
-            <p className="text-left font-bold text-[26px] text-black">Gelirim</p>
+            <p className="text-left font-bold text-[26px] text-black">
+              Gelirim
+            </p>
             <div className="mb-10">
               <p className="text-left mb-2 flex justify-start h-[50%] font-bold text-[50px] ">
                 <span className="mr-1 text-black">
@@ -92,13 +79,13 @@ function MoneyStats() {
                 <span className="text-txt_primery">{selectedOptionMoney}</span>
               </p>
               <p className="flex justify-start gap-5 text-[18px] font-bold text-white ">
-                {month === "Total" ? (
-                  <p className="text-black text-[15px] opacity-65 mt-5">
+                {month === "Total" || month === "Tümü" ? (
+                  <span className="text-black text-[15px] opacity-65 mt-5">
                     Toplam gelir
-                  </p>
+                  </span>
                 ) : (
                   <span className="text-black text-[15px] opacity-65 mt-5">
-                    Geliri <span className="text-black">{month}</span>
+                    <span className="text-black">{month}</span> Geliri
                   </span>
                 )}
               </p>
@@ -138,14 +125,13 @@ function MoneyStats() {
               <span className="text-txt_primery">{selectedOptionMoney}</span>
             </p>
             <p className="p-2 m-2 text-center text-black text-[15px] font-bold">
-            Bu, oturum açan yöneticilerin maaşlarını hesaplar
-              bu sistem
+              Bu, oturum açan yöneticilerin maaşlarını hesaplar bu sistem
             </p>
           </div>
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default MoneyStats;

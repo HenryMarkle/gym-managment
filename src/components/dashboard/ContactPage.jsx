@@ -1,12 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import { CiFacebook } from "react-icons/ci";
-import { RiTwitterXFill } from "react-icons/ri";
-
 import { FaWhatsapp } from "react-icons/fa";
-
-import { CiInstagram } from "react-icons/ci";
-
 import { MdOutlineEmail } from "react-icons/md";
 import { getContacts, updateContacts } from "../../app/api/v1/dashboard";
 

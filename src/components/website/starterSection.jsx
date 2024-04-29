@@ -16,10 +16,10 @@ function starterS() {
   const [edited, setEdited] = useState(false);
   const [gymTitle, setGymTitle] = useState("");
   const [generalInfo, setGeneralInfo] = useState({
-    title: '',
-    sentence: '',
-    secondSentence: '',
-    plansDescription: ''
+    title: "",
+    sentence: "",
+    secondSentence: "",
+    plansDescription: "",
   });
 
   const [categoreies, setCategories] = useState([]);

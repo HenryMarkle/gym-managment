@@ -4,14 +4,10 @@ import { CiInstagram } from "react-icons/ci";
 import { CiFacebook } from "react-icons/ci";
 import { FaXTwitter } from "react-icons/fa6";
 import { CiSaveDown1 } from "react-icons/ci";
-
 import { MdOutlineCancel } from "react-icons/md";
 import { CiEdit } from "react-icons/ci";
 import { MdDeleteForever } from "react-icons/md";
-
-import "./managers.css";
-// import Swal from "sweetalert2";
-
+import Swal from "sweetalert2";
 import {
   createTrainer,
   replaceTrainerById,

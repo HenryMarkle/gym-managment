@@ -7,9 +7,6 @@ import {
   countExpiredCustomers,
 } from "../../app/api/v1/customer";
 import { countUsers } from "../../app/api/v1/user";
-import { HiUsers } from "react-icons/hi";
-import { CiSettings } from "react-icons/ci";
-import { HiOutlineBellAlert } from "react-icons/hi2";
 import { useRouter } from "next/navigation";
 import { Svg1, Svg2, Svg3, Svg4 } from "../../assets/Svgs";
 function Stats_top() {
@@ -40,8 +37,7 @@ function Stats_top() {
               <Svg1 />
             </p>
             <div>
-              <p className=" opacity-80">
-Mevcut kullanıcılar</p>
+              <p className=" opacity-80">Mevcut kullanıcılar</p>
               <span className="text-black font-extrabold text-[30px]">
                 <CountUp end={allCustomers} duration={3} />
               </span>

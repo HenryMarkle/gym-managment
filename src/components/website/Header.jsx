@@ -10,7 +10,7 @@ import Link from "next/link";
 import storage from "../../app/api/v1/firebase";
 import { ref, listAll, getDownloadURL } from "firebase/storage";
 import { CiBurger } from "react-icons/ci";
-
+import { windowsData as headerData } from "./data";
 function Header() {
   const [scrollPosition, setScrollPosition] = useState(0);
 
@@ -20,14 +20,6 @@ function Header() {
   const [allImages, setAllImages] = useState([]);
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const headerData = [
-    { id: 1, title: "Home", to: "/" },
-    { id: 3, title: "Plans", to: "/plans" },
-    { id: 4, title: "Market", to: "/market" },
-    { id: 5, title: "Exercises", to: "/exercises" },
-    { id: 6, title: "About", to: "/about" },
-    { id: 7, title: "Contact", to: "/contact" },
-  ];
   //   Start scrool Value
 
   const handleScroll = () => {

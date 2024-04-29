@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { SlBasket } from "react-icons/sl";
-
+import { windowsData as headerData } from "./data";
 import Link from "next/link";
 
 function Navbar() {
@@ -19,21 +19,9 @@ function Navbar() {
     };
   }, []);
 
-  useEffect(() => {
-    // console.log(scrollPosition);
-  }, [scrollPosition]);
-
   const headerStyle =
     scrollPosition < 735 ? { backgroundColor: "rgba(250,250,250,0.1)" } : {};
 
-  const headerData = [
-    { id: 1, title: "Home", to: "/" },
-    { id: 3, title: "Plans", to: "/plans" },
-    { id: 4, title: "Market", to: "/market" },
-    { id: 5, title: "Exercises", to: "/exercises" },
-    { id: 6, title: "About", to: "/about" },
-    { id: 7, title: "Contact", to: "/contact" },
-  ];
   return (
     <div className="flex flex-1 justify-between ">
       {headerData.map((ele) => {
