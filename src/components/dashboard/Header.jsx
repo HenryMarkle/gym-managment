@@ -1,30 +1,82 @@
+"use client";
 import { CiSettings } from "react-icons/ci";
 import { HiOutlineBellAlert } from "react-icons/hi2";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { getAllEvents } from "../../app/api/v1/events";
 
 function Header() {
   const router = useRouter();
+  const [notificationsOpen, setNotificationsOpen] = useState(false);
+
+  const [allEvents, setAllEvents] = useState([]);
+  const [fetchError, setFetchError] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const events = await getAllEvents();
+        setAllEvents(events);
+      } catch (error) {
+        if (error.response && error.response.status === 401) {
+          setFetchError("unauthorized");
+        } else {
+          setFetchError("error");
+        }
+      }
+    };
+    fetchData();
+  }, []);
   return (
     <div className="flex justify-between items-center pl-[22%] bg-[#eeeeee] pr-6 pt-6">
       <div>
-        <p className=" font-bold text-2xl">
-Hoş geldiniz</p>
+        <p className=" font-bold text-2xl">Hoş geldiniz</p>
         <p className=" opacity-60">Spor salonunuzu yönetin</p>
       </div>
       <div className="flex gap-3">
-        <p className="h-[30px] bg-white items-center flex w-[30px] justify-center rounded-md">
+        <p className="h-[30px] bg-white items-center flex w-[30px] justify-center rounded-md cursor-pointer">
           <CiSettings
             onClick={() => router.push("/panel/settings")}
             size={23}
           />
         </p>
-        <p className="h-[30px] relative bg-white items-center flex w-[30px] justify-center rounded-md">
-          <HiOutlineBellAlert
-            onClick={() => router.push("/panel/notifications")}
-            size={23}
-          />
-          <span className="absolute top-0 right-1 h-2 w-2 bg-red-500 rounded-full"></span>
-        </p>
+        <div className=" relativea">
+          <p
+            className={`h-[30px] relative duration-300 ${
+              notificationsOpen ? "bg-bg_primery" : "bg-white"
+            } items-center flex w-[30px] justify-center rounded-md`}
+          >
+            <HiOutlineBellAlert
+              color={notificationsOpen ? "white" : "black"}
+              onClick={() => setNotificationsOpen(!notificationsOpen)}
+              size={23}
+            />
+            <span className="absolute top-0 right-1 h-2 w-2 bg-red-500 rounded-full"></span>
+          </p>
+          <div
+            className={`absolute w-[350px] duration-500 overflow-y-scroll gap-3 ${
+              notificationsOpen ? "h-[450px] opacity-100" : "h-0 opacity-0"
+            } bg-white rounded-md p-3 right-5 top-[74px] shadow-md z-50`}
+          >
+            <div className=" flex flex-col gap-4">
+              {allEvents.map((ele) => {
+                return (
+                  <>
+                    <div className="flex flex-col gap-2 border-b-2 pb-4">
+                      <div className="flex justify-between">
+                        <p className="font-bold ">title og event</p>
+                        <p className="opacity-60">date of event</p>
+                      </div>
+                      <p className="opacity-60 text-sm mb-1">
+                        Description of event
+                      </p>
+                    </div>
+                  </>
+                );
+              })}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -96,9 +96,11 @@ function Page() {
           {/* Left Column */}
           <div className="left w-1/2 z-30 flex flex-col gap-3">
             <div className="start-date flex-col flex">
-              <label className="font-bold text-md mb-[5px]">Başlangıç ​​tarihi</label>
+              <label className="font-bold text-md mb-[5px]">
+                Başlangıç ​​tarihi
+              </label>
               <input
-                className="py-2 px-3 border-2 border-red rounded-[9px]"
+                className="py-2 px-3 border-2 border-red rounded-[9px] outline-[#5540fb] "
                 onChange={handleChange}
                 name="startDate"
                 type="date"
@@ -108,7 +110,7 @@ function Page() {
             <div className="name flex-col flex">
               <label className="font-bold text-md mb-[5px]">İsim</label>
               <input
-                className="py-2 px-3 border-2 border-red rounded-[9px]"
+                className="py-2 px-3 border-2 border-red rounded-[9px] outline-[#5540fb] "
                 onChange={handleChange}
                 name="name"
                 type="text"
@@ -118,7 +120,7 @@ function Page() {
             <div className="surname flex-col flex">
               <label className="font-bold text-md mb-[5px]">Soyadı</label>
               <input
-                className="py-2 px-3 border-2 border-red rounded-[9px]"
+                className="py-2 px-3 border-2 border-red rounded-[9px] outline-[#5540fb] "
                 onChange={handleChange}
                 name="surname"
                 type="text"
@@ -128,7 +130,7 @@ function Page() {
             <div className="age flex-col flex">
               <label className="font-bold text-md mb-[5px]">Yaş</label>
               <input
-                className="py-2 px-3 border-2 border-red rounded-[9px]"
+                className="py-2 px-3 border-2 border-red rounded-[9px] outline-[#5540fb] "
                 onChange={handleChange}
                 name="age"
                 type="number"
@@ -141,7 +143,7 @@ function Page() {
             <div className="end-date flex-col flex">
               <label className="font-bold text-md mb-[5px]">Bitiş tarihi</label>
               <input
-                className="py-2 px-3 border-2 border-red rounded-[9px]"
+                className="py-2 px-3 border-2 border-red rounded-[9px] outline-[#5540fb] "
                 onChange={handleChange}
                 name="endDate"
                 type="date"
@@ -151,7 +153,7 @@ function Page() {
             <div className="gender flex-col flex">
               <label className="font-bold text-md mb-[5px]">Cinsiyet</label>
               <select
-                className="outline-none py-2 px-3 border-2 border-red rounded-[9px]"
+                className="outline-none py-2 px-3 border-2 border-red rounded-[9px] "
                 onChange={handleChange}
                 name="gender"
               >
@@ -163,7 +165,7 @@ function Page() {
             <div className="price flex-col flex">
               <label className="font-bold text-md mb-[5px]">Kova Fiyatı</label>
               <input
-                className="py-2 px-3 border-2 border-red rounded-[9px]"
+                className="py-2 px-3 border-2 border-red rounded-[9px] outline-[#5540fb] duration-300"
                 onChange={handleChange}
                 name="bucketPrice"
                 type="number"
@@ -173,7 +175,7 @@ function Page() {
             <div className="paid flex-col flex">
               <label className="font-bold text-md mb-[5px]">Ödeme</label>
               <input
-                className="py-2 px-3 border-2 border-red rounded-[9px]"
+                className="py-2 px-3 border-2 border-red rounded-[9px] outline-[#5540fb] "
                 onChange={handleChange}
                 name="payment"
                 type="number"
@@ -183,7 +185,7 @@ function Page() {
             <div className="money-left flex-col flex">
               <label className="font-bold text-md mb-[5px]">Kalan para</label>
               <input
-                className="py-2 px-3 border-2 border-red rounded-[9px]"
+                className="py-2 px-3 border-2 border-red rounded-[9px] outline-[#5540fb] "
                 type="text"
                 value={formData.bucketPrice - formData.payment}
                 disabled

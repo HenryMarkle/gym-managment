@@ -7,6 +7,7 @@ import { CiEdit } from "react-icons/ci";
 import React, { use, useEffect, useState } from "react";
 import "./style.css";
 import Swal from "sweetalert2";
+import { Mosaic } from "react-loading-indicators";
 function page() {
   const params = useParams();
   const [user, setUser] = useState({});
@@ -73,7 +74,14 @@ function page() {
   return (
     <>
       {loading ? (
-        <div className="ml-[30%]">Loading...</div>
+        <div className="pl-[20%] min-h-[100vh] bg-bg_custom flex  justify-center pt-20">
+          <Mosaic
+            color="rgb(251 107 47/ var(--tw-bg-opacity))"
+            size="medium"
+            text=""
+            textColor=""
+          />
+        </div>
       ) : fetchError ? (
         <div>Not Found</div>
       ) : (
@@ -86,16 +94,27 @@ function page() {
                   {user.name + " " + user.surname}
                 </span>
               </p>
-              <div className="mr-5">
+              <div className="mr-5 flex">
                 <button
                   onClick={() => showAlert(user.id)}
                   className="mr-4 bg-white text-txt_secondery shadow-sm px-4 py-2 rounded-[5px] border-[1px] border-border_secondery border-solid"
                 >
                   Delete User
                 </button>
-                <button className="bg-bg_secondery shadow-sm text-white px-4 py-2 rounded-[5px]">
-                  Submit edits
-                </button>
+                <div>
+                  {isEditing ? (
+                    <button className="bg-bg_secondery shadow-sm text-white px-4 py-2 rounded-[5px]">
+                      Submit edits
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => setIsEditing(true)}
+                      className="bg-bg_secondery shadow-sm text-white px-4 py-2 rounded-[5px]"
+                    >
+                      Edit Informations
+                    </button>
+                  )}
+                </div>
               </div>
             </div>
             <div className="flex items-baseline gap-4">
@@ -105,7 +124,9 @@ function page() {
                     name{" "}
                   </span>
                   <input
-                    className=" duration-300 border-2 border-[#B4B4B041] bg-[#f0f0f050] rounded-[6px] p-1 mt-[2px]"
+                    className={`duration-700 border-2 border-[#B4B4B041] ${
+                      isEditing ? "bg-white py-[8px]" : "bg-[#f0f0f050]"
+                    } rounded-[6px] p-1 mt-[2px] outline-[#5540fb]`}
                     type="text"
                     disabled={isEditing ? false : true}
                     defaultValue={user.name}
@@ -118,7 +139,9 @@ function page() {
                     surname{" "}
                   </span>
                   <input
-                    className=" duration-300 border-2 border-[#B4B4B041] bg-[#f0f0f050] rounded-[6px] p-1 mt-[2px]"
+                    className={`duration-700 border-2 border-[#B4B4B041] ${
+                      isEditing ? "bg-white py-[8px]" : "bg-[#f0f0f050]"
+                    } rounded-[6px] p-1 mt-[2px] outline-[#5540fb]`}
                     type="text"
                     defaultValue={user.surname}
                     disabled={isEditing ? false : true}
@@ -129,7 +152,9 @@ function page() {
                     age{" "}
                   </span>
                   <input
-                    className=" duration-300 border-2 border-[#B4B4B041] bg-[#f0f0f050] rounded-[6px] p-1 mt-[2px]"
+                    className={`duration-700 border-2 border-[#B4B4B041] ${
+                      isEditing ? "bg-white py-[8px]" : "bg-[#f0f0f050]"
+                    } rounded-[6px] p-1 mt-[2px] outline-[#5540fb]`}
                     type="text"
                     defaultValue={user.age}
                     disabled={isEditing ? false : true}
@@ -140,7 +165,9 @@ function page() {
                     price{" "}
                   </span>
                   <input
-                    className=" duration-300 border-2 border-[#B4B4B041] bg-[#f0f0f050] rounded-[6px] p-1 mt-[2px]"
+                    className={`duration-700 border-2 border-[#B4B4B041] ${
+                      isEditing ? "bg-white py-[8px]" : "bg-[#f0f0f050]"
+                    } rounded-[6px] p-1 mt-[2px] outline-[#5540fb]`}
                     type="text"
                     defaultValue={user.bucketPrice}
                     disabled={isEditing ? false : true}
@@ -151,7 +178,9 @@ function page() {
                     paid{" "}
                   </span>
                   <input
-                    className=" duration-300 border-2 border-[#B4B4B041] bg-[#f0f0f050] rounded-[6px] p-1 mt-[2px]"
+                    className={`duration-700 border-2 border-[#B4B4B041] ${
+                      isEditing ? "bg-white py-[8px]" : "bg-[#f0f0f050]"
+                    } rounded-[6px] p-1 mt-[2px] outline-[#5540fb]`}
                     type="text"
                     defaultValue={user.paymentAmount}
                     disabled={isEditing ? false : true}
@@ -164,7 +193,9 @@ function page() {
                     started at{" "}
                   </span>
                   <input
-                    className=" duration-300 border-2 border-[#B4B4B041] bg-[#f0f0f050] rounded-[6px] p-1 mt-[2px]"
+                    className={`duration-700 border-2 border-[#B4B4B041] ${
+                      isEditing ? "bg-white py-[8px]" : "bg-[#f0f0f050]"
+                    } rounded-[6px] p-1 mt-[2px] outline-[#5540fb]`}
                     hidden={!user?.startedAt}
                     type={"text"}
                     disabled={isEditing ? false : true}
@@ -176,7 +207,9 @@ function page() {
                     end at{" "}
                   </span>
                   <input
-                    className=" duration-300 border-2 border-[#B4B4B041] bg-[#f0f0f050] rounded-[6px] p-1 mt-[2px]"
+                    className={`duration-700 border-2 border-[#B4B4B041] ${
+                      isEditing ? "bg-white py-[8px]" : "bg-[#f0f0f050]"
+                    } rounded-[6px] p-1 mt-[2px] outline-[#5540fb]`}
                     type={"text"}
                     hidden={!user?.endsAt}
                     defaultValue={endsAt}
@@ -188,7 +221,9 @@ function page() {
                     Days left{" "}
                   </span>
                   <input
-                    className=" duration-300 border-2 border-[#B4B4B041] bg-[#f0f0f050] rounded-[6px] p-1 mt-[2px]"
+                    className={`duration-700 border-2 border-[#B4B4B041] ${
+                      isEditing ? "bg-white py-[8px]" : "bg-[#f0f0f050]"
+                    } rounded-[6px] p-1 mt-[2px] outline-[#5540fb]`}
                     type="text"
                     value={daysLeft !== null ? daysLeft : ""}
                     disabled={isEditing ? false : true}
@@ -199,7 +234,9 @@ function page() {
                     gender{" "}
                   </span>
                   <input
-                    className=" duration-300 border-2 border-[#B4B4B041] bg-[#f0f0f050] rounded-[6px] p-1 mt-[2px]"
+                    className={`duration-700 border-2 border-[#B4B4B041] ${
+                      isEditing ? "bg-white py-[8px]" : "bg-[#f0f0f050]"
+                    } rounded-[6px] p-1 mt-[2px] outline-[#5540fb]`}
                     type="text"
                     disabled={isEditing ? false : true}
                     defaultValue={user.gender}

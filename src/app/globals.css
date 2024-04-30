@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 input {
-  outline: none;
+  /* outline: none; */
   background-color: inherit;
 }
 
@@ -38,18 +38,14 @@ body {
 ::-webkit-scrollbar-thumb {
   background: linear-gradient(
     0deg,
-    rgb(38, 157, 190) 6%,
-    rgb(226, 238, 171) 100%
+    rgba(38, 48, 190, 0.76) 6%,
+    rgba(92, 4, 255, 0.555) 50%
   );
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(
-    0deg,
-    rgb(38, 157, 190) 80%,
-    rgb(226, 238, 171) 100%
-  );
+  background: linear-gradient(0deg, rgb(53, 38, 190) 60%, rgb(38, 48, 190) 50%);
 }
 
 .remove::before {

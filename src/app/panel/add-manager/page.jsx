@@ -75,7 +75,7 @@ function AddUserPage() {
             <div className="name flex-col flex">
               <label className="font-bold text-md mb-[5px]">İsim</label>
               <input
-                className="py-2 px-3 border-2 border-red rounded-[9px]"
+                className="py-2 px-3 border-2 border-red rounded-[9px] outline-[#5540fb]"
                 onChange={(e) => setName(e.target.value)}
                 name="name"
                 type="text"
@@ -85,7 +85,7 @@ function AddUserPage() {
             <div className="surname flex-col flex">
               <label className="font-bold text-md mb-[5px]">Soyadı</label>
               <input
-                className="py-2 px-3 border-2 border-red rounded-[9px]"
+                className="py-2 px-3 border-2 border-red rounded-[9px] outline-[#5540fb]"
                 onChange={(e) => setSurname(e.target.value)}
                 name="surname"
                 type="text"
@@ -93,9 +93,11 @@ function AddUserPage() {
               />
             </div>
             <div className="start-date flex-col flex">
-              <label className="font-bold text-md mb-[5px]">Başlangıç ​​tarihi</label>
+              <label className="font-bold text-md mb-[5px]">
+                Başlangıç ​​tarihi
+              </label>
               <input
-                className="py-2 px-3 border-2 border-red rounded-[9px]"
+                className="py-2 px-3 border-2 border-red rounded-[9px] outline-[#5540fb]"
                 onChange={(e) => setName(e.target.value)}
                 name="startDate"
                 type="date"
@@ -106,7 +108,7 @@ function AddUserPage() {
             <div className="age flex-col flex">
               <label className="font-bold text-md mb-[5px]">Yaş</label>
               <input
-                className="py-2 px-3 border-2 border-red rounded-[9px]"
+                className="py-2 px-3 border-2 border-red rounded-[9px] outline-[#5540fb]"
                 onChange={(e) => setAge(e.target.value)}
                 name="age"
                 type="number"
@@ -119,7 +121,7 @@ function AddUserPage() {
             <div className="end-date flex-col flex">
               <label className="font-bold text-md mb-[5px]">Email</label>
               <input
-                className="py-2 px-3 border-2 border-red rounded-[9px]"
+                className="py-2 px-3 border-2 border-red rounded-[9px] outline-[#5540fb]"
                 onChange={(e) => setEmail(e.target.value)}
                 name="endDate"
                 type="text"
@@ -129,7 +131,7 @@ function AddUserPage() {
             <div className="price flex-col flex">
               <label className="font-bold text-md mb-[5px]">Şifre</label>
               <input
-                className="py-2 px-3 border-2 border-red rounded-[9px]"
+                className="py-2 px-3 border-2 border-red rounded-[9px] outline-[#5540fb]"
                 onChange={(e) => setPassword(e.target.value)}
                 name="bucketPrice"
                 type="number"
@@ -139,7 +141,7 @@ function AddUserPage() {
             <div className="price flex-col flex">
               <label className="font-bold text-md mb-[5px]">Maaş</label>
               <input
-                className="py-2 px-3 border-2 border-red rounded-[9px]"
+                className="py-2 px-3 border-2 border-red rounded-[9px] outline-[#5540fb]"
                 onChange={(e) => setSalary(e.target.value)}
                 name="bucketPrice"
                 type="number"
@@ -149,7 +151,7 @@ function AddUserPage() {
             <div className="gender flex-col flex">
               <label className="font-bold text-md mb-[5px]">Cinsiyet</label>
               <select
-                className="outline-none py-2 px-3 border-2 border-red rounded-[9px]"
+                className="outline-none py-2 px-3 border-2 border-red rounded-[9px] "
                 onChange={(e) => setGender(e.target.value)}
                 name="gender"
               >
