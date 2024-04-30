@@ -1,27 +1,14 @@
 import React, { useState, useEffect } from "react";
 import Chart from "react-apexcharts";
-
-const App = ({ data }) => {
+import { months } from "./data";
+const App = ({ data, title }) => {
   const [options, setOptions] = useState({
     chart: {
       id: "apexchart-example",
     },
-    colors: ["#008FFB"],
+    colors: ["#3600FB"],
     xaxis: {
-      categories: [
-        "Ocak",
-        "Subat",
-        "Mart",
-        "Nisan",
-        "Mayis",
-        "Haziran",
-        "Temmuz",
-        "Agostus",
-        "Eylul",
-        "Ekim",
-        "Kasim",
-        "Aralik",
-      ],
+      categories: months,
     },
   });
 
@@ -37,13 +24,16 @@ const App = ({ data }) => {
   }, [data]);
 
   return (
-    <Chart
-      options={options}
-      series={series}
-      type="bar"
-      width={750}
-      height={271}
-    />
+    <>
+      <p className="text-txt_primery font-bold">{title}</p>
+      <Chart
+        options={options}
+        series={series}
+        type="line"
+        width={750}
+        height={246}
+      />
+    </>
   );
 };
 

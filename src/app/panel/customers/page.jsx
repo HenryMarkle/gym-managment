@@ -33,7 +33,7 @@ function page() {
           case "days":
             setAllCustomers(
               result
-                .filter(
+                ?.filter(
                   (ele) =>
                     Math.ceil(
                       (new Date(ele.endsAt) - new Date()) /
@@ -137,12 +137,12 @@ function page() {
       const activeFilter = filterObject.find((filter) => filter.active);
       if (activeFilter) {
         switch (activeFilter.title) {
-          case "Start date":
+          case "Başlangıç ​​tarihi":
             sortedResult.sort(
               (a, b) => new Date(b.startedAt) - new Date(a.startedAt)
             );
             break;
-          case "Ended Customers":
+          case "Biten Müşteriler":
             const todayDateString = new Date().toDateString();
             sortedResult = sortedResult.filter(
               (ele) =>
@@ -152,15 +152,15 @@ function page() {
                 ) < 0
             );
             break;
-          case "End date":
+          case "Bitiş tarihi":
             sortedResult.sort(
               (a, b) => new Date(a.endsAt) - new Date(b.endsAt)
             );
             break;
-          case "Price":
+          case "Fiyat":
             sortedResult.sort((a, b) => b.bucketPrice - a.bucketPrice);
             break;
-          case "Days left":
+          case "Kalan günler":
             sortedResult.sort(
               (a, b) =>
                 Math.ceil(
@@ -220,7 +220,7 @@ function page() {
   return (
     <>
       <div className="bg-bg_custom min-h-[100vh] pb-10">
-        <div className="search ml-[21%]   flex justify-between items-center flex-row-reverse gap-10 mx-8 pt-8">
+        <div className="search ml-[21%]  flex justify-between items-center flex-row-reverse gap-10 mx-8 pt-8">
           <div className="flex px-1 rounded-xl bg-white items-center self-baseline w-[400px]">
             <CiSearch size={30} color="gray" className="mr-2 h-[50px]" />
             <input
@@ -232,16 +232,20 @@ function page() {
             />
           </div>
           <div
-            className={`bg-white overflow-hidden rounded-md px-2 duration-300 py-2 w-[220px] ${
+            className={`bg-white relative overflow-hidden rounded-md px-2 duration-300 py-2 w-[220px] ${
               selectIsOpen ? "h-[230px]" : "h-[50px]"
             }`}
           >
+            <div
+              onClick={handleSelectClick}
+              className="h-[50px] w-full absolute z-50 top-0 "
+            ></div>
             <div className="flex justify-around items-center mb-4 mt-[5px] z-50">
               <span>
                 <MdOutlineFilterList size={23} color="gray" />
               </span>
               <p className="text-gray-500">{sortingSentence}</p>
-              <span onClick={handleSelectClick}>
+              <span>
                 <MdOutlineKeyboardArrowDown size={23} color="gray" />
               </span>
             </div>
@@ -310,7 +314,7 @@ function page() {
                   switch (sortingSentence) {
                     case "Name":
                       return a.name.localeCompare(b.name);
-                    case "Price":
+                    case "Fiyat":
                       return b.bucketPrice - a.bucketPrice;
                     // Add more cases for other sorting options if needed
                     default:
@@ -321,7 +325,7 @@ function page() {
                   return (
                     <>
                       <Link href={`customer/${e.id}`}>
-                        <div className="w-full flex justify-between border-b-2 px-4 py-5">
+                        <div className="w-full flex justify-between items-center border-b-2 px-4 py-5">
                           <p className="w-[14.2%]">
                             <div
                               onMouseOut={() => setOpenToolTip(null)}

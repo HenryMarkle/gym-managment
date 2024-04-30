@@ -39,17 +39,17 @@ function page() {
   return (
     <>
       {path.includes("panel") && (
-        <div className="overflow-hidden bg-[#eee]">
+        <div className="overflow-hidden bg-[#eee] min-h-[100vh] pb-10">
           <div className="home-content flex w-[77%] flex-col pt-6 ml-[330px] ">
             <Stats_top />
 
             <div className="info-stats flex mt-[50px] gap-[10px]  h-auto w-full ">
               <div className="left-main w-[70%] flex flex-col gap-2 rounded-md">
                 <div className="left-1  bg-white p-2 rounded-md">
-                  <Chart data={created} />
+                  <Chart title={"Added customers"} data={created} />
                 </div>
-                <div className="left-2 w-full  bg-white p-2 rounded-md">
-                  <Chart data={left} />
+                <div className="left-2 w-full mt-2  bg-white p-2 rounded-md">
+                  <Chart title={"Left customers"} data={left} />
                 </div>
               </div>
               <MoneyStats />

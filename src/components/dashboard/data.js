@@ -90,7 +90,7 @@ export const headerData = [
   },
 ];
 
-// 👇 This data is for the rightSideStats (for filtering the income) .
+// 👇 This data is for the rightSideStats (for filtering the income) + for the chart .
 
 export const months = [
   "Ocak",

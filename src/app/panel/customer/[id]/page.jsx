@@ -68,170 +68,146 @@ function page() {
   };
 
   const [isEditing, setIsEditing] = useState(false);
-  const editing = "bg-black-200 shadow-md duration-300 p-2 w-[67%] mt-[2px]";
+  const editing = "bg-black-200 shadow-md duration-300 p-2   mt-[2px]";
 
   return (
     <>
       {loading ? (
-        <div>Loading...</div>
+        <div className="ml-[30%]">Loading...</div>
       ) : fetchError ? (
         <div>Not Found</div>
       ) : (
-        <div className="ml-[30%] w-[60%] shadow-xl h-[94vh] mx-auto my-10 rounded-[31px] p-3">
-          <div className="header w-full flex justify-between px-4">
-            <p className="  font-bold text-[22px] ">
-              Information of {user.name}
-            </p>
-            <div className=" flex gap-3">
-              <span>
-                <CiEdit
-                  onClick={() => setIsEditing(!isEditing)}
-                  color="green"
-                  size={26}
-                />
-              </span>
-              <span>
-                <CiCircleRemove
-                  color="red"
-                  size={26}
+        <div className="ml-[13%] pl-24  shadow-md  min-h-[94vh] bg-bg_custom p-3">
+          <div className="customer-informations ml-8 p-6 w-[95%] bg-white rounded-md mt-12 ">
+            <div className="mb-4 flex justify-between">
+              <p className="font-bold text-[23px]">
+                Details of{" "}
+                <span className="font-bold text-[23px] text-txt_primery">
+                  {user.name + " " + user.surname}
+                </span>
+              </p>
+              <div className="mr-5">
+                <button
                   onClick={() => showAlert(user.id)}
-                />
-              </span>
-            </div>
-          </div>
-          <div className="customer-informations flex flex-row p-2 w-full  items-center mt-12 ">
-            <div className="left w-[50%] flex flex-col gap-8 justify-center">
-              <div className="name w-[95%] flex flex-col">
-                <span className=" opacity-80  text-[15px]">name </span>
-                <input
-                  className={
-                    isEditing
-                      ? `${editing} border-2 border-[#ffcb00] rounded-[31px] p-1`
-                      : " duration-300 border-2 border-[#a4a296] rounded-[31px] p-1 w-[67%] mt-[2px]"
-                  }
-                  type="text"
-                  disabled={isEditing ? false : true}
-                  defaultValue={user.name}
-                  name=""
-                  id=""
-                />
-              </div>
-              <div className="name w-[95%] flex flex-col">
-                <span className=" opacity-80  text-[15px]">surname </span>
-                <input
-                  className={
-                    isEditing
-                      ? `${editing} border-2 border-[#ffcb00] rounded-[31px] p-1`
-                      : " duration-300 border-2 border-[#a4a296] rounded-[31px] p-1 w-[67%] mt-[2px]"
-                  }
-                  type="text"
-                  defaultValue={user.surname}
-                  disabled={isEditing ? false : true}
-                />
-              </div>
-              <div className="name w-[95%] flex flex-col">
-                <span className=" opacity-80  text-[15px]">age </span>
-                <input
-                  className={
-                    isEditing
-                      ? `${editing} border-2 border-[#ffcb00] rounded-[31px] p-1`
-                      : " duration-300 border-2 border-[#a4a296] rounded-[31px] p-1 w-[67%] mt-[2px]"
-                  }
-                  type="text"
-                  defaultValue={user.age}
-                  disabled={isEditing ? false : true}
-                />
-              </div>
-              <div className="name w-[95%] flex flex-col">
-                <span className=" opacity-80  text-[15px]">price </span>
-                <input
-                  className={
-                    isEditing
-                      ? `${editing} border-2 border-[#ffcb00] rounded-[31px] p-1`
-                      : " duration-300 border-2 border-[#a4a296] rounded-[31px] p-1 w-[67%] mt-[2px]"
-                  }
-                  type="text"
-                  defaultValue={user.bucketPrice}
-                  disabled={isEditing ? false : true}
-                />
-              </div>
-              <div className="name w-[95%] flex flex-col">
-                <span className=" opacity-80  text-[15px]">paid </span>
-                <input
-                  className={
-                    isEditing
-                      ? `${editing} border-2 border-[#ffcb00] rounded-[31px] p-1`
-                      : " duration-300 border-2 border-[#a4a296] rounded-[31px] p-1 w-[67%] mt-[2px]"
-                  }
-                  type="text"
-                  defaultValue={user.paymentAmount}
-                  disabled={isEditing ? false : true}
-                />
+                  className="mr-4 bg-white text-txt_secondery shadow-sm px-4 py-2 rounded-[5px] border-[1px] border-border_secondery border-solid"
+                >
+                  Delete User
+                </button>
+                <button className="bg-bg_secondery shadow-sm text-white px-4 py-2 rounded-[5px]">
+                  Submit edits
+                </button>
               </div>
             </div>
-            <div className="right w-[50%] mb-[5px] flex flex-col gap-8 justify-center">
-              <div className="name w-[95%] flex flex-col">
-                <span className=" opacity-80  text-[15px]">started at </span>
-                <input
-                  className={
-                    isEditing
-                      ? `${editing} border-2 border-[#ffcb00] rounded-[31px] p-1`
-                      : " duration-300 border-2 border-[#a4a296] rounded-[31px] p-1 w-[67%] mt-[2px]"
-                  }
-                  hidden={!user?.startedAt}
-                  type={"text"}
-                  disabled={isEditing ? false : true}
-                  defaultValue={startedAt}
-                />
+            <div className="flex items-baseline gap-4">
+              <div className="left w-[50%] flex flex-col gap-3 justify-center">
+                <div className="name  flex flex-col">
+                  <span className=" text-black text-[15px] font-semibold">
+                    name{" "}
+                  </span>
+                  <input
+                    className=" duration-300 border-2 border-[#B4B4B041] bg-[#f0f0f050] rounded-[6px] p-1 mt-[2px]"
+                    type="text"
+                    disabled={isEditing ? false : true}
+                    defaultValue={user.name}
+                    name=""
+                    id=""
+                  />
+                </div>
+                <div className="name  flex flex-col">
+                  <span className="text-black text-[15px] font-semibold">
+                    surname{" "}
+                  </span>
+                  <input
+                    className=" duration-300 border-2 border-[#B4B4B041] bg-[#f0f0f050] rounded-[6px] p-1 mt-[2px]"
+                    type="text"
+                    defaultValue={user.surname}
+                    disabled={isEditing ? false : true}
+                  />
+                </div>
+                <div className="name  flex flex-col">
+                  <span className=" text-black text-[15px] font-semibold">
+                    age{" "}
+                  </span>
+                  <input
+                    className=" duration-300 border-2 border-[#B4B4B041] bg-[#f0f0f050] rounded-[6px] p-1 mt-[2px]"
+                    type="text"
+                    defaultValue={user.age}
+                    disabled={isEditing ? false : true}
+                  />
+                </div>
+                <div className="name  flex flex-col">
+                  <span className=" text-black text-[15px] font-semibold">
+                    price{" "}
+                  </span>
+                  <input
+                    className=" duration-300 border-2 border-[#B4B4B041] bg-[#f0f0f050] rounded-[6px] p-1 mt-[2px]"
+                    type="text"
+                    defaultValue={user.bucketPrice}
+                    disabled={isEditing ? false : true}
+                  />
+                </div>
+                <div className="name  flex flex-col">
+                  <span className=" text-black text-[15px] font-semibold">
+                    paid{" "}
+                  </span>
+                  <input
+                    className=" duration-300 border-2 border-[#B4B4B041] bg-[#f0f0f050] rounded-[6px] p-1 mt-[2px]"
+                    type="text"
+                    defaultValue={user.paymentAmount}
+                    disabled={isEditing ? false : true}
+                  />
+                </div>
               </div>
-              <div className="name w-[95%] flex flex-col">
-                <span className=" opacity-80  text-[15px]">end at </span>
-                <input
-                  className={
-                    isEditing
-                      ? `${editing} border-2 border-[#ffcb00] rounded-[31px] p-1`
-                      : " duration-300 border-2 border-[#a4a296] rounded-[31px] p-1 w-[67%] mt-[2px]"
-                  }
-                  type={"text"}
-                  hidden={!user?.endsAt}
-                  defaultValue={endsAt}
-                  disabled={isEditing ? false : true}
-                />
+              <div className="right w-[50%]  flex flex-col  gap-3 justify-center">
+                <div className="name  flex flex-col">
+                  <span className=" text-black text-[15px] font-semibold">
+                    started at{" "}
+                  </span>
+                  <input
+                    className=" duration-300 border-2 border-[#B4B4B041] bg-[#f0f0f050] rounded-[6px] p-1 mt-[2px]"
+                    hidden={!user?.startedAt}
+                    type={"text"}
+                    disabled={isEditing ? false : true}
+                    defaultValue={startedAt}
+                  />
+                </div>
+                <div className="name  flex flex-col">
+                  <span className=" text-black text-[15px] font-semibold">
+                    end at{" "}
+                  </span>
+                  <input
+                    className=" duration-300 border-2 border-[#B4B4B041] bg-[#f0f0f050] rounded-[6px] p-1 mt-[2px]"
+                    type={"text"}
+                    hidden={!user?.endsAt}
+                    defaultValue={endsAt}
+                    disabled={isEditing ? false : true}
+                  />
+                </div>
+                <div className="name  flex flex-col">
+                  <span className=" text-black text-[15px] font-semibold">
+                    Days left{" "}
+                  </span>
+                  <input
+                    className=" duration-300 border-2 border-[#B4B4B041] bg-[#f0f0f050] rounded-[6px] p-1 mt-[2px]"
+                    type="text"
+                    value={daysLeft !== null ? daysLeft : ""}
+                    disabled={isEditing ? false : true}
+                  />
+                </div>
+                <div className="name  flex flex-col">
+                  <span className=" text-black text-[15px] font-semibold">
+                    gender{" "}
+                  </span>
+                  <input
+                    className=" duration-300 border-2 border-[#B4B4B041] bg-[#f0f0f050] rounded-[6px] p-1 mt-[2px]"
+                    type="text"
+                    disabled={isEditing ? false : true}
+                    defaultValue={user.gender}
+                    name=""
+                    id=""
+                  />
+                </div>
               </div>
-              <div className="name w-[95%] flex flex-col">
-                <span className=" opacity-80  text-[15px]">Days left </span>
-                <input
-                  className={
-                    isEditing
-                      ? `${editing} border-2 border-[#ffcb00] rounded-[31px] p-1`
-                      : "duration-300 border-2 border-[#a4a296] rounded-[31px] p-1 w-[67%] mt-[2px]"
-                  }
-                  type="text"
-                  value={daysLeft !== null ? daysLeft : ""}
-                  disabled={isEditing ? false : true}
-                />
-              </div>
-              <div className="name w-[95%] flex flex-col">
-                <span className=" opacity-80 text-[15px]">gender </span>
-                <input
-                  className={
-                    isEditing
-                      ? `${editing} border-2 border-[#ffcb00] rounded-[31px] p-1`
-                      : " duration-300 border-2 border-[#a4a296] rounded-[31px] p-1 w-[67%] mt-[2px]"
-                  }
-                  type="text"
-                  disabled={isEditing ? false : true}
-                  defaultValue={user.gender}
-                  name=""
-                  id=""
-                />
-              </div>
-              <button
-                disabled={!isEditing}
-                className="submit-btn bg-customRed w-[67%] text-center mt-5 p-3 font-bold rounded-[31px] text-white shadow-md"
-              >
-                Update
-              </button>
             </div>
           </div>
         </div>
