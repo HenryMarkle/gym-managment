@@ -133,7 +133,7 @@ export async function addCustomer(
       },
     });
 
-    await client.event.create({ data: { event: "create", target: "customer", actorId: manager.id } });
+    await client.event.create({ data: { event: "create", subscriberId: res.id, target: "customer", actorId: manager.id } });
 
     return res.id;
   } catch (e) {
@@ -237,7 +237,7 @@ export async function deleteCustomerById(id: number, permanent: boolean = false)
       else 
         await client.subscriber.update({ where: { id }, data: { deletedAt: new Date() } });
 
-      await client.event.create({ data: { event: "delete", target: "customer", actorId: manager.id  } });
+      await client.event.create({ data: { event: "delete", subscriberId: id, target: "customer", actorId: manager.id  } });
     } catch (e) {
         console.log(e);
     } finally {
@@ -258,7 +258,7 @@ export async function markCustomerAsDeleted(id: number): Promise<undefined | 'un
     if (!manager) return 'unauthorized'; 
     
     await client.subscriber.update({ where: { id }, data: { deletedAt: new Date() } });
-    await client.event.create({ data: { event: "delete", target: "customer", actorId: manager.id  } });
+    await client.event.create({ data: { event: "delete", subscriberId: id, target: "customer", actorId: manager.id  } });
 
   } catch (e) {
     console.log(`Could not mark customer as deleted: $${e}`);
@@ -283,7 +283,7 @@ export async function updateCustomer(data: Customer): Promise<Boolean | 'unautho
       if (!manager) return 'unauthorized';
 
         await client.subscriber.update({ where: { id: data.id }, data });
-        await client.event.create({ data: { event: "update", target: "customer", actorId: manager.id } });
+        await client.event.create({ data: { event: "update", target: "customer", subscriberId: data.id, actorId: manager.id } });
         return true;
     } catch (e) {
         console.log(e);

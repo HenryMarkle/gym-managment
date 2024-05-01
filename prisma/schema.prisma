@@ -87,6 +87,9 @@ model Event {
   actor User @relation(fields: [actorId], references: [id])
   seens SeenEvent[]
   actorId Int
+
+  subscriberId Int?
+
   date DateTime @default(now())
 }
 
