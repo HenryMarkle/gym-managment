@@ -247,7 +247,11 @@ function page() {
                   <MdOutlineFilterList size={23} color="gray" />
                 </span>
                 <p className="text-gray-500">{sortingSentence}</p>
-                <span>
+                <span
+                  className={` duration-700  ${
+                    selectIsOpen ? "rotate-180" : "rotate-0"
+                  }`}
+                >
                   <MdOutlineKeyboardArrowDown size={23} color="gray" />
                 </span>
               </div>
