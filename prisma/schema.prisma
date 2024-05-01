@@ -28,7 +28,7 @@ model User {
   gymName String @default("Gym")
 
   comments SubscriberComment[]
-
+  eventsSeen SeenEvent[]
   messageRead MessageRead[]
   logs Event[]
 
@@ -85,8 +85,19 @@ model Event {
   event String
   target String
   actor User @relation(fields: [actorId], references: [id])
+  seens SeenEvent[]
   actorId Int
   date DateTime @default(now())
+}
+
+model SeenEvent {
+  id Int @id @default(autoincrement())
+
+  eventId Int
+  userId Int
+
+  event Event @relation(fields: [eventId], references: [id])
+  user User @relation(fields: [userId], references: [id])
 }
 
 model PlanFeature {

@@ -252,8 +252,14 @@ export async function markCustomerAsDeleted(id: number): Promise<undefined | 'un
     const sc = cookies().get('session');
 
     if (!sc) return 'unauthorized';
+
+    const manager = await client.user.findUnique({ where: { session: sc.value } });
+
+    if (!manager) return 'unauthorized'; 
     
     await client.subscriber.update({ where: { id }, data: { deletedAt: new Date() } });
+    await client.event.create({ data: { event: "delete", target: "customer", actorId: manager.id  } });
+
   } catch (e) {
     console.log(`Could not mark customer as deleted: $${e}`);
     return 'error'
