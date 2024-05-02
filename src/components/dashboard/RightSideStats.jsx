@@ -116,7 +116,7 @@ const MoneyStats = () => {
       </div>
       <div className="Salaries-of-managers bg-white shadow-sm h-[300px] w-[100%] rounded-md mt-4">
         <div className="selects flex flex-col mx-4 pt-3 justify-between h-full">
-          <p className="  font-bold text-[30px] text-black">Maaşlar</p>
+          <p className="font-bold text-[30px] text-black">Maaşlar</p>
           <div>
             <p className=" font-bold text-[40px] text-white">
               <span className="mr-1 text-black">

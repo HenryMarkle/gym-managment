@@ -75,9 +75,9 @@ function SideBar() {
         <div className="mt-[30px]">
           <div className="flex  justify-between  items-center mb-5 mx-4">
             <Link className=" text-center" href="/panel">
-              <p className="gym-tit font-bold text-[23px] text-center text-[#5540fb]">
-                {gymName}
-              </p>
+              <h1 className="gym-tit font-bold text-[23px] text-center text-[#5540fb]">
+                {gymName.length ? gymName : "name"}
+              </h1>
             </Link>
           </div>
           <div className="top-content flex flex-col  mx-4 ">

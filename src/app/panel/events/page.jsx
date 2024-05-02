@@ -38,7 +38,7 @@ function EventsPage() {
               .sort((a, b) => new Date(b.date) - new Date(a.date))
               .map((event) => {
                 return (
-                  <div>
+                  <div key={event.id}>
                     <EventItem key={event.id} event={event} />
                   </div>
                 );

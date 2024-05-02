@@ -329,17 +329,17 @@ function page() {
                         return a.name.localeCompare(b.name);
                       case "Fiyat":
                         return b.bucketPrice - a.bucketPrice;
-                      // Add more cases for other sorting options if needed
+                      // We can Add more cases if nedde 👍
                       default:
                         return 0;
                     }
                   })
                   .map((e) => {
                     return (
-                      <>
+                      <React.Fragment key={e.id}>
                         <Link href={`customer/${e.id}`}>
                           <div className="w-full flex justify-between items-center border-b-2 px-4 py-5">
-                            <p className="w-[14.2%]">
+                            <div className="w-[14.2%]">
                               <div
                                 onMouseOut={() => setOpenToolTip(null)}
                                 onMouseOver={() => setOpenToolTip(e.id)}
@@ -376,7 +376,7 @@ function page() {
                                     : e.name + " " + e.surname}
                                 </p>
                               </div>
-                            </p>
+                            </div>
                             <p className="w-[14.2%]">{e.age}</p>
                             <p className="w-[14.2%]">{e.gender}</p>
                             <div className="w-[14.2%] ">
@@ -406,7 +406,7 @@ function page() {
                             </p>
                           </div>
                         </Link>
-                      </>
+                      </React.Fragment>
                     );
                   })}
             </div>

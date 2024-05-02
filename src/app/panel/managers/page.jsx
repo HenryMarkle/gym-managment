@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import "./main.css";
+import "./managers.css";
 import Link from "next/link";
 import { getAllUsers } from "../../api/v1/user";
 
@@ -17,7 +17,7 @@ function page() {
       <div className="managers ml-[17%] min-h-[100vh] bg-bg_custom relative pt-10 px-16">
         {allUsers?.map((ele) => {
           return (
-            <Link href={`/panel/maanger/${ele.id}`}>
+            <Link key={ele.id} href={`/panel/maanger/${ele.id}`}>
               <div className=" flex flex-col justify-between rounded-md  bg-white h-[300px]">
                 <div className="  ">
                   <div className="flex flex-col mt-[32px] items-center">
