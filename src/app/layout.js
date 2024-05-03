@@ -10,6 +10,7 @@ import CustomHeader from "../components/website/CustomHeader";
 import { isUserSignedIn } from "./api/v1/user";
 import Header from "../components/dashboard/Header";
 import { ReduxProvider } from "../redux/provider";
+import { RecoilRoot } from "recoil";
 
 // import Cookies from "js-cookie";
 const inter = Inter({ subsets: ["latin"] });
@@ -31,8 +32,12 @@ export default function RootLayout({ children }) {
   }, [path]);
   return (
     <html lang="en">
+      <head>
+        <title>Gym Managment</title>
+        <link rel="icon" href="/static/fav2.svg" />
+      </head>
       <body className={inter.className}>
-        <ReduxProvider>
+        <RecoilRoot>
           {path.includes("panel") &&
             !path.includes("sign-in") &&
             !path.includes("dashboard") && <SideBar></SideBar>}
@@ -43,7 +48,7 @@ export default function RootLayout({ children }) {
           {path.includes("dashboard") && <HeaderDash />}
           {children}
           {!path.includes("panel") && <Footer />}
-        </ReduxProvider>
+        </RecoilRoot>
       </body>
     </html>
   );

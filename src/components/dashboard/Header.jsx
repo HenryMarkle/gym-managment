@@ -1,31 +1,34 @@
 "use client";
-
 import { CiSettings } from "react-icons/ci";
 import { HiOutlineBellAlert } from "react-icons/hi2";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { getAllEvents } from "../../app/api/v1/events";
 import DateConverter from "./DateConvertor";
-import { getCustomerById } from "../../app/api/v1/customer";
 
 function Header() {
   const router = useRouter();
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [allEvents, setAllEvents] = useState([]);
   const [fetchError, setFetchError] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const events = await getAllEvents();
-        events.length && setAllEvents(events);
-        console.log(events);
-      } catch (error) {
-        if (error.response && error.response.status === 401) {
+        if (events === "unauthorized") {
           setFetchError("unauthorized");
-        } else {
+        } else if (events === "error") {
           setFetchError("error");
+        } else {
+          setAllEvents(events);
         }
+      } catch (error) {
+        console.error("Error fetching events:", error);
+        setFetchError("error");
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchData();
@@ -72,24 +75,26 @@ function Header() {
               notificationsOpen ? "h-[450px] opacity-100" : "h-0 opacity-0"
             } bg-white rounded-md p-3 right-5 top-[74px] shadow-md z-50`}
           >
-            <div className="flex flex-col gap-4">
-              {allEvents?.length ? (
-                allEvents.map((ele) => (
+            {isLoading ? (
+              <p>Loading ...</p>
+            ) : (
+              <div>
+                {allEvents.map((event) => (
                   <div
-                    key={ele.id}
+                    key={event.id}
                     className="flex flex-col gap-2 border-b-2 pb-4"
                   >
                     <div className="flex justify-between">
-                      <p className="font-bold">{ele.event}d</p>
+                      <p className="font-bold">{event.event}d</p>
                       <div className="flex flex-row-reverse items-center">
                         <p className="opacity-60 text-sm">
                           (
-                          {new Date(ele.date)
+                          {new Date(event.date)
                             .getHours()
                             .toString()
                             .padStart(2, "0")}
                           :
-                          {new Date(ele.date)
+                          {new Date(event.date)
                             .getMinutes()
                             .toString()
                             .padStart(2, "0")}
@@ -97,24 +102,20 @@ function Header() {
                         </p>
                         <p className="opacity-60 text-sm mr-[3px]">
                           <DateConverter
-                            date={new Date(ele.date).toDateString()}
+                            date={new Date(event.date).toDateString()}
                           />
                         </p>
                       </div>
                     </div>
                     <p className="opacity-60 text-sm mb-1">
-                      {ele.event === "create" && "Customer created"}
-                      {ele.event === "delete" && "Customer deleted"}
-                      {ele.event === "update" && "Customer updated"}
+                      {event.event === "create" && "Customer created"}
+                      {event.event === "delete" && "Customer deleted"}
+                      {event.event === "update" && "Customer updated"}
                     </p>
                   </div>
-                ))
-              ) : (
-                <div>
-                  <p>Loading ...</p>
-                </div>
-              )}
-            </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>
