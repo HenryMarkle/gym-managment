@@ -7,12 +7,13 @@ import { IoIosCloseCircleOutline } from "react-icons/io";
 import { getGymName } from "../../app/api/v1/user";
 import { signout } from "../../app/api/v1/auth";
 import { usePathname } from "next/navigation";
+import { IoChevronDown } from "react-icons/io5";
 import { windows } from "./data";
 import { IoIosLogOut } from "react-icons/io";
 import Link from "next/link";
 import Swal from "sweetalert2";
 import { getAllUsers } from "../../app/api/v1/user";
-
+import { headerData } from "./data";
 function SideBar() {
   const [message, setMessage] = useState("");
   const [showMessage, setShowMessage] = useState(false);
@@ -23,6 +24,7 @@ function SideBar() {
   const [mobile, setMobile] = useState(false);
   const [dummyData, setDummyData] = useState([]);
   const [gymName, setGymName] = useState("");
+  const [websiteSelect, setWebsiteSelect] = useState(false);
   const path = usePathname();
   const router = useRouter();
 
@@ -87,42 +89,90 @@ function SideBar() {
                   ? null
                   : window.sessionStorage.setItem("activePath", windows[0].to);
                 return (
-                  <React.Fragment key={ele.to}>
+                  <div className="w-full relative" key={ele.to}>
                     <div
-                      onClick={() =>
-                        window.sessionStorage.setItem("activePath", ele.to)
-                      }
+                      onClick={() => {
+                        window.sessionStorage.setItem("activePath", ele.to);
+                        ele.title === "Web sitesi" &&
+                          setWebsiteSelect(!websiteSelect);
+                      }}
                       className={`${
                         path === ele.to ? "bg-[#5540fb]" : "bg-white"
+                      } ${
+                        ele.title === "Web sitesi" && "bg-[#5540fb]"
                       } w-full py-[8px] rounded-md duration-500`}
                     >
                       <Link
-                        className="h-full "
+                        className="h-full"
                         onClick={() => {
                           setShowMessage(false);
                           setMobile(false);
                         }}
                         href={ele.to}
                       >
-                        <div className="home flex gap-2 text-black  px-2">
+                        <div className="home flex gap-2 text-black px-2">
                           <span
                             className={`${
-                              path === ele.to ? " text-white" : "text-black"
+                              path === ele.to ? "text-green-500" : "text-black"
                             } `}
                           >
                             {ele.icon}
                           </span>
-                          <p
-                            className={`${
-                              path === ele.to ? " text-white" : "text-black"
-                            } `}
-                          >
-                            {ele.title}
-                          </p>
+                          <div className="flex justify-between w-full items-center">
+                            <p
+                              className={`${
+                                path === ele.to ? " text-white" : "text-black"
+                              } `}
+                            >
+                              {ele.title}
+                            </p>
+                            {ele.hasDropDown && (
+                              <IoChevronDown
+                                className={` duration-300 ${
+                                  websiteSelect ? "rotate-180" : "rotate-0"
+                                }`}
+                              />
+                            )}
+                          </div>
                         </div>
                       </Link>
                     </div>
-                  </React.Fragment>
+                    {ele.title === "Web sitesi" && (
+                      <div
+                        className={`bg-[#9520fd0a] overflow-hidden w-full  flex justify-between flex-col duration-300 ${
+                          websiteSelect ? "h-[220px] p-4" : "h-0 p-0 "
+                        } rounded-md`}
+                      >
+                        {headerData.map((ele) => {
+                          return (
+                            <>
+                              <Link href={ele.to}>
+                                <div className="flex items-center gap-2">
+                                  <span
+                                    className={`h-[7px] w-[7px] ${
+                                      path === ele.to
+                                        ? "bg-[#5540fb]"
+                                        : "bg-gray-400"
+                                    } rounded-full`}
+                                  ></span>
+                                  <p
+                                    className={`
+                                    ${
+                                      path === ele.to
+                                        ? "text-[#5540fb]"
+                                        : " text-gray-500"
+                                    }`}
+                                  >
+                                    {ele.title}
+                                  </p>
+                                </div>
+                              </Link>
+                            </>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
                 );
               })}
               {/* {mobile ? (

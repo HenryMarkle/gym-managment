@@ -11,14 +11,16 @@ import { IoIosAddCircle } from "react-icons/io";
 export const windows = [
   {
     id: 1,
+    hasDropDown: false,
     to: "/panel",
     title: "Home",
-    icon: <FaHome size="23px" />,
+    icon: <FaHome size="23px" color="black" />,
     active: true,
   },
   {
     id: 2,
-    to: "/panel/dashboard",
+    hasDropDown: true,
+    to: "/panel/website",
     title: "Web sitesi",
     icon: (
       <svg
@@ -37,6 +39,7 @@ export const windows = [
   },
   {
     id: 3,
+    hasDropDown: false,
     to: "/panel/add-customer",
     title: "Müşteri oluştur",
     icon: (
@@ -59,6 +62,7 @@ export const windows = [
   {
     id: 4,
     to: "/panel/customers",
+    hasDropDown: false,
     active: false,
     title: "Müşteriler",
     icon: (
@@ -78,6 +82,7 @@ export const windows = [
     id: 5,
     to: "/panel/add-manager",
     title: "Yönetici Oluştur",
+    hasDropDown: false,
     active: false,
     icon: (
       <svg
@@ -96,6 +101,7 @@ export const windows = [
     id: 6,
     to: "/panel/managers",
     title: "Yöneticiler",
+    hasDropDown: false,
     active: false,
     icon: (
       <svg
@@ -114,6 +120,7 @@ export const windows = [
     id: 7,
     to: "/panel/events",
     active: false,
+    hasDropDown: false,
     title: "Olaylar",
     icon: (
       <svg
@@ -133,29 +140,34 @@ export const windows = [
 // 👇 This data is for the dashboard (the one where user manage his website) .
 
 export const headerData = [
-  { id: 1, title: "Home", to: "/panel/dashboard" },
+  {
+    id: 1,
+    title: "Home",
+    to: "/panel/website",
+    active: true,
+  },
   {
     id: 2,
     title: "Market ",
-    to: "/panel/dashboard/market",
+    to: "/panel/website/market",
     active: false,
   },
   {
     id: 3,
     title: "Plans",
-    to: "/panel/dashboard/plans",
+    to: "/panel/website/plans",
     active: false,
   },
   {
     id: 4,
     title: "Exercises ",
-    to: "/panel/dashboard/exercises",
+    to: "/panel/website/exercises",
     active: false,
   },
   {
     id: 5,
     title: "Managers",
-    to: "/panel/dashboard/managers",
+    to: "/panel/website/managers",
     active: false,
   },
 ];
