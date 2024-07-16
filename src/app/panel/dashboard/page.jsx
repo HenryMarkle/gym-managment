@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import "./dashboard.css";
 import StarterS from "../../../components/website/starterSection.jsx";
 import {
   getHomeGeneralInfo,
