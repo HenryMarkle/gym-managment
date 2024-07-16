@@ -52,7 +52,7 @@ function MyComponent({ height, width }) {
     // Open Google Maps with directions
     if (destinationLat && destinationLng && lat && lng) {
       const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${destinationLat},${destinationLng}&origin=${lat},${lng}`;
-      window.open(directionsUrl, "_blank");
+      if (window) window.open(directionsUrl, "_blank");
     }
   };
 

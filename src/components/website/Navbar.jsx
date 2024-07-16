@@ -12,10 +12,10 @@ function Navbar() {
   };
 
   useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
+    if (window) window.addEventListener("scroll", handleScroll);
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      if (window) window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 

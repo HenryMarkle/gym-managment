@@ -23,7 +23,7 @@ function Header() {
   //   Start scrool Value
 
   const handleScroll = () => {
-    setScrollPosition(window.scrollY);
+    if (window) setScrollPosition(window.scrollY);
   };
 
   const storageRef = ref(storage, "images/");
@@ -40,10 +40,10 @@ function Header() {
       getDownloadURL(item).then(setHeaderImageURL);
     });
 
-    window.addEventListener("scroll", handleScroll);
+    if (window) window.addEventListener("scroll", handleScroll);
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      if (window) window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
