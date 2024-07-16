@@ -5,8 +5,6 @@ import { CiSaveUp1 } from "react-icons/ci";
 import { CiEdit } from "react-icons/ci";
 import { MdDeleteForever } from "react-icons/md";
 import { MdOutlineCancel } from "react-icons/md";
-
-import "./helper.css";
 import storage from "../../../../api/v1/firebase";
 import {
   ref,
