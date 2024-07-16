@@ -32,6 +32,10 @@ export default function RootLayout({ children }) {
   }, [path]);
   return (
     <html lang="en">
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=0.5, maximum-scale=1, user-scalable=0"
+      ></meta>
       <head>
         <title>Gym Managment</title>
         <link rel="icon" href="/static/fav2.svg" />
