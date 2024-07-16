@@ -4,7 +4,7 @@ import {
   getAllCustomers,
   getTotalIncome,
   getTotalSalaries,
-} from "../../app/api/v1/customer";
+} from "../../app/api/v1/user";
 import { months } from "./data";
 const MoneyStats = () => {
   const [selectedOptionMoney, setSelectedOptionMoney] = useState("TL");
